@@ -1,0 +1,28 @@
+application:
+  security:
+    token:
+      secret-key: test-key
+      expiration: 10000 # 10 seconds
+
+server:
+  port: 8090
+  servlet.context-path: /api
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  test:
+    database:
+      replace: none
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-test.xml

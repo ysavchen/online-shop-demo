@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "application.security.token.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret key for security token."
+    },
+    {
+      "name": "application.security.token.expiration",
+      "type": "java.lang.Long",
+      "description": "Time in milliseconds for secret key to expire."
+    }
+  ]
+}
