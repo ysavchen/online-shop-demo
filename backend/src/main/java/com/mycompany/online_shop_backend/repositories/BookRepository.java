@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.repositories;
 
-import com.mycompany.online_shop_backend.domain.Book;
+import com.mycompany.online_shop_backend.repositories.domain.Book;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

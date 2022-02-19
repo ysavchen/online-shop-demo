@@ -42,7 +42,7 @@ public class AuthController {
     )
     @ResponseStatus(HttpStatus.CREATED)
     public RegisterResponse register(@RequestBody RegisterRequest request) {
-        log.info("Register user with email {}", request.getEmail());
+        log.info("Register user with email {}", request.email());
 
         UserDto userDto = userService.register(request);
         String token = tokenService.generateToken(userDto.email());
@@ -62,10 +62,10 @@ public class AuthController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public LoginResponse login(@RequestBody LoginRequest request) {
-        log.info("Login with email {}", request.getEmail());
-        securityService.authenticate(request.getEmail(), request.getPassword());
+        log.info("Login with email {}", request.email());
+        securityService.authenticate(request.email(), request.password());
 
-        UserDto userDto = userService.findByEmail(request.getEmail());
+        UserDto userDto = userService.findByEmail(request.email());
         String token = tokenService.generateToken(userDto.email());
         long tokenExpiration = tokenService.getTokenExpiration();
 

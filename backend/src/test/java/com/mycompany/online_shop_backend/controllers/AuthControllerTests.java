@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
-import com.mycompany.online_shop_backend.domain.User;
+import com.mycompany.online_shop_backend.repositories.domain.User;
 import com.mycompany.online_shop_backend.dto.response.*;
 import com.mycompany.online_shop_backend.dto.services.UserDto;
 import com.mycompany.online_shop_backend.dto.request.LoginRequest;
@@ -104,7 +104,7 @@ public class AuthControllerTests {
     public void login() throws Exception {
         when(securityService.authenticate(anyString(), anyString()))
                 .thenReturn(new UsernamePasswordAuthenticationToken(userOneEmail, userOnePassword));
-        when(userService.findByEmail(registerRequest.getEmail())).thenReturn(userOneDto);
+        when(userService.findByEmail(registerRequest.email())).thenReturn(userOneDto);
         when(tokenService.generateToken(userOneDto.email())).thenReturn(token);
         when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
 

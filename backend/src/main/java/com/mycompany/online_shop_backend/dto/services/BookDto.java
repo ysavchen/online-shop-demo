@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.dto.services;
 
-import com.mycompany.online_shop_backend.domain.Author;
-import com.mycompany.online_shop_backend.domain.Book;
+import com.mycompany.online_shop_backend.repositories.domain.Author;
+import com.mycompany.online_shop_backend.repositories.domain.Book;
 
 public record BookDto(
         long id,

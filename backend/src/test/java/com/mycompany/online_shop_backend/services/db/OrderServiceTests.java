@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.services.db;
 
-import com.mycompany.online_shop_backend.domain.*;
+import com.mycompany.online_shop_backend.repositories.domain.*;
 import com.mycompany.online_shop_backend.dto.services.BookDto;
 import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;

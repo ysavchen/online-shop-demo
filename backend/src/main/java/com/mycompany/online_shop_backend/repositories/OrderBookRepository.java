@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.repositories;
 
-import com.mycompany.online_shop_backend.domain.OrderBook;
-import com.mycompany.online_shop_backend.domain.OrderBookId;
+import com.mycompany.online_shop_backend.repositories.domain.OrderBook;
+import com.mycompany.online_shop_backend.repositories.domain.OrderBookId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

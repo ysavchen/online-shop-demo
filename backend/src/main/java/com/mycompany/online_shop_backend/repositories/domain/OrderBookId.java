@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_backend.domain;
+package com.mycompany.online_shop_backend.repositories.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
-import com.mycompany.online_shop_backend.domain.Author;
-import com.mycompany.online_shop_backend.domain.Book;
+import com.mycompany.online_shop_backend.repositories.domain.Author;
+import com.mycompany.online_shop_backend.repositories.domain.Book;
 import com.mycompany.online_shop_backend.dto.response.GetBookByIdResponseDto;
 import com.mycompany.online_shop_backend.dto.response.GetBooksResponseDto;
 import com.mycompany.online_shop_backend.dto.services.BookDto;
@@ -93,7 +93,7 @@ public class BookControllerTests {
     @Test
     public void getBookById() throws Exception {
         when(bookService.getById(bookOne.getId())).thenReturn(bookDtoOne);
-        mockMvc.perform(get("/v1/books/{id}", getBookByIdResponseDto.getId()))
+        mockMvc.perform(get("/v1/books/{id}", getBookByIdResponseDto.id()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(getBookByIdResponseDto)));
     }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private static final String ROLE_USER = "ROLE_USER";
+    private static final String USER = "USER";
     private final UserRepository userRepository;
 
     @Override
@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return User.withUsername(user.getEmail())
                 .password(user.getPassword())
-                .authorities(ROLE_USER)
+                .roles(USER)
                 .build();
     }
 }

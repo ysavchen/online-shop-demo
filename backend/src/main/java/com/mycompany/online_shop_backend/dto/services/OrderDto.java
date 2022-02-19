@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.dto.services;
 
-import com.mycompany.online_shop_backend.domain.Order;
-import com.mycompany.online_shop_backend.domain.OrderBook;
+import com.mycompany.online_shop_backend.repositories.domain.Order;
+import com.mycompany.online_shop_backend.repositories.domain.OrderBook;
 
 import java.time.ZoneOffset;
 import java.util.List;

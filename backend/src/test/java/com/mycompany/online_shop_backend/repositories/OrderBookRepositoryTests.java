@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.repositories;
 
 import com.mycompany.online_shop_backend.AbstractRepositoryTest;
-import com.mycompany.online_shop_backend.domain.*;
+import com.mycompany.online_shop_backend.repositories.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

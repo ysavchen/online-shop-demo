@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.dto.services;
 
-import com.mycompany.online_shop_backend.domain.User;
+import com.mycompany.online_shop_backend.repositories.domain.User;
 
 public record UserDto(
         long id,
