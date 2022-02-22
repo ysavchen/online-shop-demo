@@ -10,9 +10,6 @@ import com.mycompany.online_shop_backend.dto.response.RegisterResponse;
 import com.mycompany.online_shop_backend.services.UserService;
 import com.mycompany.online_shop_backend.services.security.SecurityService;
 import com.mycompany.online_shop_backend.services.security.TokenService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,10 +28,6 @@ public class AuthController {
     private final SecurityService securityService;
     private final TokenService tokenService;
 
-    @ApiOperation("Registers a user")
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "Successful registration")
-    })
     @PostMapping(
             path = "/v1/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -51,11 +44,6 @@ public class AuthController {
         return new RegisterResponse(token, tokenExpiration, RegisteredUserDto.toDto(userDto));
     }
 
-    @ApiOperation("Logs in a user")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful login"),
-            @ApiResponse(code = 404, message = "Resource not found")
-    })
     @PostMapping(
             path = "/v1/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,

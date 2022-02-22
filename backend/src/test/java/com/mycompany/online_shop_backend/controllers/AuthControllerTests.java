@@ -6,12 +6,11 @@ import com.mycompany.online_shop_backend.dto.response.*;
 import com.mycompany.online_shop_backend.dto.services.UserDto;
 import com.mycompany.online_shop_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_backend.dto.request.RegisterRequest;
-import com.mycompany.online_shop_backend.exceptions.NotAuthorizedException;
 import com.mycompany.online_shop_backend.repositories.UserRepository;
-import com.mycompany.online_shop_backend.security.SecurityConfiguration;
-import com.mycompany.online_shop_backend.security.TokenAuthenticationFilter;
-import com.mycompany.online_shop_backend.security.TokenProperties;
-import com.mycompany.online_shop_backend.security.UserDetailsServiceImpl;
+import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
+import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_backend.config.security.TokenProperties;
+import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.services.UserService;
 import com.mycompany.online_shop_backend.services.security.SecurityService;
 import com.mycompany.online_shop_backend.services.security.TokenService;
@@ -22,7 +21,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -45,13 +49,15 @@ public class AuthControllerTests {
     private final String userOnePasswordEncoded = "Encoded Start01#";
     private final String token = "Secret token";
     private final long tokenExpiration = 10000L;
+    private final Set<GrantedAuthority> grantedAuthorities = Set.of(new SimpleGrantedAuthority("USER"));
 
     private final User userOne = new User(
             1L,
             "Name One",
             "Surname One",
             userOneEmail,
-            userOnePasswordEncoded
+            userOnePasswordEncoded,
+            grantedAuthorities
     );
     private final UserDto userOneDto = UserDto.toDto(userOne);
     private final RegisteredUserDto registeredUserDtoOne = RegisteredUserDto.toDto(userOneDto);
@@ -121,7 +127,7 @@ public class AuthControllerTests {
     @Test
     public void loginWithFailedAuthentication() throws Exception {
         when(securityService.authenticate(anyString(), anyString()))
-                .thenThrow(new NotAuthorizedException("Not authorized"));
+                .thenThrow(new UsernameNotFoundException("Unauthorized"));
 
         mockMvc.perform(
                 post("/v1/login")

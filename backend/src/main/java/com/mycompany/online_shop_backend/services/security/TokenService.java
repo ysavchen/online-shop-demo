@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.services.security;
 
-import com.mycompany.online_shop_backend.security.TokenProperties;
+import com.mycompany.online_shop_backend.config.security.TokenProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

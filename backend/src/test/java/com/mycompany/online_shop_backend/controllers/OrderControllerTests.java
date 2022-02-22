@@ -8,10 +8,10 @@ import com.mycompany.online_shop_backend.dto.services.BookDto;
 import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.dto.services.OrderDto;
 import com.mycompany.online_shop_backend.repositories.UserRepository;
-import com.mycompany.online_shop_backend.security.SecurityConfiguration;
-import com.mycompany.online_shop_backend.security.TokenAuthenticationFilter;
-import com.mycompany.online_shop_backend.security.TokenProperties;
-import com.mycompany.online_shop_backend.security.UserDetailsServiceImpl;
+import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
+import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_backend.config.security.TokenProperties;
+import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.services.OrderService;
 import com.mycompany.online_shop_backend.services.security.SecurityService;
 import com.mycompany.online_shop_backend.services.security.TokenService;
@@ -22,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -51,7 +52,8 @@ public class OrderControllerTests {
             "Name One",
             "Surname One",
             "userOne@test.com",
-            "Encoded Start01#"
+            "Encoded Start01#",
+            Set.of(new SimpleGrantedAuthority("USER"))
     );
     private final Author authorOne = new Author(1L, "Author One");
     private final Author authorTwo = new Author(2L, "Author Two");

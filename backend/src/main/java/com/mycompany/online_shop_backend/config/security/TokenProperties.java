@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_backend.security;
+package com.mycompany.online_shop_backend.config.security;
 
 import lombok.Getter;
 import lombok.Setter;
