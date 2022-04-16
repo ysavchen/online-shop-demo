@@ -15,14 +15,9 @@ public class SecurityService {
 
     private final TokenService tokenService;
     private final AuthenticationManager authManager;
-    private final PasswordEncoder passwordEncoder;
 
     public Authentication authenticate(String email, String password) {
         return authManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-    }
-
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 
     public String getUsernameFromRequest(HttpServletRequest request) {
