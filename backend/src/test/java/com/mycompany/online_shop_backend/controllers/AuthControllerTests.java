@@ -1,15 +1,18 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
-import com.mycompany.online_shop_backend.repositories.domain.User;
-import com.mycompany.online_shop_backend.dto.response.*;
-import com.mycompany.online_shop_backend.dto.services.UserDto;
-import com.mycompany.online_shop_backend.dto.request.LoginRequest;
-import com.mycompany.online_shop_backend.dto.request.RegisterRequest;
-import com.mycompany.online_shop_backend.repositories.UserRepository;
 import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
 import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
+import com.mycompany.online_shop_backend.dto.request.LoginRequest;
+import com.mycompany.online_shop_backend.dto.request.RegisterRequest;
+import com.mycompany.online_shop_backend.dto.response.LoggedInUserDto;
+import com.mycompany.online_shop_backend.dto.response.LoginResponse;
+import com.mycompany.online_shop_backend.dto.response.RegisterResponse;
+import com.mycompany.online_shop_backend.dto.response.RegisteredUserDto;
+import com.mycompany.online_shop_backend.dto.services.UserDto;
+import com.mycompany.online_shop_backend.repositories.UserRepository;
+import com.mycompany.online_shop_backend.repositories.domain.User;
 import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.services.UserService;
 import com.mycompany.online_shop_backend.services.security.SecurityService;
@@ -56,8 +59,7 @@ public class AuthControllerTests {
             "Name One",
             "Surname One",
             userOneEmail,
-            userOnePasswordEncoded,
-            grantedAuthorities
+            userOnePasswordEncoded
     );
     private final UserDto userOneDto = UserDto.toDto(userOne);
     private final RegisteredUserDto registeredUserDtoOne = RegisteredUserDto.toDto(userOneDto);
@@ -97,10 +99,10 @@ public class AuthControllerTests {
         when(userService.register(any(RegisterRequest.class))).thenReturn(userOneDto);
 
         mockMvc.perform(
-                post("/v1/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(registerRequest)))
+                        post("/v1/register")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(gson.toJson(registerRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(registerResponse)));
@@ -115,10 +117,10 @@ public class AuthControllerTests {
         when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
 
         mockMvc.perform(
-                post("/v1/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(loginRequest)))
+                        post("/v1/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(gson.toJson(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(loginResponse)));
@@ -130,10 +132,10 @@ public class AuthControllerTests {
                 .thenThrow(new UsernameNotFoundException("Unauthorized"));
 
         mockMvc.perform(
-                post("/v1/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(loginRequest)))
+                        post("/v1/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(gson.toJson(loginRequest)))
                 .andExpect(status().isUnauthorized());
     }
 }

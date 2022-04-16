@@ -1,18 +1,18 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
-import com.mycompany.online_shop_backend.repositories.domain.*;
-import com.mycompany.online_shop_backend.dto.response.CreatedOrderResponse;
-import com.mycompany.online_shop_backend.dto.response.UserOrderDto;
-import com.mycompany.online_shop_backend.dto.services.BookDto;
-import com.mycompany.online_shop_backend.dto.request.OrderRequest;
-import com.mycompany.online_shop_backend.dto.services.OrderDto;
-import com.mycompany.online_shop_backend.repositories.UserRepository;
 import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
 import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
-import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
+import com.mycompany.online_shop_backend.dto.request.OrderRequest;
+import com.mycompany.online_shop_backend.dto.response.CreatedOrderResponse;
+import com.mycompany.online_shop_backend.dto.response.UserOrderDto;
+import com.mycompany.online_shop_backend.dto.services.BookDto;
+import com.mycompany.online_shop_backend.dto.services.OrderDto;
+import com.mycompany.online_shop_backend.repositories.UserRepository;
+import com.mycompany.online_shop_backend.repositories.domain.*;
 import com.mycompany.online_shop_backend.services.OrderService;
+import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.services.security.SecurityService;
 import com.mycompany.online_shop_backend.services.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -52,8 +51,7 @@ public class OrderControllerTests {
             "Name One",
             "Surname One",
             "userOne@test.com",
-            "Encoded Start01#",
-            Set.of(new SimpleGrantedAuthority("USER"))
+            "Encoded Start01#"
     );
     private final Author authorOne = new Author(1L, "Author One");
     private final Author authorTwo = new Author(2L, "Author Two");
@@ -123,10 +121,10 @@ public class OrderControllerTests {
         when(orderService.save(any(OrderRequest.class))).thenReturn(orderDto);
 
         mockMvc.perform(
-                post("/v1/orders")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(orderRequest)))
+                        post("/v1/orders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(gson.toJson(orderRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(createdOrderResponse)));
@@ -139,8 +137,8 @@ public class OrderControllerTests {
         when(orderService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(orderDto));
 
         mockMvc.perform(
-                get("/v1/users/{id}/orders", userOne.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+                        get("/v1/users/{id}/orders", userOne.getId())
+                                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(List.of(userOrderDto))));
