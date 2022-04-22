@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
-import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
+import com.mycompany.online_shop_backend.config.security.SecurityConfig;
 import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
 import com.mycompany.online_shop_backend.dto.request.LoginRequest;
@@ -13,10 +13,10 @@ import com.mycompany.online_shop_backend.dto.response.RegisteredUserDto;
 import com.mycompany.online_shop_backend.dto.services.UserDto;
 import com.mycompany.online_shop_backend.repositories.UserRepository;
 import com.mycompany.online_shop_backend.repositories.domain.User;
-import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
+import com.mycompany.online_shop_backend.services.JpaUserDetailsService;
 import com.mycompany.online_shop_backend.services.UserService;
-import com.mycompany.online_shop_backend.services.security.SecurityService;
-import com.mycompany.online_shop_backend.services.security.TokenService;
+import com.mycompany.online_shop_backend.services.SecurityService;
+import com.mycompany.online_shop_backend.services.TokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,8 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({TokenAuthenticationFilter.class,
         TokenProperties.class,
         TokenService.class,
-        SecurityConfiguration.class,
-        UserDetailsServiceImpl.class,
+        SecurityConfig.class,
+        JpaUserDetailsService.class,
         UserRepository.class})
 public class AuthControllerTests {
 

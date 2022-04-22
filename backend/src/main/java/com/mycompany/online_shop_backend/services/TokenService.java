@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_backend.services.security;
+package com.mycompany.online_shop_backend.services;
 
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
 import io.jsonwebtoken.Claims;

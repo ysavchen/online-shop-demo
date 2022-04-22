@@ -5,7 +5,7 @@ import com.mycompany.online_shop_backend.dto.response.CreatedOrderResponse;
 import com.mycompany.online_shop_backend.dto.response.UserOrderDto;
 import com.mycompany.online_shop_backend.dto.services.OrderDto;
 import com.mycompany.online_shop_backend.services.OrderService;
-import com.mycompany.online_shop_backend.services.security.SecurityService;
+import com.mycompany.online_shop_backend.services.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -9,12 +9,12 @@ import com.mycompany.online_shop_backend.dto.services.BookDto;
 import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
 import com.mycompany.online_shop_backend.repositories.UserRepository;
-import com.mycompany.online_shop_backend.config.security.SecurityConfiguration;
+import com.mycompany.online_shop_backend.config.security.SecurityConfig;
 import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
-import com.mycompany.online_shop_backend.services.UserDetailsServiceImpl;
+import com.mycompany.online_shop_backend.services.JpaUserDetailsService;
 import com.mycompany.online_shop_backend.services.BookService;
-import com.mycompany.online_shop_backend.services.security.TokenService;
+import com.mycompany.online_shop_backend.services.TokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,8 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({TokenAuthenticationFilter.class,
         TokenProperties.class,
         TokenService.class,
-        SecurityConfiguration.class,
-        UserDetailsServiceImpl.class,
+        SecurityConfig.class,
+        JpaUserDetailsService.class,
         BookRepository.class,
         UserRepository.class})
 public class BookControllerTests {
