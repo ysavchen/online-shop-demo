@@ -27,7 +27,7 @@ management:
     export:
       prometheus.enabled: true
     tags:
-      application: online-shop-demo
+      application: ${spring.application.name}
     distribution:
       percentiles-histogram:
         "[http.server.requests]": true
