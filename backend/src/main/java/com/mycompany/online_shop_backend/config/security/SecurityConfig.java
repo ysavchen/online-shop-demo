@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private static final String[] PUBLIC_RESOURCES = new String[]{
             "/",
@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         requests.mvcMatchers(PUBLIC_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterAt(tokenAuthenticationFilter, BasicAuthenticationFilter.class);
+                .addFilterAt(jwtAuthenticationFilter, BasicAuthenticationFilter.class);
     }
 
     @Bean

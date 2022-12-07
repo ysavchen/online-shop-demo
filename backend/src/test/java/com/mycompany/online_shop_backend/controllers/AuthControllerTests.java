@@ -2,7 +2,7 @@ package com.mycompany.online_shop_backend.controllers;
 
 import com.google.gson.Gson;
 import com.mycompany.online_shop_backend.config.security.SecurityConfig;
-import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_backend.config.security.JwtAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
 import com.mycompany.online_shop_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_backend.dto.request.RegisterRequest;
@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import({TokenAuthenticationFilter.class,
+@Import({JwtAuthenticationFilter.class,
         TokenProperties.class,
         TokenService.class,
         SecurityConfig.class,

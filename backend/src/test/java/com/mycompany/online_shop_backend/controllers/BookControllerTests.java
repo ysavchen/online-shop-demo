@@ -10,7 +10,7 @@ import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
 import com.mycompany.online_shop_backend.repositories.UserRepository;
 import com.mycompany.online_shop_backend.config.security.SecurityConfig;
-import com.mycompany.online_shop_backend.config.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_backend.config.security.JwtAuthenticationFilter;
 import com.mycompany.online_shop_backend.config.security.TokenProperties;
 import com.mycompany.online_shop_backend.services.JpaUserDetailsService;
 import com.mycompany.online_shop_backend.services.BookService;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(BookController.class)
-@Import({TokenAuthenticationFilter.class,
+@Import({JwtAuthenticationFilter.class,
         TokenProperties.class,
         TokenService.class,
         SecurityConfig.class,
