@@ -19,13 +19,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_RESOURCES = new String[]{
             "/",
-            "/v*/books",
-            "/v*/books/{id}",
-            "/v*/orders",
-            "/v*/register",
-            "/v*/login",
+            "/api/v*/books",
+            "/api/v*/books/{id}",
+            "/api/v*/orders",
+            "/api/v*/register",
+            "/api/v*/login",
             "/webjars/**", "/v2/api-docs/**", "/configuration/ui/**", "/swagger-resources/**",
-            "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**"
+            "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**",
+            "/actuator/prometheus", "/actuator/health"
     };
 
     @Override

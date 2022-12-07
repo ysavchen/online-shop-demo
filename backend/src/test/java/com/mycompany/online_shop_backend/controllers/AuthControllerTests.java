@@ -99,7 +99,7 @@ public class AuthControllerTests {
         when(userService.register(any(RegisterRequest.class))).thenReturn(userOneDto);
 
         mockMvc.perform(
-                        post("/v1/register")
+                        post("/api/v1/register")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(gson.toJson(registerRequest)))
@@ -117,7 +117,7 @@ public class AuthControllerTests {
         when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
 
         mockMvc.perform(
-                        post("/v1/login")
+                        post("/api/v1/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(gson.toJson(loginRequest)))
@@ -132,7 +132,7 @@ public class AuthControllerTests {
                 .thenThrow(new UsernameNotFoundException("Unauthorized"));
 
         mockMvc.perform(
-                        post("/v1/login")
+                        post("/api/v1/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(gson.toJson(loginRequest)))

@@ -85,7 +85,7 @@ public class BookControllerTests {
     @Test
     public void getBooks() throws Exception {
         when(bookService.getAllBooks()).thenReturn(bookDtos);
-        mockMvc.perform(get("/v1/books"))
+        mockMvc.perform(get("/api/v1/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(getBooksDtos)));
     }
@@ -93,7 +93,7 @@ public class BookControllerTests {
     @Test
     public void getBookById() throws Exception {
         when(bookService.getById(bookOne.getId())).thenReturn(bookDtoOne);
-        mockMvc.perform(get("/v1/books/{id}", getBookByIdResponseDto.id()))
+        mockMvc.perform(get("/api/v1/books/{id}", getBookByIdResponseDto.id()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(getBookByIdResponseDto)));
     }
@@ -102,7 +102,7 @@ public class BookControllerTests {
     public void getBookByIdNegative() throws Exception {
         when(bookService.getById(NON_EXISTING_ID))
                 .thenThrow(new EntityNotFoundException("Book with id = " + NON_EXISTING_ID + " is not found"));
-        mockMvc.perform(get("/v1/books/{id}", NON_EXISTING_ID))
+        mockMvc.perform(get("/api/v1/books/{id}", NON_EXISTING_ID))
                 .andExpect(status().isNotFound());
     }
 }

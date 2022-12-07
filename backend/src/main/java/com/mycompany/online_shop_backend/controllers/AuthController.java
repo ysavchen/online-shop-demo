@@ -29,7 +29,7 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping(
-            path = "/v1/register",
+            path = "/api/v1/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping(
-            path = "/v1/login",
+            path = "/api/v1/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

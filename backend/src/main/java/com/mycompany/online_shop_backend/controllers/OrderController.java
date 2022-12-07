@@ -22,7 +22,7 @@ public class OrderController {
     private final SecurityService securityService;
 
     @PostMapping(
-            path = "/v1/orders",
+            path = "/api/v1/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @GetMapping(
-            path = "/v1/users/{id}/orders",
+            path = "/api/v1/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<UserOrderDto> getUserOrders(HttpServletRequest request) {

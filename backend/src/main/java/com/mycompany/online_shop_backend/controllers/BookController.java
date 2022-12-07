@@ -19,7 +19,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping(
-            path = "/v1/books",
+            path = "/api/v1/books",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<GetBooksResponseDto> getBooks() {
@@ -30,7 +30,7 @@ public class BookController {
     }
 
     @GetMapping(
-            path = "/v1/books/{id}",
+            path = "/api/v1/books/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public GetBookByIdResponseDto getBookById(@PathVariable("id") long id) {

@@ -10,3 +10,34 @@ services:
       POSTGRES_PASSWORD: "app_password"
     ports:
       - "5432:5432"
+    networks:
+      - online_shop_demo
+
+  prometheus:
+    image: prom/prometheus:v2.40.5
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+    networks:
+      - online_shop_demo
+
+  grafana:
+    image: grafana/grafana:9.3.1
+    user: "472"
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/etc/grafana
+    networks:
+      - online_shop_demo
+
+networks:
+  online_shop_demo:
+    name: online_shop_demo

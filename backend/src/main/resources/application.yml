@@ -1,14 +1,6 @@
-application:
-  security:
-    token:
-      secret-key: t8$F&M?ytmp%bsdz$\JCB+@C2
-      expiration: 3600000 # 1 hour
-
-server:
-  port: ${SERVER_PORT:8090}
-  servlet.context-path: /api
-
 spring:
+  application:
+    name: online-shop-demo
   datasource:
     url: jdbc:p6spy:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:app_db}
     username: ${DB_USERNAME:app_user}
@@ -23,3 +15,25 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-prod.xml
 
+server:
+  port: ${SERVER_PORT:8090}
+
+management:
+  endpoint:
+    health.show-details: always
+  endpoints:
+    web.exposure.include: health,prometheus
+  metrics:
+    export:
+      prometheus.enabled: true
+    tags:
+      application: online-shop-demo
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+
+application:
+  security:
+    token:
+      secret-key: t8$F&M?ytmp%bsdz$\JCB+@C2
+      expiration: 3600000 # 1 hour
