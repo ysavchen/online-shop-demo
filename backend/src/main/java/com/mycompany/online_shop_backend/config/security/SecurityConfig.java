@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v*/login",
             "/webjars/**", "/v2/api-docs/**", "/configuration/ui/**", "/swagger-resources/**",
             "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**",
-            "/actuator/prometheus", "/actuator/health"
+            "/actuator/*"
     };
 
     @Override

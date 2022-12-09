@@ -18,11 +18,17 @@ spring:
 server:
   port: ${SERVER_PORT:8090}
 
+info:
+  application:
+    name: ${spring.application.name}
+    version: 1.0
+
 management:
+  info.env.enabled: true
   endpoint:
     health.show-details: always
   endpoints:
-    web.exposure.include: health,prometheus
+    web.exposure.include: health,info,metrics,prometheus
   metrics:
     export:
       prometheus.enabled: true
