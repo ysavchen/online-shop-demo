@@ -6,12 +6,10 @@ spring:
     username: ${DB_USERNAME:app_user}
     password: ${DB_PASSWORD:app_password}
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-
   liquibase:
     change-log: classpath:db/changelog/changelog-prod.xml
 
