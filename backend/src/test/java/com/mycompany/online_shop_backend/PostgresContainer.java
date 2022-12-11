@@ -4,7 +4,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public class PostgresContainer extends PostgreSQLContainer<PostgresContainer> {
 
-    private static final String IMAGE_VERSION = "postgres:12";
+    private static final String IMAGE_VERSION = "postgres:14.2";
     private static PostgresContainer container;
 
     private PostgresContainer() {
