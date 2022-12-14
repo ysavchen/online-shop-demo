@@ -11,33 +11,61 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - online_shop_demo
+      - backend
+
+  elasticsearch:
+    image: elasticsearch:8.5.3
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - logging
+
+  kibana:
+    image: kibana:8.5.3
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      KIBANA_SYSTEM_PASSWORD: "kibana_password"
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - logging
 
   prometheus:
     image: prom/prometheus:v2.40.5
+    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./infra/prometheus:/etc/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
     networks:
-      - online_shop_demo
+      - monitoring
 
   grafana:
     image: grafana/grafana:9.3.1
+    container_name: grafana
     user: "472"
     depends_on:
       - prometheus
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana:/etc/grafana
+      - ./infra/grafana:/etc/grafana
     networks:
-      - online_shop_demo
+      - monitoring
 
 networks:
-  online_shop_demo:
-    name: online_shop_demo
+  backend:
+  logging:
+  monitoring:
