@@ -3,7 +3,7 @@ package com.mycompany.online_shop_backend.service;
 import com.mycompany.online_shop_backend.repository.domain.User;
 import com.mycompany.online_shop_backend.service.model.UserDto;
 import com.mycompany.online_shop_backend.controller.model.request.RegisterRequest;
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
+import com.mycompany.online_shop_backend.exception.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

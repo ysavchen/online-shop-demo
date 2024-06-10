@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.service;
 
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
+import com.mycompany.online_shop_backend.exception.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repository.BookRepository;
 import com.mycompany.online_shop_backend.service.model.BookDto;
 import lombok.RequiredArgsConstructor;

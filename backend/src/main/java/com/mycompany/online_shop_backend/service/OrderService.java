@@ -3,7 +3,7 @@ package com.mycompany.online_shop_backend.service;
 import com.mycompany.online_shop_backend.repository.domain.Order;
 import com.mycompany.online_shop_backend.controller.model.request.OrderRequest;
 import com.mycompany.online_shop_backend.service.model.OrderDto;
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
+import com.mycompany.online_shop_backend.exception.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repository.BookRepository;
 import com.mycompany.online_shop_backend.repository.OrderBookRepository;
 import com.mycompany.online_shop_backend.repository.OrderRepository;

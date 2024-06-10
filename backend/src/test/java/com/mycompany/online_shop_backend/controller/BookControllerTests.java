@@ -6,7 +6,7 @@ import com.mycompany.online_shop_backend.repository.domain.Book;
 import com.mycompany.online_shop_backend.controller.model.response.GetBookByIdResponseDto;
 import com.mycompany.online_shop_backend.controller.model.response.GetBooksResponseDto;
 import com.mycompany.online_shop_backend.service.model.BookDto;
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
+import com.mycompany.online_shop_backend.exception.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repository.BookRepository;
 import com.mycompany.online_shop_backend.repository.UserRepository;
 import com.mycompany.online_shop_backend.config.security.SecurityConfig;

@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_backend.exceptions;
+package com.mycompany.online_shop_backend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
