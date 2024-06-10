@@ -1,6 +1,6 @@
 package com.mycompany.online_shop_backend.config.security;
 
-import com.mycompany.online_shop_backend.services.TokenService;
+import com.mycompany.online_shop_backend.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
