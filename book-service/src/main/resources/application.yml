@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: book-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/book_service_db
+    username: book_service_user
+    password: book_service_password
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:liquibase/master.yaml
