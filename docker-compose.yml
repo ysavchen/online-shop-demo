@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   book_service_postgres:
     image: postgres:16.3-alpine
-    container_name: postgres
+    container_name: book_service_postgres
     environment:
       POSTGRES_DB: "book_service_db"
       POSTGRES_USER: "book_service_user"
