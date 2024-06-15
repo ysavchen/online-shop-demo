@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  postgres:
-    image: postgres:14.2
+  book_service_postgres:
+    image: postgres:16.3-alpine
     container_name: postgres
     environment:
-      POSTGRES_DB: "app_db"
-      POSTGRES_USER: "app_user"
-      POSTGRES_PASSWORD: "app_password"
+      POSTGRES_DB: "book_service_db"
+      POSTGRES_USER: "book_service_user"
+      POSTGRES_PASSWORD: "book_service_password"
     ports:
       - "5432:5432"
     networks:
@@ -54,8 +54,7 @@ services:
       - logging
 
   prometheus:
-    image: prom/prometheus:v2.40.5
-    container_name: prometheus
+    image: prom/prometheus:v2.51.2
     ports:
       - "9090:9090"
     volumes:
@@ -63,14 +62,14 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
+      - "--web.console.templates=/etc/prometheus/consoles"
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
     networks:
       - monitoring
 
   grafana:
-    image: grafana/grafana:9.3.1
-    container_name: grafana
-    user: "472"
+    image: grafana/grafana:10.4.1
+    user: "104"
     depends_on:
       - prometheus
     ports:
