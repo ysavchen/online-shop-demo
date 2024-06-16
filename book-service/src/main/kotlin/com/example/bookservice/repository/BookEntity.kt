@@ -4,7 +4,6 @@ import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
 import org.hibernate.annotations.Immutable
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
 import java.util.*
 
@@ -27,7 +26,11 @@ data class BookEntity(
     val description: String,
 
     @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
-    val price: BigDecimal
+    val price: BigDecimal,
+
+    @Column(name = "currency", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val currency: CurrencyEntity
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -52,4 +55,8 @@ data class BookEntity(
         result = 31 * result + price.hashCode()
         return result
     }
+}
+
+enum class CurrencyEntity {
+    RUB
 }

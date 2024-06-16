@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS books
     authors     text[]           NOT NULL DEFAULT '{}',
     description text,
     price       double precision NOT NULL,
+    currency    varchar(3)       NOT NULL,
     created_at  timestamptz      NOT NULL DEFAULT NOW(),
     updated_at  timestamptz      NOT NULL DEFAULT NOW()
 );
@@ -17,6 +18,7 @@ COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
 COMMENT ON COLUMN books.price IS 'Цена книги';
+COMMENT ON COLUMN books.currency IS 'Валюта для цены книги';
 COMMENT ON COLUMN books.created_at IS 'Дата и время создания записи';
 COMMENT ON COLUMN books.updated_at IS 'Дата и время последнего изменения записи';
 

@@ -8,5 +8,10 @@ data class Book(
     val title: String,
     val authors: List<String>,
     val description: String,
-    val price: BigDecimal
+    val price: BigDecimal,
+    val currency: Currency
 )
+
+enum class Currency {
+    RUB
+}
