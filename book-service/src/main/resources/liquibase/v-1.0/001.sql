@@ -4,9 +4,9 @@
 CREATE OR REPLACE FUNCTION updated_at_column_func() RETURNS trigger AS
 $$
 BEGIN
-    new.modified_on = NOW();
+    new.updated_at = NOW();
     RETURN new;
 END;
 $$ LANGUAGE 'plpgsql';
 
-COMMENT ON FUNCTION updated_at_column_func() IS 'Функция по обновлению колонки updated_at в таблице';
+COMMENT ON FUNCTION updated_at_column_func() IS 'Функция по обновлению updated_at для записей';
