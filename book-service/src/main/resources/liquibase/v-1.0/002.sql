@@ -36,4 +36,4 @@ $do$
     END
 $do$;
 
-COMMENT ON TRIGGER update_books_trigger ON books IS 'Триггер на изменение записи таблицы books (обновление времени модификации)';
+COMMENT ON TRIGGER update_books_trigger ON books IS 'Триггер на обновление updated_at для записи таблицы books';
