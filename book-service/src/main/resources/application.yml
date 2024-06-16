@@ -2,9 +2,9 @@ spring:
   application:
     name: book-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/book_service_db
-    username: book_service_user
-    password: book_service_password
+    url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=book_service
+    username: app_user
+    password: app_password
   jpa:
     open-in-view: false
   liquibase:

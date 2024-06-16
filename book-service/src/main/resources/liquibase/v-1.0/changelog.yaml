@@ -5,6 +5,3 @@ databaseChangeLog:
   - include:
       file: liquibase/v-1.0/002.sql
       relativeToChangelogFile: false
-  - include:
-      file: liquibase/v-1.0/003.sql
-      relativeToChangelogFile: false
