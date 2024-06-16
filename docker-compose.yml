@@ -1,15 +1,17 @@
 services:
-  book_service_postgres:
+  postgres:
     image: postgres:16.3-alpine
-    container_name: book_service_postgres
+    container_name: postgres
     environment:
-      POSTGRES_DB: "book_service_db"
-      POSTGRES_USER: "book_service_user"
-      POSTGRES_PASSWORD: "book_service_password"
+      POSTGRES_DB: "online_shop_demo"
+      POSTGRES_USER: "app_user"
+      POSTGRES_PASSWORD: "app_password"
     ports:
       - "5432:5432"
+    volumes:
+      - ./infra/postgres/init-db.sql:/docker-entrypoint-initdb.d/db.sql
     networks:
-      - backend
+      - database
 
   elasticsearch:
     image: elasticsearch:8.5.3
@@ -78,6 +80,6 @@ services:
       - monitoring
 
 networks:
-  backend:
+  database:
   logging:
   monitoring:
