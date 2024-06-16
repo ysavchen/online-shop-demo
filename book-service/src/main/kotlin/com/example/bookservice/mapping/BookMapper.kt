@@ -8,7 +8,7 @@ object BookMapper {
     internal fun BookEntity.toModel() = Book(
         id = id,
         title = title,
-        authors = authors,
+        authors = authors.toList(),
         description = description,
         price = price
     )

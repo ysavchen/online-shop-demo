@@ -13,8 +13,6 @@ import java.util.*
 @Table(name = "books")
 data class BookEntity(
     @Id
-    @GeneratedValue
-    @UuidGenerator
     @Column(name = "id", nullable = false)
     val id: UUID,
 
@@ -23,11 +21,35 @@ data class BookEntity(
 
     @Type(StringArrayType::class)
     @Column(name = "authors", columnDefinition = "text[]", nullable = false)
-    val authors: List<String>,
+    val authors: Array<String>,
 
     @Column(name = "description", nullable = false)
     val description: String,
 
     @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
     val price: BigDecimal
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BookEntity
+
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (!authors.contentEquals(other.authors)) return false
+        if (description != other.description) return false
+        if (price != other.price) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + authors.contentHashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + price.hashCode()
+        return result
+    }
+}
