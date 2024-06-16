@@ -6,8 +6,9 @@ import com.example.bookservice.repository.BookEntity
 object BookMapper {
 
     internal fun BookEntity.toModel() = Book(
-        id = id!!,
+        id = id,
         title = title,
+        authors = authors,
         description = description,
         price = price
     )

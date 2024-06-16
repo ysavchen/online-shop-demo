@@ -2,19 +2,21 @@ package com.example.bookservice.repository
 
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
+import org.hibernate.annotations.Immutable
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
 import java.util.*
 
 @Entity
+@Immutable
 @Table(name = "books")
 data class BookEntity(
     @Id
     @GeneratedValue
     @UuidGenerator
-    @Column(name = "id")
-    val id: UUID? = null,
+    @Column(name = "id", nullable = false)
+    val id: UUID,
 
     @Column(name = "title", nullable = false)
     val title: String,
