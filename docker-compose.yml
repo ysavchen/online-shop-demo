@@ -14,7 +14,7 @@ services:
       - database
 
   elasticsearch:
-    image: elasticsearch:8.5.3
+    image: elasticsearch:8.14.1
     container_name: elasticsearch
     environment:
       discovery.type: single-node
@@ -26,7 +26,7 @@ services:
       - logging
 
   logstash:
-    image: logstash:8.5.3
+    image: logstash:8.14.1
     container_name: logstash
     ports:
       - "5044:5044"
@@ -41,7 +41,7 @@ services:
       - logging
 
   kibana:
-    image: kibana:8.5.3
+    image: kibana:8.14.1
     container_name: kibana
     ports:
       - "5601:5601"
