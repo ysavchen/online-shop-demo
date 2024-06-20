@@ -74,18 +74,6 @@ services:
     networks:
       - kafka
 
-  elasticsearch:
-    image: elasticsearch:8.14.1
-    container_name: elasticsearch
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: false
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - logging
-
   logstash:
     image: logstash:8.14.1
     container_name: logstash
@@ -98,6 +86,18 @@ services:
       - elasticsearch
     volumes:
       - ./02-infra/logstash:/etc/grafana
+    networks:
+      - logging
+
+  elasticsearch:
+    image: elasticsearch:8.14.1
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     networks:
       - logging
 
