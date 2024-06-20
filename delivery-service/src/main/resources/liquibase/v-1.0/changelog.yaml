@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/v-1.0/001.sql
+      relativeToChangelogFile: false
