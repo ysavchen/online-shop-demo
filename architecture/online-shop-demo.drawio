@@ -1,6 +1,6 @@
-<mxfile host="drawio-plugin" modified="2024-06-20T12:02:57.095Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="y8cDnrYuuKw2L_-fva-3" version="22.1.22" type="embed">
+<mxfile host="drawio-plugin" modified="2024-06-20T12:11:32.310Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="_kWpVoAqNt1VgJ32XSoz" version="22.1.22" type="embed">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="604" dy="536" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="625" dy="536" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -118,7 +118,7 @@
         <mxCell id="GEwsZMFMDnxWJeHUf0ZL-8" value="Визуализация логов&lt;br&gt;Kibana" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;fillStyle=auto;strokeColor=#d6b656;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="700" y="730" width="170" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GEwsZMFMDnxWJeHUf0ZL-11" value="Корреляция логов:&lt;br&gt;все записи в логах сервисов должны иметь идентификатор корреляции, который связывает эти записи с конкретной бизнес-транзакцией" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="GEwsZMFMDnxWJeHUf0ZL-11" value="Корреляция логов:&lt;br&gt;все записи в логах сервисов должны иметь идентификатор корреляции (traceId), который связывает эти записи с конкретным запросом" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="90" y="495" width="390" height="80" as="geometry" />
         </mxCell>
       </root>
