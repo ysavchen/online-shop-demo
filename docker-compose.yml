@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./infra/postgres/init-db.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./02-infra/postgres/init-db.sql:/docker-entrypoint-initdb.d/db.sql
     networks:
       - database
 
@@ -97,7 +97,7 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - ./infra/logstash:/etc/grafana
+      - ./02-infra/logstash:/etc/grafana
     networks:
       - logging
 
@@ -119,7 +119,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./infra/prometheus:/etc/prometheus
+      - ./02-infra/prometheus:/etc/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -136,7 +136,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./infra/grafana:/etc/grafana
+      - ./02-infra/grafana:/etc/grafana
     networks:
       - monitoring
 
