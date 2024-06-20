@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=order_service
+    username: app_user
+    password: app_password
+  jpa:
+    open-in-view: false
+
+info:
+  application:
+    name: ${spring.application.name}
+    version: 1.0
+
+server:
+  port: 8091
+
+management:
+  info.env.enabled: true
+  endpoint:
+    health.show-details: always
+  endpoints:
+    web.exposure.include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus.enabled: true
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
