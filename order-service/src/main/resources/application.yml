@@ -7,6 +7,8 @@ spring:
     password: app_password
   jpa:
     open-in-view: false
+  liquibase:
+    change-log: classpath:liquibase/master.yaml
 
 info:
   application:
