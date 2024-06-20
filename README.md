@@ -1,5 +1,7 @@
 # online-shop-demo
 
+Demo application for experiments
+
 ### Setting up development environment
 1. Start local infra<br/>
    `docker-compose up -d`
