@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DeliveryServiceApplicationTests {
 
     @Test
-    void contextLoads() {
+    fun contextLoads() {
     }
+
 }
