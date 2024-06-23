@@ -21,7 +21,7 @@ server:
 management:
   info.env.enabled: true
   endpoints:
-    web.exposure.include: health,info,metrics,prometheus
+    web.exposure.include: info,health,metrics,prometheus
   metrics:
     export:
       prometheus.enabled: true
