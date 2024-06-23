@@ -10,18 +10,12 @@ spring:
   liquibase:
     change-log: classpath:liquibase/master.yaml
 
-info:
-  application:
-    name: ${spring.application.name}
-    version: 1.0
-
 server:
   port: 8090
 
 management:
-  info.env.enabled: true
   endpoints:
-    web.exposure.include: info,health,metrics,prometheus
+    web.exposure.include: health,metrics,prometheus
   metrics:
     tags:
       application: ${spring.application.name}
