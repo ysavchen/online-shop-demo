@@ -1,6 +1,8 @@
 spring:
   application:
     name: order-service
+  threads:
+    virtual.enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=order_service
     username: app_user
@@ -12,9 +14,6 @@ spring:
 
 server:
   port: 8091
-
-  threads:
-    virtual.enabled: true
 
 management:
   endpoints:
