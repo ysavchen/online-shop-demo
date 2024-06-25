@@ -11,6 +11,12 @@ spring:
             - Path=/book-service/**
           filters:
             - RewritePath=/book-service/(?<path>.*), /$\{path}
+        - id: order-service
+          uri: http://localhost:8091
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - RewritePath=/order-service/(?<path>.*), /$\{path}
 
 server:
   port: 8080
