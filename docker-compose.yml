@@ -84,8 +84,6 @@ services:
       - "9600:9600"
     depends_on:
       - elasticsearch
-    volumes:
-      - ./02-infra/logstash:/etc/grafana
     networks:
       - logging
 
