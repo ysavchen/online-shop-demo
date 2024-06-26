@@ -41,3 +41,6 @@ out/
 
 ### Drawio ###
 **.bkp
+
+### Redis Insight ###
+02-infra/redis-insight/
