@@ -13,6 +13,26 @@ services:
     networks:
       - database
 
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - database
+
+  redis-ui:
+    image: redis/redisinsight:2.50
+    container_name: redis-ui
+    depends_on:
+      - redis
+    ports:
+      - "5540:5540"
+    volumes:
+      - ./02-infra/redis-insight:/data
+    networks:
+      - database
+
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     hostname: kafka
@@ -114,6 +134,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.51.2
+    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -128,6 +149,7 @@ services:
 
   grafana:
     image: grafana/grafana:10.4.1
+    container_name: grafana
     user: "104"
     depends_on:
       - prometheus
