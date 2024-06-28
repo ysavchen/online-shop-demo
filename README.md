@@ -24,7 +24,7 @@ password: admin
 ```
 2. Run service in Docker
 ```bash
-docker run --rm -p 8090:8090 docker.io/library/book-service:0.0.1-SNAPSHOT
+docker run --rm -p 8090:8090 book-service:0.0.1-SNAPSHOT
 ```
 3. Start Kubernetes with profile name 'local-cluster'
 ```bash
