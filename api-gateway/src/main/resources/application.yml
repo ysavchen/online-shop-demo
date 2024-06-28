@@ -12,17 +12,30 @@ spring:
             - Path=/book-service/**
           filters:
             - RewritePath=/book-service/(?<path>.*), /$\{path}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter:
+                  replenishRate: 2
+                  burstCapacity: 2
+
         - id: order-service
           uri: http://localhost:8091
           predicates:
             - Path=/order-service/**
           filters:
             - RewritePath=/order-service/(?<path>.*), /$\{path}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter:
+                  replenishRate: 2
+                  burstCapacity: 2
 
 server:
   port: 8080
 
 management:
+  health:
+    redis.enabled: true
   endpoint:
     gateway.enabled: true
   endpoints:
