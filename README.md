@@ -8,13 +8,15 @@ Demo application for experiments
 docker-compose up -d
 ```
 2. Check Prometheus reads metrics<br/>
-   `http://localhost:9090/targets?search=`
+```
+http://localhost:9090/targets?search=
+```
 3. Check Grafana dashboard<br/>
    username: admin<br/>
    password: admin
 
 ### Kubernetes
-1. Build image<br/>
+1. Build image
 ```bash
 ./gradlew bootBuildImage
 ```
