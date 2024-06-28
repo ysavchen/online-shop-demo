@@ -1,4 +1,4 @@
-## online-shop-demo
+# online-shop-demo
 
 Demo application for experiments
 
