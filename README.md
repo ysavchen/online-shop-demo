@@ -7,13 +7,15 @@ Demo application for experiments
 ```bash
 docker-compose up -d
 ```
-2. Check Prometheus reads metrics<br/>
+2. Check Prometheus reads metrics
 ```
 http://localhost:9090/targets?search=
 ```
-3. Check Grafana dashboard<br/>
-   username: admin<br/>
-   password: admin
+3. Check Grafana dashboard
+```
+username: admin
+password: admin
+```
 
 ### Kubernetes
 1. Build image
