@@ -41,6 +41,13 @@ kotlin {
     }
 }
 
+//Fix https://github.com/spring-projects/spring-boot/issues/41199
+tasks.bootBuildImage {
+    docker {
+        host = "//./pipe/dockerDesktopLinuxEngine"
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }

@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class BookServiceApplication
 
 fun main(args: Array<String>) {
-	runApplication<BookServiceApplication>(*args)
+    runApplication<BookServiceApplication>(*args)
 }
