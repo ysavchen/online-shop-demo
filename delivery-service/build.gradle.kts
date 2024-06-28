@@ -7,6 +7,7 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
+val dockerHubRepository = "ysavchen"
 
 java {
     toolchain {
@@ -41,8 +42,10 @@ kotlin {
     }
 }
 
-//Fix https://github.com/spring-projects/spring-boot/issues/41199
 tasks.bootBuildImage {
+    imageName = "$dockerHubRepository/${rootProject.name}:$version"
+
+    //Fix https://github.com/spring-projects/spring-boot/issues/41199
     docker {
         host = "//./pipe/dockerDesktopLinuxEngine"
     }

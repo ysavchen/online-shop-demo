@@ -22,9 +22,9 @@ password: admin
 ```bash
 ./gradlew bootBuildImage
 ```
-2. Run service in Docker
+2. Push image to Docker Hub
 ```bash
-docker run --rm -p 8090:8090 book-service:0.0.1-SNAPSHOT
+docker push ysavchen/book-service:0.0.1-SNAPSHOT
 ```
 3. Start Kubernetes with profile name 'local-cluster'
 ```bash
