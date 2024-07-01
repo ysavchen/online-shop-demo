@@ -25,6 +25,10 @@ data class BookEntity(
     @Column(name = "description", nullable = false)
     val description: String,
 
+    @Column(name = "genre", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val genre: GenreEntity,
+
     @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
     val price: BigDecimal,
 
@@ -59,4 +63,8 @@ data class BookEntity(
 
 enum class CurrencyEntity {
     RUB
+}
+
+enum class GenreEntity {
+    HEALTH, TRAVEL, FICTION
 }

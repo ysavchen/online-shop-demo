@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS books
     title       varchar(150)     NOT NULL,
     authors     text[]           NOT NULL DEFAULT '{}',
     description text,                      --todo: добавить валидацию на base64
+    genre       varchar(50)      NOT NULL,
     quantity    smallint         NOT NULL,
     price       numeric(12, 2)   NOT NULL,
     currency    varchar(3)       NOT NULL,
@@ -19,6 +20,7 @@ COMMENT ON COLUMN books.id IS 'Идентификатор записи, перв
 COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
+COMMENT ON COLUMN books.genre IS 'Жанр книги';
 COMMENT ON COLUMN books.quantity IS 'Количество книг на складе';
 COMMENT ON COLUMN books.price IS 'Цена книги';
 COMMENT ON COLUMN books.currency IS 'Валюта для цены книги';
