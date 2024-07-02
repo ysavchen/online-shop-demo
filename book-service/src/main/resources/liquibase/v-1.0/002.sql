@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS books
 );
 
 COMMENT ON TABLE books IS 'Таблица для хранения книг';
-COMMENT ON COLUMN books.id IS 'Идентификатор записи, первичный ключ';
+COMMENT ON COLUMN books.id IS 'ID записи, первичный ключ';
 COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
