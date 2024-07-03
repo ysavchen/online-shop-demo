@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS reviews
 (
     id          uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     title       varchar(150),
-    review_text text,                   --todo: добавить валидацию на base64 или null
+    review_text text,
     author      varchar(100)   NOT NULL,
     rating      numeric(10, 1) NOT NULL, --todo: добавить валидацию min 1.0 и max 5.0
     book_fk     uuid           NOT NULL,

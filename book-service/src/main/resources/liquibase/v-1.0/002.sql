@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS books
     id          uuid             PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     title       varchar(150)     NOT NULL,
     authors     text[]           NOT NULL DEFAULT '{}',
-    description text,                      --todo: добавить валидацию на base64 или null
+    description text,
     genre       varchar(50)      NOT NULL,
     quantity    smallint         NOT NULL,
     price       numeric(12, 2),
