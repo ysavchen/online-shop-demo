@@ -1,12 +1,12 @@
-# This workflow builds services with Gradle
+# This workflow builds api-gateway with Gradle
 
-name: Build services
+name: Build api-gateway
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+      - 'api-gateway/**'
 
 jobs:
   api-gateway:
