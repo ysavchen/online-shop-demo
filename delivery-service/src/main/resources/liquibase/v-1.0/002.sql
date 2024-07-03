@@ -37,4 +37,4 @@ $do$
     END
 $do$;
 
-COMMENT ON TRIGGER update_deliveries_trigger ON orders IS 'Триггер на обновление updated_at для записей таблицы deliveries';
+COMMENT ON TRIGGER update_deliveries_trigger ON deliveries IS 'Триггер на обновление updated_at для записей таблицы deliveries';
