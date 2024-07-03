@@ -11,3 +11,9 @@ databaseChangeLog:
   - include:
       file: liquibase/v-1.0/004.sql
       relativeToChangelogFile: false
+  - include:
+      file: liquibase/v-1.0/005.sql
+      relativeToChangelogFile: false
+  - include:
+      file: liquibase/v-1.0/006.sql
+      relativeToChangelogFile: false
