@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: order-service
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:liquibase/master.yaml
