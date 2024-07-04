@@ -10,4 +10,4 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-COMMENT ON FUNCTION get_book_id_func(varchar(150)) IS 'Функция для получения book_id по названию книги';
+COMMENT ON FUNCTION get_book_id(varchar(150)) IS 'Функция для получения book_id по названию книги';
