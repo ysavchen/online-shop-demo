@@ -1,6 +1,6 @@
 databaseChangeLog:
   - include:
-      file: liquibase/v-1.0/001-updated-at-column-func.sql
+      file: liquibase/v-1.0/001-updated-at-func.sql
       relativeToChangelogFile: false
   - include:
       file: liquibase/v-1.0/002-books-table.sql
