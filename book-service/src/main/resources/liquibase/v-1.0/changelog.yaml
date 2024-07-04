@@ -1,19 +1,19 @@
 databaseChangeLog:
   - include:
-      file: liquibase/v-1.0/001.sql
+      file: liquibase/v-1.0/001-updated-at-column-func.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0/002.sql
+      file: liquibase/v-1.0/002-books-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0/003.sql
+      file: liquibase/v-1.0/003-reviews-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0/004.sql
+      file: liquibase/v-1.0/004-books-data.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0/005.sql
+      file: liquibase/v-1.0/005-get-book-id-func.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0/006.sql
+      file: liquibase/v-1.0/006-reviews-data.sql
       relativeToChangelogFile: false
