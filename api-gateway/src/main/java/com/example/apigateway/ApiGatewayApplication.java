@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportRuntimeHints;
 
 @SpringBootApplication
-@ImportRuntimeHints(ApiGatewayRuntimeHints.class)
+@ImportRuntimeHints(AppRuntimeHints.class)
 public class ApiGatewayApplication {
 
     public static void main(String[] args) {
