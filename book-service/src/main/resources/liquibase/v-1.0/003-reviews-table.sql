@@ -3,14 +3,14 @@
 --changeset ysavchen:003.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS reviews
 (
-    id          uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
+    id          uuid          PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     title       varchar(150),
     review_text text,
-    author      varchar(100)   NOT NULL,
-    rating      numeric(10, 1) NOT NULL, --todo: добавить валидацию min 1.0 и max 5.0
-    book_fk     uuid           NOT NULL,
-    created_at  timestamptz    NOT NULL DEFAULT NOW(),
-    updated_at  timestamptz    NOT NULL DEFAULT NOW()
+    author      varchar(100)  NOT NULL,
+    rating      numeric(2, 1) NOT NULL CONSTRAINT valid_rating CHECK(rating BETWEEN 1.0 AND 5.0),
+    book_fk     uuid          NOT NULL,
+    created_at  timestamptz   NOT NULL DEFAULT NOW(),
+    updated_at  timestamptz   NOT NULL DEFAULT NOW()
 );
 
 COMMENT ON TABLE reviews IS 'Таблица для хранения обзоров книг';

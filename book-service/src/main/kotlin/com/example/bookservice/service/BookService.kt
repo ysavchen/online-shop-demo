@@ -15,7 +15,7 @@ class BookService(private val bookRepository: BookRepository) {
     fun getBooks(): List<Book> = bookRepository.findAll().map { it.toModel() }
 
     @Transactional(readOnly = true)
-    fun getBookById(id: UUID): Book = bookRepository.findByIdOrNull(id)?.toModel()
-        ?: throw BookNotFoundException(id)
+    fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()
+        ?: throw BookNotFoundException(bookId)
 
 }

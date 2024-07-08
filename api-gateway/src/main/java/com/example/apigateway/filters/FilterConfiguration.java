@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 import static com.example.apigateway.filters.FilterUtils.REQUEST_ID;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FilterConfiguration {
 
     private static final String APP_NAME = "api-gateway";

@@ -16,7 +16,8 @@ class BookController(private val bookService: BookService) {
     @GetMapping("/books")
     fun books(): List<Book> = bookService.getBooks()
 
-    @GetMapping("/books/{id}")
-    fun bookById(@PathVariable("id") id: UUID): Book = bookService.getBookById(id)
+    @GetMapping("/books/{bookId}")
+    fun bookById(@PathVariable("bookId") bookId: UUID): Book = bookService.getBookById(bookId)
+
 
 }

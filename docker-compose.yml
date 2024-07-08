@@ -80,44 +80,6 @@ services:
     networks:
       - kafka
 
-  logstash:
-    image: logstash:8.14.1
-    container_name: logstash
-    ports:
-      - "5044:5044"
-      - "50000:50000/tcp"
-      - "50000:50000/udp"
-      - "9600:9600"
-    depends_on:
-      - elasticsearch
-    networks:
-      - logging
-
-  elasticsearch:
-    image: elasticsearch:8.14.1
-    container_name: elasticsearch
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: false
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - logging
-
-  kibana:
-    image: kibana:8.14.1
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    environment:
-      KIBANA_SYSTEM_PASSWORD: "kibana_password"
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-    networks:
-      - logging
-
   prometheus:
     image: prom/prometheus:v2.51.2
     container_name: prometheus
@@ -131,8 +93,9 @@ services:
       - "--web.console.templates=/etc/prometheus/consoles"
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
     networks:
-      - monitoring
+      - observability
 
+  ### Grafana stack ###
   grafana:
     image: grafana/grafana:10.4.1
     container_name: grafana
@@ -144,10 +107,49 @@ services:
     volumes:
       - ./02-infra/grafana:/etc/grafana
     networks:
-      - monitoring
+      - observability
+
+
+  ### ELK stack ###
+  logstash:
+    image: logstash:8.14.1
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "50000:50000/tcp"
+      - "50000:50000/udp"
+      - "9600:9600"
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability
+
+  elasticsearch:
+    image: elasticsearch:8.14.1
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - observability
+
+  kibana:
+    image: kibana:8.14.1
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      KIBANA_SYSTEM_PASSWORD: "kibana_password"
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability
 
 networks:
   database:
   kafka:
-  logging:
-  monitoring:
+  observability:

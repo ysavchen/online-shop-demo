@@ -1,0 +1,5 @@
+container:
+  name: api-gateway
+  port: 8080
+  image: ysavchen/api-gateway:0.0.1-SNAPSHOT
+replicas: 1

@@ -7,7 +7,7 @@ spring:
         verbose.enabled: true
       routes:
         - id: book-service
-          uri: http://localhost:8090
+          uri: ${BOOK_SERVICE_URL:http://localhost:8090}
           predicates:
             - Path=/book-service/**
           filters:
@@ -15,11 +15,11 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
-                  replenishRate: 2
-                  burstCapacity: 2
+                  replenishRate: 15
+                  burstCapacity: 15
 
         - id: order-service
-          uri: http://localhost:8091
+          uri: ${ORDER_SERVICE_URL:http://localhost:8091}
           predicates:
             - Path=/order-service/**
           filters:
@@ -27,15 +27,17 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
-                  replenishRate: 2
-                  burstCapacity: 2
+                  replenishRate: 15
+                  burstCapacity: 15
 
 server:
   port: 8080
+  shutdown: graceful
 
 management:
   health:
     redis.enabled: true
+    probes.enabled: true
   endpoint:
     gateway.enabled: true
   endpoints:

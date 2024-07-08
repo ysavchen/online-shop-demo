@@ -1,0 +1,48 @@
+package com.example.bookservice
+
+import io.hypersistence.utils.hibernate.type.array.StringArrayType
+import liquibase.database.LiquibaseTableNamesFactory
+import liquibase.parser.SqlParserFactory
+import liquibase.report.ShowSummaryGeneratorFactory
+import liquibase.ui.LoggerUIService
+import org.springframework.aot.hint.ExecutableMode
+import org.springframework.aot.hint.RuntimeHints
+import org.springframework.aot.hint.RuntimeHintsRegistrar
+import java.util.*
+
+/**
+ * Хинты подсказывают, какие классы, методы, ресурсы дополнительно понадобятся в Runtime,
+ * чтобы GraalVM добавил их в native image.
+ *
+ * Обычно эти классы или методы вызываются динамически в рантайме через рефлексию или проксирование,
+ * поэтому без хинта GraalVM не видит их во время компиляции.
+ *
+ * О каких-то хинтах заботятся сами библиотеки, но пока еще не все отлажено.
+ *
+ * Также нужен хинт для своих кастомных ресурсов (напр. sql скриптов),
+ * так как Spring Boot не добавит их автоматически.
+ */
+class AppRuntimeHints : RuntimeHintsRegistrar {
+    override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        hints.resources().registerPattern("liquibase/*")
+        hints.reflection()
+            .registerType(LoggerUIService::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+            .registerType(LiquibaseTableNamesFactory::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+            .registerType(ShowSummaryGeneratorFactory::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+            .registerType(SqlParserFactory::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+            .registerType(StringArrayType::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+            .registerType(Array<UUID>::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
+    }
+}

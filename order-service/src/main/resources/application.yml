@@ -16,6 +16,8 @@ server:
   port: 8091
 
 management:
+  health:
+    probes.enabled: true
   endpoints:
     web.exposure.include: health,metrics,prometheus
   metrics:

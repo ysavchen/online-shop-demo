@@ -12,8 +12,11 @@ spring:
 
 server:
   port: 8090
+  shutdown: graceful
 
 management:
+  health:
+    probes.enabled: true
   endpoints:
     web.exposure.include: health,metrics,prometheus
   metrics:

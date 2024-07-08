@@ -7,19 +7,14 @@ Demo application for experiments
 ```bash
 docker-compose up -d
 ```
-2. Check Prometheus reads metrics
-```
-http://localhost:9090/targets?search=
-```
-3. Check Grafana dashboard
-```
-username: admin
-password: admin
+2. Run services
+```bash
+./gradlew bootRun
 ```
 
 ### Kubernetes
-1. Build image
-```bash
+1. Build native image
+```
 ./gradlew bootBuildImage
 ```
 2. Push image to Docker Hub
@@ -29,4 +24,27 @@ docker push ysavchen/book-service:0.0.1-SNAPSHOT
 3. Start Kubernetes with profile name 'local-cluster'
 ```bash
 minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local-cluster
+```
+4. Apply manifests
+```
+kubectl apply -f deployment.yaml
+```
+5. Set namespace to online-shop-demo
+```bash
+kubectl config set-context --current --namespace=online-shop-demo
+```
+6. Stop Kubernetes
+```bash
+minikube stop -p local-cluster
+```
+
+### Observability
+1. Check Prometheus reads metrics
+```
+http://localhost:9090/targets?search=
+```
+2. Check Grafana dashboard
+```
+username: admin
+password: admin
 ```
