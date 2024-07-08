@@ -13,7 +13,7 @@ docker-compose up -d
 ```
 
 ### Kubernetes
-1. Build native image
+1. Build native image with GraalVM for JDK 21
 ```
 ./gradlew bootBuildImage
 ```
