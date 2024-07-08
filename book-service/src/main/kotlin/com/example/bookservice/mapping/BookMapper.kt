@@ -8,12 +8,12 @@ import com.example.bookservice.repository.CurrencyEntity
 object BookMapper {
 
     internal fun BookEntity.toModel() = Book(
-        id = id,
+        id = id!!,
         title = title,
         authors = authors.toList(),
         description = description,
         price = price,
-        currency = currency.toModel()
+        currency = currency?.toModel()
     )
 
     internal fun CurrencyEntity.toModel() = when (this) {

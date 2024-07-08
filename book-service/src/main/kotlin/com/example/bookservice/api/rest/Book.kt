@@ -7,9 +7,9 @@ data class Book(
     val id: UUID,
     val title: String,
     val authors: List<String>,
-    val description: String,
-    val price: BigDecimal,
-    val currency: Currency
+    val description: String?,
+    val price: BigDecimal?,
+    val currency: Currency?
 )
 
 enum class Currency {

@@ -2,18 +2,16 @@ package com.example.bookservice.repository
 
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
-import org.hibernate.annotations.Immutable
 import org.hibernate.annotations.Type
 import java.math.BigDecimal
 import java.util.*
 
 @Entity
-@Immutable
 @Table(name = "books")
 data class BookEntity(
     @Id
     @Column(name = "id", nullable = false)
-    val id: UUID,
+    val id: UUID? = null,
 
     @Column(name = "title", nullable = false)
     val title: String,
@@ -23,18 +21,18 @@ data class BookEntity(
     val authors: Array<String>,
 
     @Column(name = "description", nullable = false)
-    val description: String,
+    val description: String?,
 
     @Column(name = "genre", nullable = false)
     @Enumerated(EnumType.STRING)
     val genre: GenreEntity,
 
     @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
-    val price: BigDecimal,
+    val price: BigDecimal?,
 
     @Column(name = "currency", nullable = false)
     @Enumerated(EnumType.STRING)
-    val currency: CurrencyEntity
+    val currency: CurrencyEntity?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
