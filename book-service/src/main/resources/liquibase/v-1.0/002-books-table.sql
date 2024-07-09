@@ -22,7 +22,7 @@ COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
 COMMENT ON COLUMN books.genre IS 'Жанр книги';
-COMMENT ON COLUMN books.release_date IS 'Дата выхода книги';
+--todo COMMENT ON COLUMN books.release_date IS 'Дата выхода книги';
 COMMENT ON COLUMN books.quantity IS 'Количество книг на складе';
 COMMENT ON COLUMN books.price IS 'Цена книги';
 COMMENT ON COLUMN books.currency IS 'Валюта для цены книги';
