@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: delivery-service
+  labels:
+    app: delivery-service
   namespace: online-shop-demo
 spec:
   replicas: 1
