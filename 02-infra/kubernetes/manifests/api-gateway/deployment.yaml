@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-gateway
           image: ysavchen/api-gateway:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           livenessProbe:

@@ -16,6 +16,7 @@ spec:
       containers:
         - name: delivery-service
           image: ysavchen/delivery-service:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           livenessProbe:

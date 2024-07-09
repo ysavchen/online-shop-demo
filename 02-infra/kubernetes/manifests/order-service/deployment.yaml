@@ -16,6 +16,7 @@ spec:
       containers:
         - name: order-service
           image: ysavchen/order-service:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           livenessProbe:
