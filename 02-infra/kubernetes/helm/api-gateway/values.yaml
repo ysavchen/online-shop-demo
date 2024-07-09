@@ -1,5 +1,27 @@
-container:
-  name: api-gateway
+replicaCount: 1
+
+image:
+  repository: ysavchen/api-gateway
+  pullPolicy: Always
+
+namespace: online-shop-demo
+
+podLabels:
+  app: api-gateway
+
+service:
+  type: NodePort
   port: 8080
-  image: ysavchen/api-gateway:0.0.1-SNAPSHOT
-replicas: 1
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8080
+  failureThreshold: 3
+  initialDelaySeconds: 5
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8080
+  failureThreshold: 3
+  initialDelaySeconds: 5

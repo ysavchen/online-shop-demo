@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+  namespace: online-shop-demo
+data:
+  redisHost: host.docker.internal
+  redisPort: "6379"
+  bookServiceUrl: book-service:8080
+  orderServiceUrl: order-service:8080
