@@ -1,7 +1,7 @@
 package com.example.bookservice.mapping
 
-import com.example.bookservice.api.rest.Book
-import com.example.bookservice.api.rest.Currency
+import com.example.bookservice.api.rest.model.Book
+import com.example.bookservice.api.rest.model.Currency
 import com.example.bookservice.repository.BookEntity
 import com.example.bookservice.repository.CurrencyEntity
 
