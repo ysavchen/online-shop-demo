@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS books
     authors     text[]           NOT NULL DEFAULT '{}',
     description text,
     genre       varchar(50)      NOT NULL,
+    --todo release_date
     quantity    smallint         NOT NULL,
     price       numeric(12, 2),
     currency    varchar(3),
@@ -21,6 +22,7 @@ COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
 COMMENT ON COLUMN books.genre IS 'Жанр книги';
+COMMENT ON COLUMN books.release_date IS 'Дата выхода книги';
 COMMENT ON COLUMN books.quantity IS 'Количество книг на складе';
 COMMENT ON COLUMN books.price IS 'Цена книги';
 COMMENT ON COLUMN books.currency IS 'Валюта для цены книги';
