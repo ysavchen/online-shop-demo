@@ -19,6 +19,10 @@ class BookService(private val bookRepository: BookRepository) {
     fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()
         ?: throw BookNotFoundException(bookId)
 
+    @Transactional(readOnly = true)
+    fun getBookDescription(bookId: UUID): String? = bookRepository.findByIdOrNull(bookId)?.description
+        ?: throw BookNotFoundException(bookId)
+
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book = TODO()
 

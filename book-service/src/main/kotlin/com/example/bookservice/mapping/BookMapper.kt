@@ -11,7 +11,6 @@ object BookMapper {
         id = id!!,
         title = title,
         authors = authors.toList(),
-        description = description,
         price = price,
         currency = currency?.toModel()
     )

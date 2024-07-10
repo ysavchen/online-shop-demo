@@ -21,6 +21,9 @@ class BookController(private val bookService: BookService) {
     @GetMapping("/books/{bookId}")
     fun bookById(@PathVariable("bookId") bookId: UUID): Book = bookService.getBookById(bookId)
 
+    @GetMapping("/books/{bookId}/description")
+    fun bookDescription(@PathVariable("bookId") bookId: UUID): String? = bookService.getBookDescription(bookId)
+
     @PostMapping("/books")
     fun createBook(
         @RequestHeader idempotencyKey: UUID,
