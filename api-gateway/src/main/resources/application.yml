@@ -15,8 +15,8 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
-                  replenishRate: 15
-                  burstCapacity: 15
+                  replenishRate: 15 # кол-во запросов в секунду, которое пользователь может отправить
+                  burstCapacity: 5 # допустимое превышение заданного ограничения
 
         - id: order-service
           uri: ${ORDER_SERVICE_URL:http://localhost:8091}
@@ -28,7 +28,7 @@ spring:
               args:
                 redis-rate-limiter:
                   replenishRate: 15
-                  burstCapacity: 15
+                  burstCapacity: 5
 
 server:
   port: 8080
