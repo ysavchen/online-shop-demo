@@ -7,12 +7,7 @@ spring:
     password: app_password
   data.web:
     pageable:
-      page-parameter: page
-      size-parameter: page_size
-      default-page-size: 10
       one-indexed-parameters: true
-    sort:
-      sort-parameter: sort_by
   jpa:
     open-in-view: false
   liquibase:
