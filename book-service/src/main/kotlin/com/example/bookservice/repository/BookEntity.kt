@@ -29,7 +29,7 @@ data class BookEntity(
     val genre: GenreEntity,
 
     @Column(name = "release_date")
-    val releaseDate: LocalDate,
+    val releaseDate: LocalDate?,
 
     @Column(name = "price", columnDefinition = "NUMERIC")
     val price: BigDecimal?,

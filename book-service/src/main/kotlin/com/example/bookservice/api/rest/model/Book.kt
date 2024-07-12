@@ -1,6 +1,7 @@
 package com.example.bookservice.api.rest.model
 
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.util.*
 
 data class BookSearchRequest(
@@ -14,6 +15,8 @@ data class CreateBookRequest(
     val title: String,
     val authors: List<String>,
     val description: String?,
+    val genre: Genre,
+    val releaseDate: LocalDate?,
     val price: BigDecimal?,
     val currency: Currency?
 )
@@ -22,10 +25,16 @@ data class Book(
     val id: UUID,
     val title: String,
     val authors: List<String>,
+    val genre: Genre,
+    val releaseDate: LocalDate?,
     val price: BigDecimal?,
     val currency: Currency?
 )
 
 enum class Currency {
     RUB
+}
+
+enum class Genre {
+    HEALTH, TRAVEL, FICTION
 }
