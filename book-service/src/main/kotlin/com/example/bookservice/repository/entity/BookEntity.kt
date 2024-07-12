@@ -1,4 +1,4 @@
-package com.example.bookservice.repository
+package com.example.bookservice.repository.entity
 
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
@@ -11,7 +11,7 @@ import java.util.*
 @Table(name = "books")
 data class BookEntity(
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     val id: UUID? = null,
 
     @Column(name = "title", nullable = false)

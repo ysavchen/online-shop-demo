@@ -1,14 +1,18 @@
 package com.example.bookservice.service
 
 import com.example.bookservice.BookNotFoundException
+import com.example.bookservice.DuplicateRequestException
 import com.example.bookservice.api.rest.model.Book
 import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.api.rest.model.PageRequestParams
+import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.repository.BookRepository
+import com.example.bookservice.repository.entity.IdempotencyKeyEntity
+import com.example.bookservice.repository.IdempotencyKeyRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -16,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class BookService(private val bookRepository: BookRepository) {
+class BookService(
+    private val bookRepository: BookRepository,
+    private val idempotencyKeyRepository: IdempotencyKeyRepository
+) {
 
     @Transactional(readOnly = true)
     fun getBooks(pageRequestParams: PageRequestParams, request: BookSearchRequest?): PagedModel<Book> =
@@ -31,6 +38,12 @@ class BookService(private val bookRepository: BookRepository) {
         ?: throw BookNotFoundException(bookId)
 
     @Transactional
-    fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book = TODO()
+    fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
+        val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
+        if (key != null) throw DuplicateRequestException(key.idempotencyKey)
+        val savedBook = bookRepository.save(request.toEntity())
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id))
+        return savedBook.toModel()
+    }
 
 }

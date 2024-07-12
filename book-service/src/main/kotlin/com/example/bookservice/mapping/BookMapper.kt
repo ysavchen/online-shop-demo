@@ -1,11 +1,12 @@
 package com.example.bookservice.mapping
 
 import com.example.bookservice.api.rest.model.Book
+import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.api.rest.model.Currency
 import com.example.bookservice.api.rest.model.Genre
-import com.example.bookservice.repository.BookEntity
-import com.example.bookservice.repository.CurrencyEntity
-import com.example.bookservice.repository.GenreEntity
+import com.example.bookservice.repository.entity.BookEntity
+import com.example.bookservice.repository.entity.CurrencyEntity
+import com.example.bookservice.repository.entity.GenreEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.web.PagedModel
 
@@ -21,14 +22,34 @@ object BookMapper {
         currency = currency?.toModel()
     )
 
-    internal fun GenreEntity.toModel() = when (this) {
+    internal fun CreateBookRequest.toEntity() = BookEntity(
+        title = title,
+        authors = authors.toTypedArray(),
+        description = description,
+        genre = genre.toEntity(),
+        releaseDate = releaseDate,
+        price = price,
+        currency = currency?.toEntity()
+    )
+
+    private fun GenreEntity.toModel() = when (this) {
         GenreEntity.HEALTH -> Genre.HEALTH
         GenreEntity.TRAVEL -> Genre.TRAVEL
         GenreEntity.FICTION -> Genre.FICTION
     }
 
-    internal fun CurrencyEntity.toModel() = when (this) {
+    private fun Genre.toEntity() = when (this) {
+        Genre.HEALTH -> GenreEntity.HEALTH
+        Genre.TRAVEL -> GenreEntity.TRAVEL
+        Genre.FICTION -> GenreEntity.FICTION
+    }
+
+    private fun CurrencyEntity.toModel() = when (this) {
         CurrencyEntity.RUB -> Currency.RUB
+    }
+
+    private fun Currency.toEntity() = when (this) {
+        Currency.RUB -> CurrencyEntity.RUB
     }
 
     internal fun Page<BookEntity>.toPagedModel() = PagedModel(
