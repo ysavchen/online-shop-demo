@@ -1,5 +1,6 @@
 package com.example.bookservice.mapping
 
+import com.example.bookservice.UnsupportedSortingException
 import com.example.bookservice.api.rest.model.PageRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -12,6 +13,13 @@ object RequestMapper {
             this.page,
             this.pageSize,
             Direction.fromString(this.orderBy),
-            this.sortBy
+            parseSortBy(this.sortBy)
         )
+
+    private fun parseSortBy(sortBy: String): String =
+        when (sortBy) {
+            "title" -> "title"
+            "release_date" -> "releaseDate"
+            else -> throw UnsupportedSortingException(sortBy)
+        }
 }

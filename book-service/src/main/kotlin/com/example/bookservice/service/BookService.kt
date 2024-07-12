@@ -1,5 +1,6 @@
 package com.example.bookservice.service
 
+import com.example.bookservice.BookNotFoundException
 import com.example.bookservice.api.rest.model.Book
 import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.api.rest.model.CreateBookRequest
