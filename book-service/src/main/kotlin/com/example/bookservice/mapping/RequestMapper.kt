@@ -1,6 +1,6 @@
 package com.example.bookservice.mapping
 
-import com.example.bookservice.UnsupportedSortingException
+import com.example.bookservice.service.UnsupportedSortingException
 import com.example.bookservice.api.rest.model.PageRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable

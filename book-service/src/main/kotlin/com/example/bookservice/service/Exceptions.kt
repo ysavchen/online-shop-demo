@@ -1,4 +1,4 @@
-package com.example.bookservice
+package com.example.bookservice.service
 
 import java.util.*
 
