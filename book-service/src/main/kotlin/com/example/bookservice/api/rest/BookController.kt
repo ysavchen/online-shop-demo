@@ -26,7 +26,7 @@ class BookController(private val bookService: BookService) {
 
     @PostMapping("/books")
     fun createBook(
-        @RequestHeader idempotencyKey: UUID,
+        @RequestHeader("Idempotency-Key") idempotencyKey: UUID,
         @RequestBody request: CreateBookRequest
     ): Book = bookService.createBook(idempotencyKey, request)
 
