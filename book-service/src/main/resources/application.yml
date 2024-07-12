@@ -9,6 +9,7 @@ spring:
     web.pageable:
       size-parameter: page_size
       sort-parameter: sort_by
+      sort-param-name: order_by
       default-page-size: 10
       one-indexed-parameters: true
   jpa:

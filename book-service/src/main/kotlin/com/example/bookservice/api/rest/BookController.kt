@@ -3,10 +3,10 @@ package com.example.bookservice.api.rest
 import com.example.bookservice.api.rest.RestCompanion.BASE_PATH_V1
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.service.BookService
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.data.web.PageableDefault
+import org.springframework.data.web.PagedModel
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -17,10 +17,10 @@ class BookController(private val bookService: BookService) {
 
     @PostMapping("/books/search")
     fun books(
-        @PageableDefault(size = 10, sort = ["releaseDate"], direction = Direction.ASC)
+        @PageableDefault(size = 10, sort = ["title"], direction = Direction.ASC)
         pageable: Pageable,
         @RequestBody request: BookSearchRequest?
-    ): Page<Book> = bookService.getBooks(pageable, request)
+    ): PagedModel<Book> = bookService.getBooks(pageable, request)
 
     @GetMapping("/books/{bookId}")
     fun bookById(@PathVariable("bookId") bookId: UUID): Book = bookService.getBookById(bookId)
