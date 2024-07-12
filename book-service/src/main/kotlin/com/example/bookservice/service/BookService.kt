@@ -1,9 +1,6 @@
 package com.example.bookservice.service
 
-import com.example.bookservice.api.rest.model.Book
-import com.example.bookservice.api.rest.model.BookSearchRequest
-import com.example.bookservice.api.rest.model.CreateBookRequest
-import com.example.bookservice.api.rest.model.PageRequestParams
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
@@ -32,8 +29,11 @@ class BookService(
         ?: throw BookNotFoundException(bookId)
 
     @Transactional(readOnly = true)
-    fun getBookDescription(bookId: UUID): String? = bookRepository.findByIdOrNull(bookId)?.description
-        ?: throw BookNotFoundException(bookId)
+    fun getBookDescription(bookId: UUID): BookDescription {
+        val description = bookRepository.findByIdOrNull(bookId)?.description
+            ?: throw BookNotFoundException(bookId)
+        return BookDescription(description)
+    }
 
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {

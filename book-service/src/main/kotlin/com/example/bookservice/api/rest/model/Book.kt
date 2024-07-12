@@ -31,6 +31,10 @@ data class Book(
     val currency: Currency?
 )
 
+data class BookDescription(
+    val description: String?
+)
+
 enum class Currency {
     RUB
 }
