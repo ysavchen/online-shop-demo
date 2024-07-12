@@ -5,6 +5,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=book_service
     username: app_user
     password: app_password
+  data:
+    web.pageable:
+      size-parameter: page_size
+      sort-parameter: sort_by
+      default-page-size: 10
+      one-indexed-parameters: true
   jpa:
     open-in-view: false
   liquibase:

@@ -4,6 +4,7 @@ import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.util.*
 
 @Entity
@@ -20,17 +21,20 @@ data class BookEntity(
     @Column(name = "authors", columnDefinition = "text[]", nullable = false)
     val authors: Array<String>,
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     val description: String?,
 
     @Column(name = "genre", nullable = false)
     @Enumerated(EnumType.STRING)
     val genre: GenreEntity,
 
-    @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
+    @Column(name = "release_date")
+    val releaseDate: LocalDate,
+
+    @Column(name = "price", columnDefinition = "NUMERIC")
     val price: BigDecimal?,
 
-    @Column(name = "currency", nullable = false)
+    @Column(name = "currency")
     @Enumerated(EnumType.STRING)
     val currency: CurrencyEntity?
 ) {
