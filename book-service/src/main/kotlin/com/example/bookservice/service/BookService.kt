@@ -20,7 +20,6 @@ class BookService(private val bookRepository: BookRepository) {
     fun getBooks(pageable: Pageable, request: BookSearchRequest?): PagedModel<Book> =
         bookRepository.findAll(pageable).toPagedModel()
 
-
     @Transactional(readOnly = true)
     fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()
         ?: throw BookNotFoundException(bookId)
