@@ -12,7 +12,7 @@ import java.util.*
 @RequestMapping(BASE_PATH_V1, produces = [MediaType.APPLICATION_JSON_VALUE])
 class BookController(private val bookService: BookService) {
 
-    @PostMapping("/books/search")
+    @PostMapping("/books/search", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun books(
         bookRequestParams: BookRequestParams,
         @RequestBody request: BookSearchRequest?
@@ -25,7 +25,7 @@ class BookController(private val bookService: BookService) {
     fun bookDescription(@PathVariable("bookId") bookId: UUID): BookDescription =
         bookService.getBookDescription(bookId)
 
-    @PostMapping("/books")
+    @PostMapping("/books", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun createBook(
         @RequestHeader("Idempotency-Key") idempotencyKey: UUID,
         @RequestBody request: CreateBookRequest

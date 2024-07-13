@@ -14,7 +14,7 @@ import java.util.*
 @RequestMapping(BASE_PATH_V1, produces = [MediaType.APPLICATION_JSON_VALUE])
 class ReviewController(private val reviewService: ReviewService) {
 
-    @PostMapping("/reviews")
+    @PostMapping("/reviews", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun bookReviews(
         reviewRequestParams: ReviewRequestParams,
         @RequestBody request: ReviewSearchRequest
