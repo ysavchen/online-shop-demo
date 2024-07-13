@@ -15,7 +15,7 @@ import java.util.*
 class ReviewController(private val reviewService: ReviewService) {
 
     @PostMapping("/reviews", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun bookReviews(
+    fun reviews(
         reviewRequestParams: ReviewRequestParams,
         @RequestBody request: ReviewSearchRequest
     ): PagedModel<Review> = reviewService.getReviews(reviewRequestParams, request)
