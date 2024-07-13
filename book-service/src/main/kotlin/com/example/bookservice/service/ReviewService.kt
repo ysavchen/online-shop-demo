@@ -17,7 +17,7 @@ import java.util.*
 class ReviewService(private val reviewRepository: ReviewRepository) {
 
     @Transactional(readOnly = true)
-    fun getBooks(reviewRequestParams: ReviewRequestParams, request: ReviewSearchRequest): PagedModel<Review> =
+    fun getReviews(reviewRequestParams: ReviewRequestParams, request: ReviewSearchRequest): PagedModel<Review> =
         reviewRepository.findAll(reviewRequestParams.toPageable()).toPagedModel()
 
     @Transactional(readOnly = true)

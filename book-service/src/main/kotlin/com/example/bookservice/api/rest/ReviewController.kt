@@ -18,7 +18,7 @@ class ReviewController(private val reviewService: ReviewService) {
     fun bookReviews(
         reviewRequestParams: ReviewRequestParams,
         @RequestBody request: ReviewSearchRequest
-    ): PagedModel<Review> = reviewService.getBooks(reviewRequestParams, request)
+    ): PagedModel<Review> = reviewService.getReviews(reviewRequestParams, request)
 
     @GetMapping("/reviews/{reviewId}")
     fun reviewById(@PathVariable("reviewId") reviewId: UUID): Review = reviewService.getReviewById(reviewId)
