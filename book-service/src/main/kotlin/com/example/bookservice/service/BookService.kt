@@ -6,8 +6,8 @@ import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.repository.BookRepository
-import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import com.example.bookservice.repository.IdempotencyKeyRepository
+import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -21,8 +21,8 @@ class BookService(
 ) {
 
     @Transactional(readOnly = true)
-    fun getBooks(pageRequestParams: PageRequestParams, request: BookSearchRequest?): PagedModel<Book> =
-        bookRepository.findAll(pageRequestParams.toPageable()).toPagedModel()
+    fun getBooks(bookRequestParams: BookRequestParams, request: BookSearchRequest?): PagedModel<Book> =
+        bookRepository.findAll(bookRequestParams.toPageable()).toPagedModel()
 
     @Transactional(readOnly = true)
     fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()
@@ -38,7 +38,7 @@ class BookService(
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.bookId != null) throw DuplicateRequestException(key.idempotencyKey, "book", key.bookId)
+        if (key?.bookId != null) throw DuplicateRequestException(key.idempotencyKey, key.bookId)
         val savedBook = bookRepository.save(request.toEntity())
         idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id))
         return savedBook.toModel()

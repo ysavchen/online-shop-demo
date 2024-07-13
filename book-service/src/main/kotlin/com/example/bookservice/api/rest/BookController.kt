@@ -14,9 +14,9 @@ class BookController(private val bookService: BookService) {
 
     @PostMapping("/books/search")
     fun books(
-        pageRequestParams: PageRequestParams,
+        bookRequestParams: BookRequestParams,
         @RequestBody request: BookSearchRequest?
-    ): PagedModel<Book> = bookService.getBooks(pageRequestParams, request)
+    ): PagedModel<Book> = bookService.getBooks(bookRequestParams, request)
 
     @GetMapping("/books/{bookId}")
     fun bookById(@PathVariable("bookId") bookId: UUID): Book = bookService.getBookById(bookId)

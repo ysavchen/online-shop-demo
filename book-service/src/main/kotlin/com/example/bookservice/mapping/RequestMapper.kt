@@ -1,14 +1,14 @@
 package com.example.bookservice.mapping
 
 import com.example.bookservice.service.UnsupportedSortingException
-import com.example.bookservice.api.rest.model.PageRequestParams
+import com.example.bookservice.api.rest.model.BookRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction
 
 object RequestMapper {
 
-    internal fun PageRequestParams.toPageable(): Pageable =
+    internal fun BookRequestParams.toPageable(): Pageable =
         PageRequest.of(
             this.page,
             this.pageSize,
