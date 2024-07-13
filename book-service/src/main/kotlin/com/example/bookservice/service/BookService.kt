@@ -38,7 +38,7 @@ class BookService(
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key != null) throw DuplicateRequestException(key.idempotencyKey)
+        if (key?.bookId != null) throw DuplicateRequestException(key.idempotencyKey, "book", key.bookId)
         val savedBook = bookRepository.save(request.toEntity())
         idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id))
         return savedBook.toModel()
