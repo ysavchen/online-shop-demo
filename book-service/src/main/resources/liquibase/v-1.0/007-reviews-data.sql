@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset ysavchen:006.01 runOnChange:false splitStatements:false runInTransaction:false
+--changeset ysavchen:007.01 runOnChange:false splitStatements:false runInTransaction:false
 INSERT INTO reviews (title, review_text, author, rating, book_fk)
 VALUES
   (
