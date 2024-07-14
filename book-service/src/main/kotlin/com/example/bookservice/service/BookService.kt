@@ -30,9 +30,8 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun getBookDescription(bookId: UUID): BookDescription {
-        val description = bookRepository.findByIdOrNull(bookId)?.description
-            ?: throw BookNotFoundException(bookId)
-        return BookDescription(description)
+        val bookEntity = bookRepository.findByIdOrNull(bookId) ?: throw BookNotFoundException(bookId)
+        return BookDescription(bookEntity.description)
     }
 
     @Transactional
