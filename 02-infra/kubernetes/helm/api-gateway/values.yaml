@@ -2,7 +2,9 @@ replicaCount: 1
 
 image:
   repository: ysavchen/api-gateway
-  pullPolicy: Always
+  pullPolicy: Always # for dev purposes
+  ports:
+    containerPort: 8080
 
 namespace: online-shop-demo
 
@@ -25,3 +27,10 @@ readinessProbe:
     port: 8080
   failureThreshold: 3
   initialDelaySeconds: 5
+
+configmap:
+  data:
+    redisHost: host.docker.internal
+    redisPort: 6379
+    bookServiceUrl: book-service:8080
+    orderServiceUrl: order-service:8080

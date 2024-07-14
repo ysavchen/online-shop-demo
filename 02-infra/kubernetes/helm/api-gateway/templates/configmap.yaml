@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: api-gateway-config
-  namespace: online-shop-demo
+  name: {{ include "api-gateway.fullname" . }}-config
+  namespace: {{ .Values.namespace }}
 data:
-  redisHost: host.docker.internal
-  redisPort: "6379"
-  bookServiceUrl: book-service:8080
-  orderServiceUrl: order-service:8080
+  redisHost: {{ .Values.configmap.data.redisHost }}
+  redisPort: {{ .Values.configmap.data.redisPort | quote }}
+  bookServiceUrl: {{ .Values.configmap.data.bookServiceUrl }}
+  orderServiceUrl: {{ .Values.configmap.data.orderServiceUrl }}

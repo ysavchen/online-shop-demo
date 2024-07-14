@@ -8,9 +8,8 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
-      name: http
       nodePort: 30100
   selector:
     {{- include "api-gateway.selectorLabels" . | nindent 4 }}
