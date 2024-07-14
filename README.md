@@ -8,7 +8,7 @@ Demo application for experiments
 docker-compose up -d
 ```
 2. Run services
-```bash
+```
 ./gradlew bootRun
 ```
 
