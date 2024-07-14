@@ -4,7 +4,7 @@ metadata:
   name: api-gateway-service
   namespace: online-shop-demo
   labels:
-    app: api-gateway-service
+    app: api-gateway
 spec:
   selector:
     app: api-gateway
