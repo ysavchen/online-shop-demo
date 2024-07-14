@@ -18,7 +18,7 @@ spec:
       containers:
         - name: book-service
           image: ysavchen/book-service:0.0.1-SNAPSHOT
-          imagePullPolicy: Always
+          imagePullPolicy: Always # for dev purposes
           ports:
             - containerPort: 8080
           livenessProbe:

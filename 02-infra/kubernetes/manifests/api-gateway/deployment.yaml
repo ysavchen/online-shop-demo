@@ -37,20 +37,20 @@ spec:
             - name: SPRING_DATA_REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: api-gateway-config
+                  name: api-gateway-configmap
                   key: redisHost
             - name: SPRING_DATA_REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: api-gateway-config
+                  name: api-gateway-configmap
                   key: redisPort
             - name: BOOK_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: api-gateway-config
+                  name: api-gateway-configmap
                   key: bookServiceUrl
             - name: ORDER_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: api-gateway-config
+                  name: api-gateway-configmap
                   key: orderServiceUrl
