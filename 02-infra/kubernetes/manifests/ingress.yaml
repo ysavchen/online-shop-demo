@@ -16,14 +16,14 @@ spec:
                 name: api-gateway
                 port:
                   number: 8080
-          - path: /api/v1/books
+          - path: /api/*/books
             pathType: Prefix
             backend:
               service:
                 name: book-service
                 port:
                   number: 8080
-          - path: /api/v1/orders
+          - path: /api/*/orders
             pathType: Prefix
             backend:
               service:
