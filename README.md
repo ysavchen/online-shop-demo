@@ -33,7 +33,13 @@ kubectl apply -f deployment.yaml
 ```bash
 kubectl config set-context --current --namespace=online-shop-demo
 ```
-6. Stop Kubernetes
+6. Set up Nginx Ingress
+```
+minikube addons enable ingress -p local-cluster
+kubectl apply -f ingress.yaml
+minikube tunnel -p local-cluster
+```
+7. Stop Kubernetes
 ```bash
 minikube stop -p local-cluster
 ```
