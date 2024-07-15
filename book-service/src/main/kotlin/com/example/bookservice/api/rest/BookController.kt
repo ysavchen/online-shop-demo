@@ -12,7 +12,7 @@ import java.util.*
 @RequestMapping(BASE_PATH_V1, produces = [MediaType.APPLICATION_JSON_VALUE])
 class BookController(private val bookService: BookService) {
 
-    @PostMapping("/books/search", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/books/search")
     fun books(
         bookRequestParams: BookRequestParams,
         @RequestBody request: BookSearchRequest?
