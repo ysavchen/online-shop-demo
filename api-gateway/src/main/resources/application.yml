@@ -9,9 +9,9 @@ spring:
         - id: book-service
           uri: ${BOOK_SERVICE_URL:http://localhost:8090}
           predicates:
-            - Path=/book-service/**
+            - Path=/api-gateway/api/v1/books/**
           filters:
-            - RewritePath=/book-service/(?<path>.*), /$\{path}
+            - RewritePath=/api-gateway/(?<path>.*), /$\{path}
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
@@ -21,9 +21,9 @@ spring:
         - id: order-service
           uri: ${ORDER_SERVICE_URL:http://localhost:8091}
           predicates:
-            - Path=/order-service/**
+            - Path=/api-gateway/api/v1/orders/**
           filters:
-            - RewritePath=/order-service/(?<path>.*), /$\{path}
+            - RewritePath=/api-gateway/(?<path>.*), /$\{path}
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
