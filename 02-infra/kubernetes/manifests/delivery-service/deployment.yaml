@@ -33,24 +33,8 @@ spec:
               port: 8080
             failureThreshold: 3
             initialDelaySeconds: 5
-          env:
-            - name: SERVER_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: delivery-service-config
-                  key: serverPort
-            - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: delivery-service-config
-                  key: postgresUrl
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: username
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: password
+          envFrom:
+            - configMapRef:
+                name: delivery-service-config
+            - secretRef:
+                name: postgres-secret

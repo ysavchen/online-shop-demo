@@ -33,24 +33,6 @@ spec:
               port: 8080
             failureThreshold: 3
             initialDelaySeconds: 5
-          env:
-            - name: SPRING_DATA_REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: redisHost
-            - name: SPRING_DATA_REDIS_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: redisPort
-            - name: BOOK_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: bookServiceUrl
-            - name: ORDER_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: orderServiceUrl
+          envFrom:
+            - configMapRef:
+                name: api-gateway-config

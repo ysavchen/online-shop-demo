@@ -4,7 +4,7 @@ metadata:
   name: {{ include "api-gateway.fullname" . }}-config
   namespace: {{ .Values.namespace }}
 data:
-  redisHost: {{ .Values.configmap.data.redisHost }}
-  redisPort: {{ .Values.configmap.data.redisPort | quote }}
-  bookServiceUrl: {{ .Values.configmap.data.bookServiceUrl }}
-  orderServiceUrl: {{ .Values.configmap.data.orderServiceUrl }}
+  REDIS_HOST: {{ .Values.configmap.data.redisHost }}
+  REDIS_PORT: {{ .Values.configmap.data.redisPort | quote }}
+  BOOK_SERVICE_URL: {{ .Values.configmap.data.bookServiceUrl }}
+  ORDER_SERVICE_URL: {{ .Values.configmap.data.orderServiceUrl }}

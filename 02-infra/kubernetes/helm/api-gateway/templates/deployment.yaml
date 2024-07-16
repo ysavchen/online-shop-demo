@@ -29,24 +29,6 @@ spec:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
-          env:
-            - name: SPRING_DATA_REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: redisHost
-            - name: SPRING_DATA_REDIS_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: redisPort
-            - name: BOOK_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: bookServiceUrl
-            - name: ORDER_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: api-gateway-config
-                  key: orderServiceUrl
+          envFrom:
+            - configMapRef:
+                name: {{ include "api-gateway.fullname" . }}-config

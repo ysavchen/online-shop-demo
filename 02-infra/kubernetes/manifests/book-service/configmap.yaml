@@ -4,5 +4,5 @@ metadata:
   name: book-service-config
   namespace: online-shop-demo
 data:
-  serverPort: "8080"
-  postgresUrl: jdbc:postgresql://host.docker.internal:5432/online_shop_demo?currentSchema=book_service
+  SERVER_PORT: "8080"
+  POSTGRES_URL: jdbc:postgresql://host.docker.internal:5432/online_shop_demo?currentSchema=book_service

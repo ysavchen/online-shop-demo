@@ -4,7 +4,7 @@ metadata:
   name: api-gateway-config
   namespace: online-shop-demo
 data:
-  redisHost: host.docker.internal
-  redisPort: "6379"
-  bookServiceUrl: book-service:8080
-  orderServiceUrl: order-service:8080
+  REDIS_HOST: host.docker.internal
+  REDIS_PORT: "6379"
+  BOOK_SERVICE_URL: book-service:8080
+  ORDER_SERVICE_URL: order-service:8080
