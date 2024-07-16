@@ -64,7 +64,7 @@ data class BookEntity(
 }
 
 enum class CurrencyEntity {
-    RUB
+    RUB, EUR
 }
 
 enum class GenreEntity {

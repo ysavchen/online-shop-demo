@@ -36,7 +36,7 @@ data class BookDescription(
 )
 
 enum class Currency {
-    RUB
+    RUB, EUR
 }
 
 enum class Genre {

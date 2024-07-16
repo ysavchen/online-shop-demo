@@ -46,10 +46,12 @@ object BookMapper {
 
     private fun CurrencyEntity.toModel() = when (this) {
         CurrencyEntity.RUB -> Currency.RUB
+        CurrencyEntity.EUR -> Currency.EUR
     }
 
     private fun Currency.toEntity() = when (this) {
         Currency.RUB -> CurrencyEntity.RUB
+        Currency.EUR -> CurrencyEntity.EUR
     }
 
     internal fun Page<BookEntity>.toPagedModel() = PagedModel(
