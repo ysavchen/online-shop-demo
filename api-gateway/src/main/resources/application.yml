@@ -15,9 +15,9 @@ spring:
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter:
-                  replenishRate: 1 # допустимое количество запросов в секунду при нормальной нагрузке
-                  burstCapacity: 60 # максимальное количество запросов в секунду в случае всплеска нагрузки
-                  requestedTokens: 60 # вес запроса в виде количества токенов в корзине
+                  replenishRate: 15 # допустимое количество запросов в секунду при нормальной нагрузке
+                  burstCapacity: 15 # максимальное количество запросов в секунду в случае всплеска нагрузки
+                  requestedTokens: 1 # вес запроса в виде количества токенов в корзине
 
         - id: order-service
           uri: ${ORDER_SERVICE_URL:http://localhost:8091}
