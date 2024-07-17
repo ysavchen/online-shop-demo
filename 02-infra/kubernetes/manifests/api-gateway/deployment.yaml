@@ -17,10 +17,12 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: ysavchen/api-gateway:0.0.1-SNAPSHOT
+          image: ysavchen/api-gateway:1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          securityContext:
+            runAsUser: 1000
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness

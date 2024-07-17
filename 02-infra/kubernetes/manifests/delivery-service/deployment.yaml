@@ -17,10 +17,12 @@ spec:
     spec:
       containers:
         - name: delivery-service
-          image: ysavchen/delivery-service:0.0.1-SNAPSHOT
+          image: ysavchen/delivery-service:1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          securityContext:
+            runAsUser: 1000
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
