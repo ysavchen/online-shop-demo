@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: liquibase/v-1.0/001-updated-at-func.sql
-      relativeToChangelogFile: false
-  - include:
-      file: liquibase/v-1.0/002-orders-table.sql
-      relativeToChangelogFile: false

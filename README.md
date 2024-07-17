@@ -19,7 +19,7 @@ docker-compose up -d
 ```
 2. Push image to Docker Hub
 ```bash
-docker push ysavchen/book-service:0.0.1-SNAPSHOT
+docker push ysavchen/book-service:1.0.0
 ```
 3. Start Kubernetes with profile name 'local-cluster'
 ```bash
