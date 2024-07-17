@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 val dockerHubRepository = "ysavchen"
 
 java {
@@ -30,8 +30,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.liquibase:liquibase-core")
     runtimeOnly("org.postgresql:postgresql")
+    implementation("org.liquibase:liquibase-core")
+    implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:postgresql:1.19.8")
