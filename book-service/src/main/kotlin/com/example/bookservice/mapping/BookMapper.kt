@@ -32,6 +32,10 @@ object BookMapper {
         currency = currency?.toEntity()
     )
 
+    internal fun Page<BookEntity>.toPagedModel() = PagedModel(
+        this.map { it.toModel() }
+    )
+
     private fun GenreEntity.toModel() = when (this) {
         GenreEntity.HEALTH -> Genre.HEALTH
         GenreEntity.TRAVEL -> Genre.TRAVEL
@@ -54,7 +58,4 @@ object BookMapper {
         Currency.EUR -> CurrencyEntity.EUR
     }
 
-    internal fun Page<BookEntity>.toPagedModel() = PagedModel(
-        this.map { it.toModel() }
-    )
 }

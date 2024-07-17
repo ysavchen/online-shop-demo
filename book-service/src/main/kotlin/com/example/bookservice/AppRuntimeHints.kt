@@ -11,6 +11,8 @@ import org.springframework.aot.hint.RuntimeHintsRegistrar
 import java.util.*
 
 /**
+ * При компиляции GraalVM анализирует достижимость классов, полей, методов и удаляет все лишнее.
+ *
  * Хинты подсказывают, какие классы, методы, ресурсы дополнительно понадобятся в Runtime,
  * чтобы GraalVM добавил их в native image.
  *
