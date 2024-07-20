@@ -37,7 +37,6 @@ server:
 
 management:
   health:
-    redis.enabled: true
     probes.enabled: true
   endpoint:
     gateway.enabled: true
