@@ -5,6 +5,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=delivery_service
     username: app_user
     password: app_password
+    hikari:
+      connection-timeout: 3000 # default is 30000
   jpa:
     open-in-view: false
   liquibase:
@@ -16,7 +18,16 @@ server:
 
 management:
   health:
-    probes.enabled: true
+    disk-space.enabled: false
+  endpoint:
+    health:
+      show-components: always
+      probes.enabled: true
+      group:
+        readiness:
+          include:
+            - readinessState
+            - db
   endpoints:
     web.exposure.include: health,metrics,prometheus
   metrics:
