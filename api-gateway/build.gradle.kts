@@ -22,13 +22,20 @@ repositories {
 extra["springCloudVersion"] = "2023.0.2"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    // Gateway
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+
+    // Database
+    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Observability
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 }
 
 dependencyManagement {
