@@ -51,6 +51,7 @@ http://localhost:9090/targets?search=
 ```
 2. Check Grafana dashboard
 ```
+url: http://localhost:3000
 username: admin
 password: admin
 ```
