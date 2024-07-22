@@ -1,6 +1,7 @@
 package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.RestCompanion.BASE_PATH_V1
+import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.model.OrderRequestParams
 import com.example.orderservice.service.OrderService
@@ -19,5 +20,11 @@ class OrderController(private val orderService: OrderService) {
 
     @GetMapping("/orders/{orderId}")
     fun orderById(@PathVariable("orderId") orderId: UUID): Order = orderService.getOrderById(orderId)
+
+    @PostMapping("/orders", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun createOrder(
+        @RequestHeader("Idempotency-Key") idempotencyKey: UUID,
+        @RequestBody request: CreateOrderRequest
+    ): Order = orderService.createOrder(idempotencyKey, request)
 
 }
