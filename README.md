@@ -45,13 +45,14 @@ minikube stop -p local-cluster
 ```
 
 ### Observability
+
+#### Metrics
 1. Check Prometheus reads metrics
 ```
 http://localhost:9090/targets?search=
 ```
 2. Check Grafana dashboard
 ```
-url: http://localhost:3000
-username: admin
-password: admin
+http://localhost:3000
+admin / admin
 ```
