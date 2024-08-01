@@ -1,6 +1,7 @@
 package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.RestCompanion.BASE_PATH_V1
+import com.example.orderservice.api.rest.RestCompanion.IDEMPOTENCY_KEY
 import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.model.OrderRequestParams
@@ -23,7 +24,7 @@ class OrderController(private val orderService: OrderService) {
 
     @PostMapping("/orders", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun createOrder(
-        @RequestHeader("Idempotency-Key") idempotencyKey: UUID,
+        @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest
     ): Order = orderService.createOrder(idempotencyKey, request)
 
