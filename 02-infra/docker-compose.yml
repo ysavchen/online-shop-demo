@@ -1,4 +1,6 @@
 services:
+
+  ### Databases ###
   postgres:
     image: postgres:16.3-alpine
     container_name: postgres
@@ -21,6 +23,8 @@ services:
     networks:
       - database
 
+
+  ### Kafka ###
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     hostname: kafka
@@ -80,6 +84,8 @@ services:
     networks:
       - kafka
 
+
+  ### Observability ###
   prometheus:
     image: prom/prometheus:v2.53.1
     container_name: prometheus
@@ -95,7 +101,8 @@ services:
     networks:
       - observability
 
-  ### Grafana stack ###
+
+  ## Grafana stack ##
   loki:
     image: grafana/loki:2.9.2
     container_name: loki
@@ -158,7 +165,8 @@ services:
     networks:
       - observability
 
-  ### ELK stack ###
+
+  ## ELK stack ##
   logstash:
     image: logstash:8.14.1
     container_name: logstash
