@@ -46,6 +46,9 @@ minikube stop -p local-cluster
 
 ### Observability
 
+#### Logging
+Application -> Grafana Loki -> Grafana
+
 #### Metrics
 1. Check Prometheus reads metrics
 ```
