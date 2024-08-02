@@ -49,6 +49,9 @@ minikube stop -p local-cluster
 #### Logging
 Application -> Grafana Loki -> Grafana
 
+#### Tracing
+Application -> Grafana Tempo -> Grafana
+
 #### Metrics
 1. Check Prometheus reads metrics
 ```
@@ -57,5 +60,4 @@ http://localhost:9090/targets?search=
 2. Check Grafana dashboard
 ```
 http://localhost:3000
-admin / admin
 ```
