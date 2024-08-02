@@ -2,6 +2,7 @@ package com.example.bookservice.api.rest.error
 
 import com.example.bookservice.api.rest.model.ErrorCode
 import com.example.bookservice.api.rest.model.ErrorResponse
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,6 +13,10 @@ import java.util.*
 
 @RestControllerAdvice
 class ControllerAdvice {
+
+    companion object {
+        private val logger = KotlinLogging.logger(this::class.java.name)
+    }
 
     @ExceptionHandler
     fun serviceException(ex: ServiceException, request: HttpServletRequest): ResponseEntity<ErrorResponse> =
@@ -27,8 +32,8 @@ class ControllerAdvice {
         )
 
     @ExceptionHandler
-    fun exception(ex: Exception, request: HttpServletRequest): ResponseEntity<ErrorResponse> =
-        ResponseEntity(
+    fun exception(ex: Exception, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
+        val response = ResponseEntity(
             ErrorResponse(
                 errorId = UUID.randomUUID(),
                 timestamp = OffsetDateTime.now(),
@@ -39,4 +44,7 @@ class ControllerAdvice {
             ),
             HttpStatus.INTERNAL_SERVER_ERROR
         )
+        logger.error { "Error: ${ex.message}, response: $response" }
+        return response
+    }
 }
