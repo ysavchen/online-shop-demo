@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS books
     description  text,
     genre        varchar(50)      NOT NULL,
     release_date date,
-    quantity     smallint         NOT NULL,
+    quantity     integer          NOT NULL,
     price        numeric(12, 2),
     currency     varchar(3),
     created_at   timestamptz      NOT NULL DEFAULT NOW(),
