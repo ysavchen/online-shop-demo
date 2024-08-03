@@ -8,6 +8,7 @@ import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.repository.BookRepository
+import com.example.bookservice.repository.BookRepository.Companion.searchSpec
 import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import org.springframework.data.repository.findByIdOrNull
@@ -24,7 +25,7 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun getBooks(bookRequestParams: BookRequestParams, request: BookSearchRequest?): PagedModel<Book> =
-        bookRepository.findAll(bookRequestParams.toPageable()).toPagedModel()
+        bookRepository.findAll(searchSpec(request), bookRequestParams.toPageable()).toPagedModel()
 
     @Transactional(readOnly = true)
     fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()

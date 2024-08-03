@@ -44,7 +44,7 @@ class ControllerAdvice {
             ),
             HttpStatus.INTERNAL_SERVER_ERROR
         )
-        logger.error { "Error: ${ex.message}, response: $response" }
+        logger.error(ex) { "Error response: $response" }
         return response
     }
 }
