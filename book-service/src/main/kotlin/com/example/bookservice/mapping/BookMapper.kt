@@ -28,6 +28,7 @@ object BookMapper {
         description = description,
         genre = genre.toEntity(),
         releaseDate = releaseDate,
+        quantity = quantity,
         price = price,
         currency = currency?.toEntity()
     )

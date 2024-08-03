@@ -31,6 +31,9 @@ data class BookEntity(
     @Column(name = "release_date")
     val releaseDate: LocalDate?,
 
+    @Column(name = "quantity")
+    val quantity: Int,
+
     @Column(name = "price", columnDefinition = "NUMERIC")
     val price: BigDecimal?,
 
@@ -47,8 +50,7 @@ data class BookEntity(
         if (id != other.id) return false
         if (title != other.title) return false
         if (!authors.contentEquals(other.authors)) return false
-        if (description != other.description) return false
-        if (price != other.price) return false
+        if (genre != other.genre) return false
 
         return true
     }
@@ -57,8 +59,7 @@ data class BookEntity(
         var result = id.hashCode()
         result = 31 * result + title.hashCode()
         result = 31 * result + authors.contentHashCode()
-        result = 31 * result + description.hashCode()
-        result = 31 * result + price.hashCode()
+        result = 31 * result + genre.hashCode()
         return result
     }
 }

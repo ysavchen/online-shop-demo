@@ -17,6 +17,7 @@ data class CreateBookRequest(
     val description: String?,
     val genre: Genre,
     val releaseDate: LocalDate?,
+    val quantity: Int,
     val price: BigDecimal?,
     val currency: Currency?
 )
