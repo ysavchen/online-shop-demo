@@ -47,13 +47,13 @@ minikube stop -p local-cluster
 ### Observability
 
 #### Logging
-Application -> Grafana Loki -> Grafana
+Service -> Grafana Loki -> Grafana
 
 #### Tracing
-Application -> Grafana Tempo -> Grafana
+Service -> Grafana Tempo -> Grafana
 
 #### Metrics
-Application -> Prometheus -> Grafana
+Service -> Prometheus -> Grafana
 ```
 http://localhost:9090/targets?search=
 ```
