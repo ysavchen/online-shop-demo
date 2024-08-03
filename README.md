@@ -53,11 +53,12 @@ Application -> Grafana Loki -> Grafana
 Application -> Grafana Tempo -> Grafana
 
 #### Metrics
-1. Check Prometheus reads metrics
+Application -> Prometheus -> Grafana
 ```
 http://localhost:9090/targets?search=
 ```
-2. Check Grafana dashboard
+
+#### Grafana
 ```
 http://localhost:3000
 ```
