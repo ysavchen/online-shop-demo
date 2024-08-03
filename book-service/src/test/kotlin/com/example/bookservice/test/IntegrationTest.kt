@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
 import org.testcontainers.containers.PostgreSQLContainer
 
@@ -15,6 +16,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 
 @DisabledInAotMode
 @AutoConfigureMockMvc
+@ActiveProfiles("junit")
 @Import(IntegrationTestConfiguration::class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 annotation class IntegrationTest
