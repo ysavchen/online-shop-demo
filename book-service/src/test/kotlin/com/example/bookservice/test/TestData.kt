@@ -1,4 +1,4 @@
-package com.example.bookservice
+package com.example.bookservice.test
 
 import com.example.bookservice.repository.entity.BookEntity
 import com.example.bookservice.repository.entity.CurrencyEntity

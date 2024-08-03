@@ -1,24 +1,16 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.PostgresConfiguration
-import com.example.bookservice.TestData.bookEntity
 import com.example.bookservice.repository.BookRepository
+import com.example.bookservice.test.IntegrationTest
+import com.example.bookservice.test.TestData.bookEntity
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
-import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.test.context.aot.DisabledInAotMode
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
-@Import(PostgresConfiguration::class)
-@AutoConfigureMockMvc
-@DisabledInAotMode
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@IntegrationTest
 class BookControllerTests {
 
     @Autowired
