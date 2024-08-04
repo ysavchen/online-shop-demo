@@ -1,8 +1,8 @@
 package com.example.bookservice.mapping
 
-import com.example.bookservice.api.rest.model.BookRequestParams
-import com.example.bookservice.api.rest.model.ReviewRequestParams
-import com.example.bookservice.api.rest.error.UnsupportedSortingException
+import com.example.bookservice.api.rest.BookRequestParams
+import com.example.bookservice.api.rest.ReviewRequestParams
+import com.example.bookservice.api.rest.UnsupportedSortingException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction

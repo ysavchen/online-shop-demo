@@ -1,4 +1,4 @@
-package com.example.bookservice.api.rest.error
+package com.example.bookservice.api.rest
 
 import com.example.bookservice.api.rest.model.ErrorCode
 import org.springframework.http.HttpStatus

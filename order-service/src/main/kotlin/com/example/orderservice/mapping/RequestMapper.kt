@@ -1,7 +1,7 @@
 package com.example.orderservice.mapping
 
-import com.example.orderservice.api.rest.error.UnsupportedSortingException
-import com.example.orderservice.api.rest.model.OrderRequestParams
+import com.example.orderservice.api.rest.UnsupportedSortingException
+import com.example.orderservice.api.rest.OrderRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction

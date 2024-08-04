@@ -1,7 +1,7 @@
-package com.example.bookservice.api.rest.error
+package com.example.orderservice.api.rest
 
-import com.example.bookservice.api.rest.model.ErrorCode
-import com.example.bookservice.api.rest.model.ErrorResponse
+import com.example.orderservice.api.rest.model.ErrorCode
+import com.example.orderservice.api.rest.model.ErrorResponse
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
@@ -15,7 +15,7 @@ import java.util.*
 class ControllerAdvice {
 
     companion object {
-        private val logger = KotlinLogging.logger(this::class.java.name)
+        private val logger = KotlinLogging.logger(ControllerAdvice::class.java.name)
     }
 
     @ExceptionHandler

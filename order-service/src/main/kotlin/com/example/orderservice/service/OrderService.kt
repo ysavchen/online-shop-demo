@@ -1,9 +1,9 @@
 package com.example.orderservice.service
 
 import com.example.orderservice.api.rest.model.Order
-import com.example.orderservice.api.rest.error.OrderNotFoundException
+import com.example.orderservice.api.rest.OrderNotFoundException
 import com.example.orderservice.api.rest.model.CreateOrderRequest
-import com.example.orderservice.api.rest.model.OrderRequestParams
+import com.example.orderservice.api.rest.OrderRequestParams
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.mapping.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.RequestMapper.toPageable

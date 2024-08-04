@@ -1,7 +1,5 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.api.rest.RestCompanion.BASE_PATH_V1
-import com.example.bookservice.api.rest.RestCompanion.IDEMPOTENCY_KEY
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.service.BookService
 import org.springframework.data.web.PagedModel
@@ -10,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping(BASE_PATH_V1, produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/api/v1", produces = [MediaType.APPLICATION_JSON_VALUE])
 class BookController(private val bookService: BookService) {
 
     @PostMapping("/books/search")

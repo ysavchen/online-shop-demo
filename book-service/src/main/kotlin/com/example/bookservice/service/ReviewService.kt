@@ -1,8 +1,8 @@
 package com.example.bookservice.service
 
-import com.example.bookservice.api.rest.error.ReviewNotFoundException
+import com.example.bookservice.api.rest.ReviewNotFoundException
 import com.example.bookservice.api.rest.model.Review
-import com.example.bookservice.api.rest.model.ReviewRequestParams
+import com.example.bookservice.api.rest.ReviewRequestParams
 import com.example.bookservice.api.rest.model.ReviewSearchRequest
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.mapping.ReviewMapper.toModel

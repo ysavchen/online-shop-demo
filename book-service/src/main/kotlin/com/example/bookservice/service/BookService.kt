@@ -1,7 +1,8 @@
 package com.example.bookservice.service
 
-import com.example.bookservice.api.rest.error.BookNotFoundException
-import com.example.bookservice.api.rest.error.DuplicateRequestException
+import com.example.bookservice.api.rest.BookNotFoundException
+import com.example.bookservice.api.rest.BookRequestParams
+import com.example.bookservice.api.rest.DuplicateRequestException
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
