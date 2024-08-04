@@ -1,6 +1,7 @@
 spring:
   application:
     name: order-service
+    org: online-shop-demo
   threads:
     virtual.enabled: true
   datasource:
@@ -31,9 +32,14 @@ management:
             - db
   endpoints:
     web.exposure.include: health,metrics,prometheus
+  observations:
+    key-values.org: ${spring.application.org}
   metrics:
     tags:
       application: ${spring.application.name}
     distribution:
       percentiles-histogram:
-        "[http.server.requests]": true
+        http.server.requests: true
+  tracing:
+    sampling:
+      probability: 1.0

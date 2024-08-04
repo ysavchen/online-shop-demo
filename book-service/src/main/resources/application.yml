@@ -1,6 +1,7 @@
 spring:
   application:
     name: book-service
+    org: online-shop-demo
   datasource:
     url: jdbc:postgresql://localhost:5432/online_shop_demo?currentSchema=book_service
     username: app_user
@@ -33,9 +34,14 @@ management:
             - db
   endpoints:
     web.exposure.include: health,metrics,prometheus
+  observations:
+    key-values.org: ${spring.application.org}
   metrics:
     tags:
       application: ${spring.application.name}
     distribution:
       percentiles-histogram:
-        "[http.server.requests]": true
+        http.server.requests: true
+  tracing:
+    sampling:
+      probability: 1.0
