@@ -5,6 +5,7 @@ Demo application for experiments
 ### Run application locally
 1. Start local infra
 ```bash
+cd 02-infra
 docker-compose up -d
 ```
 2. Run services
@@ -54,11 +55,7 @@ Service -> Grafana Tempo -> Grafana
 
 #### Metrics
 Service -> Prometheus -> Grafana
-```
-http://localhost:9090/targets?search=
-```
 
-#### Grafana
-```
-http://localhost:3000
-```
+### Useful URLs
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000
