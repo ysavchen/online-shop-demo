@@ -49,6 +49,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
     implementation("com.github.loki4j:loki-logback-appender:1.5.2")
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 }
 
