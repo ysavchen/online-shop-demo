@@ -16,6 +16,7 @@
             <message>
                 <pattern>
                     {
+                    "timestamp":"%timestamp",
                     "thread":"%thread",
                     "level":"%level",
                     "class":"%logger{36}",
