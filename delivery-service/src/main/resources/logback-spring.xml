@@ -13,18 +13,7 @@
                 <pattern>org=${orgName},application=${appName},host=${HOSTNAME},level=%level</pattern>
                 <readMarkers>true</readMarkers>
             </label>
-            <message>
-                <pattern>
-                    {
-                    "timestamp":"%timestamp_ms",
-                    "thread":"%thread",
-                    "level":"%level",
-                    "class":"%logger{36}",
-                    "message": "%message",
-                    "requestId": "%X{X-Request-ID}"
-                    }
-                </pattern>
-            </message>
+            <message class="com.github.loki4j.logback.JsonLayout"/>
         </format>
     </appender>
 
