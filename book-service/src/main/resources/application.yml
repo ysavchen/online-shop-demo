@@ -10,7 +10,7 @@ spring:
       connection-timeout: 3000 # default is 30000
   data.web:
     pageable:
-      one-indexed-parameters: true
+      one-indexed-parameters: true # config doesn't work
   jpa:
     open-in-view: false
   liquibase:

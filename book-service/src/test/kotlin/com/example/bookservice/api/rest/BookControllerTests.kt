@@ -6,6 +6,7 @@ import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.TestData.bookEntity
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -35,14 +36,15 @@ class BookControllerTests {
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search") {
+        mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(searchRequest)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            //content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
+            content { string(containsString(bookEntity.id.toString())) }
+            content { string(containsString(bookEntity.title)) }
         }
     }
 
@@ -56,14 +58,15 @@ class BookControllerTests {
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search") {
+        mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(searchRequest)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            //content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
+            content { string(containsString(bookEntity.id.toString())) }
+            content { string(containsString(bookEntity.title)) }
         }
     }
 
