@@ -1,8 +1,11 @@
 package com.example.bookservice.api.rest
 
+import com.example.bookservice.api.rest.model.BookSearchRequest
+import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.TestData.bookEntity
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -19,14 +22,48 @@ class BookControllerTests {
     @Autowired
     lateinit var bookRepository: BookRepository
 
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
+
     @Test
-    fun `search books`() {
+    fun `search books by title`() {
+        val bookEntity = bookRepository.save(bookEntity())
+        val searchRequest = BookSearchRequest(
+            query = bookEntity.title,
+            genre = null,
+            minPrice = null,
+            maxPrice = null
+        )
+
         mockMvc.post("/api/v1/books/search") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(searchRequest)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
+            //content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
+        }
+    }
+
+    @Test
+    fun `search books by genre`() {
+        val bookEntity = bookRepository.save(bookEntity())
+        val searchRequest = BookSearchRequest(
+            query = null,
+            genre = bookEntity.genre.name.lowercase(),
+            minPrice = null,
+            maxPrice = null
+        )
+
+        mockMvc.post("/api/v1/books/search") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(searchRequest)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            //content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
         }
     }
 
@@ -39,6 +76,7 @@ class BookControllerTests {
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
         }
     }
 
