@@ -4,6 +4,7 @@ import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.service.OrderService
 import org.springframework.data.web.PagedModel
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -20,6 +21,7 @@ class OrderController(private val orderService: OrderService) {
     fun orderById(@PathVariable("orderId") orderId: UUID): Order = orderService.getOrderById(orderId)
 
     @PostMapping("/orders", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @ResponseStatus(HttpStatus.CREATED)
     fun createOrder(
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest

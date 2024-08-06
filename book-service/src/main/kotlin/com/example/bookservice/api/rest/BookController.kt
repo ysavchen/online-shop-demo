@@ -1,8 +1,12 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.api.rest.model.*
+import com.example.bookservice.api.rest.model.Book
+import com.example.bookservice.api.rest.model.BookDescription
+import com.example.bookservice.api.rest.model.BookSearchRequest
+import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.service.BookService
 import org.springframework.data.web.PagedModel
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -25,6 +29,7 @@ class BookController(private val bookService: BookService) {
         bookService.getBookDescription(bookId)
 
     @PostMapping("/books", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @ResponseStatus(HttpStatus.CREATED)
     fun createBook(
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateBookRequest
