@@ -62,4 +62,3 @@ Service -> Prometheus -> Grafana
 - Alertmanager: http://localhost:9093
 - Maildev: http://localhost:9094
 - Grafana: http://localhost:3000
-- Kibana: http://localhost:5601
