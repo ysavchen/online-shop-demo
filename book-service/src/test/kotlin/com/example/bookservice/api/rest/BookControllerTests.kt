@@ -4,8 +4,8 @@ import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.test.IntegrationTest
-import com.example.bookservice.test.TestData.bookEntity
-import com.example.bookservice.test.TestData.createBookRequest
+import com.example.bookservice.test.BookTestData.bookEntity
+import com.example.bookservice.test.BookTestData.createBookRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString

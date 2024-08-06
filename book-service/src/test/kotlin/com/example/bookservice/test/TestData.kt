@@ -8,7 +8,7 @@ import com.example.bookservice.repository.entity.CurrencyEntity
 import com.example.bookservice.repository.entity.GenreEntity
 import org.apache.commons.lang3.RandomStringUtils.*
 
-object TestData {
+object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
         title = randomAlphabetic(15),
