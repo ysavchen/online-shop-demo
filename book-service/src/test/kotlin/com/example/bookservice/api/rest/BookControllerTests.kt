@@ -83,4 +83,17 @@ class BookControllerTests {
         }
     }
 
+    @Test
+    fun `get book description`() {
+        val bookEntity = bookRepository.save(bookEntity())
+
+        mockMvc.get("/api/v1/books/${bookEntity.id}/description") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json("""{"description": "${bookEntity.description}"}""") }
+        }
+    }
+
 }
