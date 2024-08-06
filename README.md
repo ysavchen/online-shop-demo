@@ -57,5 +57,9 @@ Service -> Grafana Tempo -> Grafana
 Service -> Prometheus -> Grafana
 
 ### Useful URLs
+- Kafka UI: http://localhost:9095
 - Prometheus: http://localhost:9090
+- Alertmanager: http://localhost:9093
+- Maildev: http://localhost:9094
 - Grafana: http://localhost:3000
+- Kibana: http://localhost:5601
