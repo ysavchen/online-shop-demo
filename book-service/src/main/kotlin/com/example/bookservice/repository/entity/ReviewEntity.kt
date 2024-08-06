@@ -1,9 +1,7 @@
 package com.example.bookservice.repository.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
 import java.util.*
 
@@ -11,6 +9,8 @@ import java.util.*
 @Table(name = "reviews")
 data class ReviewEntity(
     @Id
+    @GeneratedValue
+    @UuidGenerator
     @Column(name = "id")
     val id: UUID? = null,
 
