@@ -5,7 +5,9 @@ import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.TestData.bookEntity
+import com.example.bookservice.test.TestData.createBookRequest
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import java.util.*
 
 @IntegrationTest
 class BookControllerTests {
@@ -28,58 +31,60 @@ class BookControllerTests {
 
     @Test
     fun `search books by title`() {
-        val bookEntity = bookRepository.save(bookEntity())
-        val searchRequest = BookSearchRequest(
-            query = bookEntity.title,
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = BookSearchRequest(
+            query = book.title,
             genre = null,
             minPrice = null,
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search?page=0") {
+        val result = mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(searchRequest)
+            content = objectMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(bookEntity.id.toString())) }
-            content { string(containsString(bookEntity.title)) }
-        }
+        }.andReturn()
+
+        val expectedBook = objectMapper.writeValueAsString(book)
+        assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
     @Test
     fun `search books by genre`() {
-        val bookEntity = bookRepository.save(bookEntity())
-        val searchRequest = BookSearchRequest(
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = BookSearchRequest(
             query = null,
-            genre = bookEntity.genre.name.lowercase(),
+            genre = book.genre.name.lowercase(),
             minPrice = null,
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search?page=0") {
+        val result = mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(searchRequest)
+            content = objectMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(bookEntity.id.toString())) }
-            content { string(containsString(bookEntity.title)) }
-        }
+        }.andReturn()
+
+        val expectedBook = objectMapper.writeValueAsString(book)
+        assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
     @Test
     fun `get book by id`() {
-        val bookEntity = bookRepository.save(bookEntity())
+        val book = bookRepository.save(bookEntity()).toModel()
 
-        mockMvc.get("/api/v1/books/${bookEntity.id}") {
+        mockMvc.get("/api/v1/books/${book.id}") {
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(objectMapper.writeValueAsString(bookEntity.toModel())) }
+            content { json(objectMapper.writeValueAsString(book)) }
         }
     }
 
@@ -93,6 +98,23 @@ class BookControllerTests {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json("""{"description": "${bookEntity.description}"}""") }
+        }
+    }
+
+    @Test
+    fun `create book`() {
+        val request = createBookRequest()
+        val idempotencyKey = UUID.randomUUID()
+
+        mockMvc.post("/api/v1/books") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(request.title)) }
         }
     }
 

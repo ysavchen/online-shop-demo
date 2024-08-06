@@ -3,6 +3,7 @@ package com.example.orderservice.repository
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
@@ -11,6 +12,8 @@ import java.util.*
 @Table(name = "orders")
 data class OrderEntity(
     @Id
+    @GeneratedValue
+    @UuidGenerator
     @Column(name = "id")
     val id: UUID? = null,
 

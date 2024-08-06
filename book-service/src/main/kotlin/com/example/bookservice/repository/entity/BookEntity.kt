@@ -3,6 +3,7 @@ package com.example.bookservice.repository.entity
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
@@ -11,6 +12,8 @@ import java.util.*
 @Table(name = "books")
 data class BookEntity(
     @Id
+    @GeneratedValue
+    @UuidGenerator
     @Column(name = "id")
     val id: UUID? = null,
 
