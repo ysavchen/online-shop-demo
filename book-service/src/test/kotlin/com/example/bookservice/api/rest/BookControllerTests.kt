@@ -79,13 +79,15 @@ class BookControllerTests {
     fun `get book by id`() {
         val book = bookRepository.save(bookEntity()).toModel()
 
-        mockMvc.get("/api/v1/books/${book.id}") {
+        val result = mockMvc.get("/api/v1/books/${book.id}") {
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(objectMapper.writeValueAsString(book)) }
-        }
+        }.andReturn()
+
+        val expectedBook = objectMapper.writeValueAsString(book)
+        assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
     @Test
