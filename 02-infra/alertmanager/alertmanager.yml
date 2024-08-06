@@ -1,0 +1,12 @@
+global:
+  smtp_smarthost: 'maildev:1025'
+  smtp_hello: 'maildev'
+  smtp_from: 'prometheus@example.org'
+  smtp_require_tls: false
+route:
+  receiver: alert-notification
+  group_by: [ 'alertname' ]
+receivers:
+  - name: alert-notification
+    email_configs:
+      - to: 'alert-notification@example.org'

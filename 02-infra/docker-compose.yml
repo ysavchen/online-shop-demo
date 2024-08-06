@@ -78,7 +78,7 @@ services:
     depends_on:
       - kafka
     ports:
-      - "9093:8080"
+      - "9095:8080"
     environment:
       DYNAMIC_CONFIG_ENABLED: true
       KAFKA_CLUSTERS_0_NAME: local
@@ -103,6 +103,31 @@ services:
     networks:
       - observability
 
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: alertmanager
+    depends_on:
+      - prometheus
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - observability
+
+  maildev:
+    image: maildev/maildev:2.1.0
+    container_name: maildev
+    depends_on:
+      - alertmanager
+    ports:
+      - "9094:1080"
+      - "1025:1025"
+    networks:
+      - observability
 
   ## Grafana stack ##
   loki:
