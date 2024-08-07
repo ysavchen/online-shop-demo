@@ -1,5 +1,6 @@
 package com.example.bookservice.mapping
 
+import com.example.bookservice.api.rest.model.CreateReviewRequest
 import com.example.bookservice.api.rest.model.Review
 import com.example.bookservice.repository.entity.ReviewEntity
 import org.springframework.data.domain.Page
@@ -12,7 +13,16 @@ object ReviewMapper {
         title = title,
         reviewText = reviewText,
         author = author,
-        rating = rating
+        rating = rating,
+        bookId = bookFk
+    )
+
+    internal fun CreateReviewRequest.toEntity() = ReviewEntity(
+        title = title,
+        reviewText = reviewText,
+        author = author,
+        rating = rating,
+        bookFk = bookId
     )
 
     internal fun Page<ReviewEntity>.toPagedModel() = PagedModel(

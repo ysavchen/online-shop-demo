@@ -17,5 +17,8 @@ data class IdempotencyKeyEntity(
     val idempotencyKey: UUID,
 
     @Column(name = "book_id")
-    val bookId: UUID?
+    val bookId: UUID?,
+
+    @Column(name = "review_id")
+    val reviewId: UUID?
 )

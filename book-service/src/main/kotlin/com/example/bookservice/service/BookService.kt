@@ -3,7 +3,10 @@ package com.example.bookservice.service
 import com.example.bookservice.api.rest.BookNotFoundException
 import com.example.bookservice.api.rest.BookRequestParams
 import com.example.bookservice.api.rest.DuplicateRequestException
-import com.example.bookservice.api.rest.model.*
+import com.example.bookservice.api.rest.model.Book
+import com.example.bookservice.api.rest.model.BookDescription
+import com.example.bookservice.api.rest.model.BookSearchRequest
+import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
@@ -43,8 +46,13 @@ class BookService(
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
         if (key?.bookId != null) throw DuplicateRequestException(key.idempotencyKey, key.bookId)
         val savedBook = bookRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id))
+        idempotencyKeyRepository.save(
+            IdempotencyKeyEntity(
+                idempotencyKey = idempotencyKey,
+                bookId = savedBook.id,
+                reviewId = null
+            )
+        )
         return savedBook.toModel()
     }
-
 }

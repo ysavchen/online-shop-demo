@@ -25,9 +25,9 @@ class UnsupportedSortingException(sortBy: String) :
         HttpStatus.BAD_REQUEST
     )
 
-class DuplicateRequestException(key: UUID, bookId: UUID) :
+class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID) :
     ServiceException(
-        "Duplicate request with idempotencyKey=$key, book already created (id=$bookId)",
+        "Duplicate request with idempotencyKey=$idempotencyKey, resource already created with id=$resourceId",
         ErrorCode.REQUEST_ALREADY_PROCESSED,
         HttpStatus.CONFLICT
     )
