@@ -23,6 +23,8 @@ fun randomLocalDate(): LocalDate {
     )
 }
 
-fun randomPrice(): BigDecimal = BigDecimal(Random.nextDouble(from = 100.00, until = 999.99)).round(MathContext(5))
+fun randomPrice(): BigDecimal =
+    BigDecimal(Random.nextDouble(from = 100.00, until = 999.99)).round(MathContext(5))
 
-fun randomRating(): BigDecimal = BigDecimal(Random.nextDouble(from = 1.0, until = 5.0)).round(MathContext(2))
+fun randomRating(): BigDecimal =
+    BigDecimal(Random.nextDouble(from = 1.0, until = 5.0)).round(MathContext(2))
