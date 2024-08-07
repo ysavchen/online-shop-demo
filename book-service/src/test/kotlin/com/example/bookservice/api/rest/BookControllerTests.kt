@@ -1,12 +1,15 @@
 package com.example.bookservice.api.rest
 
+import com.example.bookservice.api.rest.model.Book
 import com.example.bookservice.api.rest.model.BookSearchRequest
+import com.example.bookservice.api.rest.model.ErrorCode
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.Test
@@ -76,6 +79,47 @@ class BookControllerTests {
     }
 
     @Test
+    fun `search non-existing book`() {
+        val request = BookSearchRequest(
+            query = null,
+            genre = randomAlphabetic(15),
+            minPrice = null,
+            maxPrice = null
+        )
+
+        mockMvc.post("/api/v1/books/search?page=0") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(""""content":[]""")) }
+        }
+    }
+
+    @Test
+    fun `search with non-supported sorting`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = BookSearchRequest(
+            query = null,
+            genre = book.genre.name.lowercase(),
+            minPrice = null,
+            maxPrice = null
+        )
+
+        mockMvc.post("/api/v1/books/search?page=0&sortBy=language") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.SORTING_CATEGORY_NOT_SUPPORTED.name)) }
+        }
+    }
+
+    @Test
     fun `get book by id`() {
         val book = bookRepository.save(bookEntity()).toModel()
 
@@ -88,6 +132,17 @@ class BookControllerTests {
 
         val expectedBook = objectMapper.writeValueAsString(book)
         assertThat(result.response.contentAsString).contains(expectedBook)
+    }
+
+    @Test
+    fun `get book by non-existing id`() {
+        mockMvc.get("/api/v1/books/${UUID.randomUUID()}") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isNotFound() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
+        }
     }
 
     @Test
@@ -108,7 +163,7 @@ class BookControllerTests {
         val request = createBookRequest()
         val idempotencyKey = UUID.randomUUID()
 
-        mockMvc.post("/api/v1/books") {
+        val result = mockMvc.post("/api/v1/books") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
@@ -117,6 +172,43 @@ class BookControllerTests {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(request.title)) }
+        }.andReturn()
+
+        val createdBook = objectMapper.readValue(result.response.contentAsString, Book::class.java)
+        assertThat(createdBook)
+            .hasFieldOrProperty("id")
+            .hasFieldOrPropertyWithValue("title", request.title)
+            .hasFieldOrPropertyWithValue("authors", request.authors)
+            .hasFieldOrPropertyWithValue("genre", request.genre)
+            .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
+            .hasFieldOrPropertyWithValue("price", request.price)
+            .hasFieldOrPropertyWithValue("currency", request.currency)
+    }
+
+    @Test
+    fun `duplicate create book request`() {
+        val request = createBookRequest()
+        val idempotencyKey = UUID.randomUUID()
+
+        mockMvc.post("/api/v1/books") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }
+
+        mockMvc.post("/api/v1/books") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isConflict() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
     }
 
