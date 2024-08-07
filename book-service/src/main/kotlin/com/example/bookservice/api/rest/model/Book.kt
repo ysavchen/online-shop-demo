@@ -22,6 +22,13 @@ data class CreateBookRequest(
     val currency: Currency?
 )
 
+data class UpdateBookRequest(
+    val releaseDate: LocalDate?,
+    val quantity: Int,
+    val price: BigDecimal?,
+    val currency: Currency?
+)
+
 data class Book(
     val id: UUID,
     val title: String,

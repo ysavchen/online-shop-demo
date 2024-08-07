@@ -3,13 +3,25 @@ package com.example.bookservice.repository
 import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.repository.entity.BookEntity
 import com.example.bookservice.repository.entity.BookEntity_
+import jakarta.persistence.LockModeType
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Lock
+import org.springframework.data.jpa.repository.Query
 import java.math.BigDecimal
 import java.util.*
 
 interface BookRepository : JpaRepository<BookEntity, UUID>, JpaSpecificationExecutor<BookEntity> {
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query(
+        """
+        SELECT b FROM BookEntity b
+        WHERE b.id = :id
+        """
+    )
+    fun findByIdWithPessimisticWrite(id: UUID): BookEntity?
 
     companion object {
 

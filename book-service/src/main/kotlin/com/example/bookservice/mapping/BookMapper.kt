@@ -38,24 +38,24 @@ object BookMapper {
         this.map { it.toModel() }
     )
 
-    private fun GenreEntity.toModel() = when (this) {
+    internal fun GenreEntity.toModel() = when (this) {
         GenreEntity.HEALTH -> Genre.HEALTH
         GenreEntity.TRAVEL -> Genre.TRAVEL
         GenreEntity.FICTION -> Genre.FICTION
     }
 
-    private fun Genre.toEntity() = when (this) {
+    internal fun Genre.toEntity() = when (this) {
         Genre.HEALTH -> GenreEntity.HEALTH
         Genre.TRAVEL -> GenreEntity.TRAVEL
         Genre.FICTION -> GenreEntity.FICTION
     }
 
-    private fun CurrencyEntity.toModel() = when (this) {
+    internal fun CurrencyEntity.toModel() = when (this) {
         CurrencyEntity.RUB -> Currency.RUB
         CurrencyEntity.EUR -> Currency.EUR
     }
 
-    private fun Currency.toEntity() = when (this) {
+    internal fun Currency.toEntity() = when (this) {
         Currency.RUB -> CurrencyEntity.RUB
         Currency.EUR -> CurrencyEntity.EUR
     }

@@ -3,10 +3,7 @@ package com.example.bookservice.service
 import com.example.bookservice.api.rest.BookNotFoundException
 import com.example.bookservice.api.rest.BookRequestParams
 import com.example.bookservice.api.rest.DuplicateRequestException
-import com.example.bookservice.api.rest.model.Book
-import com.example.bookservice.api.rest.model.BookDescription
-import com.example.bookservice.api.rest.model.BookSearchRequest
-import com.example.bookservice.api.rest.model.CreateBookRequest
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.BookMapper.toPagedModel
@@ -55,4 +52,16 @@ class BookService(
         )
         return savedBook.toModel()
     }
+
+    @Transactional
+    fun updateBook(bookId: UUID, request: UpdateBookRequest): Book {
+        val bookEntity = bookRepository.findByIdWithPessimisticWrite(bookId) ?: throw BookNotFoundException(bookId)
+        return bookEntity.apply {
+            releaseDate = request.releaseDate
+            quantity = request.quantity
+            price = request.price
+            currency = request.currency?.toEntity()
+        }.toModel()
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.api.rest.model.Book
-import com.example.bookservice.api.rest.model.BookDescription
-import com.example.bookservice.api.rest.model.BookSearchRequest
-import com.example.bookservice.api.rest.model.CreateBookRequest
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.service.BookService
 import org.springframework.data.web.PagedModel
 import org.springframework.http.HttpStatus
@@ -34,5 +31,11 @@ class BookController(private val bookService: BookService) {
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateBookRequest
     ): Book = bookService.createBook(idempotencyKey, request)
+
+    @PatchMapping("/books/{bookId}", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateBook(
+        @PathVariable("bookId") bookId: UUID,
+        @RequestBody request: UpdateBookRequest
+    ): Book = bookService.updateBook(bookId, request)
 
 }

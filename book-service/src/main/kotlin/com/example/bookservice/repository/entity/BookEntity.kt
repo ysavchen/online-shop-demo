@@ -32,17 +32,17 @@ data class BookEntity(
     val genre: GenreEntity,
 
     @Column(name = "release_date")
-    val releaseDate: LocalDate?,
+    var releaseDate: LocalDate?,
 
     @Column(name = "quantity")
-    val quantity: Int,
+    var quantity: Int,
 
     @Column(name = "price", columnDefinition = "NUMERIC")
-    val price: BigDecimal?,
+    var price: BigDecimal?,
 
     @Column(name = "currency")
     @Enumerated(EnumType.STRING)
-    val currency: CurrencyEntity?
+    var currency: CurrencyEntity?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
