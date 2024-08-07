@@ -18,6 +18,7 @@ object BookMapper {
         authors = authors.toList(),
         genre = genre.toModel(),
         releaseDate = releaseDate,
+        quantity = quantity,
         price = price,
         currency = currency?.toModel()
     )

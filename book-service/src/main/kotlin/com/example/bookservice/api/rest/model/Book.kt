@@ -28,6 +28,7 @@ data class Book(
     val authors: List<String>,
     val genre: Genre,
     val releaseDate: LocalDate?,
+    val quantity: Int,
     val price: BigDecimal?,
     val currency: Currency?
 )

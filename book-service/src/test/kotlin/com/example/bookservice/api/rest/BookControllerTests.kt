@@ -181,6 +181,7 @@ class BookControllerTests {
             .hasFieldOrPropertyWithValue("authors", request.authors)
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
+            .hasFieldOrPropertyWithValue("quantity", request.quantity)
             .hasFieldOrPropertyWithValue("price", request.price)
             .hasFieldOrPropertyWithValue("currency", request.currency)
     }
