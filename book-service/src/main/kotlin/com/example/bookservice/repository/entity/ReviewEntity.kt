@@ -24,5 +24,8 @@ data class ReviewEntity(
     val author: String,
 
     @Column(name = "rating", nullable = false)
-    val rating: BigDecimal
+    val rating: BigDecimal,
+
+    @Column(name = "book_fk", nullable = false)
+    val bookFk: UUID
 )
