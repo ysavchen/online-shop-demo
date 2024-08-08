@@ -3,20 +3,24 @@ package com.example.bookservice.api.rest
 import com.example.bookservice.api.rest.model.Book
 import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.api.rest.model.ErrorCode
+import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
-import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
+import com.example.bookservice.test.BookTestData.updateBookRequest
+import com.example.bookservice.test.IntegrationTest
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import java.util.*
 
@@ -210,6 +214,27 @@ class BookControllerTests {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
+    }
+
+    @Test
+    fun `update book`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = updateBookRequest()
+
+        mockMvc.patch("/api/v1/books/${book.id}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }
+
+        val updatedBookEntity = bookRepository.findByIdOrNull(book.id)
+        assertThat(updatedBookEntity)
+            .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
+            .hasFieldOrPropertyWithValue("quantity", request.quantity)
+            .hasFieldOrPropertyWithValue("price", request.price?.toEntity())
     }
 
 }
