@@ -1,10 +1,10 @@
 package com.example.orderservice.service
 
 import com.example.orderservice.api.rest.DuplicateRequestException
-import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.OrderNotFoundException
-import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.OrderRequestParams
+import com.example.orderservice.api.rest.model.CreateOrderRequest
+import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.mapping.OrderMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.mapping.OrderMapper.toPagedModel
@@ -28,7 +28,6 @@ class OrderService(
     fun getOrders(orderRequestParams: OrderRequestParams): PagedModel<Order> =
         orderRepository.findAll(orderRequestParams.toPageable()).toPagedModel()
 
-    //todo: add Redis
     @Transactional(readOnly = true)
     fun getOrderById(orderId: UUID): Order = orderRepository.findByIdOrNull(orderId)?.toModel()
         ?: throw OrderNotFoundException(orderId)
