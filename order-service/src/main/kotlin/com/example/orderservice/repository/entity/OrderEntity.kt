@@ -1,4 +1,4 @@
-package com.example.orderservice.repository
+package com.example.orderservice.repository.entity
 
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*

@@ -14,5 +14,6 @@ data class ErrorResponse(
 enum class ErrorCode {
     RESOURCE_NOT_FOUND,
     SORTING_CATEGORY_NOT_SUPPORTED,
+    REQUEST_ALREADY_PROCESSED,
     INTERNAL_SERVER_ERROR
 }

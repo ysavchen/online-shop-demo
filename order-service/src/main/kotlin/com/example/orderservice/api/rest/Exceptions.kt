@@ -21,3 +21,10 @@ class UnsupportedSortingException(sortBy: String) :
         ErrorCode.SORTING_CATEGORY_NOT_SUPPORTED,
         HttpStatus.BAD_REQUEST
     )
+
+class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID) :
+    ServiceException(
+        "Duplicate request with idempotencyKey=$idempotencyKey, resource already created with id=$resourceId",
+        ErrorCode.REQUEST_ALREADY_PROCESSED,
+        HttpStatus.CONFLICT
+    )
