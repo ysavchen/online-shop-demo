@@ -183,7 +183,6 @@ class BookControllerTests {
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
             .hasFieldOrPropertyWithValue("quantity", request.quantity)
             .hasFieldOrPropertyWithValue("price", request.price)
-            .hasFieldOrPropertyWithValue("currency", request.currency)
     }
 
     @Test

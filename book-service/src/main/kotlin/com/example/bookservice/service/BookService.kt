@@ -12,6 +12,7 @@ import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.repository.BookRepository.Companion.searchSpec
 import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
+import com.example.bookservice.repository.entity.PriceEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -59,8 +60,7 @@ class BookService(
         return bookEntity.apply {
             releaseDate = request.releaseDate
             quantity = request.quantity
-            price = request.price
-            currency = request.currency?.toEntity()
+            price = request.price?.toEntity() ?: PriceEntity(value = null, currency = null)
         }.toModel()
     }
 

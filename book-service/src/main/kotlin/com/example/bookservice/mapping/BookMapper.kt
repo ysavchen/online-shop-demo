@@ -1,12 +1,10 @@
 package com.example.bookservice.mapping
 
-import com.example.bookservice.api.rest.model.Book
-import com.example.bookservice.api.rest.model.CreateBookRequest
-import com.example.bookservice.api.rest.model.Currency
-import com.example.bookservice.api.rest.model.Genre
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.repository.entity.BookEntity
 import com.example.bookservice.repository.entity.CurrencyEntity
 import com.example.bookservice.repository.entity.GenreEntity
+import com.example.bookservice.repository.entity.PriceEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.web.PagedModel
 
@@ -19,8 +17,7 @@ object BookMapper {
         genre = genre.toModel(),
         releaseDate = releaseDate,
         quantity = quantity,
-        price = price,
-        currency = currency?.toModel()
+        price = price.toModel()
     )
 
     internal fun CreateBookRequest.toEntity() = BookEntity(
@@ -30,8 +27,7 @@ object BookMapper {
         genre = genre.toEntity(),
         releaseDate = releaseDate,
         quantity = quantity,
-        price = price,
-        currency = currency?.toEntity()
+        price = price?.toEntity() ?: PriceEntity(value = null, currency = null)
     )
 
     internal fun Page<BookEntity>.toPagedModel() = PagedModel(
@@ -59,5 +55,12 @@ object BookMapper {
         Currency.RUB -> CurrencyEntity.RUB
         Currency.EUR -> CurrencyEntity.EUR
     }
+
+    internal fun PriceEntity.toModel() =
+        if (value == null && currency == null) null
+        else if (value == null || currency == null) throw IllegalStateException("Price is inconsistent: value=$value, currency=$currency")
+        else Price(value = value!!, currency = currency?.toModel()!!)
+
+    internal fun Price.toEntity() = PriceEntity(value = value, currency = currency.toEntity())
 
 }

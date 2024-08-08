@@ -18,15 +18,13 @@ data class CreateBookRequest(
     val genre: Genre,
     val releaseDate: LocalDate?,
     val quantity: Int,
-    val price: BigDecimal?,
-    val currency: Currency?
+    val price: Price?
 )
 
 data class UpdateBookRequest(
     val releaseDate: LocalDate?,
     val quantity: Int,
-    val price: BigDecimal?,
-    val currency: Currency?
+    val price: Price?
 )
 
 data class Book(
@@ -36,8 +34,12 @@ data class Book(
     val genre: Genre,
     val releaseDate: LocalDate?,
     val quantity: Int,
-    val price: BigDecimal?,
-    val currency: Currency?
+    val price: Price?
+)
+
+data class Price(
+    val value: BigDecimal,
+    val currency: Currency
 )
 
 data class BookDescription(

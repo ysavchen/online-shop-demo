@@ -3,10 +3,8 @@ package com.example.bookservice.test
 import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.api.rest.model.Currency
 import com.example.bookservice.api.rest.model.Genre
-import com.example.bookservice.repository.entity.BookEntity
-import com.example.bookservice.repository.entity.CurrencyEntity
-import com.example.bookservice.repository.entity.GenreEntity
-import com.example.bookservice.repository.entity.ReviewEntity
+import com.example.bookservice.api.rest.model.Price
+import com.example.bookservice.repository.entity.*
 import org.apache.commons.lang3.RandomStringUtils.*
 import java.util.*
 
@@ -19,8 +17,7 @@ object BookTestData {
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
         quantity = randomNumeric(3).toInt(),
-        price = randomPrice(),
-        currency = nextValue<Currency>()
+        price = Price(randomPrice(), nextValue<Currency>())
     )
 
     fun bookEntity() = BookEntity(
@@ -30,8 +27,7 @@ object BookTestData {
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
         quantity = randomNumeric(3).toInt(),
-        price = randomPrice(),
-        currency = nextValue<CurrencyEntity>()
+        price = PriceEntity(randomPrice(), nextValue<CurrencyEntity>())
     )
 }
 
