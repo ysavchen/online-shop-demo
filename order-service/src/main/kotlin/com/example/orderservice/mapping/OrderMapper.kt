@@ -14,8 +14,7 @@ object OrderMapper {
         status = status.toModel(),
         items = items.map { it.toModel() }.toSet(),
         totalQuantity = totalQuantity,
-        totalPrice = totalPrice,
-        currency = currency.toModel(),
+        totalPrice = totalPrice.toModel(),
         createdAt = createdAt,
         updatedAt = updatedAt
     )
@@ -26,6 +25,11 @@ object OrderMapper {
         price = price,
         currency = currency.toModel(),
         quantity = quantity
+    )
+
+    internal fun TotalPriceEntity.toModel() = TotalPrice(
+        value = value,
+        currency = currency.toModel()
     )
 
     internal fun Page<OrderEntity>.toPagedModel() = PagedModel(
@@ -59,8 +63,10 @@ object OrderMapper {
         status = StatusEntity.CREATED,
         items = items.map { it.toEntity() }.toSet(),
         totalQuantity = items.size,
-        totalPrice = items.sumOf { it.price },
-        currency = itemsCurrencyEntity(items),
+        totalPrice = TotalPriceEntity(
+            value = items.sumOf { it.price },
+            currency = itemsCurrencyEntity(items)
+        ),
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
     )

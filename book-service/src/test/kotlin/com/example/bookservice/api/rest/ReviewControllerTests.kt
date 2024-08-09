@@ -48,4 +48,9 @@ class ReviewControllerTests {
         val expectedReview = objectMapper.writeValueAsString(review)
         assertThat(result.response.contentAsString).contains(expectedReview)
     }
+
+    @Test
+    fun `get review by id`() {
+
+    }
 }

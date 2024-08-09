@@ -15,8 +15,7 @@ data class Order(
     val status: Status,
     val items: Set<Item>,
     val totalQuantity: Int,
-    val totalPrice: BigDecimal,
-    val currency: Currency,
+    val totalPrice: TotalPrice,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
 )
@@ -27,6 +26,11 @@ data class Item(
     val quantity: Int,
     val price: BigDecimal,
     val currency: ItemCurrency
+)
+
+data class TotalPrice(
+    val value: BigDecimal,
+    val currency: Currency
 )
 
 enum class ItemCategory {

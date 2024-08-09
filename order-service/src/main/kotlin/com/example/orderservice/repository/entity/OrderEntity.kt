@@ -31,12 +31,8 @@ data class OrderEntity(
     @Column(name = "total_quantity")
     val totalQuantity: Int,
 
-    @Column(name = "total_price", columnDefinition = "NUMERIC")
-    val totalPrice: BigDecimal,
-
-    @Column(name = "currency")
-    @Enumerated(EnumType.STRING)
-    val currency: CurrencyEntity,
+    @Embedded
+    val totalPrice: TotalPriceEntity,
 
     @Column(name = "created_at")
     val createdAt: OffsetDateTime,
