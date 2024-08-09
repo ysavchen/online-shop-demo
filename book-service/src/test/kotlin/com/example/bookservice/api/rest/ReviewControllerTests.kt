@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
 @IntegrationTest
@@ -51,6 +52,17 @@ class ReviewControllerTests {
 
     @Test
     fun `get review by id`() {
+        val bookEntity = bookRepository.save(bookEntity())
+        val review = reviewRepository.save(reviewEntity(bookEntity.id!!)).toModel()
 
+        val result = mockMvc.get("/api/v1/reviews/${review.id}") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val expectedReview = objectMapper.writeValueAsString(review)
+        assertThat(result.response.contentAsString).contains(expectedReview)
     }
 }
