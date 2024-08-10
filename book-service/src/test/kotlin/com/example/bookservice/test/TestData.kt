@@ -37,6 +37,14 @@ object BookTestData {
 
 object ReviewTestData {
 
+    fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
+        title = randomAlphabetic(15),
+        reviewText = randomAlphabetic(25),
+        author = randomAlphabetic(10),
+        rating = randomRating(),
+        bookId = bookId
+    )
+
     fun reviewEntity(bookFk: UUID) = ReviewEntity(
         title = randomAlphabetic(15),
         reviewText = randomAlphabetic(25),
