@@ -28,7 +28,11 @@ data class Item(
     val id: UUID,
     val category: ItemCategory,
     val quantity: Int,
-    val price: BigDecimal,
+    val price: ItemPrice
+)
+
+data class ItemPrice(
+    val value: BigDecimal,
     val currency: ItemCurrency
 )
 

@@ -45,7 +45,11 @@ data class ItemEntity(
     val id: UUID,
     val category: ItemCategoryEntity,
     val quantity: Int,
-    val price: BigDecimal,
+    val price: ItemPriceEntity
+)
+
+data class ItemPriceEntity(
+    val value: BigDecimal,
     val currency: ItemCurrencyEntity
 )
 

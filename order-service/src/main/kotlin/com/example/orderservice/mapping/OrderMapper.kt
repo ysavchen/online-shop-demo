@@ -22,8 +22,10 @@ object OrderMapper {
     internal fun ItemEntity.toModel() = Item(
         id = id,
         category = category.toModel(),
-        price = price,
-        currency = currency.toModel(),
+        price = ItemPrice(
+            value = price.value,
+            currency = price.currency.toModel()
+        ),
         quantity = quantity
     )
 
@@ -64,7 +66,7 @@ object OrderMapper {
         items = items.map { it.toEntity() }.toSet(),
         totalQuantity = items.size,
         totalPrice = TotalPriceEntity(
-            value = items.sumOf { it.price },
+            value = items.sumOf { it.price.value },
             currency = itemsCurrencyEntity(items)
         ),
         createdAt = OffsetDateTime.now(),
@@ -74,8 +76,10 @@ object OrderMapper {
     internal fun Item.toEntity() = ItemEntity(
         id = id,
         category = category.toEntity(),
-        price = price,
-        currency = currency.toEntity(),
+        price = ItemPriceEntity(
+            value = price.value,
+            currency = price.currency.toEntity()
+        ),
         quantity = quantity
     )
 
@@ -89,9 +93,9 @@ object OrderMapper {
     }
 
     private fun itemsCurrencyEntity(items: Set<Item>): CurrencyEntity {
-        val itemCurrencies = items.map { it.currency }
+        val itemCurrencies = items.map { it.price.currency }
         require(itemCurrencies.distinctBy { it }.size == itemCurrencies.size)
-        return CurrencyEntity.valueOf(items.first().currency.name)
+        return CurrencyEntity.valueOf(items.first().price.currency.name)
     }
 
 }
