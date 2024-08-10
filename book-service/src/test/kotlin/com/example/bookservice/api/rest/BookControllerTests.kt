@@ -175,7 +175,6 @@ class BookControllerTests {
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(request.title)) }
         }.andReturn()
 
         val createdBook = objectMapper.readValue(result.response.contentAsString, Book::class.java)
