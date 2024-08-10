@@ -1,12 +1,15 @@
 package com.example.bookservice.api.rest
 
 import com.example.bookservice.api.rest.model.ErrorCode
+import com.example.bookservice.api.rest.model.Review
 import com.example.bookservice.api.rest.model.ReviewSearchRequest
+import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.ReviewMapper.toModel
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
+import com.example.bookservice.test.ReviewTestData.createReviewRequest
 import com.example.bookservice.test.ReviewTestData.reviewEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -36,9 +39,9 @@ class ReviewControllerTests {
 
     @Test
     fun `search reviews by bookId`() {
-        val bookEntity = bookRepository.save(bookEntity())
-        val review = reviewRepository.save(reviewEntity(bookEntity.id!!)).toModel()
-        val request = ReviewSearchRequest(bookEntity.id!!)
+        val book = bookRepository.save(bookEntity()).toModel()
+        val review = reviewRepository.save(reviewEntity(book.id)).toModel()
+        val request = ReviewSearchRequest(book.id)
 
         val result = mockMvc.post("/api/v1/reviews/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
@@ -70,9 +73,9 @@ class ReviewControllerTests {
 
     @Test
     fun `search with non-supported sorting`() {
-        val bookEntity = bookRepository.save(bookEntity())
-        reviewRepository.save(reviewEntity(bookEntity.id!!)).toModel()
-        val request = ReviewSearchRequest(bookEntity.id!!)
+        val book = bookRepository.save(bookEntity()).toModel()
+        reviewRepository.save(reviewEntity(book.id)).toModel()
+        val request = ReviewSearchRequest(book.id)
 
         mockMvc.post("/api/v1/reviews/search?page=0&sortBy=language") {
             contentType = MediaType.APPLICATION_JSON
@@ -87,8 +90,8 @@ class ReviewControllerTests {
 
     @Test
     fun `get review by id`() {
-        val bookEntity = bookRepository.save(bookEntity())
-        val review = reviewRepository.save(reviewEntity(bookEntity.id!!)).toModel()
+        val book = bookRepository.save(bookEntity()).toModel()
+        val review = reviewRepository.save(reviewEntity(book.id)).toModel()
 
         val result = mockMvc.get("/api/v1/reviews/${review.id}") {
             accept = MediaType.APPLICATION_JSON
@@ -110,6 +113,33 @@ class ReviewControllerTests {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
         }
+    }
+
+    @Test
+    fun `create review`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = createReviewRequest(book.id)
+        val idempotencyKey = UUID.randomUUID()
+
+        val result = mockMvc.post("/api/v1/reviews") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+
+        val createdReview = objectMapper.readValue(result.response.contentAsString, Review::class.java)
+        assertThat(createdReview)
+            .hasFieldOrProperty("id")
+            .hasFieldOrPropertyWithValue("title", request.title)
+            .hasFieldOrPropertyWithValue("reviewText", request.reviewText)
+            .hasFieldOrPropertyWithValue("author", request.author)
+            .hasFieldOrPropertyWithValue("rating", request.rating)
+            .hasFieldOrPropertyWithValue("bookId", request.bookId)
     }
 
 }
