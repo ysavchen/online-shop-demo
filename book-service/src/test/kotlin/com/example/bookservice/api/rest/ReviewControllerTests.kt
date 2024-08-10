@@ -142,4 +142,32 @@ class ReviewControllerTests {
             .hasFieldOrPropertyWithValue("bookId", request.bookId)
     }
 
+    @Test
+    fun `duplicate create review request`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val request = createReviewRequest(book.id)
+        val idempotencyKey = UUID.randomUUID()
+
+        mockMvc.post("/api/v1/reviews") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }
+
+        mockMvc.post("/api/v1/reviews") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isConflict() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
+        }
+    }
+
 }
