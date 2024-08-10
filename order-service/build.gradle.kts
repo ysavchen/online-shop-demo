@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "1.9.24"
     kotlin("plugin.jpa") version "1.9.24"
     kotlin("plugin.spring") version "1.9.24"
+    kotlin("kapt") version "1.9.24"
 }
 
 group = "com.example"
@@ -37,6 +38,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.8.2")
+    kapt("org.hibernate.orm:hibernate-jpamodelgen:6.5.2.Final")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")

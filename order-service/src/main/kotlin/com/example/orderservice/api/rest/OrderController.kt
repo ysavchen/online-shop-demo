@@ -2,6 +2,7 @@ package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
+import com.example.orderservice.api.rest.model.OrderSearchRequest
 import com.example.orderservice.service.OrderService
 import org.springframework.data.web.PagedModel
 import org.springframework.http.HttpStatus
@@ -14,8 +15,10 @@ import java.util.*
 class OrderController(private val orderService: OrderService) {
 
     @PostMapping("/orders/search")
-    fun orders(orderRequestParams: OrderRequestParams): PagedModel<Order> =
-        orderService.getOrders(orderRequestParams)
+    fun orders(
+        orderRequestParams: OrderRequestParams,
+        @RequestBody request: OrderSearchRequest
+    ): PagedModel<Order> = orderService.getOrders(orderRequestParams, request)
 
     @GetMapping("/orders/{orderId}")
     fun orderById(@PathVariable("orderId") orderId: UUID): Order = orderService.getOrderById(orderId)

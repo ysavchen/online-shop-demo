@@ -4,6 +4,10 @@ import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
 
+data class OrderSearchRequest(
+    val userId: UUID
+)
+
 data class CreateOrderRequest(
     val userId: UUID,
     val items: Set<Item>
