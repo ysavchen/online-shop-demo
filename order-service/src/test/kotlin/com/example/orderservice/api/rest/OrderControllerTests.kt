@@ -49,7 +49,17 @@ class OrderControllerTests {
 
     @Test
     fun `search orders by non-existing userId`() {
+        val request = OrderSearchRequest(UUID.randomUUID())
 
+        mockMvc.post("/api/v1/orders/search?page=0") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(""""content":[]""")) }
+        }
     }
 
     @Test
