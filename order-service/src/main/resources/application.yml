@@ -2,6 +2,7 @@ spring:
   application:
     name: order-service
     org: online-shop-demo
+    timezone: UTC
   threads:
     virtual.enabled: true
   datasource:
