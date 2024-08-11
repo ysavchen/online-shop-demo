@@ -64,7 +64,18 @@ class OrderControllerTests {
 
     @Test
     fun `search with non-supported sorting`() {
+        val order = orderRepository.save(orderEntity()).toModel()
+        val request = OrderSearchRequest(order.userId)
 
+        mockMvc.post("/api/v1/orders/search?page=0&sortBy=language") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.SORTING_CATEGORY_NOT_SUPPORTED.name)) }
+        }
     }
 
     @Test
