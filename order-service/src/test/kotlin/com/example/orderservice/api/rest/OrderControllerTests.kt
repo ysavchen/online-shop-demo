@@ -80,7 +80,17 @@ class OrderControllerTests {
 
     @Test
     fun `get order by id`() {
+        val order = orderRepository.save(orderEntity()).toModel()
 
+        val result = mockMvc.get("/api/v1/orders/${order.id}") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val expectedOrder = objectMapper.writeValueAsString(order)
+        assertThat(result.response.contentAsString).contains(expectedOrder)
     }
 
     @Test
