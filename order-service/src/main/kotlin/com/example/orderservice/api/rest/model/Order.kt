@@ -1,7 +1,5 @@
 package com.example.orderservice.api.rest.model
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonFormat.Shape
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
@@ -22,9 +20,7 @@ data class Order(
     val items: Set<Item>,
     val totalQuantity: Int,
     val totalPrice: TotalPrice,
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val createdAt: OffsetDateTime,
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val updatedAt: OffsetDateTime
 )
 

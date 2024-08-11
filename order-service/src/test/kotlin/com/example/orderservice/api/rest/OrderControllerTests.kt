@@ -1,10 +1,13 @@
 package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.model.ErrorCode
+import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.model.OrderSearchRequest
+import com.example.orderservice.api.rest.model.Status
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.test.IntegrationTest
+import com.example.orderservice.test.OrderTestData.createOrderRequest
 import com.example.orderservice.test.OrderTestData.orderEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -106,11 +109,53 @@ class OrderControllerTests {
 
     @Test
     fun `create order`() {
+        val request = createOrderRequest()
+        val idempotencyKey = UUID.randomUUID()
 
+        val result = mockMvc.post("/api/v1/orders") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val createdOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        assertThat(createdOrder)
+            .hasFieldOrProperty("id")
+            .hasFieldOrPropertyWithValue("userId", request.userId)
+            .hasFieldOrPropertyWithValue("status", Status.CREATED)
+            .hasFieldOrPropertyWithValue("items", request.items)
+            .hasFieldOrPropertyWithValue("totalQuantity", request.items.size)
+            .extracting("totalPrice.value").isEqualTo(request.items.sumOf { it.price.value })
     }
 
     @Test
     fun `duplicate create order request`() {
+        val request = createOrderRequest()
+        val idempotencyKey = UUID.randomUUID()
 
+        mockMvc.post("/api/v1/orders") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isCreated() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }
+
+        mockMvc.post("/api/v1/orders") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isConflict() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
+        }
     }
 }
