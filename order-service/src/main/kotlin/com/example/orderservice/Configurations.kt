@@ -10,10 +10,10 @@ import java.util.*
 class PropertiesConfiguration
 
 @Configuration
-class AppConfiguration(private val appProperties: AppProperties) {
+class ApplicationConfiguration(private val applicationProperties: ApplicationProperties) {
 
     @PostConstruct
     fun setTimezone() {
-        TimeZone.setDefault(TimeZone.getTimeZone(appProperties.timezone))
+        TimeZone.setDefault(TimeZone.getTimeZone(applicationProperties.timezone))
     }
 }
