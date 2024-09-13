@@ -49,10 +49,10 @@ minikube stop -p local-cluster
 ### Observability
 
 #### Logging
-Service -> Grafana Loki -> Grafana
+Service -> Loki -> Grafana
 
 #### Tracing
-Service -> Grafana Tempo -> Grafana
+Service -> Tempo -> Grafana
 
 #### Metrics
 Service -> Prometheus -> Grafana
