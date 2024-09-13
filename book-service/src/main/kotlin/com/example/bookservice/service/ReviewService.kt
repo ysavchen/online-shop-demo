@@ -1,7 +1,7 @@
 package com.example.bookservice.service
 
-import com.example.bookservice.api.rest.DuplicateRequestException
-import com.example.bookservice.api.rest.ReviewNotFoundException
+import com.example.bookservice.DuplicateRequestException
+import com.example.bookservice.ReviewNotFoundException
 import com.example.bookservice.api.rest.ReviewRequestParams
 import com.example.bookservice.api.rest.model.CreateReviewRequest
 import com.example.bookservice.api.rest.model.Review

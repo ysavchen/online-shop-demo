@@ -1,9 +1,9 @@
-package com.example.bookservice.api.rest
+package com.example.orderservice
 
-import com.example.bookservice.api.rest.model.ErrorCode
+import com.example.orderservice.api.rest.model.ErrorCode
 import org.springframework.http.HttpStatus
-
 import org.springframework.http.HttpStatusCode
+import java.lang.RuntimeException
 import java.util.*
 
 open class ServiceException(
@@ -12,11 +12,8 @@ open class ServiceException(
     val httpStatusCode: HttpStatusCode
 ) : RuntimeException(message)
 
-class BookNotFoundException(id: UUID) :
-    ServiceException("Book not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
-
-class ReviewNotFoundException(id: UUID) :
-    ServiceException("Review not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
+class OrderNotFoundException(id: UUID) :
+    ServiceException("Order not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
 
 class UnsupportedSortingException(sortBy: String) :
     ServiceException(

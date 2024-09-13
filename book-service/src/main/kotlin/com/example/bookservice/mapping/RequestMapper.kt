@@ -2,7 +2,7 @@ package com.example.bookservice.mapping
 
 import com.example.bookservice.api.rest.BookRequestParams
 import com.example.bookservice.api.rest.ReviewRequestParams
-import com.example.bookservice.api.rest.UnsupportedSortingException
+import com.example.bookservice.UnsupportedSortingException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction
