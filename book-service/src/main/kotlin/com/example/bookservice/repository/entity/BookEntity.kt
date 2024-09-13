@@ -13,7 +13,7 @@ data class BookEntity(
     @Id
     @GeneratedValue
     @UuidGenerator
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     val id: UUID? = null,
 
     @Column(name = "title", nullable = false)
@@ -33,7 +33,7 @@ data class BookEntity(
     @Column(name = "release_date")
     var releaseDate: LocalDate?,
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     var quantity: Int,
 
     @Embedded

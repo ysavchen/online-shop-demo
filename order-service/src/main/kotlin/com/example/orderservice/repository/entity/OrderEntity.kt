@@ -14,13 +14,13 @@ data class OrderEntity(
     @Id
     @GeneratedValue
     @UuidGenerator
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     val id: UUID? = null,
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     val userId: UUID,
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     val status: StatusEntity,
 
@@ -28,16 +28,16 @@ data class OrderEntity(
     @Column(columnDefinition = "jsonb")
     val items: Set<ItemEntity>,
 
-    @Column(name = "total_quantity")
+    @Column(name = "total_quantity", nullable = false)
     val totalQuantity: Int,
 
     @Embedded
     val totalPrice: TotalPriceEntity,
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     val createdAt: OffsetDateTime,
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     val updatedAt: OffsetDateTime
 )
 

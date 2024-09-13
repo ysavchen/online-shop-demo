@@ -11,7 +11,7 @@ data class ReviewEntity(
     @Id
     @GeneratedValue
     @UuidGenerator
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     val id: UUID? = null,
 
     @Column(name = "title")

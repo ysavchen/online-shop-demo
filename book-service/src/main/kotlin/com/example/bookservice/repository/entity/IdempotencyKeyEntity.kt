@@ -13,7 +13,7 @@ import java.util.*
 @Table(name = "idempotency_keys")
 data class IdempotencyKeyEntity(
     @Id
-    @Column(name = "idempotency_key")
+    @Column(name = "idempotency_key", nullable = false)
     val idempotencyKey: UUID,
 
     @Column(name = "book_id")
