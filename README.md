@@ -15,7 +15,8 @@ docker-compose up -d
 
 ### Kubernetes
 1. Build native image with GraalVM for JDK 21
-```
+```bash
+cd book-service
 ./gradlew bootBuildImage
 ```
 2. Push image to Docker Hub
