@@ -11,7 +11,8 @@ cd 02-infra
 docker-compose up -d
 ```
 2. Run services
-```
+```bash
+cd book-service
 ./gradlew bootRun
 ```
 
