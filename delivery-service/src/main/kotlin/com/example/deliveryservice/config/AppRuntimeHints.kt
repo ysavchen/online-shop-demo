@@ -1,4 +1,4 @@
-package com.example.deliveryservice
+package com.example.deliveryservice.config
 
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import liquibase.database.LiquibaseTableNamesFactory
