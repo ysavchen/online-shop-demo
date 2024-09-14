@@ -171,7 +171,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="0beQUt1Dd8hZbjBZgQ8p-2" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=1;shape=mxgraph.android.phone2;strokeColor=#666666;fillColor=#f5f5f5;fontColor=#333333;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="-40" y="305" width="40" height="70" as="geometry" />
+          <mxGeometry x="-30" y="305" width="40" height="70" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
