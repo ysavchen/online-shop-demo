@@ -49,15 +49,20 @@ minikube stop -p local-cluster
 ### Observability
 
 #### Logging
-Service -> Loki -> Grafana
+Service -> Loki -> Grafana<br/>
+Service pushes structured logs to http://localhost:3100/loki/api/v1/push
 
 #### Tracing
-Service -> Tempo -> Grafana
+Service -> Tempo -> Grafana<br/>
+Service pushes spans to http://localhost:9411/api/v2/spans
 
 #### Metrics
-Service -> Prometheus -> Grafana
+Service -> Prometheus -> Grafana<br/>
+Prometheus scrapes metrics from <service url>/actuator/prometheus
 
-### Useful URLs
+<img alt="observability" src="https://github.com/ysavchen/online-shop-demo/blob/main/01-schema/observability.png" width="80%" height="80%"/>
+
+### Infrastructure
 - Kafka UI: http://localhost:9095
 - Prometheus: http://localhost:9090
 - Alertmanager: http://localhost:9093
