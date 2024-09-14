@@ -1,4 +1,4 @@
-package com.example.orderservice
+package com.example.orderservice.config
 
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import liquibase.database.LiquibaseTableNamesFactory

@@ -1,4 +1,4 @@
-package com.example.orderservice
+package com.example.orderservice.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue

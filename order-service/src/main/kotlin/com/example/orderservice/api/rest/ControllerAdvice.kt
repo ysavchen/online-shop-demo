@@ -1,6 +1,5 @@
 package com.example.orderservice.api.rest
 
-import com.example.orderservice.ServiceException
 import com.example.orderservice.api.rest.model.ErrorCode
 import com.example.orderservice.api.rest.model.ErrorResponse
 import io.github.oshai.kotlinlogging.KotlinLogging

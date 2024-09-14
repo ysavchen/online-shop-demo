@@ -1,4 +1,4 @@
-package com.example.orderservice
+package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.model.ErrorCode
 import org.springframework.http.HttpStatus

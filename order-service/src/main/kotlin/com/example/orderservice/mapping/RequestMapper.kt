@@ -1,6 +1,6 @@
 package com.example.orderservice.mapping
 
-import com.example.orderservice.UnsupportedSortingException
+import com.example.orderservice.api.rest.UnsupportedSortingException
 import com.example.orderservice.api.rest.OrderRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
