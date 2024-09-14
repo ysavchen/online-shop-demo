@@ -47,6 +47,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    // Swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
     // Observability
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")

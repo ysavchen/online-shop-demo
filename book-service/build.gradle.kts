@@ -47,6 +47,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    // Swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
     // Observability
     // Spring projects are instrumented using Micrometer to collect metrics
     // Micrometer is an instrumentation library which can provide metrics for different observability systems

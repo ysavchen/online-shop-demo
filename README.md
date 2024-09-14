@@ -60,7 +60,7 @@ Service pushes spans to http://localhost:9411/api/v2/spans
 Service -> Prometheus -> Grafana<br/>
 Prometheus scrapes metrics from <service url>/actuator/prometheus
 
-<img alt="observability" src="https://github.com/ysavchen/online-shop-demo/blob/main/01-schema/observability.png" width="80%" height="80%"/>
+<img alt="observability" src="https://github.com/ysavchen/online-shop-demo/blob/main/01-schema/observability.png"/>
 
 ### Infrastructure
 - Kafka UI: http://localhost:9095
@@ -68,3 +68,7 @@ Prometheus scrapes metrics from <service url>/actuator/prometheus
 - Alertmanager: http://localhost:9093
 - Maildev: http://localhost:9094
 - Grafana: http://localhost:3000
+
+### Swagger
+- book-service: http://localhost:8090/swagger-ui/index.html
+- order-service: http://localhost:8091/swagger-ui/index.html
