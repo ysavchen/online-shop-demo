@@ -42,6 +42,8 @@ management:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+  # By default, Spring Boot samples only 10% of requests to prevent overwhelming the trace backend.
+  # This property switches it to 100% so that every request is sent to the trace backend.
   tracing:
     sampling:
       probability: 1.0
