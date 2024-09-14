@@ -1,4 +1,4 @@
-package com.example.bookservice
+package com.example.bookservice.config
 
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import liquibase.database.LiquibaseTableNamesFactory
