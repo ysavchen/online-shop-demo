@@ -59,7 +59,7 @@ Service pushes spans to http://localhost:9411/api/v2/spans
 #### Metrics
 Service -> Prometheus -> Grafana<br/>
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`<br/>
-<img alt="observability" src="https://github.com/ysavchen/online-shop-demo/blob/main/01-schema/observability.png"/>
+![observability-schema](./01-schema/observability.png)
 
 ### Infrastructure
 - Kafka UI: http://localhost:9095
