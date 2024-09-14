@@ -58,7 +58,7 @@ Service pushes spans to http://localhost:9411/api/v2/spans
 
 #### Metrics
 Service -> Prometheus -> Grafana<br/>
-Prometheus scrapes metrics from <service url>/actuator/prometheus
+Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
 <img alt="observability" src="https://github.com/ysavchen/online-shop-demo/blob/main/01-schema/observability.png"/>
 
