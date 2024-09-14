@@ -2,7 +2,7 @@
 
 Demo application for experiments
 
-![application-schema](./01-schema/application-schema.png)
+![application-schema](./01-schema/application.png)
 
 ### Run application locally
 1. Start local infra
@@ -62,7 +62,7 @@ Service pushes spans to http://localhost:9411/api/v2/spans
 Service -> Prometheus -> Grafana<br/>
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
-![observability-schema](./01-schema/observability-schema.png)
+![observability-schema](./01-schema/observability.png)
 
 ### Infrastructure
 - Kafka UI: http://localhost:9095
