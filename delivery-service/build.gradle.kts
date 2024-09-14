@@ -69,6 +69,6 @@ tasks.bootBuildImage {
     }
 }
 
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
 }
