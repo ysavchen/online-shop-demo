@@ -51,18 +51,12 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 
     // Observability
-    // Spring projects are instrumented using Micrometer to collect metrics
-    // Micrometer is an instrumentation library which can provide metrics for different observability systems
-    // Micrometer comes with spring-boot-actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     // Kotlin wrapper for slf4j-api
     // SLF4J and Logback comes pre-configured with Spring Boot
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
-    // Appender to send logs to Loki
     implementation("com.github.loki4j:loki-logback-appender:1.5.2")
-    // Micrometer Tracing uses Brave (OpenZipkin) by default to send spans
-    // Micrometer support for OpenTelemetry is not stable yet
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     // Dependency is needed for latency visualization
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")

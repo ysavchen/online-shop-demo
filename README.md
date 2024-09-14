@@ -52,15 +52,27 @@ minikube stop -p local-cluster
 ### Observability
 
 #### Logging
-Service -> Loki -> Grafana<br/>
-Service pushes structured logs to http://localhost:3100/loki/api/v1/push
+Service -> Loki -> Grafana
+
+Logger - kotlin-logging facade + Logback (default in Spring).<br/>
+Service pushes structured logs to `http://localhost:3100/loki/api/v1/push` with loki-logback-appender.
 
 #### Tracing
-Service -> Tempo -> Grafana<br/>
-Service pushes spans to http://localhost:9411/api/v2/spans
+Service -> Tempo -> Grafana
+
+Service is instrumented with Micrometer Tracing to collect spans.<br/>
+Micrometer Tracing comes with spring-boot-starter-actuator.<br/>
+Micrometer Tracing uses Brave (OpenZipkin) by default to collect and send spans.<br/>
+Micrometer support for OpenTelemetry is not stable yet.<br/>
+Service pushes spans to `http://localhost:9411/api/v2/spans`
 
 #### Metrics
-Service -> Prometheus -> Grafana<br/>
+Service -> Prometheus -> Grafana
+
+Service is instrumented with Micrometer to collect metrics.<br/>
+Micrometer is an instrumentation library which can provide metrics for different observability systems.<br/>
+Micrometer comes with spring-boot-starter-actuator.<br/>
+Service provides metrics in Prometheus format with dependency micrometer-registry-prometheus.<br/>
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
 ![observability-schema](./01-schema/observability.png)
