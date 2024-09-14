@@ -101,7 +101,7 @@
           <mxGeometry x="310" y="525" width="83.34" height="70" as="geometry" />
         </mxCell>
         <mxCell id="IZ6AXfbFcqNQBc99Yk3y-4" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Kubernetes.svg;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="850" y="212" width="50" height="48" as="geometry" />
+          <mxGeometry x="858" y="212" width="50" height="48" as="geometry" />
         </mxCell>
         <mxCell id="IZ6AXfbFcqNQBc99Yk3y-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;entryX=0.855;entryY=0;entryDx=0;entryDy=4.35;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="qUV3P2aTGDbsRWtag9Bh-0" target="IZ6AXfbFcqNQBc99Yk3y-2" edge="1">
           <mxGeometry relative="1" as="geometry">
