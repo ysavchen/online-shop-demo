@@ -64,7 +64,7 @@ Service is instrumented with Micrometer Tracing to collect spans.<br/>
 Micrometer Tracing comes with micrometer-tracing-bridge-brave.<br/>
 Micrometer Tracing uses Brave (OpenZipkin) by default to collect and send spans.<br/>
 Micrometer support for OpenTelemetry is not stable yet.<br/>
-Service pushes spans to `http://localhost:9411/api/v2/spans`.
+Service pushes spans to `http://localhost:9411/api/v2/spans`
 
 #### Metrics
 Service -> Prometheus -> Grafana
@@ -73,7 +73,7 @@ Service is instrumented with Micrometer to collect metrics.<br/>
 Micrometer is an instrumentation library which can provide metrics for different observability systems.<br/>
 Micrometer comes with spring-boot-starter-actuator.<br/>
 Service provides metrics in Prometheus format with micrometer-registry-prometheus.<br/>
-Prometheus scrapes metrics from `<service url>/actuator/prometheus`.
+Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
 ![observability-schema](./01-schema/observability.png)
 
