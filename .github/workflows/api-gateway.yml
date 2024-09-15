@@ -20,4 +20,4 @@ jobs:
           java-version: '21'
           cache: 'gradle'
       - name: Build with Gradle
-        run: cd ./api-gateway && chmod +x gradlew && ./gradlew build --no-daemon
+        run: cd ./04-services/api-gateway && chmod +x gradlew && ./gradlew build --no-daemon
