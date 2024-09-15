@@ -61,10 +61,10 @@ Service pushes structured logs to `http://localhost:3100/loki/api/v1/push` with 
 Service -> Tempo -> Grafana
 
 Service is instrumented with Micrometer Tracing to collect spans.<br/>
-Micrometer Tracing comes with spring-boot-starter-actuator.<br/>
+Micrometer Tracing comes with micrometer-tracing-bridge-brave.<br/>
 Micrometer Tracing uses Brave (OpenZipkin) by default to collect and send spans.<br/>
 Micrometer support for OpenTelemetry is not stable yet.<br/>
-Service pushes spans to `http://localhost:9411/api/v2/spans`
+Service pushes spans to `http://localhost:9411/api/v2/spans`.
 
 #### Metrics
 Service -> Prometheus -> Grafana
@@ -72,18 +72,20 @@ Service -> Prometheus -> Grafana
 Service is instrumented with Micrometer to collect metrics.<br/>
 Micrometer is an instrumentation library which can provide metrics for different observability systems.<br/>
 Micrometer comes with spring-boot-starter-actuator.<br/>
-Service provides metrics in Prometheus format with dependency micrometer-registry-prometheus.<br/>
-Prometheus scrapes metrics from `<service url>/actuator/prometheus`
+Service provides metrics in Prometheus format with micrometer-registry-prometheus.<br/>
+Prometheus scrapes metrics from `<service url>/actuator/prometheus`.
 
 ![observability-schema](./01-schema/observability.png)
 
-### Infrastructure
+### Useful URLs
+
+#### Infra
 - Kafka UI: http://localhost:9095
 - Prometheus: http://localhost:9090
 - Alertmanager: http://localhost:9093
 - Maildev: http://localhost:9094
 - Grafana: http://localhost:3000
 
-### Swagger
+#### Swagger
 - book-service: http://localhost:8090/swagger-ui/index.html
 - order-service: http://localhost:8091/swagger-ui/index.html
