@@ -16,7 +16,7 @@ spring:
     change-log: classpath:liquibase/master.yaml
 
 application:
-  timezone: UTC
+  timezone: UTC # made timezone configurable for dev purposes
 
 server:
   port: 8091
