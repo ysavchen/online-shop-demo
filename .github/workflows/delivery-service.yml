@@ -6,7 +6,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'delivery-service/**'
+      - '*/delivery-service/**'
 
 jobs:
   delivery-service:
