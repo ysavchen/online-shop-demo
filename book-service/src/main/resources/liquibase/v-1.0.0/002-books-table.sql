@@ -4,6 +4,7 @@
 CREATE TABLE IF NOT EXISTS books
 (
     id           uuid             PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
+    isbn         varchar(17)      NOT NULL UNIQUE,
     title        varchar(150)     NOT NULL,
     authors      text[]           NOT NULL DEFAULT '{}',
     description  text,
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS books
 
 COMMENT ON TABLE books IS 'Таблица для хранения книг';
 COMMENT ON COLUMN books.id IS 'ID записи, первичный ключ';
+COMMENT ON COLUMN books.isbn IS 'ISBN (международный стандартный номер книги)';
 COMMENT ON COLUMN books.title IS 'Название книги';
 COMMENT ON COLUMN books.authors IS 'Авторы книги';
 COMMENT ON COLUMN books.description IS 'Описание книги в base64';
