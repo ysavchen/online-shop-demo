@@ -9,6 +9,7 @@ import java.util.*
 object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
+        isbn = randomNumeric(17),
         title = randomAlphabetic(15),
         authors = listOf(randomAlphabetic(10)),
         description = randomAlphanumeric(25),
@@ -25,6 +26,7 @@ object BookTestData {
     )
 
     fun bookEntity() = BookEntity(
+        isbn = randomNumeric(17),
         title = randomAlphabetic(15),
         authors = arrayOf(randomAlphabetic(10)),
         description = randomAlphanumeric(25),

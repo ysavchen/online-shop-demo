@@ -12,6 +12,7 @@ object BookMapper {
 
     internal fun BookEntity.toModel() = Book(
         id = id!!,
+        isbn = isbn,
         title = title,
         authors = authors.toList(),
         genre = genre.toModel(),
@@ -21,6 +22,7 @@ object BookMapper {
     )
 
     internal fun CreateBookRequest.toEntity() = BookEntity(
+        isbn = isbn,
         title = title,
         authors = authors.toTypedArray(),
         description = description,

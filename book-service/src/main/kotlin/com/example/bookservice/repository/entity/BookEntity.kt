@@ -16,6 +16,9 @@ data class BookEntity(
     @Column(name = "id", nullable = false)
     val id: UUID? = null,
 
+    @Column(name = "isbn", nullable = false)
+    val isbn: String,
+
     @Column(name = "title", nullable = false)
     val title: String,
 

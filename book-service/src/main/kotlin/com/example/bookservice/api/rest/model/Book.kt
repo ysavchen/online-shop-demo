@@ -12,6 +12,7 @@ data class BookSearchRequest(
 )
 
 data class CreateBookRequest(
+    val isbn: String,
     val title: String,
     val authors: List<String>,
     val description: String?,
@@ -29,6 +30,7 @@ data class UpdateBookRequest(
 
 data class Book(
     val id: UUID,
+    val isbn: String,
     val title: String,
     val authors: List<String>,
     val genre: Genre,
