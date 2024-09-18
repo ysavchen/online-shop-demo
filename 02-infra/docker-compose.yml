@@ -153,6 +153,8 @@ services:
       - "/var/tempo"
     volumes:
       - ./tempo/data:/var/tempo
+    networks:
+      - observability
 
   tempo:
     image: *tempoImage
@@ -170,15 +172,13 @@ services:
       - "9411:9411"    # zipkin (in use)
     depends_on:
       - init-tempo
+    networks:
+      - observability
 
   grafana:
     image: grafana/grafana:11.1.0
     container_name: grafana
     user: "104"
-    depends_on:
-      - loki
-      - tempo
-      - prometheus
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
