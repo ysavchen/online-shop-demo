@@ -17,14 +17,20 @@ import com.example.orderservice.repository.entity.IdempotencyKeyEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
+import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 
 @Service
 class OrderService(
+    private val metricService: MetricService,
     private val orderRepository: OrderRepository,
-    private val idempotencyKeyRepository: IdempotencyKeyRepository
+    private val idempotencyKeyRepository: IdempotencyKeyRepository,
+    private val transactionManager: PlatformTransactionManager
 ) {
+
+    private val transactionTemplate = TransactionTemplate(transactionManager)
 
     @Transactional(readOnly = true)
     fun getOrders(orderRequestParams: OrderRequestParams, request: OrderSearchRequest): PagedModel<Order> =
@@ -34,13 +40,16 @@ class OrderService(
     fun getOrderById(orderId: UUID): Order = orderRepository.findByIdOrNull(orderId)?.toModel()
         ?: throw OrderNotFoundException(orderId)
 
-    @Transactional
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
-        val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
-        val savedOrder = orderRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
-        return savedOrder.toModel()
+        val order = transactionTemplate.execute {
+            val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
+            if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
+            val savedOrder = orderRepository.save(request.toEntity())
+            idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
+            savedOrder.toModel()
+        }
+        metricService.countOrders(order!!.status)
+        return order
     }
 
 }

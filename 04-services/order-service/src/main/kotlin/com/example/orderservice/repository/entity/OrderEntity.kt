@@ -63,7 +63,7 @@ enum class ItemCurrencyEntity {
 
 enum class StatusEntity {
     CREATED,
-    IN_PROGRESS,
+    IN_PROGRESS,  //заказ взят в обработку
     DECLINED,  //отклонен системой, например, из-за недостатка средств
     CANCELLED, //отменен пользователем
     COMPLETED
