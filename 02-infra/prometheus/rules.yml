@@ -1,6 +1,7 @@
 groups:
-  - name: instance-down
+  - name: service-down
     rules:
-      - alert: InstanceDown
+      # if a service is down for 1m, an alert is fired.
+      - alert: ServiceDown
         expr: up == 0
         for: 1m
