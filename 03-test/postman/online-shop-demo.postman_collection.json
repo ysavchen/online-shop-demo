@@ -283,6 +283,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "createOrder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Idempotency-Key",
+								"value": "320b0503-7bc7-4a9c-a2fb-e8d62135ec5a",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"dffa77f3-7cb2-4e30-b554-825b6377e58f\",\r\n    \"items\": [\r\n        {\r\n            \"id\": \"2695f671-6d8f-4341-b56e-5bbbc40d12fe\",\r\n            \"category\": \"BOOK\",\r\n            \"quantity\": 2,\r\n            \"price\": {\r\n                \"value\": 345.17,\r\n                \"currency\": \"RUB\"\r\n            }\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
