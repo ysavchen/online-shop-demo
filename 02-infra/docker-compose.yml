@@ -103,6 +103,16 @@ services:
     networks:
       - observability
 
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:v1.8.2
+    container_name: node-exporter
+    command:
+      - "--path.rootfs=/host"
+    network_mode: host
+    pid: host
+    volumes:
+      - "/:/host:ro,rslave"
+
   alertmanager:
     image: prom/alertmanager:v0.27.0
     container_name: alertmanager
