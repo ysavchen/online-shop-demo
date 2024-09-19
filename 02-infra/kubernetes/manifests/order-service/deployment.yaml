@@ -18,7 +18,7 @@ spec:
       containers:
         - name: order-service
           image: ysavchen/order-service:1.0.0
-          imagePullPolicy: Always
+          imagePullPolicy: Always  # for dev purposes
           ports:
             - containerPort: 8080
           securityContext:

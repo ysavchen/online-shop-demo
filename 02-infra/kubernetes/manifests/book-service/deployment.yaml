@@ -18,7 +18,7 @@ spec:
       containers:
         - name: book-service
           image: ysavchen/book-service:1.0.0
-          imagePullPolicy: Always # for dev purposes
+          imagePullPolicy: Always  # for dev purposes
           ports:
             - containerPort: 8080
           securityContext:
