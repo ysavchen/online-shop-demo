@@ -53,6 +53,7 @@ class OrderService(
             savedOrder.toModel()
         }
         metricService.countOrders(order!!.status)
+        metricService.lastOrderTime(order.createdAt)
         return order
     }
 
