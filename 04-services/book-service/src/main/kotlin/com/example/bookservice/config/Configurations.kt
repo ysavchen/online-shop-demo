@@ -3,6 +3,7 @@ package com.example.bookservice.config
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -27,7 +28,7 @@ class ApplicationConfiguration {
 class JsonConfiguration {
 
     @Bean
-    fun objectMapper() = JsonMapper.builder()
+    fun objectMapper(): ObjectMapper = JsonMapper.builder()
         .addModules(KotlinModule.Builder().build(), JavaTimeModule())
         .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
