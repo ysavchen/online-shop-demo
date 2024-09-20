@@ -3,6 +3,7 @@ package com.example.orderservice.api.rest
 import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.model.OrderSearchRequest
+import com.example.orderservice.api.rest.model.UpdateOrderStatusRequest
 import com.example.orderservice.service.OrderService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.data.web.PagedModel
@@ -33,5 +34,12 @@ class OrderController(private val orderService: OrderService) {
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest
     ): Order = orderService.createOrder(idempotencyKey, request)
+
+    @Operation(summary = "Update order status")
+    @PatchMapping("/orders/{orderId}/status")
+    fun updateOrderStatus(
+        @PathVariable("orderId") orderId: UUID,
+        @RequestBody request: UpdateOrderStatusRequest
+    ): Order = orderService.updateOrderStatus(orderId, request)
 
 }

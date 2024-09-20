@@ -22,7 +22,7 @@ data class OrderEntity(
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    val status: StatusEntity,
+    var status: StatusEntity,
 
     @Type(JsonBinaryType::class)
     @Column(columnDefinition = "jsonb")

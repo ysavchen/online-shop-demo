@@ -15,6 +15,10 @@ data class CreateOrderRequest(
     val items: Set<Item>
 )
 
+data class UpdateOrderStatusRequest(
+    val status: Status
+)
+
 data class Order(
     val id: UUID,
     val userId: UUID,

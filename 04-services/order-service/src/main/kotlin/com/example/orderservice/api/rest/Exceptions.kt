@@ -1,6 +1,7 @@
 package com.example.orderservice.api.rest
 
 import com.example.orderservice.api.rest.model.ErrorCode
+import com.example.orderservice.api.rest.model.Status
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import java.lang.RuntimeException
@@ -27,4 +28,11 @@ class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID) :
         "Duplicate request with idempotencyKey=$idempotencyKey, resource already created with id=$resourceId",
         ErrorCode.REQUEST_ALREADY_PROCESSED,
         HttpStatus.CONFLICT
+    )
+
+class InvalidOrderStatusUpdate(orderId: UUID, currentStatus: Status, newStatus: Status) :
+    ServiceException(
+        "Update order with id=$orderId from status $currentStatus to $newStatus is not valid",
+        ErrorCode.INVALID_ORDER_STATUS_UPDATE,
+        HttpStatus.FORBIDDEN
     )

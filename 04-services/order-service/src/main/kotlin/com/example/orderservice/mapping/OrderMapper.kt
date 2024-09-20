@@ -83,6 +83,14 @@ object OrderMapper {
         quantity = quantity
     )
 
+    fun Status.toEntity() = when (this) {
+        Status.CREATED -> StatusEntity.CREATED
+        Status.IN_PROGRESS -> StatusEntity.IN_PROGRESS
+        Status.DECLINED -> StatusEntity.DECLINED
+        Status.CANCELLED -> StatusEntity.CANCELLED
+        Status.COMPLETED -> StatusEntity.COMPLETED
+    }
+
     internal fun ItemCategory.toEntity() = when (this) {
         ItemCategory.BOOK -> ItemCategoryEntity.BOOK
     }
