@@ -100,7 +100,7 @@
 							"response": []
 						},
 						{
-							"name": "getBooks",
+							"name": "searchBooks",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -243,9 +243,21 @@
 			"item": [
 				{
 					"name": "getOrderById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:8091/api/v1/orders/0190bd82-13e5-77fe-bb73-0764d5e3efdb",
 							"protocol": "http",
@@ -264,12 +276,21 @@
 					"response": []
 				},
 				{
-					"name": "getOrders",
+					"name": "searchOrders",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0190bd8a-8d20-72b2-a4a6-46de1cb92e06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders",
+							"raw": "http://localhost:8091/api/v1/orders/search?page_size=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -278,7 +299,14 @@
 							"path": [
 								"api",
 								"v1",
-								"orders"
+								"orders",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -291,7 +319,7 @@
 						"header": [
 							{
 								"key": "Idempotency-Key",
-								"value": "320b0503-7bc7-4a9c-a2fb-e8d62135ec5a",
+								"value": "b7356091-f132-4464-af9b-94f8fe04ee44",
 								"type": "text"
 							}
 						],
@@ -315,6 +343,38 @@
 								"api",
 								"v1",
 								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOrderStatus",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/v1/orders/0190bd82-13e5-77fe-bb73-0764d5e3efdb/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"0190bd82-13e5-77fe-bb73-0764d5e3efdb",
+								"status"
 							]
 						}
 					},
