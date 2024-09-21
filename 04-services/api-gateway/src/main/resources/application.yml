@@ -44,6 +44,8 @@ server:
 management:
   health:
     probes.enabled: true
+  # true by default in docs, but in fact it's false
+  # bug in docs or implementation
   endpoint:
     gateway.enabled: true
   endpoints:
