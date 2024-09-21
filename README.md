@@ -31,7 +31,7 @@ docker push ysavchen/book-service:1.0.0
 minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local-cluster
 ```
 4. Apply manifests
-```
+```bash
 cd 02-infra/kubernetes/manifests
 kubectl apply -f deployment.yaml
 ```
