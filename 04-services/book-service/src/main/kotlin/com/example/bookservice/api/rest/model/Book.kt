@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.util.*
 
 data class BookSearchRequest(
-    val query: String?,  //поисковый запрос по названию книги
+    val query: String?,  //search request by book title
     val genre: String?,
     val minPrice: BigDecimal?,
     val maxPrice: BigDecimal?
