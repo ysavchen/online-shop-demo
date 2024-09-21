@@ -242,6 +242,71 @@
 			"name": "order-service",
 			"item": [
 				{
+					"name": "actuator",
+					"item": [
+						{
+							"name": "/actuator/prometheus",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/prometheus",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"prometheus"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/actuator/metrics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/metrics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"metrics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/actuator/health",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/health",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "getOrderById",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
