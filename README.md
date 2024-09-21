@@ -32,6 +32,7 @@ minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local
 ```
 4. Apply manifests
 ```
+cd 02-infra/kubernetes/manifests
 kubectl apply -f deployment.yaml
 ```
 5. Set namespace to online-shop-demo
