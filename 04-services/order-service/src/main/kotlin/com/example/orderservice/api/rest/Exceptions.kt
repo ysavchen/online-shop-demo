@@ -19,7 +19,14 @@ class OrderNotFoundException(id: UUID) :
 class UnsupportedSortingException(sortBy: String) :
     ServiceException(
         "Sorting by $sortBy is not supported",
-        ErrorCode.SORTING_CATEGORY_NOT_SUPPORTED,
+        ErrorCode.SORTING_PARAMETER_NOT_SUPPORTED,
+        HttpStatus.BAD_REQUEST
+    )
+
+class UnsupportedOrderingException(orderBy: String) :
+    ServiceException(
+        "Ordering by $orderBy is not supported",
+        ErrorCode.ORDERING_PARAMETER_NOT_SUPPORTED,
         HttpStatus.BAD_REQUEST
     )
 
