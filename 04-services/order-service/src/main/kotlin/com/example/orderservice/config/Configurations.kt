@@ -29,7 +29,7 @@ class ApplicationConfiguration(private val applicationProperties: ApplicationPro
     }
 }
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class JsonConfiguration {
 
     @Bean

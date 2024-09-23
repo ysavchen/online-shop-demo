@@ -24,7 +24,7 @@ class ApplicationConfiguration {
     }
 }
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class JsonConfiguration {
 
     @Bean

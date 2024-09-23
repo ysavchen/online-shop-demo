@@ -21,7 +21,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 annotation class IntegrationTest
 
-@TestConfiguration(proxyBeanMethods = false)
+@TestConfiguration
 class IntegrationTestConfiguration {
 
     @Bean
