@@ -29,5 +29,4 @@ object RequestMapper {
             "desc", "DESC" -> "DESC"
             else -> throw UnsupportedOrderingException(orderBy)
         }
-
 }

@@ -2,6 +2,7 @@ package com.example.bookservice.mapping
 
 import com.example.bookservice.api.rest.BookRequestParams
 import com.example.bookservice.api.rest.ReviewRequestParams
+import com.example.bookservice.api.rest.UnsupportedOrderingException
 import com.example.bookservice.api.rest.UnsupportedSortingException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -13,7 +14,7 @@ object RequestMapper {
         PageRequest.of(
             this.page,
             this.pageSize,
-            Direction.fromString(this.orderBy),
+            Direction.fromString(parseOrderBy(this.orderBy)),
             parseBookSortBy(this.sortBy)
         )
 
@@ -21,7 +22,7 @@ object RequestMapper {
         PageRequest.of(
             this.page,
             this.pageSize,
-            Direction.fromString(this.orderBy),
+            Direction.fromString(parseOrderBy(this.orderBy)),
             parseReviewSortBy(this.sortBy)
         )
 
@@ -37,5 +38,12 @@ object RequestMapper {
             "title" -> "title"
             "rating" -> "rating"
             else -> throw UnsupportedSortingException(sortBy)
+        }
+
+    private fun parseOrderBy(orderBy: String): String =
+        when (orderBy) {
+            "asc", "ASC" -> "ASC"
+            "desc", "DESC" -> "DESC"
+            else -> throw UnsupportedOrderingException(orderBy)
         }
 }
