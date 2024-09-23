@@ -62,7 +62,7 @@ Service pushes structured logs to `http://localhost:3100/loki/api/v1/push` with 
 Service -> Tempo -> Grafana
 
 Service is instrumented with Micrometer Tracing to collect spans.<br/>
-Micrometer Tracing comes with micrometer-tracing-bridge-brave.<br/>
+Micrometer Tracing comes with spring-boot-starter-actuator.<br/>
 Micrometer Tracing uses Brave (OpenZipkin) by default to collect and send spans.<br/>
 Micrometer support for OpenTelemetry is not stable yet.<br/>
 Service pushes spans to `http://localhost:9411/api/v2/spans`
