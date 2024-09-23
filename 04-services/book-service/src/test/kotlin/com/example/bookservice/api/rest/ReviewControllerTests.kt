@@ -84,7 +84,7 @@ class ReviewControllerTests {
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(ErrorCode.SORTING_CATEGORY_NOT_SUPPORTED.name)) }
+            content { string(containsString(ErrorCode.SORTING_PARAMETER_NOT_SUPPORTED.name)) }
         }
     }
 
