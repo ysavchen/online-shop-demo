@@ -1,9 +1,6 @@
 package com.example.bookservice.mapping
 
-import com.example.bookservice.api.rest.BookRequestParams
-import com.example.bookservice.api.rest.ReviewRequestParams
-import com.example.bookservice.api.rest.UnsupportedOrderingException
-import com.example.bookservice.api.rest.UnsupportedSortingException
+import com.example.bookservice.api.rest.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction
@@ -30,20 +27,20 @@ object RequestMapper {
         when (sortBy) {
             "title" -> "title"
             "release_date" -> "releaseDate"
-            else -> throw UnsupportedSortingException(sortBy)
+            else -> throw RequestValidationException("Sorting by $sortBy is not supported")
         }
 
     private fun parseReviewSortBy(sortBy: String): String =
         when (sortBy) {
             "title" -> "title"
             "rating" -> "rating"
-            else -> throw UnsupportedSortingException(sortBy)
+            else -> throw RequestValidationException("Sorting by $sortBy is not supported")
         }
 
     private fun parseOrderBy(orderBy: String): String =
         when (orderBy) {
             "asc", "ASC" -> "ASC"
             "desc", "DESC" -> "DESC"
-            else -> throw UnsupportedOrderingException(orderBy)
+            else -> throw RequestValidationException("Ordering by $orderBy is not supported")
         }
 }

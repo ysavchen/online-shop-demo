@@ -16,19 +16,8 @@ open class ServiceException(
 class OrderNotFoundException(id: UUID) :
     ServiceException("Order not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
 
-class UnsupportedSortingException(sortBy: String) :
-    ServiceException(
-        "Sorting by $sortBy is not supported",
-        ErrorCode.SORTING_PARAMETER_NOT_SUPPORTED,
-        HttpStatus.BAD_REQUEST
-    )
-
-class UnsupportedOrderingException(orderBy: String) :
-    ServiceException(
-        "Ordering by $orderBy is not supported",
-        ErrorCode.ORDERING_PARAMETER_NOT_SUPPORTED,
-        HttpStatus.BAD_REQUEST
-    )
+class RequestValidationException(message: String) :
+    ServiceException(message, ErrorCode.REQUEST_VALIDATION_ERROR, HttpStatus.BAD_REQUEST)
 
 class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID) :
     ServiceException(

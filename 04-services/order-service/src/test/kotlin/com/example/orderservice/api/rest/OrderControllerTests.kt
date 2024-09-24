@@ -1,11 +1,9 @@
 package com.example.orderservice.api.rest
 
-import com.example.orderservice.api.rest.model.ErrorCode
-import com.example.orderservice.api.rest.model.Order
-import com.example.orderservice.api.rest.model.OrderSearchRequest
-import com.example.orderservice.api.rest.model.Status
+import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
+import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.test.IntegrationTest
 import com.example.orderservice.test.OrderTestData.createOrderRequest
 import com.example.orderservice.test.OrderTestData.orderEntity
@@ -17,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import java.util.*
 
@@ -66,18 +65,34 @@ class OrderControllerTests {
     }
 
     @Test
-    fun `search with non-supported sorting`() {
+    fun `search orders with non-supported sortBy parameter`() {
         val order = orderRepository.save(orderEntity()).toModel()
         val request = OrderSearchRequest(order.userId)
 
-        mockMvc.post("/api/v1/orders/search?page=0&sortBy=language") {
+        mockMvc.post("/api/v1/orders/search?page=0&sortBy=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(ErrorCode.SORTING_PARAMETER_NOT_SUPPORTED.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+        }
+    }
+
+    @Test
+    fun `search orders with non-supported orderBy parameter`() {
+        val order = orderRepository.save(orderEntity()).toModel()
+        val request = OrderSearchRequest(order.userId)
+
+        mockMvc.post("/api/v1/orders/search?page=0&orderBy=invalidOrderBy") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -125,11 +140,19 @@ class OrderControllerTests {
         val createdOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
         assertThat(createdOrder)
             .hasFieldOrProperty("id")
+            .hasFieldOrProperty("createdAt")
+            .hasFieldOrProperty("updatedAt")
             .hasFieldOrPropertyWithValue("userId", request.userId)
             .hasFieldOrPropertyWithValue("status", Status.CREATED)
             .hasFieldOrPropertyWithValue("items", request.items)
             .hasFieldOrPropertyWithValue("totalQuantity", request.items.size)
-            .extracting("totalPrice.value").isEqualTo(request.items.sumOf { it.price.value })
+            .extracting(
+                { it.totalPrice.value },
+                { it.totalPrice.currency.name }
+            ).containsExactly(
+                request.items.sumOf { it.price.value },
+                request.items.first().price.currency.name
+            )
     }
 
     @Test
@@ -157,5 +180,76 @@ class OrderControllerTests {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
+    }
+
+    @Test
+    fun `update order to new status`() {
+        val order = orderRepository.save(orderEntity(status = StatusEntity.CREATED)).toModel()
+        val request = UpdateOrderStatusRequest(status = Status.IN_PROGRESS)
+
+        val result = mockMvc.patch("/api/v1/orders/${order.id}/status") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val updatedOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        assertThat(updatedOrder)
+            .hasFieldOrPropertyWithValue("id", order.id)
+            .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
+    }
+
+    @Test
+    fun `update order to the same status`() {
+        val order = orderRepository.save(orderEntity(status = StatusEntity.IN_PROGRESS)).toModel()
+        val request = UpdateOrderStatusRequest(status = Status.IN_PROGRESS)
+
+        val result = mockMvc.patch("/api/v1/orders/${order.id}/status") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val updatedOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        assertThat(updatedOrder)
+            .hasFieldOrPropertyWithValue("id", order.id)
+            .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
+    }
+
+    @Test
+    fun `update order to invalid status`() {
+        val order = orderRepository.save(orderEntity(status = StatusEntity.CREATED)).toModel()
+        val request = UpdateOrderStatusRequest(status = Status.COMPLETED)
+
+        mockMvc.patch("/api/v1/orders/${order.id}/status") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isForbidden() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.INVALID_ORDER_STATUS_UPDATE.name)) }
+        }.andReturn()
+    }
+
+    @Test
+    fun `update non-existing order to new status`() {
+        val request = UpdateOrderStatusRequest(status = Status.IN_PROGRESS)
+
+        mockMvc.patch("/api/v1/orders/${UUID.randomUUID()}/status") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isNotFound() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
+        }.andReturn()
     }
 }

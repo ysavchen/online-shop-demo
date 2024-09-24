@@ -9,10 +9,11 @@ import java.util.*
 object OrderTestData {
 
     fun orderEntity(
+        status: StatusEntity = nextValue<StatusEntity>(),
         items: Set<ItemEntity> = setOf(itemEntity())
     ) = OrderEntity(
         userId = UUID.randomUUID(),
-        status = nextValue<StatusEntity>(),
+        status = status,
         items = items,
         totalQuantity = items.size,
         totalPrice = TotalPriceEntity(

@@ -60,7 +60,8 @@ object BookMapper {
 
     internal fun PriceEntity.toModel() =
         if (value == null && currency == null) null
-        else if (value == null || currency == null) throw IllegalStateException("Price is inconsistent: value=$value, currency=$currency")
+        else if (value == null || currency == null)
+            throw IllegalStateException("Price is inconsistent: value=$value, currency=$currency")
         else Price(value = value!!, currency = currency?.toModel()!!)
 
     internal fun Price.toEntity() = PriceEntity(value = value, currency = currency.toEntity())

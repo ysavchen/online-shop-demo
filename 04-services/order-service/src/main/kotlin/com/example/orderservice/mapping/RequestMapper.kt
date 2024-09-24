@@ -1,8 +1,7 @@
 package com.example.orderservice.mapping
 
 import com.example.orderservice.api.rest.OrderRequestParams
-import com.example.orderservice.api.rest.UnsupportedOrderingException
-import com.example.orderservice.api.rest.UnsupportedSortingException
+import com.example.orderservice.api.rest.RequestValidationException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction
@@ -20,13 +19,13 @@ object RequestMapper {
     private fun parseSortBy(sortBy: String): String =
         when (sortBy) {
             "created_at" -> "createdAt"
-            else -> throw UnsupportedSortingException(sortBy)
+            else -> throw RequestValidationException("Sorting by $sortBy is not supported")
         }
 
     private fun parseOrderBy(orderBy: String): String =
         when (orderBy) {
             "asc", "ASC" -> "ASC"
             "desc", "DESC" -> "DESC"
-            else -> throw UnsupportedOrderingException(orderBy)
+            else -> throw RequestValidationException("Ordering by $orderBy is not supported")
         }
 }

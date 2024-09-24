@@ -72,19 +72,36 @@ class ReviewControllerTests {
     }
 
     @Test
-    fun `search with non-supported sorting`() {
+    fun `search reviews with non-supported sortBy parameter`() {
         val book = bookRepository.save(bookEntity()).toModel()
         reviewRepository.save(reviewEntity(book.id)).toModel()
         val request = ReviewSearchRequest(book.id)
 
-        mockMvc.post("/api/v1/reviews/search?page=0&sortBy=language") {
+        mockMvc.post("/api/v1/reviews/search?page=0&sortBy=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(ErrorCode.SORTING_PARAMETER_NOT_SUPPORTED.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+        }
+    }
+
+    @Test
+    fun `search reviews with non-supported orderBy parameter`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        reviewRepository.save(reviewEntity(book.id)).toModel()
+        val request = ReviewSearchRequest(book.id)
+
+        mockMvc.post("/api/v1/reviews/search?page=0&orderBy=invalidOrderBy") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
