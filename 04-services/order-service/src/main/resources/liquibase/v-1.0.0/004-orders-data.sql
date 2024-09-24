@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset ysavchen:003.01 runOnChange:false splitStatements:false runInTransaction:false
+--changeset ysavchen:004.01 runOnChange:false splitStatements:false runInTransaction:false
 INSERT INTO orders (id, user_id, status, items, total_quantity, total_price, currency)
 VALUES
   (

@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset Savchenko Y.A.:001.01 runOnChange:false splitStatements:false runInTransaction:false
+--changeset ysavchen:001.01 runOnChange:false splitStatements:false runInTransaction:false
 CREATE OR REPLACE FUNCTION updated_at_column_func() RETURNS trigger AS
 $$
 BEGIN
