@@ -42,9 +42,9 @@ management:
     distribution:
       # Publish a cumulative histogram with buckets defined by your service-level objectives
       # 50ms should be most common for internal requests
-      # 100ms is a good result for external requests
+      # 100ms is low latency for external requests
       # 300ms should be most common for external requests
-      # 500ms is slow for external requests
+      # 500ms is high latency for external requests
       slo.http.server.requests: 50ms, 100ms, 300ms, 500ms, 1s, 2s, 5s
 
       # Publish percentile values computed in your application

@@ -18,9 +18,13 @@ import java.util.*
 @ImportRuntimeHints(AppRuntimeHints::class)
 class ApplicationConfiguration {
 
+    companion object {
+        private const val SERVER_TIMEZONE = "UTC"
+    }
+
     @PostConstruct
     fun setTimezone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        TimeZone.setDefault(TimeZone.getTimeZone(SERVER_TIMEZONE))
     }
 }
 
