@@ -17,4 +17,18 @@ data class IdempotencyKeyEntity(
 
     @Column(name = "order_id")
     val orderId: UUID
-)
+) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as IdempotencyKeyEntity
+
+        return idempotencyKey == other.idempotencyKey
+    }
+
+    override fun hashCode(): Int {
+        return idempotencyKey.hashCode()
+    }
+}

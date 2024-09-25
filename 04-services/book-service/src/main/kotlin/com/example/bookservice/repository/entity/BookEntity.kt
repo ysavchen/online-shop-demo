@@ -42,8 +42,9 @@ data class BookEntity(
     var quantity: Int,
 
     @Embedded
-    var price: PriceEntity,
+    var price: PriceEntity
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
