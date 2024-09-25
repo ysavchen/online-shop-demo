@@ -49,6 +49,7 @@ data class BookEntity(
         if (javaClass != other?.javaClass) return false
 
         other as BookEntity
+
         return isbn == other.isbn
     }
 
