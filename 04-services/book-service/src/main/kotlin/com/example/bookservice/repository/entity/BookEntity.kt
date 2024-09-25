@@ -2,6 +2,7 @@ package com.example.bookservice.repository.entity
 
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
+import org.hibernate.annotations.NaturalId
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
@@ -16,7 +17,8 @@ data class BookEntity(
     @Column(name = "id", nullable = false)
     val id: UUID? = null,
 
-    @Column(name = "isbn", nullable = false)
+    @NaturalId
+    @Column(name = "isbn", nullable = false, unique = true)
     val isbn: String,
 
     @Column(name = "title", nullable = false)
@@ -47,21 +49,11 @@ data class BookEntity(
         if (javaClass != other?.javaClass) return false
 
         other as BookEntity
-
-        if (id != other.id) return false
-        if (title != other.title) return false
-        if (!authors.contentEquals(other.authors)) return false
-        if (genre != other.genre) return false
-
-        return true
+        return isbn == other.isbn
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + authors.contentHashCode()
-        result = 31 * result + genre.hashCode()
-        return result
+        return isbn.hashCode()
     }
 }
 
