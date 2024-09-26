@@ -316,7 +316,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -324,7 +324,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/0190bd82-13e5-77fe-bb73-0764d5e3efdb",
+							"raw": "http://localhost:8091/api/v1/orders/902a1cfb-4e43-4d1a-844a-0e902b13c2db",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -334,7 +334,7 @@
 								"api",
 								"v1",
 								"orders",
-								"0190bd82-13e5-77fe-bb73-0764d5e3efdb"
+								"902a1cfb-4e43-4d1a-844a-0e902b13c2db"
 							]
 						}
 					},
@@ -355,7 +355,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/search?page_size=2",
+							"raw": "http://localhost:8091/api/v1/orders/search?page=0&page_size=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -368,6 +368,10 @@
 								"search"
 							],
 							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
 								{
 									"key": "page_size",
 									"value": "2"
@@ -384,13 +388,13 @@
 						"header": [
 							{
 								"key": "Idempotency-Key",
-								"value": "b7356091-f132-4464-af9b-94f8fe04ee44",
+								"value": "20df42e4-4351-4b51-b680-db0295d5ed74",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": \"dffa77f3-7cb2-4e30-b554-825b6377e58f\",\r\n    \"items\": [\r\n        {\r\n            \"id\": \"2695f671-6d8f-4341-b56e-5bbbc40d12fe\",\r\n            \"category\": \"BOOK\",\r\n            \"quantity\": 2,\r\n            \"price\": {\r\n                \"value\": 345.17,\r\n                \"currency\": \"RUB\"\r\n            }\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"userId\": \"dffa77f3-7cb2-4e30-b554-825b6377e58f\",\r\n    \"items\": [\r\n        {\r\n            \"id\": \"2d738afa-f3ec-4d20-9ed6-eaf5f3e24a23\",\r\n            \"category\": \"BOOK\",\r\n            \"quantity\": 3,\r\n            \"price\": {\r\n                \"value\": 372.17,\r\n                \"currency\": \"RUB\"\r\n            }\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
