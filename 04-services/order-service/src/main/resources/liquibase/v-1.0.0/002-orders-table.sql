@@ -21,7 +21,7 @@ COMMENT ON COLUMN orders.status IS 'Статус заказа';
 COMMENT ON COLUMN orders.items IS 'Заказанные товары';
 COMMENT ON COLUMN orders.total_quantity IS 'Общее количество товаров в заказе';
 COMMENT ON COLUMN orders.total_price IS 'Общая стоимость заказа';
-COMMENT ON COLUMN orders.currency IS 'Валюта заказа';
+COMMENT ON COLUMN orders.currency IS 'Валюта общей стоимости заказа';
 COMMENT ON COLUMN orders.created_at IS 'Дата и время создания записи';
 COMMENT ON COLUMN orders.updated_at IS 'Дата и время последнего изменения записи';
 
