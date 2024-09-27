@@ -27,7 +27,7 @@ COMMENT ON COLUMN books.genre IS 'Жанр книги';
 COMMENT ON COLUMN books.release_date IS 'Дата выхода книги';
 COMMENT ON COLUMN books.quantity IS 'Количество книг на складе';
 COMMENT ON COLUMN books.price IS 'Цена книги';
-COMMENT ON COLUMN books.currency IS 'Валюта для цены книги';
+COMMENT ON COLUMN books.currency IS 'Валюта цены книги';
 COMMENT ON COLUMN books.created_at IS 'Дата и время создания записи';
 COMMENT ON COLUMN books.updated_at IS 'Дата и время последнего изменения записи';
 
