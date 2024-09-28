@@ -77,7 +77,7 @@ class OrderService(
     private fun isStatusUpdateValid(currentStatus: StatusEntity, newStatus: StatusEntity): Boolean =
         if (currentStatus == newStatus) true
         else if (currentStatus == CREATED && newStatus in listOf(IN_PROGRESS, DECLINED, CANCELLED)) true
-        else if (currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, COMPLETED)) true
+        else if (currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, DELIVERED)) true
         else false
 
 }

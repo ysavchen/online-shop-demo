@@ -1,10 +1,7 @@
 package com.example.orderservice.repository.entity
 
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
-import org.hibernate.annotations.Type
 import org.hibernate.annotations.UuidGenerator
-import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -24,10 +21,6 @@ data class OrderEntity(
     @Enumerated(EnumType.STRING)
     var status: StatusEntity,
 
-    @Type(JsonBinaryType::class)
-    @Column(columnDefinition = "jsonb")
-    val items: Set<ItemEntity>,
-
     @Column(name = "total_quantity", nullable = false)
     val totalQuantity: Int,
 
@@ -40,6 +33,9 @@ data class OrderEntity(
     @Column(name = "updated_at", nullable = false)
     val updatedAt: OffsetDateTime
 ) {
+
+    @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
+    val items: MutableSet<OrderItemEntity> = mutableSetOf()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -55,34 +51,29 @@ data class OrderEntity(
     }
 }
 
-data class ItemEntity(
-    val id: UUID,
-    val category: ItemCategoryEntity,
-    val quantity: Int,
-    val price: ItemPriceEntity
-)
-
-data class ItemPriceEntity(
-    val value: BigDecimal,
-    val currency: ItemCurrencyEntity
-)
-
-enum class ItemCategoryEntity {
-    BOOK
-}
-
-enum class ItemCurrencyEntity {
-    RUB, EUR
-}
-
 enum class StatusEntity {
+    /**
+     * Заказ создан в системе
+     */
     CREATED,
-    IN_PROGRESS,  //заказ взят в обработку
-    DECLINED,  //отклонен системой, например, из-за недостатка средств
-    CANCELLED, //отменен пользователем
-    COMPLETED
-}
 
-enum class CurrencyEntity {
-    RUB, EUR
+    /**
+     * Заказ взят в обработку
+     */
+    IN_PROGRESS,
+
+    /**
+     * Заказ отклонен системой, например, из-за недостатка средств
+     */
+    DECLINED,
+
+    /**
+     * Заказ отменен пользователем
+     */
+    CANCELLED,
+
+    /**
+     * Заказ доставлен пользователю
+     */
+    DELIVERED
 }

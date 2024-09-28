@@ -6,10 +6,9 @@ CREATE TABLE IF NOT EXISTS orders
     id             uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     user_id        uuid           NOT NULL,
     status         varchar(15)    NOT NULL,
-    items          jsonb          NOT NULL,
     total_quantity smallint       NOT NULL,
     total_price    numeric(12, 2) NOT NULL,
-    currency       varchar(3)     NOT NULL,
+    total_currency varchar(3)     NOT NULL,
     created_at     timestamptz    NOT NULL DEFAULT NOW(),
     updated_at     timestamptz    NOT NULL DEFAULT NOW()
 );
@@ -18,10 +17,9 @@ COMMENT ON TABLE orders IS 'Таблица для хранения заказо�
 COMMENT ON COLUMN orders.id IS 'ID записи, первичный ключ';
 COMMENT ON COLUMN orders.user_id IS 'ID покупателя';
 COMMENT ON COLUMN orders.status IS 'Статус заказа';
-COMMENT ON COLUMN orders.items IS 'Заказанные товары';
 COMMENT ON COLUMN orders.total_quantity IS 'Общее количество товаров в заказе';
 COMMENT ON COLUMN orders.total_price IS 'Общая стоимость заказа';
-COMMENT ON COLUMN orders.currency IS 'Валюта общей стоимости заказа';
+COMMENT ON COLUMN orders.total_currency IS 'Валюта общей стоимости заказа';
 COMMENT ON COLUMN orders.created_at IS 'Дата и время создания записи';
 COMMENT ON COLUMN orders.updated_at IS 'Дата и время последнего изменения записи';
 

@@ -10,21 +10,25 @@ object OrderTestData {
 
     fun orderEntity(
         status: StatusEntity = nextValue<StatusEntity>(),
-        items: Set<ItemEntity> = setOf(itemEntity())
-    ) = OrderEntity(
-        userId = UUID.randomUUID(),
-        status = status,
-        items = items,
-        totalQuantity = items.size,
-        totalPrice = TotalPriceEntity(
-            value = items.sumOf { it.price.value },
-            currency = CurrencyEntity.RUB
-        ),
-        createdAt = OffsetDateTime.now(),
-        updatedAt = OffsetDateTime.now()
-    )
+        orderItemEntities: Set<OrderItemEntity> = setOf(orderItemEntity())
+    ): OrderEntity {
+        val orderEntity = OrderEntity(
+            userId = UUID.randomUUID(),
+            status = status,
+            totalQuantity = orderItemEntities.size,
+            totalPrice = TotalPriceEntity(
+                value = orderItemEntities.sumOf { it.price.value },
+                currency = CurrencyEntity.RUB
+            ),
+            createdAt = OffsetDateTime.now(),
+            updatedAt = OffsetDateTime.now()
+        )
+        orderItemEntities.forEach { it.order = orderEntity }
+        orderEntity.items.addAll(orderItemEntities)
+        return orderEntity
+    }
 
-    fun itemEntity() = ItemEntity(
+    fun orderItemEntity() = OrderItemEntity(
         id = UUID.randomUUID(),
         category = nextValue<ItemCategoryEntity>(),
         quantity = randomNumeric(3).toInt(),
@@ -35,13 +39,13 @@ object OrderTestData {
     )
 
     fun createOrderRequest(
-        items: Set<Item> = setOf(item())
+        items: Set<OrderItem> = setOf(orderItem())
     ) = CreateOrderRequest(
         userId = UUID.randomUUID(),
         items = items
     )
 
-    fun item() = Item(
+    fun orderItem() = OrderItem(
         id = UUID.randomUUID(),
         category = nextValue<ItemCategory>(),
         quantity = randomNumeric(3).toInt(),

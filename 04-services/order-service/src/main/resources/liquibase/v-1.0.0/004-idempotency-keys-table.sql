@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset ysavchen:003.01 runOnChange:false splitStatements:true runInTransaction:false
+--changeset ysavchen:004.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS idempotency_keys
 (
     idempotency_key uuid        NOT NULL,

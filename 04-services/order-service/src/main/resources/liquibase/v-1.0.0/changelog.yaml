@@ -6,8 +6,11 @@ databaseChangeLog:
       file: liquibase/v-1.0.0/002-orders-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/003-idempotency-keys-table.sql
+      file: liquibase/v-1.0.0/003-order-items-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/004-orders-data.sql
+      file: liquibase/v-1.0.0/004-idempotency-keys-table.sql
       relativeToChangelogFile: false
+  #- include:
+  #    file: liquibase/v-1.0.0/005-orders-data.sql
+  #    relativeToChangelogFile: false

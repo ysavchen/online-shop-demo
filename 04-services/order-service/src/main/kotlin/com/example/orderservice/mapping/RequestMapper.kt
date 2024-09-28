@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort.Direction
 
 object RequestMapper {
 
-    internal fun OrderRequestParams.toPageable(): Pageable =
+    fun OrderRequestParams.toPageable(): Pageable =
         PageRequest.of(
             this.page,
             this.pageSize,

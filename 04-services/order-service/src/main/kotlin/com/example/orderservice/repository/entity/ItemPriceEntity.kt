@@ -7,15 +7,15 @@ import jakarta.persistence.Enumerated
 import java.math.BigDecimal
 
 @Embeddable
-data class TotalPriceEntity(
-    @Column(name = "total_price", columnDefinition = "NUMERIC")
+data class ItemPriceEntity(
+    @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
     val value: BigDecimal,
 
-    @Column(name = "total_currency")
+    @Column(name = "currency", nullable = false)
     @Enumerated(EnumType.STRING)
-    val currency: CurrencyEntity
+    val currency: ItemCurrencyEntity
 )
 
-enum class CurrencyEntity {
+enum class ItemCurrencyEntity {
     RUB, EUR
 }

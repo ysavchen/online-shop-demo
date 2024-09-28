@@ -225,7 +225,7 @@ class OrderControllerTests {
     @Test
     fun `update order to invalid status`() {
         val order = orderRepository.save(orderEntity(status = StatusEntity.CREATED)).toModel()
-        val request = UpdateOrderStatusRequest(status = Status.COMPLETED)
+        val request = UpdateOrderStatusRequest(status = Status.DELIVERED)
 
         mockMvc.patch("/api/v1/orders/${order.id}/status") {
             contentType = MediaType.APPLICATION_JSON
