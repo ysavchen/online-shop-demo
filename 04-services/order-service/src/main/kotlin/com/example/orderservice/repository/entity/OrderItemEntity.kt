@@ -1,11 +1,9 @@
 package com.example.orderservice.repository.entity
 
 import jakarta.persistence.*
-import org.hibernate.annotations.Immutable
 import java.util.*
 
 @Entity
-@Immutable
 @Table(name = "order_items")
 data class OrderItemEntity(
     @Id
