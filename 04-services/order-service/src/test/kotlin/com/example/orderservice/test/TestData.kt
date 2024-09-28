@@ -23,8 +23,7 @@ object OrderTestData {
             createdAt = OffsetDateTime.now(),
             updatedAt = OffsetDateTime.now()
         )
-        orderItemEntities.forEach { it.order = orderEntity }
-        orderEntity.items.addAll(orderItemEntities)
+        orderEntity.addItems(orderItemEntities)
         return orderEntity
     }
 
