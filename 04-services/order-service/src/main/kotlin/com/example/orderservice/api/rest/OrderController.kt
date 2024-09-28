@@ -1,9 +1,6 @@
 package com.example.orderservice.api.rest
 
-import com.example.orderservice.api.rest.model.CreateOrderRequest
-import com.example.orderservice.api.rest.model.Order
-import com.example.orderservice.api.rest.model.OrderSearchRequest
-import com.example.orderservice.api.rest.model.UpdateOrderStatusRequest
+import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.service.OrderService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.data.web.PagedModel

@@ -3,7 +3,7 @@ package com.example.orderservice.service
 import com.example.orderservice.api.rest.DuplicateRequestException
 import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
-import com.example.orderservice.api.rest.OrderRequestParams
+import com.example.orderservice.api.rest.model.OrderRequestParams
 import com.example.orderservice.api.rest.model.CreateOrderRequest
 import com.example.orderservice.api.rest.model.Order
 import com.example.orderservice.api.rest.model.OrderSearchRequest

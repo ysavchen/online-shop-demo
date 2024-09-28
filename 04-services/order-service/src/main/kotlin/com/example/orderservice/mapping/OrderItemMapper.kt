@@ -11,7 +11,7 @@ import com.example.orderservice.repository.entity.OrderItemEntity
 
 object OrderItemMapper {
 
-    fun OrderItemEntity.toModel() = OrderItem(
+    internal fun OrderItemEntity.toModel() = OrderItem(
         id = id,
         category = category.toModel(),
         price = ItemPrice(
@@ -21,7 +21,7 @@ object OrderItemMapper {
         quantity = quantity
     )
 
-    fun OrderItem.toEntity() = OrderItemEntity(
+    internal fun OrderItem.toEntity() = OrderItemEntity(
         id = id,
         category = category.toEntity(),
         price = ItemPriceEntity(

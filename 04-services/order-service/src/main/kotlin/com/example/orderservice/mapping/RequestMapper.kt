@@ -1,6 +1,6 @@
 package com.example.orderservice.mapping
 
-import com.example.orderservice.api.rest.OrderRequestParams
+import com.example.orderservice.api.rest.model.OrderRequestParams
 import com.example.orderservice.api.rest.RequestValidationException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort.Direction
 
 object RequestMapper {
 
-    fun OrderRequestParams.toPageable(): Pageable =
+    internal fun OrderRequestParams.toPageable(): Pageable =
         PageRequest.of(
             this.page,
             this.pageSize,

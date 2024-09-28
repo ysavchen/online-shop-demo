@@ -1,4 +1,4 @@
-package com.example.orderservice.api.rest
+package com.example.orderservice.api.rest.model
 
 const val IDEMPOTENCY_KEY = "Idempotency-Key"
 

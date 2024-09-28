@@ -10,7 +10,7 @@ import java.time.OffsetDateTime
 
 object OrderMapper {
 
-    fun OrderEntity.toModel() = Order(
+    internal fun OrderEntity.toModel() = Order(
         id = id!!,
         userId = userId,
         status = status.toModel(),
@@ -21,16 +21,16 @@ object OrderMapper {
         updatedAt = updatedAt
     )
 
-    fun TotalPriceEntity.toModel() = TotalPrice(
+    internal fun TotalPriceEntity.toModel() = TotalPrice(
         value = value,
         currency = currency.toModel()
     )
 
-    fun Page<OrderEntity>.toPagedModel() = PagedModel(
+    internal fun Page<OrderEntity>.toPagedModel() = PagedModel(
         this.map { it.toModel() }
     )
 
-    fun StatusEntity.toModel() = when (this) {
+    internal fun StatusEntity.toModel() = when (this) {
         StatusEntity.CREATED -> Status.CREATED
         StatusEntity.IN_PROGRESS -> Status.IN_PROGRESS
         StatusEntity.DECLINED -> Status.DECLINED
@@ -38,12 +38,12 @@ object OrderMapper {
         StatusEntity.DELIVERED -> Status.DELIVERED
     }
 
-    fun CurrencyEntity.toModel() = when (this) {
+    internal fun CurrencyEntity.toModel() = when (this) {
         CurrencyEntity.RUB -> Currency.RUB
         CurrencyEntity.EUR -> Currency.EUR
     }
 
-    fun CreateOrderRequest.toEntity(): OrderEntity {
+    internal fun CreateOrderRequest.toEntity(): OrderEntity {
         val itemEntities = items.map { it.toEntity() }.toSet()
         val orderEntity = OrderEntity(
             userId = userId,
@@ -56,12 +56,11 @@ object OrderMapper {
             createdAt = OffsetDateTime.now(),
             updatedAt = OffsetDateTime.now()
         )
-        itemEntities.forEach { it.order = orderEntity }
-        orderEntity.items.addAll(itemEntities)
+        orderEntity.addItems(itemEntities)
         return orderEntity
     }
 
-    fun Status.toEntity() = when (this) {
+    internal fun Status.toEntity() = when (this) {
         Status.CREATED -> StatusEntity.CREATED
         Status.IN_PROGRESS -> StatusEntity.IN_PROGRESS
         Status.DECLINED -> StatusEntity.DECLINED
