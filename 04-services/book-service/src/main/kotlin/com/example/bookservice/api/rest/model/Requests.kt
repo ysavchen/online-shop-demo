@@ -1,4 +1,4 @@
-package com.example.bookservice.api.rest
+package com.example.bookservice.api.rest.model
 
 const val IDEMPOTENCY_KEY = "Idempotency-Key"
 

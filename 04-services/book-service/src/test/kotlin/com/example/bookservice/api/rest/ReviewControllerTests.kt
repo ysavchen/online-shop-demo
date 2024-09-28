@@ -1,6 +1,7 @@
 package com.example.bookservice.api.rest
 
 import com.example.bookservice.api.rest.model.ErrorCode
+import com.example.bookservice.api.rest.model.IDEMPOTENCY_KEY
 import com.example.bookservice.api.rest.model.Review
 import com.example.bookservice.api.rest.model.ReviewSearchRequest
 import com.example.bookservice.mapping.BookMapper.toModel

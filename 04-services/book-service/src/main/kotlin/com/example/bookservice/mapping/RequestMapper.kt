@@ -1,6 +1,8 @@
 package com.example.bookservice.mapping
 
 import com.example.bookservice.api.rest.*
+import com.example.bookservice.api.rest.model.BookRequestParams
+import com.example.bookservice.api.rest.model.ReviewRequestParams
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort.Direction

@@ -1,8 +1,6 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.api.rest.model.CreateReviewRequest
-import com.example.bookservice.api.rest.model.Review
-import com.example.bookservice.api.rest.model.ReviewSearchRequest
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.service.ReviewService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.data.web.PagedModel

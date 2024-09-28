@@ -3,6 +3,7 @@ package com.example.bookservice.api.rest
 import com.example.bookservice.api.rest.model.Book
 import com.example.bookservice.api.rest.model.BookSearchRequest
 import com.example.bookservice.api.rest.model.ErrorCode
+import com.example.bookservice.api.rest.model.IDEMPOTENCY_KEY
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
