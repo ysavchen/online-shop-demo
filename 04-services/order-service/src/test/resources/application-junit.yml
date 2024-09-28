@@ -2,7 +2,6 @@ spring:
   application:
     name: order-service
     org: online-shop-demo
-    timezone: UTC
   jpa:
     open-in-view: false
   liquibase:
