@@ -11,6 +11,7 @@ data class OrderItemEntity(
     val id: UUID,
 
     @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
     val category: ItemCategoryEntity,
 
     @Column(name = "quantity", nullable = false)
@@ -19,6 +20,10 @@ data class OrderItemEntity(
     @Embedded
     val price: ItemPriceEntity
 ) {
+
+    /**
+     * Set order via the parent entity using method [OrderEntity.addItems]
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_fk", nullable = false)
     var order: OrderEntity? = null

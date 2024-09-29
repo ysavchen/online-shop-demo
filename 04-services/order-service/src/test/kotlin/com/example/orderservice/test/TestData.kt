@@ -11,21 +11,17 @@ object OrderTestData {
     fun orderEntity(
         status: StatusEntity = nextValue<StatusEntity>(),
         orderItemEntities: Set<OrderItemEntity> = setOf(orderItemEntity())
-    ): OrderEntity {
-        val orderEntity = OrderEntity(
-            userId = UUID.randomUUID(),
-            status = status,
-            totalQuantity = orderItemEntities.size,
-            totalPrice = TotalPriceEntity(
-                value = orderItemEntities.sumOf { it.price.value },
-                currency = CurrencyEntity.RUB
-            ),
-            createdAt = OffsetDateTime.now(),
-            updatedAt = OffsetDateTime.now()
-        )
-        orderEntity.addItems(orderItemEntities)
-        return orderEntity
-    }
+    ) = OrderEntity(
+        userId = UUID.randomUUID(),
+        status = status,
+        totalQuantity = orderItemEntities.size,
+        totalPrice = TotalPriceEntity(
+            value = orderItemEntities.sumOf { it.price.value },
+            currency = CurrencyEntity.RUB
+        ),
+        createdAt = OffsetDateTime.now(),
+        updatedAt = OffsetDateTime.now()
+    ).apply { addItems(orderItemEntities) }
 
     fun orderItemEntity() = OrderItemEntity(
         id = UUID.randomUUID(),

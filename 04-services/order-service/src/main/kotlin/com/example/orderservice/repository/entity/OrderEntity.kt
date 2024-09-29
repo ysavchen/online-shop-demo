@@ -37,8 +37,8 @@ data class OrderEntity(
     @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     val items: MutableSet<OrderItemEntity> = mutableSetOf()
 
-    fun addItems(items: Set<OrderItemEntity>): OrderEntity {
-        items.forEach { item ->
+    fun addItems(itemEntities: Set<OrderItemEntity>): OrderEntity {
+        itemEntities.forEach { item ->
             this.items.add(item)
             item.order = this
         }

@@ -14,3 +14,6 @@ databaseChangeLog:
   - include:
       file: liquibase/v-1.0.0/005-orders-data.sql
       relativeToChangelogFile: false
+  - include:
+      file: liquibase/v-1.0.0/006-order-items-data.sql
+      relativeToChangelogFile: false

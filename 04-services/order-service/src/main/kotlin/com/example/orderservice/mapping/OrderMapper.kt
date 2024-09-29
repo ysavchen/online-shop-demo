@@ -55,8 +55,7 @@ object OrderMapper {
             ),
             createdAt = OffsetDateTime.now(),
             updatedAt = OffsetDateTime.now()
-        )
-        orderEntity.addItems(itemEntities)
+        ).apply { addItems(itemEntities) }
         return orderEntity
     }
 
