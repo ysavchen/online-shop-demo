@@ -22,7 +22,7 @@ data class OrderItemEntity(
 ) {
 
     /**
-     * Set order via the parent entity using method [OrderEntity.addItems]
+     * Set order via parent entity using [OrderEntity.addItems]
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_fk", nullable = false)
