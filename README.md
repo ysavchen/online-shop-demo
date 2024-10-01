@@ -51,7 +51,7 @@ minikube stop -p local-cluster
 ```
 
 ### Observability
-
+![observability-schema](./01-schema/observability.png)
 #### Logging
 Logger - kotlin-logging facade + Logback (default in Spring).<br/>
 Service pushes structured logs to `http://localhost:3100/loki/api/v1/push` with loki-logback-appender.
@@ -67,8 +67,6 @@ Service is instrumented with Micrometer to collect metrics.<br/>
 Micrometer comes with spring-boot-starter-actuator.<br/>
 Service provides metrics in Prometheus format with micrometer-registry-prometheus.<br/>
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`
-
-![observability-schema](./01-schema/observability.png)
 
 ### Useful URLs
 
