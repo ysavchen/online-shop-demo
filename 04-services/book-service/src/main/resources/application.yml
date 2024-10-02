@@ -41,16 +41,11 @@ management:
       application: ${spring.application.name}
     distribution:
       # Publish a cumulative histogram with buckets defined by your service-level objectives
-      # 50ms should be most common for internal requests
+      # 50ms is medium latency for internal requests
       # 100ms is low latency for external requests
-      # 300ms should be most common for external requests
+      # 300ms is medium latency for external requests
       # 500ms is high latency for external requests
-      slo.http.server.requests: 50ms, 100ms, 300ms, 500ms, 1s, 2s, 5s
-
-      # Publish percentile values computed in your application
-      # 0.5 exposes medium latency
-      # 0.95 exposes the tail of the latency distribution
-      percentiles.http.server.requests: 0.5, 0.95
+      slo.http.server.requests: 50ms, 100ms, 200ms, 300ms, 500ms, 1s, 2s, 5s
   # By default, Spring Boot samples only 10% of requests to prevent overwhelming the trace backend.
   # This property switches it to 100% so that every request is sent to the trace backend.
   tracing:
