@@ -70,6 +70,26 @@ Micrometer comes with spring-boot-starter-actuator.<br/>
 Service provides metrics in Prometheus format with micrometer-registry-prometheus.<br/>
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
+### RED Monitoring
+1. Rate
+```
+sum(rate(http_server_requests_seconds_count{job="book-service"}[1m]))
+```
+2. Errors
+```
+sum by (job) (rate(http_server_requests_seconds_count{status!~"2..|3..", job="book-service"}[1m]))
+/
+sum by (job) (rate(http_server_requests_seconds_count{job="book-service"}[1m])) * 100
+```
+3. Duration
+```
+50th Percentile
+histogram_quantile(0.5, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
+
+95th Percentile
+histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
+```
+
 ### Useful URLs
 
 #### Infra
