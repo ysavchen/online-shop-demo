@@ -51,10 +51,12 @@ class OrderService(
             val savedOrder = orderRepository.save(request.toEntity())
             idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
             savedOrder.toModel()
+        }.also { order ->
+            metricService.countOrders(order!!.status)
+            metricService.lastOrderTime(order.createdAt)
+            metricService.orderPriceSummary(order.totalPrice)
         }
-        metricService.countOrders(order!!.status)
-        metricService.lastOrderTime(order.createdAt)
-        return order
+        return order!!
     }
 
     fun updateOrderStatus(orderId: UUID, request: UpdateOrderStatusRequest): Order {
