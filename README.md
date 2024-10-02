@@ -82,13 +82,11 @@ sum by (job) (rate(http_server_requests_seconds_count{status!~"2..|3..", job="bo
 sum by (job) (rate(http_server_requests_seconds_count{job="book-service"}[1m])) * 100
 ```
 3. Duration
-
+```
 50th Percentile
-```
 histogram_quantile(0.5, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
-```
+
 95th Percentile
-```
 histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
 ```
 
