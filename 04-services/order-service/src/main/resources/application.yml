@@ -13,6 +13,9 @@ spring:
       one-indexed-parameters: true # config doesn't work, bug in Spring
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 10
   liquibase:
     change-log: classpath:liquibase/master.yaml
 
