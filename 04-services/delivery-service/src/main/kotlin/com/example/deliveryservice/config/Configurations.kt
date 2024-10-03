@@ -10,7 +10,7 @@ import java.util.*
 class ApplicationConfiguration {
 
     companion object {
-        private const val SERVER_TIMEZONE = "UTC"
+        private const val SERVER_TIMEZONE = "Europe/Moscow"
     }
 
     @PostConstruct
