@@ -61,7 +61,7 @@ Service pushes structured logs to `http://localhost:3100/loki/api/v1/push` with 
 #### Tracing
 Service is instrumented with Micrometer Tracing to collect spans.<br/>
 Micrometer Tracing comes with spring-boot-starter-actuator.<br/>
-Micrometer Tracing uses Brave (OpenZipkin) by default to collect and send spans.<br/>
+Micrometer Tracing uses Brave (OpenZipkin) to collect and send spans.<br/>
 Service pushes spans to `http://localhost:9411/api/v2/spans`
 
 #### Metrics
@@ -83,11 +83,11 @@ sum by (job) (rate(http_server_requests_seconds_count{job="book-service"}[1m])) 
 ```
 3. Duration
 ```
-50th Percentile
-histogram_quantile(0.5, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
+// 50th percentile
+histogram_quantile(0.5, sum by (le) (rate(http_server_requests_seconds_bucket{job="book-service"}[1m])))
 
-95th Percentile
-histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job="book-service"}[1m])) by (le))
+// 95th percentile
+histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="book-service"}[1m])))
 ```
 
 ### Useful URLs
