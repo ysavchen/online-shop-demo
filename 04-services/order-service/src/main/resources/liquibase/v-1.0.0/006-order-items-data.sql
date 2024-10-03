@@ -4,6 +4,30 @@
 INSERT INTO order_items (id, category, quantity, price, currency, order_fk)
 VALUES
   (
+    '01907548-14b5-71da-8d0b-4d38296015ce',
+    'BOOKS',
+    1,
+    369.00,
+    'RUB',
+    '019251e2-46c8-72b2-9a71-bb14e49a1857'
+  ),
+  (
+    '01907547-c86d-71e5-896f-ba05fddafd2b',
+    'BOOKS',
+    2,
+    469.00,
+    'RUB',
+    '019251d3-4b85-7696-a9b9-b05c5d8e6a9e'
+  ),
+  (
+    '01907547-ef4d-7277-a902-c2a9ffc74e4f',
+    'BOOKS',
+    3,
+    462.47,
+    'RUB',
+    '019251d3-4b85-7696-a9b9-b05c5d8e6a9e'
+  ),
+  (
     '01907545-eaf3-7de3-9157-dce3ece084e6',
     'BOOKS',
     1,
