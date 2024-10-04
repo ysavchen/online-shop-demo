@@ -208,7 +208,7 @@ services:
   logstash:
     image: logstash:8.14.1
     container_name: logstash
-    profiles: ["elk"]
+    profiles: [ "elk" ]
     ports:
       - "5044:5044"
       - "50000:50000/tcp"
@@ -222,7 +222,7 @@ services:
   elasticsearch:
     image: elasticsearch:8.14.1
     container_name: elasticsearch
-    profiles: ["elk"]
+    profiles: [ "elk" ]
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
@@ -235,7 +235,7 @@ services:
   kibana:
     image: kibana:8.14.1
     container_name: kibana
-    profiles: ["elk"]
+    profiles: [ "elk" ]
     ports:
       - "5601:5601"
     environment:
