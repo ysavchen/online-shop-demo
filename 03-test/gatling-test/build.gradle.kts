@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.gatling.gradle") version "3.9.2"
+    id("io.gatling.gradle") version "3.12.0"
 }
 
 group = "org.example"
@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:3.11.4")
+    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:3.12.0")
 }
