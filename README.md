@@ -77,16 +77,16 @@ sum(rate(http_server_requests_seconds_count{job="book-service"}[1m]))
 ```
 2. Errors
 ```
-sum by (job) (rate(http_server_requests_seconds_count{status!~"2..|3..", job="book-service"}[1m]))
+sum by (job) (rate(http_server_requests_seconds_count{status!~"2..|3..",job="book-service"}[1m]))
 /
 sum by (job) (rate(http_server_requests_seconds_count{job="book-service"}[1m])) * 100
 ```
 3. Duration
 ```
-// 50th percentile
+# 50th percentile
 histogram_quantile(0.5, sum by (le) (rate(http_server_requests_seconds_bucket{job="book-service"}[1m])))
 
-// 95th percentile
+# 95th percentile
 histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="book-service"}[1m])))
 ```
 
