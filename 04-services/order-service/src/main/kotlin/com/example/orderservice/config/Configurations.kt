@@ -26,11 +26,11 @@ class PropertiesConfiguration
 
 @Configuration
 @ImportRuntimeHints(AppRuntimeHints::class)
-class ApplicationConfiguration(private val applicationProperties: ApplicationProperties) {
+class ApplicationConfiguration(private val appProperties: ApplicationProperties) {
 
     @PostConstruct
     fun setTimezone() {
-        TimeZone.setDefault(TimeZone.getTimeZone(applicationProperties.timezone))
+        TimeZone.setDefault(TimeZone.getTimeZone(appProperties.timezone))
     }
 }
 
@@ -50,6 +50,7 @@ class JsonConfiguration {
             KotlinModule.Builder().build(),
             JavaTimeModule().addSerializer(offsetDateTimeSerializer),
         )
+        .defaultTimeZone(TimeZone.getDefault())
         .defaultDateFormat(SimpleDateFormat(DATE_FORMAT_STR_ISO8601))
         .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
