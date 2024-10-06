@@ -215,8 +215,6 @@ services:
       - "50000:50000/tcp"
       - "50000:50000/udp"
       - "9600:9600"
-    depends_on:
-      - elasticsearch
     networks:
       - observability
 
