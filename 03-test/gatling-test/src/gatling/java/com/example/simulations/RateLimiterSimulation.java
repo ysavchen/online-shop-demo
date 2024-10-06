@@ -18,12 +18,13 @@ public class RateLimiterSimulation extends Simulation {
             .contentTypeHeader("application/json")
             .check(status().within(200, 429));
 
-    ScenarioBuilder getBookByIdScenario = scenario("Test API Gateway")
+    ScenarioBuilder getBookByIdScenario = scenario("Test rate limiter in API Gateway")
             .exec(http("getBookById").get("/api-gateway/api/v1/books/" + BOOK_ID));
 
     {
-        setUp(getBookByIdScenario.injectOpen(constantUsersPerSec(10).during(60)))
-                .protocols(httpProtocol)
+        setUp(getBookByIdScenario.injectOpen(
+                constantUsersPerSec(10).during(60)
+        )).protocols(httpProtocol)
                 .assertions(global().successfulRequests().percent().gt(70.0));
     }
 }
