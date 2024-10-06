@@ -110,10 +110,10 @@
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "request count"
+          "refId": "request rate"
         }
       ],
-      "title": "Request Count",
+      "title": "Request Rate",
       "type": "timeseries"
     },
     {
