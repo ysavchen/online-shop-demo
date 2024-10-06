@@ -71,6 +71,9 @@ Service provides metrics in Prometheus format with micrometer-registry-prometheu
 Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
 ### RED Monitoring
+
+![red-monitoring](./01-schema/red-monitoring.png)
+
 1. Rate
 ```
 sum(rate(http_server_requests_seconds_count{job="book-service"}[1m]))
