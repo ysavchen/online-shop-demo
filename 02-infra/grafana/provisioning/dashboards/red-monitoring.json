@@ -47,7 +47,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -143,7 +143,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -239,7 +239,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 1.5,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -368,7 +368,7 @@
         "definition": "label_values(application)",
         "hide": 0,
         "includeAll": false,
-        "label": "Application",
+        "label": "Service",
         "multi": false,
         "name": "application",
         "options": [],
