@@ -99,7 +99,7 @@ histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{j
 - Kafka UI: http://localhost:9095
 - Prometheus: http://localhost:9090
 - Alertmanager: http://localhost:9093
-- Maildev: http://localhost:9094
+- Smtp4dev: http://localhost:5000
 - Grafana: http://localhost:3000
 
 #### Swagger
