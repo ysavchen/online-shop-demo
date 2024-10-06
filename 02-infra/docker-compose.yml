@@ -108,7 +108,7 @@ services:
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.8.2
     container_name: node-exporter
-    profiles: [ "infra-observability" ]
+    profiles: [ "infra-tools" ]
     command:
       - "--path.rootfs=/host"
     network_mode: host
@@ -131,14 +131,14 @@ services:
     networks:
       - observability
 
-  maildev:
-    image: maildev/maildev:2.1.0
-    container_name: maildev
+  smtp4dev:
+    image: rnwood/smtp4dev:3.6.1
+    container_name: smtp4dev
     depends_on:
       - alertmanager
     ports:
-      - "9094:1080"
-      - "1025:1025"
+      - "5000:80"
+      - "2025:25"
     networks:
       - observability
 
