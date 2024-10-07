@@ -1,5 +1,5 @@
 global:
-  smtp_smarthost: 'host.docker.internal:2025'
+  smtp_smarthost: 'smtp4dev:25'
   smtp_from: 'prometheus@example.org'
   smtp_require_tls: false
 
