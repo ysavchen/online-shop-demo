@@ -125,7 +125,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "orange",
+            "fixedColor": "red",
             "mode": "fixed"
           },
           "custom": {
