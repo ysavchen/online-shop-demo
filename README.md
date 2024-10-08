@@ -5,7 +5,7 @@ Demo application for experiments
 ![application-schema](01-docs/application.png)
 
 ### Run application locally
-1. Set up infra
+1. Set up infrastructure
 ```bash
 cd 02-infra
 docker-compose up -d
