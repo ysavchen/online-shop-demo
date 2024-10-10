@@ -3,14 +3,14 @@
 --changeset ysavchen:002.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS orders
 (
-    id             uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
-    user_id        uuid           NOT NULL,
-    status         varchar(15)    NOT NULL,
-    total_quantity smallint       NOT NULL,
-    total_price    numeric(12, 2) NOT NULL,
-    total_currency varchar(3)     NOT NULL,
-    created_at     timestamptz    NOT NULL DEFAULT NOW(),
-    updated_at     timestamptz    NOT NULL DEFAULT NOW()
+    id             uuid          PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
+    user_id        uuid          NOT NULL,
+    status         varchar(15)   NOT NULL,
+    total_quantity smallint      NOT NULL,
+    total_price    numeric(9, 2) NOT NULL,
+    total_currency varchar(3)    NOT NULL,
+    created_at     timestamptz   NOT NULL DEFAULT NOW(),
+    updated_at     timestamptz   NOT NULL DEFAULT NOW()
 );
 
 COMMENT ON TABLE orders IS 'Таблица для хранения заказов';

@@ -3,18 +3,18 @@
 --changeset ysavchen:002.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS books
 (
-    id           uuid             PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
-    isbn         varchar(17)      NOT NULL UNIQUE,
-    title        varchar(150)     NOT NULL,
-    authors      text[]           NOT NULL DEFAULT '{}',
+    id           uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
+    isbn         varchar(17)    NOT NULL UNIQUE,
+    title        varchar(150)   NOT NULL,
+    authors      text[]         NOT NULL DEFAULT '{}',
     description  text,
-    genre        varchar(50)      NOT NULL,
+    genre        varchar(50)    NOT NULL,
     release_date date,
-    quantity     integer          NOT NULL,
-    price        numeric(12, 2),
+    quantity     integer        NOT NULL,
+    price        numeric(9, 2),
     currency     varchar(3),
-    created_at   timestamptz      NOT NULL DEFAULT NOW(),
-    updated_at   timestamptz      NOT NULL DEFAULT NOW()
+    created_at   timestamptz    NOT NULL DEFAULT NOW(),
+    updated_at   timestamptz    NOT NULL DEFAULT NOW()
 );
 
 COMMENT ON TABLE books IS 'Таблица для хранения книг';
