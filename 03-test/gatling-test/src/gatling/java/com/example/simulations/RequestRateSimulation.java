@@ -16,27 +16,29 @@ public class RequestRateSimulation extends Simulation {
     private static final String SEARCH_BOOKS_URL = "/api/v1/books/search?page=0";
 
     HttpProtocolBuilder httpProtocol = http.baseUrl(BOOK_SERVICE_URL)
-            .acceptHeader(ApplicationJson())
-            .contentTypeHeader(ApplicationJson());
+        .acceptHeader(ApplicationJson())
+        .contentTypeHeader(ApplicationJson());
 
     Body payload = StringBody("""
-            {
-              "genre": "HEALTH"
-            }
-            """);
+        {
+          "genre": "HEALTH"
+        }
+        """);
 
-    ScenarioBuilder scenario = scenario("Test request rate")
-            .exec(http("searchBooks").post(SEARCH_BOOKS_URL).body(payload)
-                    .check(status().is(200)));
+    ScenarioBuilder scenario = scenario("Test request rate").exec(
+        http("searchBooks")
+            .post(SEARCH_BOOKS_URL).body(payload)
+            .check(status().is(200))
+    );
 
     {
         setUp(scenario.injectOpen(
-                constantUsersPerSec(50).during(70),
-                constantUsersPerSec(10).during(70),
-                constantUsersPerSec(50).during(70),
-                constantUsersPerSec(10).during(70),
-                constantUsersPerSec(50).during(70),
-                constantUsersPerSec(10).during(70)
+            constantUsersPerSec(50).during(70),
+            constantUsersPerSec(10).during(70),
+            constantUsersPerSec(50).during(70),
+            constantUsersPerSec(10).during(70),
+            constantUsersPerSec(50).during(70),
+            constantUsersPerSec(10).during(70)
         )).protocols(httpProtocol);
     }
 }

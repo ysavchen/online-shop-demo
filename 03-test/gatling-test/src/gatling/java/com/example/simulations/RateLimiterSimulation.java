@@ -16,19 +16,21 @@ public class RateLimiterSimulation extends Simulation {
     private static final String GET_BOOK_BY_ID_URL = "/api-gateway/api/v1/books/" + BOOK_ID;
 
     HttpProtocolBuilder httpProtocol = http.baseUrl(API_GATEWAY_URL)
-            .acceptHeader(ApplicationJson())
-            .contentTypeHeader(ApplicationJson());
+        .acceptHeader(ApplicationJson())
+        .contentTypeHeader(ApplicationJson());
 
     //сценарий действий виртуального пользователя
-    ScenarioBuilder scenario = scenario("Test rate limiter")
-            .exec(http("getBookById").get(GET_BOOK_BY_ID_URL)
-                    .check(status().in(200, 429)));
+    ScenarioBuilder scenario = scenario("Test rate limiter").exec(
+        http("getBookById")
+            .get(GET_BOOK_BY_ID_URL)
+            .check(status().in(200, 429))
+    );
 
     //профиль нагрузки
     {
         setUp(scenario.injectOpen(
-                constantUsersPerSec(10).during(60)
+            constantUsersPerSec(10).during(60)
         )).protocols(httpProtocol)
-                .assertions(global().successfulRequests().percent().gt(70.0));
+            .assertions(global().successfulRequests().percent().gt(70.0));
     }
 }
