@@ -39,6 +39,7 @@ public class RequestRateSimulation extends Simulation {
             constantUsersPerSec(10).during(70),
             constantUsersPerSec(50).during(70),
             constantUsersPerSec(10).during(70)
-        )).protocols(httpProtocol);
+        )).protocols(httpProtocol)
+            .assertions(global().successfulRequests().percent().is(100.00));
     }
 }
