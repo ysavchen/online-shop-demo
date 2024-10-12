@@ -20,7 +20,7 @@ class MetricService(private val meterRegistry: MeterRegistry) {
 
     private val orderPriceSummary = DistributionSummary.builder(ORDER_PRICE_SUMMARY_METRIC)
         .description("distribution of the total price for orders")
-        .publishPercentiles(0.5, 0.9)
+        .publishPercentiles(0.1, 0.3, 0.5, 0.7, 0.9)
         .register(meterRegistry)
 
     fun countOrders(status: Status) {
