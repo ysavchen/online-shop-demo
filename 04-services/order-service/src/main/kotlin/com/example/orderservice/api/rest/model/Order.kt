@@ -1,5 +1,6 @@
 package com.example.orderservice.api.rest.model
 
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
@@ -26,12 +27,12 @@ data class Order(
     val totalPrice: TotalPrice,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
-)
+) : Serializable
 
 data class TotalPrice(
     val value: BigDecimal,
     val currency: Currency
-)
+) : Serializable
 
 enum class Status {
     CREATED,
