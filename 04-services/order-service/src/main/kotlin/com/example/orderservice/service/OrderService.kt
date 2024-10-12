@@ -14,6 +14,8 @@ import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
@@ -24,6 +26,7 @@ import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 
 @Service
+@CacheConfig(cacheNames = ["orders"])
 class OrderService(
     private val metricService: MetricService,
     private val orderRepository: OrderRepository,
@@ -37,11 +40,12 @@ class OrderService(
     fun getOrders(orderRequestParams: OrderRequestParams, request: OrderSearchRequest): PagedModel<Order> =
         orderRepository.findAll(searchSpec(request), orderRequestParams.toPageable()).toPagedModel()
 
-    @Cacheable(cacheNames = ["orders"], key = "#orderId")
+    @Cacheable(key = "#orderId")
     @Transactional(readOnly = true)
     fun getOrderById(orderId: UUID): Order = orderRepository.findByIdOrNull(orderId)?.toModel()
         ?: throw OrderNotFoundException(orderId)
 
+    @CachePut(key = "#result.id")
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
         val order = transactionTemplate.execute {
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
