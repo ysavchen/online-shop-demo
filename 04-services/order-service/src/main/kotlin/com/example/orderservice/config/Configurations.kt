@@ -1,5 +1,6 @@
 package com.example.orderservice.config
 
+import com.example.orderservice.api.rest.model.Order
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -13,9 +14,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import jakarta.annotation.PostConstruct
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.ImportRuntimeHints
+import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -31,6 +36,23 @@ class ApplicationConfiguration(private val appProperties: ApplicationProperties)
     @PostConstruct
     fun setTimezone() {
         TimeZone.setDefault(TimeZone.getTimeZone(appProperties.timezone))
+    }
+}
+
+@EnableCaching
+@Configuration(proxyBeanMethods = false)
+class CacheConfiguration {
+
+    @Bean
+    fun redisTemplate(
+        objectMapper: ObjectMapper,
+        connectionFactory: RedisConnectionFactory
+    ): RedisTemplate<UUID, Order> {
+        val serializer = Jackson2JsonRedisSerializer(objectMapper, Order::class.java)
+        return RedisTemplate<UUID, Order>().apply {
+            setConnectionFactory(connectionFactory)
+            setValueSerializer(serializer)
+        }
     }
 }
 

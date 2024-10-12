@@ -40,6 +40,10 @@ dependencies {
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.8.3")
     kapt("org.hibernate.orm:hibernate-jpamodelgen:6.6.1.Final")
 
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")

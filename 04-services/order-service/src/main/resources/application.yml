@@ -8,9 +8,14 @@ spring:
     password: app_password
     hikari:
       connection-timeout: 3000 # default is 30000
-  data.web:
-    pageable:
-      one-indexed-parameters: true # config doesn't work, bug in Spring
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true # config doesn't work, bug in Spring
+    redis:
+      host: localhost
+      port: 6379
+      connect-timeout: 3000
   jpa:
     open-in-view: false
     properties:
@@ -18,6 +23,11 @@ spring:
         default_batch_fetch_size: 10
   liquibase:
     change-log: classpath:liquibase/master.yaml
+  cache:
+    redis:
+      cache-null-values: false # default is true
+      key-prefix: "order-service::"
+      time-to-live: 1m
 
 application:
   timezone: Europe/Moscow # made timezone configurable for dev purposes
