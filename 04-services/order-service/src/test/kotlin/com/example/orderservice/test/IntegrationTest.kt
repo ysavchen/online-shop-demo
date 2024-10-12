@@ -1,5 +1,6 @@
 package com.example.orderservice.test
 
+import com.redis.testcontainers.RedisContainer
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
@@ -25,7 +26,11 @@ annotation class IntegrationTest
 class IntegrationTestConfiguration {
 
     @Bean
-    @ServiceConnection
+    @ServiceConnection("postgres")
     fun postgres() = PostgreSQLContainer("postgres:16.3-alpine")
+
+    @Bean
+    @ServiceConnection("redis")
+    fun redis() = RedisContainer("redis:7.2-alpine")
 
 }
