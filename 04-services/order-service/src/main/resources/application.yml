@@ -25,15 +25,15 @@ spring:
     change-log: classpath:liquibase/master.yaml
   cache:
     redis:
-      cache-null-values: false # default is true
       key-prefix: "order-service::"
-      time-to-live: 1m
+      time-to-live: 10m
 
 application:
   timezone: Europe/Moscow # made timezone configurable for dev purposes
 
 server:
   port: 8091
+  shutdown: graceful
 
 management:
   health:
