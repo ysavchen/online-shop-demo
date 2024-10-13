@@ -61,6 +61,7 @@ class OrderService(
         return order!!
     }
 
+    @CachePut(key = "#result.id")
     fun updateOrderStatus(orderId: UUID, request: UpdateOrderStatusRequest): Order {
         val order = transactionTemplate.execute {
             val orderEntity = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
