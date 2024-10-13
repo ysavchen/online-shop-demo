@@ -1,31 +1,37 @@
 plugins {
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "1.9.25"
 }
 
-group = "org.example"
+group = "com.example"
 version = "1.0.0"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+allprojects {
+    apply {
+        plugin("org.jetbrains.kotlin.jvm")
     }
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.3"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
-}
 
-tasks.test {
-    useJUnitPlatform()
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation(kotlin("test-junit5"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+    }
+
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.addAll("-Xjsr305=strict")
+        }
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
