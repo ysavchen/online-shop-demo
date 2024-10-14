@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "1.9.25"
 }
 
-group = "org.example"
+group = "com.example"
 version = "1.0.0"
 
 java {
@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.3"))
+    testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
