@@ -23,7 +23,7 @@ value class Isbn(private val rawValue: String) {
 
         fun validate(value: String): String = value
             .requireRange(MIN_LENGTH, MAX_LENGTH) {
-                throw IsbnValidationException("Invalid range: $value. Range must be within $MIN_LENGTH and $MAX_LENGTH")
+                throw IsbnValidationException("Invalid ISBN: $value. Length must be within $MIN_LENGTH and $MAX_LENGTH")
             }
             .requireFormat(isbnRegex) { throw IsbnValidationException("Invalid ISBN: $value") }
     }
