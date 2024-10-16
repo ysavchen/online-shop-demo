@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS books
 (
     id           uuid           PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
-    isbn         varchar(17)    NOT NULL UNIQUE,
+    isbn         varchar(25)    NOT NULL UNIQUE,
     title        varchar(150)   NOT NULL,
     authors      text[]         NOT NULL DEFAULT '{}',
     description  text,
