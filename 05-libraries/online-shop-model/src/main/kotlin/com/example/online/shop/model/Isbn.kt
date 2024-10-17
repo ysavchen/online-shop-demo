@@ -22,16 +22,30 @@ value class Isbn(private val rawValue: String) : Model {
 
         fun validate(value: String): String = value
             .requireRange(MIN_LENGTH, MAX_LENGTH) {
-                throw IsbnValidationException("Invalid ISBN: $value. Length is ${value.length}, but must be within $MIN_LENGTH and $MAX_LENGTH")
+                throw IsbnValidationException("Invalid ISBN: $value. Length is ${value.length}, but must be within $MIN_LENGTH and $MAX_LENGTH.")
             }
-            .requireFormat(isbnRegex) { throw IsbnValidationException("Invalid ISBN: $value") }
-
-        private fun format(value: String): String = TODO()
+            .requireFormat(isbnRegex) { throw IsbnValidationException("Invalid ISBN: $value. Format must correspond to ISBN-13.") }
     }
 
     /**
      * ISBN 978-1-42051-505-3
      */
     override val formattedValue: String
-        get() = format(rawValue)
+        get() = formatIsbn()
+
+    private fun formatIsbn(): String {
+        val onlyDigits = rawValue
+            .replace("ISBN-13", "")
+            .replace("ISBN", "")
+            .replace("-", "")
+            .replace(" ", "")
+
+        val eanPrefix = onlyDigits.substring(0, 3)
+        val registrationGroup = onlyDigits.substring(3, 4)
+        val registrant = onlyDigits.substring(4, 9)
+        val publication = onlyDigits.substring(9, 12)
+        val checkDigit = onlyDigits.last()
+
+        return "ISBN $eanPrefix-$registrationGroup-$registrant-$publication-$checkDigit"
+    }
 }
