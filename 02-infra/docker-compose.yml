@@ -144,37 +144,17 @@ services:
     networks:
       - observability
 
-  # Tempo runs as user 10001, and docker compose creates the volume as root.
-  # As such, we need to chown the volume in order for Tempo to start correctly.
-  init-tempo:
-    image: &tempoImage grafana/tempo:2.5.0
-    container_name: init-tempo
-    user: root
-    entrypoint:
-      - "chown"
-      - "10001:10001"
-      - "/var/tempo"
-    volumes:
-      - ./tempo/data:/var/tempo
-    networks:
-      - observability
-
   tempo:
-    image: *tempoImage
+    image: grafana/tempo:2.5.0
     container_name: tempo
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./tempo/tempo.yaml:/etc/tempo.yaml
       - ./tempo/data:/var/tempo
     ports:
-      - "14268:14268"  # jaeger ingest
       - "3200:3200"    # tempo
-      - "9095:9095"    # tempo grpc
-      - "4317:4317"    # otlp grpc
       - "4318:4318"    # otlp http
-      - "9411:9411"    # zipkin (in use)
-    depends_on:
-      - init-tempo
+      - "9411:9411"    # zipkin
     networks:
       - observability
 
