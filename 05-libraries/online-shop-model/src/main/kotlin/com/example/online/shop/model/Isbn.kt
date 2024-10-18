@@ -28,7 +28,7 @@ value class Isbn(private val rawValue: String) : Model {
     }
 
     /**
-     * ISBN 978-1-42051-505-3
+     * 978-1-42051-505-3
      */
     override val formattedValue: String
         get() = formatIsbn()
@@ -46,6 +46,6 @@ value class Isbn(private val rawValue: String) : Model {
         val publication = onlyDigits.substring(9, 12)
         val checkDigit = onlyDigits.last()
 
-        return "ISBN $eanPrefix-$registrationGroup-$registrant-$publication-$checkDigit"
+        return "$eanPrefix-$registrationGroup-$registrant-$publication-$checkDigit"
     }
 }

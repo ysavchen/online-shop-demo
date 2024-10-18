@@ -68,7 +68,7 @@ class IsbnTests {
             "ISBN-13 9781420515053",
             "ISBN-13 978 1 42051 505 3"
         )
-        val expectedValue = "ISBN 978-1-42051-505-3"
+        val expectedValue = "978-1-42051-505-3"
 
         numbers.forEach {
             assertEquals(expectedValue, Isbn(it).formattedValue)
