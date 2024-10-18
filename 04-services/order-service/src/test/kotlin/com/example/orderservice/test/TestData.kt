@@ -17,7 +17,7 @@ object OrderTestData {
         totalQuantity = orderItemEntities.size,
         totalPrice = TotalPriceEntity(
             value = orderItemEntities.sumOf { it.price.value },
-            currency = CurrencyEntity.RUB
+            currency = nextValue<CurrencyEntity>()
         ),
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
@@ -29,7 +29,7 @@ object OrderTestData {
         quantity = randomNumeric(3).toInt(),
         price = ItemPriceEntity(
             value = randomPrice(),
-            currency = ItemCurrencyEntity.RUB
+            currency = nextValue<ItemCurrencyEntity>()
         )
     )
 
@@ -40,13 +40,15 @@ object OrderTestData {
         items = items
     )
 
-    fun orderItem() = OrderItem(
+    fun orderItem(
+        currency: ItemCurrency = nextValue<ItemCurrency>()
+    ) = OrderItem(
         id = UUID.randomUUID(),
         category = nextValue<ItemCategory>(),
         quantity = randomNumeric(3).toInt(),
         price = ItemPrice(
             value = randomPrice(),
-            currency = ItemCurrency.RUB
+            currency = currency
         )
     )
 }

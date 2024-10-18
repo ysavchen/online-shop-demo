@@ -7,6 +7,7 @@ import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.test.IntegrationTest
 import com.example.orderservice.test.OrderTestData.createOrderRequest
 import com.example.orderservice.test.OrderTestData.orderEntity
+import com.example.orderservice.test.OrderTestData.orderItem
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
@@ -153,6 +154,25 @@ class OrderControllerTests {
                 request.items.sumOf { it.price.value },
                 request.items.first().price.currency.name
             )
+    }
+
+    @Test
+    fun `create order with different currencies`() {
+        val rubItem = orderItem(currency = ItemCurrency.RUB)
+        val euroItem = orderItem(currency = ItemCurrency.EUR)
+        val request = createOrderRequest(items = setOf(rubItem, euroItem))
+        val idempotencyKey = UUID.randomUUID()
+
+        mockMvc.post("/api/v1/orders") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            header(IDEMPOTENCY_KEY, idempotencyKey)
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+        }
     }
 
     @Test
