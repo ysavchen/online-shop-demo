@@ -1,6 +1,5 @@
 package com.example.orderservice.api.rest
 
-import com.example.orderservice.api.rest.RequestValidation.validate
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.service.OrderService
 import io.swagger.v3.oas.annotations.Operation
@@ -31,7 +30,7 @@ class OrderController(private val orderService: OrderService) {
     fun createOrder(
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest
-    ): Order = orderService.createOrder(idempotencyKey, request.validate())
+    ): Order = orderService.createOrder(idempotencyKey, request)
 
     @Operation(summary = "Update order status")
     @PatchMapping("/orders/{orderId}/status")
@@ -40,13 +39,4 @@ class OrderController(private val orderService: OrderService) {
         @RequestBody request: UpdateOrderStatusRequest
     ): Order = orderService.updateOrderStatus(orderId, request)
 
-}
-
-private object RequestValidation {
-
-    fun CreateOrderRequest.validate(): CreateOrderRequest {
-        val currencies = this.items.map { it.price.currency }
-        if (currencies.distinct().size == 1) return this
-        else throw RequestValidationException("Item prices must have the same currency, but they are $currencies")
-    }
 }

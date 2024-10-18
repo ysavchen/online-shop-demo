@@ -3,6 +3,7 @@ package com.example.orderservice.service
 import com.example.orderservice.api.rest.DuplicateRequestException
 import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
+import com.example.orderservice.api.rest.RequestValidationException
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.mapping.OrderMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toModel
@@ -14,6 +15,7 @@ import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
+import com.example.orderservice.service.RequestValidation.validate
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
@@ -47,6 +49,7 @@ class OrderService(
 
     @CachePut(key = "#result.id")
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
+        request.validate()
         val order = transactionTemplate.execute {
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
             if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
@@ -85,4 +88,13 @@ class OrderService(
         else if (currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, DELIVERED)) true
         else false
 
+}
+
+private object RequestValidation {
+
+    fun CreateOrderRequest.validate(): CreateOrderRequest {
+        val currencies = this.items.map { it.price.currency }
+        if (currencies.distinct().size == 1) return this
+        else throw RequestValidationException("Item prices must have the same currency, but they are $currencies")
+    }
 }
