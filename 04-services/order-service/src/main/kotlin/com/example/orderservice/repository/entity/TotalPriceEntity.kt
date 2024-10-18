@@ -8,10 +8,10 @@ import java.math.BigDecimal
 
 @Embeddable
 data class TotalPriceEntity(
-    @Column(name = "total_price", columnDefinition = "NUMERIC")
+    @Column(name = "total_price", columnDefinition = "NUMERIC", nullable = false)
     val value: BigDecimal,
 
-    @Column(name = "total_currency")
+    @Column(name = "total_currency", nullable = false)
     @Enumerated(EnumType.STRING)
     val currency: CurrencyEntity
 )
