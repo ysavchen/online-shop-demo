@@ -12,7 +12,8 @@ project("book-service-rest-client") {
 project("book-service-rest-client-starter") {
     dependencies {
         api(project(":book-service:book-service-rest-client"))
-        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        api("org.springframework.boot:spring-boot-starter")
+        api("org.springframework.boot:spring-boot-starter-webflux")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
