@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.http.client.ReactorResourceFactory
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
@@ -29,7 +28,7 @@ class BookServiceClientAutoConfiguration(private val properties: BookServiceClie
         )
 
     @Bean
-    fun bookServiceHttpClient(reactorResourceFactory: ReactorResourceFactory): HttpClient =
+    fun bookServiceHttpClient(): HttpClient =
         HttpClient.create()
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, properties.http.connectionTimeout.toMillis().toInt())
             .responseTimeout(properties.http.responseTimeout)
