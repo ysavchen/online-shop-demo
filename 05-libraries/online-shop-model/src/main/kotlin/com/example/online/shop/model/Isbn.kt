@@ -24,7 +24,9 @@ value class Isbn(private val rawValue: String) : Model {
             .requireRange(MIN_LENGTH, MAX_LENGTH) {
                 throw IsbnValidationException("Invalid ISBN: $value. Length is ${value.length}, but must be within $MIN_LENGTH and $MAX_LENGTH.")
             }
-            .requireFormat(isbnRegex) { throw IsbnValidationException("Invalid ISBN: $value. Format must correspond to ISBN-13.") }
+            .requireFormat(isbnRegex) {
+                throw IsbnValidationException("Invalid ISBN: $value. Format must correspond to ISBN-13.")
+            }
     }
 
     /**
