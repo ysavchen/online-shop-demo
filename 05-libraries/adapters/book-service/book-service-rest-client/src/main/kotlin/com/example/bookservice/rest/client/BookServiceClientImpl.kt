@@ -1,11 +1,19 @@
 package com.example.bookservice.rest.client
 
 import Book
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBody
 import java.util.*
 
-class BookServiceClientImpl : BookServiceClient {
+class BookServiceClientImpl(private val webClient: WebClient) : BookServiceClient {
 
-    override suspend fun getBookById(bookId: UUID): Book {
-        TODO("Not yet implemented")
+    companion object {
+        private const val BOOKS_PATH_V1 = "/api/v1/books"
     }
+
+    override suspend fun getBookById(bookId: UUID): Book =
+        webClient.get().uri("$BOOKS_PATH_V1/$bookId")
+            .retrieve()
+            .awaitBody<Book>()
+
 }
