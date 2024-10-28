@@ -30,6 +30,10 @@ spring:
 
 application:
   timezone: Europe/Moscow # made timezone configurable for dev purposes
+  client:
+    book-service:
+      http:
+        base-url: http://localhost:8090
 
 server:
   port: 8091
