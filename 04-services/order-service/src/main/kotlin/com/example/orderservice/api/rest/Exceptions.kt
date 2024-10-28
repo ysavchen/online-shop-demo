@@ -4,7 +4,6 @@ import com.example.orderservice.api.rest.model.ErrorCode
 import com.example.orderservice.api.rest.model.Status
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
-import java.lang.RuntimeException
 import java.util.*
 
 open class ServiceException(
@@ -30,5 +29,12 @@ class InvalidOrderStatusUpdate(orderId: UUID, currentStatus: Status, newStatus: 
     ServiceException(
         "Update order with id=$orderId from status $currentStatus to $newStatus is not valid",
         ErrorCode.INVALID_ORDER_STATUS_UPDATE,
+        HttpStatus.FORBIDDEN
+    )
+
+class OrderItemValidationException(message: String) :
+    ServiceException(
+        message,
+        ErrorCode.ORDER_ITEM_VALIDATION_ERROR,
         HttpStatus.FORBIDDEN
     )
