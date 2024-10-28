@@ -1,13 +1,14 @@
 plugins {
+    `maven-publish`
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
 }
 
-group = "com.example"
-version = "1.0.0"
-
 allprojects {
+    group = "com.example"
+    version = "4.0.0"
+
     apply {
         plugin("org.jetbrains.kotlin.jvm")
     }
@@ -29,8 +30,9 @@ allprojects {
     }
 }
 
-subprojects {
+configure(subprojects.filter { it.name.contains("client") }) {
     apply {
+        plugin("org.gradle.maven-publish")
         plugin("org.jetbrains.kotlin.plugin.spring")
         plugin("io.spring.dependency-management")
     }
@@ -48,5 +50,17 @@ subprojects {
 
     tasks.test {
         useJUnitPlatform()
+    }
+
+    publishing {
+        repositories {
+            mavenLocal()
+        }
+
+        publications {
+            create<MavenPublication>("maven") {
+                from(components["kotlin"])
+            }
+        }
     }
 }
