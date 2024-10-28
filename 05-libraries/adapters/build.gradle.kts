@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = "com.example"
-    version = "4.0.0"
+    version = "1.0.0"
 
     apply {
         plugin("org.jetbrains.kotlin.jvm")
@@ -58,7 +58,7 @@ configure(subprojects.filter { it.name.contains("client") }) {
         }
 
         publications {
-            create<MavenPublication>("maven") {
+            create<MavenPublication>("adapters") {
                 from(components["kotlin"])
             }
         }
