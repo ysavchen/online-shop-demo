@@ -3,18 +3,19 @@
 --changeset ysavchen:003.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS order_items
 (
-    id             uuid           PRIMARY KEY,
+    id             uuid           NOT NULL,
     category       varchar(15)    NOT NULL,
     quantity       integer        NOT NULL,
     price          numeric(12, 2) NOT NULL,
     currency       varchar(3)     NOT NULL,
     order_fk       uuid           NOT NULL REFERENCES orders(id),
     created_at     timestamptz    NOT NULL DEFAULT NOW(),
-    updated_at     timestamptz    NOT NULL DEFAULT NOW()
+    updated_at     timestamptz    NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (id, order_fk)
 );
 
 COMMENT ON TABLE orders IS 'Таблица для хранения заказанных товаров';
-COMMENT ON COLUMN order_items.id IS 'ID записи, первичный ключ';
+COMMENT ON COLUMN order_items.id IS 'ID заказанного товара';
 COMMENT ON COLUMN order_items.category IS 'Категория товара (книги, одежда и т.д.)';
 COMMENT ON COLUMN order_items.price IS 'Цена товара в момент покупки';
 COMMENT ON COLUMN order_items.currency IS 'Валюта цены товара';

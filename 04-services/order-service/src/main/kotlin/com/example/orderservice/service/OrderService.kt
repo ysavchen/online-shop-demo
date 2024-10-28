@@ -5,11 +5,13 @@ import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
 import com.example.orderservice.api.rest.RequestValidationException
 import com.example.orderservice.api.rest.model.*
+import com.example.orderservice.mapping.OrderItemMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.mapping.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.RequestMapper.toPageable
 import com.example.orderservice.repository.IdempotencyKeyRepository
+import com.example.orderservice.repository.OrderItemRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
@@ -32,8 +34,10 @@ import java.util.*
 class OrderService(
     private val metricService: MetricService,
     private val orderRepository: OrderRepository,
+    private val orderItemRepository: OrderItemRepository,
     private val idempotencyKeyRepository: IdempotencyKeyRepository,
-    private val transactionManager: PlatformTransactionManager
+    private val transactionManager: PlatformTransactionManager,
+    private val bookService: BookService
 ) {
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
@@ -50,12 +54,18 @@ class OrderService(
     @CachePut(key = "#result.id")
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
         request.validate()
-        val order = transactionTemplate.execute {
+        transactionTemplate.execute {
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
             if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
+        }
+        bookService.validateBooks(request.items)
+
+        val order = transactionTemplate.execute {
             val savedOrder = orderRepository.save(request.toEntity())
+            val itemEntities = request.items.map { it.toEntity(savedOrder.id!!) }
+            val savedItems = orderItemRepository.saveAll(itemEntities).toSet()
             idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
-            savedOrder.toModel()
+            savedOrder.addItems(savedItems).toModel()
         }.also { order ->
             metricService.countOrders(order!!.status)
             metricService.lastOrderTime(order.createdAt)

@@ -10,7 +10,7 @@ object OrderTestData {
 
     fun orderEntity(
         status: StatusEntity = nextValue<StatusEntity>(),
-        orderItemEntities: Set<OrderItemEntity> = setOf(orderItemEntity())
+        orderItemEntities: Set<OrderItem> = setOf(orderItem())
     ) = OrderEntity(
         userId = UUID.randomUUID(),
         status = status,
@@ -21,10 +21,10 @@ object OrderTestData {
         ),
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
-    ).apply { addItems(orderItemEntities) }
+    )
 
-    fun orderItemEntity() = OrderItemEntity(
-        id = UUID.randomUUID(),
+    fun orderItemEntity(orderId: UUID) = OrderItemEntity(
+        orderItemId = OrderItemId(UUID.randomUUID(), orderId),
         category = nextValue<ItemCategoryEntity>(),
         quantity = randomNumeric(3).toInt(),
         price = ItemPriceEntity(

@@ -1,14 +1,12 @@
 package com.example.orderservice.repository.entity
 
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "order_items")
 data class OrderItemEntity(
-    @Id
-    @Column(name = "id", nullable = false)
-    val id: UUID,
+    @EmbeddedId
+    val orderItemId: OrderItemId,
 
     @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -25,7 +23,7 @@ data class OrderItemEntity(
      * Set order via parent entity using [OrderEntity.addItems]
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_fk", nullable = false)
+    @JoinColumn(name = "order_fk", nullable = false, insertable = false, updatable = false)
     var order: OrderEntity? = null
 
     override fun equals(other: Any?): Boolean {
@@ -34,11 +32,11 @@ data class OrderItemEntity(
 
         other as OrderItemEntity
 
-        return id == other.id
+        return orderItemId == other.orderItemId
     }
 
     override fun hashCode(): Int {
-        return id.hashCode()
+        return orderItemId.hashCode()
     }
 }
 

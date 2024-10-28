@@ -1,7 +1,6 @@
 package com.example.orderservice.mapping
 
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderItemMapper.toEntity
 import com.example.orderservice.mapping.OrderItemMapper.toModel
 import com.example.orderservice.repository.entity.*
 import org.springframework.data.domain.Page
@@ -43,21 +42,17 @@ object OrderMapper {
         CurrencyEntity.EUR -> Currency.EUR
     }
 
-    internal fun CreateOrderRequest.toEntity(): OrderEntity {
-        val itemEntities = items.map { it.toEntity() }.toSet()
-        val orderEntity = OrderEntity(
-            userId = userId,
-            status = StatusEntity.CREATED,
-            totalQuantity = itemEntities.size,
-            totalPrice = TotalPriceEntity(
-                value = itemEntities.sumOf { it.price.value },
-                currency = currencyEntity(itemEntities)
-            ),
-            createdAt = OffsetDateTime.now(),
-            updatedAt = OffsetDateTime.now()
-        ).apply { addItems(itemEntities) }
-        return orderEntity
-    }
+    internal fun CreateOrderRequest.toEntity() = OrderEntity(
+        userId = userId,
+        status = StatusEntity.CREATED,
+        totalQuantity = items.size,
+        totalPrice = TotalPriceEntity(
+            value = items.sumOf { it.price.value },
+            currency = currencyEntity(items)
+        ),
+        createdAt = OffsetDateTime.now(),
+        updatedAt = OffsetDateTime.now()
+    )
 
     internal fun Status.toEntity() = when (this) {
         Status.CREATED -> StatusEntity.CREATED
@@ -67,7 +62,7 @@ object OrderMapper {
         Status.DELIVERED -> StatusEntity.DELIVERED
     }
 
-    private fun currencyEntity(items: Set<OrderItemEntity>): CurrencyEntity {
+    private fun currencyEntity(items: Set<OrderItem>): CurrencyEntity {
         val itemCurrencies = items.map { it.price.currency }
         require(itemCurrencies.distinctBy { it }.size == itemCurrencies.size)
         return CurrencyEntity.valueOf(items.first().price.currency.name)

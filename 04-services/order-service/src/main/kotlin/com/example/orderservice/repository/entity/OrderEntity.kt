@@ -34,7 +34,7 @@ data class OrderEntity(
     val updatedAt: OffsetDateTime
 ) {
 
-    @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
     val items: MutableSet<OrderItemEntity> = mutableSetOf()
 
     fun addItems(itemEntities: Set<OrderItemEntity>): OrderEntity {
