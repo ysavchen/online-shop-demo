@@ -14,10 +14,10 @@ class BookService(private val bookServiceClient: BookServiceClient) {
             runBlocking {
                 val book = bookServiceClient.getBookById(item.id)
                 if (item.quantity > book.quantity) {
-                    throw OrderItemValidationException("Order item with id=${item.id}, category=${item.category} is not available in store")
+                    throw OrderItemValidationException("Book with id=${item.id} is not available: ordered=${item.quantity}, available in store=${book.quantity}")
                 }
                 if (item.price.value != book.price?.value) {
-                    throw OrderItemValidationException("Inconsistent book price: order=${item.price.value}, store=${book.price?.value}")
+                    throw OrderItemValidationException("Inconsistent book price: in order=${item.price.value}, in store=${book.price?.value}")
                 }
             }
         }
