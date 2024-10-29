@@ -62,10 +62,11 @@ class OrderService(
 
         val order = transactionTemplate.execute {
             val savedOrder = orderRepository.save(request.toEntity())
-            val itemEntities = request.items.map { it.toEntity(savedOrder.id!!) }
-            val savedItems = orderItemRepository.saveAll(itemEntities).toSet()
+            val itemEntities = request.items.map { it.toEntity(savedOrder.id!!) }.toSet()
+            savedOrder.addItems(itemEntities)
+            orderItemRepository.saveAll(itemEntities)
             idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
-            savedOrder.addItems(savedItems).toModel()
+            savedOrder.toModel()
         }.also { order ->
             metricService.countOrders(order!!.status)
             metricService.lastOrderTime(order.createdAt)
