@@ -110,7 +110,7 @@ class OrderControllerTests {
     @Test
     fun `get order by id`() {
         val orderItem = orderItem()
-        val orderEntity = orderRepository.save(orderEntity(orderItemEntities = setOf(orderItem)))
+        val orderEntity = orderRepository.save(orderEntity(orderItems = setOf(orderItem)))
         val orderItemEntity = orderItemRepository.save(orderItem.toEntity(orderEntity.id!!))
         val order = orderEntity.addItems(setOf(orderItemEntity)).toModel()
 

@@ -1,7 +1,10 @@
 package com.example.orderservice.test
 
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.repository.entity.*
+import com.example.orderservice.repository.entity.CurrencyEntity
+import com.example.orderservice.repository.entity.OrderEntity
+import com.example.orderservice.repository.entity.StatusEntity
+import com.example.orderservice.repository.entity.TotalPriceEntity
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
 import java.util.*
@@ -10,27 +13,17 @@ object OrderTestData {
 
     fun orderEntity(
         status: StatusEntity = nextValue<StatusEntity>(),
-        orderItemEntities: Set<OrderItem> = setOf(orderItem())
+        orderItems: Set<OrderItem> = setOf(orderItem())
     ) = OrderEntity(
         userId = UUID.randomUUID(),
         status = status,
-        totalQuantity = orderItemEntities.size,
+        totalQuantity = orderItems.sumOf { it.quantity },
         totalPrice = TotalPriceEntity(
-            value = orderItemEntities.sumOf { it.price.value },
+            value = orderItems.sumOf { it.price.value },
             currency = nextValue<CurrencyEntity>()
         ),
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
-    )
-
-    fun orderItemEntity(orderId: UUID) = OrderItemEntity(
-        orderItemId = OrderItemId(UUID.randomUUID(), orderId),
-        category = nextValue<ItemCategoryEntity>(),
-        quantity = randomNumeric(3).toInt(),
-        price = ItemPriceEntity(
-            value = randomPrice(),
-            currency = nextValue<ItemCurrencyEntity>()
-        )
     )
 
     fun createOrderRequest(

@@ -45,7 +45,7 @@ object OrderMapper {
     internal fun CreateOrderRequest.toEntity() = OrderEntity(
         userId = userId,
         status = StatusEntity.CREATED,
-        totalQuantity = items.size,
+        totalQuantity = items.sumOf { it.quantity },
         totalPrice = TotalPriceEntity(
             value = items.sumOf { it.price.value },
             currency = currencyEntity(items)
