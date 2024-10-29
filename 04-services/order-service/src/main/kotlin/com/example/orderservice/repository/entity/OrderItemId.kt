@@ -6,9 +6,9 @@ import java.util.*
 
 @Embeddable
 data class OrderItemId(
+
     @Column(name = "id", nullable = false)
     val id: UUID
-
 ) : Serializable {
 
     /**
