@@ -59,7 +59,7 @@ configure(subprojects.filter { it.name.contains("client") }) {
 
         publications {
             create<MavenPublication>("adapters") {
-                from(components["kotlin"])
+                from(components["java"])
             }
         }
     }
