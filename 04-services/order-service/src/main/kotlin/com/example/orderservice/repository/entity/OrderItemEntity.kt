@@ -19,13 +19,6 @@ data class OrderItemEntity(
     val price: ItemPriceEntity
 ) {
 
-    /**
-     * Set order via parent entity using [OrderEntity.addItems]
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_fk", nullable = false, insertable = false, updatable = false)
-    var order: OrderEntity? = null
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -40,11 +40,7 @@ class OrderControllerTests {
 
     @Test
     fun `search orders by userId`() {
-        val orderItem = orderItem()
-        val orderEntity = orderRepository.save(orderEntity(orderItemEntities = setOf(orderItem)))
-        val orderItemEntity = orderItemRepository.save(orderItem.toEntity(orderEntity.id!!))
-        val order = orderEntity.addItems(setOf(orderItemEntity)).toModel()
-
+        val order = orderRepository.save(orderEntity()).toModel()
         val request = OrderSearchRequest(order.userId)
 
         val result = mockMvc.post("/api/v1/orders/search?page=0") {
@@ -109,10 +105,7 @@ class OrderControllerTests {
 
     @Test
     fun `get order by id`() {
-        val orderItem = orderItem()
-        val orderEntity = orderRepository.save(orderEntity(orderItems = setOf(orderItem)))
-        val orderItemEntity = orderItemRepository.save(orderItem.toEntity(orderEntity.id!!))
-        val order = orderEntity.addItems(setOf(orderItemEntity)).toModel()
+        val order = orderRepository.save(orderEntity()).toModel()
 
         val result = mockMvc.get("/api/v1/orders/${order.id}") {
             accept = MediaType.APPLICATION_JSON

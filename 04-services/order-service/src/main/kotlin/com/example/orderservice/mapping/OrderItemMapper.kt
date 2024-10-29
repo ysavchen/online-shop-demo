@@ -1,8 +1,10 @@
 package com.example.orderservice.mapping
 
-import com.example.orderservice.api.rest.model.*
+import com.example.orderservice.api.rest.model.ItemCategory
+import com.example.orderservice.api.rest.model.ItemCurrency
+import com.example.orderservice.api.rest.model.ItemPrice
+import com.example.orderservice.api.rest.model.OrderItem
 import com.example.orderservice.repository.entity.*
-import java.util.*
 
 object OrderItemMapper {
 
@@ -16,8 +18,8 @@ object OrderItemMapper {
         quantity = quantity
     )
 
-    internal fun OrderItem.toEntity(orderId: UUID) = OrderItemEntity(
-        orderItemId = OrderItemId(id, orderId),
+    internal fun OrderItem.toEntity() = OrderItemEntity(
+        orderItemId = OrderItemId(id),
         category = category.toEntity(),
         price = ItemPriceEntity(
             value = price.value,

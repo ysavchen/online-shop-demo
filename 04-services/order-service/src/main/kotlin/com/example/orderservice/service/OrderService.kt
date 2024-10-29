@@ -5,7 +5,6 @@ import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
 import com.example.orderservice.api.rest.RequestValidationException
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderItemMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.mapping.OrderMapper.toPagedModel
@@ -62,9 +61,6 @@ class OrderService(
 
         val order = transactionTemplate.execute {
             val savedOrder = orderRepository.save(request.toEntity())
-            val itemEntities = request.items.map { it.toEntity(savedOrder.id!!) }.toSet()
-            savedOrder.addItems(itemEntities)
-            orderItemRepository.saveAll(itemEntities)
             idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
             savedOrder.toModel()
         }.also { order ->
