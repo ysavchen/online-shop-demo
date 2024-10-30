@@ -29,7 +29,8 @@ allprojects {
     }
 }
 
-configure(subprojects.filter { it.name.contains("client") }) {
+val clientSubprojects = subprojects.filter { it.name.contains("client") }
+configure(clientSubprojects) {
     apply {
         plugin("org.gradle.maven-publish")
         plugin("io.spring.dependency-management")
