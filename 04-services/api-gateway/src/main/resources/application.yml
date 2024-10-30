@@ -70,4 +70,5 @@ management:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    root: info
+    org.springframework.cloud.gateway: debug
