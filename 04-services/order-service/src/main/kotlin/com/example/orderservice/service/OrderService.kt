@@ -10,7 +10,6 @@ import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.mapping.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.RequestMapper.toPageable
 import com.example.orderservice.repository.IdempotencyKeyRepository
-import com.example.orderservice.repository.OrderItemRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
@@ -33,7 +32,6 @@ import java.util.*
 class OrderService(
     private val metricService: MetricService,
     private val orderRepository: OrderRepository,
-    private val orderItemRepository: OrderItemRepository,
     private val idempotencyKeyRepository: IdempotencyKeyRepository,
     private val transactionManager: PlatformTransactionManager,
     private val bookService: BookService

@@ -1,10 +1,29 @@
 package com.example.orderservice.test
 
+import Book
+import Currency
+import Genre
+import Price
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
+import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
 import java.util.*
+
+object BookTestData {
+
+    fun book() = Book(
+        id = UUID.randomUUID(),
+        isbn = randomNumeric(17),
+        title = randomAlphabetic(15),
+        authors = listOf(randomAlphabetic(10)),
+        genre = nextValue<Genre>(),
+        releaseDate = randomLocalDate(),
+        quantity = randomNumeric(3).toInt(),
+        price = Price(randomPrice(), nextValue<Currency>())
+    )
+}
 
 object OrderTestData {
 
@@ -49,6 +68,16 @@ object OrderTestData {
         price = ItemPrice(
             value = randomPrice(),
             currency = currency
+        )
+    )
+
+    fun orderItem(book: Book) = OrderItem(
+        id = book.id,
+        category = ItemCategory.BOOKS,
+        quantity = book.quantity,
+        price = ItemPrice(
+            value = book.price!!.value,
+            currency = ItemCurrency.valueOf(book.price!!.currency.name)
         )
     )
 }

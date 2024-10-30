@@ -1,11 +1,11 @@
 package com.example.orderservice.api.rest
 
+import com.example.bookservice.rest.client.BookServiceClient
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderItemMapper.toEntity
 import com.example.orderservice.mapping.OrderMapper.toModel
-import com.example.orderservice.repository.OrderItemRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.entity.StatusEntity
+import com.example.orderservice.test.BookTestData.book
 import com.example.orderservice.test.IntegrationTest
 import com.example.orderservice.test.OrderTestData.createOrderRequest
 import com.example.orderservice.test.OrderTestData.orderEntity
@@ -13,9 +13,12 @@ import com.example.orderservice.test.OrderTestData.orderItem
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.wheneverBlocking
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -33,10 +36,10 @@ class OrderControllerTests {
     lateinit var orderRepository: OrderRepository
 
     @Autowired
-    lateinit var orderItemRepository: OrderItemRepository
-
-    @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    @MockBean
+    lateinit var bookServiceClient: BookServiceClient
 
     @Test
     fun `search orders by userId`() {
@@ -129,11 +132,13 @@ class OrderControllerTests {
         }
     }
 
-    @Disabled("Mock for BookServiceClient is needed")
     @Test
     fun `create order`() {
-        val request = createOrderRequest()
+        val book = book()
+        val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
+
+        wheneverBlocking { (bookServiceClient.getBookById(any())) }.doReturn(book)
 
         val result = mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON
@@ -153,7 +158,7 @@ class OrderControllerTests {
             .hasFieldOrPropertyWithValue("userId", request.userId)
             .hasFieldOrPropertyWithValue("status", Status.CREATED)
             .hasFieldOrPropertyWithValue("items", request.items)
-            .hasFieldOrPropertyWithValue("totalQuantity", request.items.size)
+            .hasFieldOrPropertyWithValue("totalQuantity", request.items.sumOf { it.quantity })
             .extracting(
                 { it.totalPrice.value },
                 { it.totalPrice.currency.name }
@@ -163,7 +168,6 @@ class OrderControllerTests {
             )
     }
 
-    @Disabled("Mock for BookServiceClient is needed")
     @Test
     fun `create order with different currencies`() {
         val rubItem = orderItem(currency = ItemCurrency.RUB)
@@ -183,11 +187,13 @@ class OrderControllerTests {
         }
     }
 
-    @Disabled("Mock for BookServiceClient is needed")
     @Test
     fun `duplicate create order request`() {
-        val request = createOrderRequest()
+        val book = book()
+        val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
+
+        wheneverBlocking { (bookServiceClient.getBookById(any())) }.doReturn(book)
 
         mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON
