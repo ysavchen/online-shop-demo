@@ -2,7 +2,6 @@ plugins {
     `maven-publish`
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
 }
 
 allprojects {
@@ -33,7 +32,6 @@ allprojects {
 configure(subprojects.filter { it.name.contains("client") }) {
     apply {
         plugin("org.gradle.maven-publish")
-        plugin("org.jetbrains.kotlin.plugin.spring")
         plugin("io.spring.dependency-management")
     }
 
