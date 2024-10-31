@@ -138,7 +138,7 @@ class OrderControllerTests {
         val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
 
-        wheneverBlocking { (bookServiceClient.getBookById(any())) }.doReturn(book)
+        wheneverBlocking { bookServiceClient.getBookById(any()) }.doReturn(book)
 
         val result = mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON
@@ -193,7 +193,7 @@ class OrderControllerTests {
         val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
 
-        wheneverBlocking { (bookServiceClient.getBookById(any())) }.doReturn(book)
+        wheneverBlocking { bookServiceClient.getBookById(any()) }.doReturn(book)
 
         mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON

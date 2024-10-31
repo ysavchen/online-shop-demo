@@ -1,10 +1,11 @@
 package com.example.orderservice.test
 
-import Book
-import Currency
-import Genre
-import Price
+import com.example.bookservice.rest.client.model.Book
+import com.example.bookservice.rest.client.model.Currency
+import com.example.bookservice.rest.client.model.Genre
+import com.example.bookservice.rest.client.model.Price
 import com.example.orderservice.api.rest.model.*
+
 import com.example.orderservice.repository.entity.*
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
