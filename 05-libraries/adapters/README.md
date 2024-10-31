@@ -1,6 +1,6 @@
 ## adapters
 
-### book-service-rest-client
+#### book-service-rest-client
 
 1. Add dependency
 

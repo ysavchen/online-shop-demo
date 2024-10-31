@@ -1,6 +1,6 @@
 package com.example.bookservice.rest.client
 
-import Book
+import com.example.bookservice.rest.client.model.Book
 import java.util.*
 
 interface BookServiceClient {

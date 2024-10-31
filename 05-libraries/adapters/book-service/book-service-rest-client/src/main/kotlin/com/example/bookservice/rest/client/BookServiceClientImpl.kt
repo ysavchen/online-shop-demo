@@ -1,6 +1,6 @@
 package com.example.bookservice.rest.client
 
-import Book
+import com.example.bookservice.rest.client.model.Book
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import java.util.*
