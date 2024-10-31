@@ -1,7 +1,6 @@
 package com.example.bookservice.service
 
 import com.example.bookservice.api.rest.BookNotFoundException
-import com.example.bookservice.api.rest.model.BookRequestParams
 import com.example.bookservice.api.rest.DuplicateRequestException
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
@@ -42,15 +41,11 @@ class BookService(
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.bookId != null) throw DuplicateRequestException(key.idempotencyKey, key.bookId)
+        if (key?.bookId != null) {
+            throw DuplicateRequestException(key.idempotencyKey, key.bookId)
+        }
         val savedBook = bookRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(
-            IdempotencyKeyEntity(
-                idempotencyKey = idempotencyKey,
-                bookId = savedBook.id,
-                reviewId = null
-            )
-        )
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id, null))
         return savedBook.toModel()
     }
 

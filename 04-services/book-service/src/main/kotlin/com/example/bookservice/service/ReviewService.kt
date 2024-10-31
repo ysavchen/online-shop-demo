@@ -2,9 +2,9 @@ package com.example.bookservice.service
 
 import com.example.bookservice.api.rest.DuplicateRequestException
 import com.example.bookservice.api.rest.ReviewNotFoundException
-import com.example.bookservice.api.rest.model.ReviewRequestParams
 import com.example.bookservice.api.rest.model.CreateReviewRequest
 import com.example.bookservice.api.rest.model.Review
+import com.example.bookservice.api.rest.model.ReviewRequestParams
 import com.example.bookservice.api.rest.model.ReviewSearchRequest
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.mapping.ReviewMapper.toEntity
@@ -37,15 +37,11 @@ class ReviewService(
     @Transactional
     fun createReview(idempotencyKey: UUID, request: CreateReviewRequest): Review {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.reviewId != null) throw DuplicateRequestException(key.idempotencyKey, key.reviewId)
+        if (key?.reviewId != null) {
+            throw DuplicateRequestException(key.idempotencyKey, key.reviewId)
+        }
         val savedReview = reviewRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(
-            IdempotencyKeyEntity(
-                idempotencyKey = idempotencyKey,
-                bookId = null,
-                reviewId = savedReview.id
-            )
-        )
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, null, savedReview.id))
         return savedReview.toModel()
     }
 }
