@@ -11,6 +11,10 @@ data class BookSearchRequest(
     val maxPrice: BigDecimal?
 )
 
+data class BooksFilterRequest(
+    val bookIds: List<UUID>
+)
+
 data class CreateBookRequest(
     val isbn: String,
     val title: String,

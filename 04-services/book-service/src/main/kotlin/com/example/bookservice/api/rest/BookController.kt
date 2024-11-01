@@ -20,6 +20,11 @@ class BookController(private val bookService: BookService) {
         @RequestBody request: BookSearchRequest?
     ): PagedModel<Book> = bookService.getBooks(bookRequestParams, request)
 
+    @Operation(summary = "Filter books by ids")
+    @PostMapping("/books/filter")
+    fun booksByIds(@RequestBody request: BooksFilterRequest): List<Book> =
+        bookService.getBooksByIds(request)
+
     @Operation(summary = "Get book by id")
     @GetMapping("/books/{bookId}")
     fun bookById(@PathVariable("bookId") bookId: UUID): Book = bookService.getBookById(bookId)

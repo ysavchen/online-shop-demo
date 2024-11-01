@@ -2,6 +2,7 @@ package com.example.bookservice.service
 
 import com.example.bookservice.api.rest.BookNotFoundException
 import com.example.bookservice.api.rest.DuplicateRequestException
+import com.example.bookservice.api.rest.RequestValidationException
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
@@ -12,6 +13,7 @@ import com.example.bookservice.repository.BookRepository.Companion.searchSpec
 import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import com.example.bookservice.repository.entity.PriceEntity
+import com.example.bookservice.service.RequestValidation.validate
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -27,6 +29,10 @@ class BookService(
     @Transactional(readOnly = true)
     fun getBooks(bookRequestParams: BookRequestParams, request: BookSearchRequest?): PagedModel<Book> =
         bookRepository.findAll(searchSpec(request), bookRequestParams.toPageable()).toPagedModel()
+
+    @Transactional(readOnly = true)
+    fun getBooksByIds(request: BooksFilterRequest): List<Book> =
+        bookRepository.findAllById(request.validate().bookIds).map { it.toModel() }
 
     @Transactional(readOnly = true)
     fun getBookById(bookId: UUID): Book = bookRepository.findByIdOrNull(bookId)?.toModel()
@@ -59,4 +65,16 @@ class BookService(
         }.toModel()
     }
 
+}
+
+private object RequestValidation {
+
+    private const val MAX_FILTER_SIZE = 100
+
+    fun BooksFilterRequest.validate(): BooksFilterRequest {
+        val filterSize = this.bookIds.size
+        if (filterSize > MAX_FILTER_SIZE)
+            throw RequestValidationException("Book filter size is $filterSize, but max allowed size is $MAX_FILTER_SIZE")
+        else return this
+    }
 }
