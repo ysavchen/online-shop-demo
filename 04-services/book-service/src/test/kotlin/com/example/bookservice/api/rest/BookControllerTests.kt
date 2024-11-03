@@ -1,9 +1,6 @@
 package com.example.bookservice.api.rest
 
-import com.example.bookservice.api.rest.model.Book
-import com.example.bookservice.api.rest.model.BookSearchRequest
-import com.example.bookservice.api.rest.model.ErrorCode
-import com.example.bookservice.api.rest.model.IDEMPOTENCY_KEY
+import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
@@ -135,6 +132,80 @@ class BookControllerTests {
         )
 
         mockMvc.post("/api/v1/books/search?page=0&orderBy=invalidOrderBy") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+        }
+    }
+
+    @Test
+    fun `filter books by ids`() {
+        val bookOne = bookRepository.save(bookEntity()).toModel()
+        val bookTwo = bookRepository.save(bookEntity()).toModel()
+        val request = BooksFilterRequest(listOf(bookOne.id, bookTwo.id))
+
+        val result = mockMvc.post("/api/v1/books/filter") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val bookOneJson = objectMapper.writeValueAsString(bookOne)
+        val bookTwoJson = objectMapper.writeValueAsString(bookTwo)
+        assertThat(result.response.contentAsString).contains(bookOneJson, bookTwoJson)
+    }
+
+    @Test
+    fun `filter books by existing and non-existing ids`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val nonExistingId = UUID.randomUUID()
+        val request = BooksFilterRequest(listOf(book.id, nonExistingId))
+
+        val result = mockMvc.post("/api/v1/books/filter") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        val bookJson = objectMapper.writeValueAsString(book)
+        assertThat(result.response.contentAsString).contains(bookJson)
+    }
+
+    @Test
+    fun `filter books by non-existing ids`() {
+        val nonExistingId = UUID.randomUUID()
+        val request = BooksFilterRequest(listOf(nonExistingId))
+
+        val result = mockMvc.post("/api/v1/books/filter") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+        }.andReturn()
+
+        assertThat(result.response.contentAsString).isEqualTo("[]")
+    }
+
+    @Test
+    fun `filter books with exceeded filter size`() {
+        val idList = mutableListOf<UUID>().apply {
+            repeat(101) { add(UUID.randomUUID()) }
+        }
+        val request = BooksFilterRequest(idList)
+
+        mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
