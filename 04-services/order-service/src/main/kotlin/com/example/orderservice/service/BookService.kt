@@ -1,15 +1,22 @@
 package com.example.orderservice.service
 
-import com.example.bookservice.rest.client.BookServiceClient
+import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.orderservice.api.rest.OrderItemValidationException
 import com.example.orderservice.api.rest.model.OrderItem
+import com.example.orderservice.config.ApplicationProperties
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class BookService(private val bookServiceClient: BookServiceClient) {
+class BookService(
+    private val bookServiceClient: BookServiceRestClient,
+    private val appProperties: ApplicationProperties
+) {
 
     fun validateBooks(items: Collection<OrderItem>) {
+        if (appProperties.features.bookValidation.enabled.not()) {
+            return
+        }
         items.forEach { item ->
             runBlocking {
                 val book = bookServiceClient.getBookById(item.id)

@@ -34,6 +34,9 @@ spring:
 
 application:
   timezone: Europe/Moscow # made timezone configurable for dev purposes
+  features:
+    book-validation:
+      enabled: true
   client:
     book-service:
       http:
