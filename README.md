@@ -19,6 +19,7 @@ cd 04-services/book-service
 ### Configuration
 - [Kubernetes](01-docs/Kubernetes.md)
 - [Observability](01-docs/Observability.md)
+- [Storage](01-docs/Storage.md)
 
 ### Local URLs
 
