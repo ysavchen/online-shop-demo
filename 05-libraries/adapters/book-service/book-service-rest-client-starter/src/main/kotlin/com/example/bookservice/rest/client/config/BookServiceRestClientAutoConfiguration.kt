@@ -1,7 +1,7 @@
 package com.example.bookservice.rest.client.config
 
-import com.example.bookservice.rest.client.BookServiceClient
-import com.example.bookservice.rest.client.BookServiceClientImpl
+import com.example.bookservice.rest.client.BookServiceRestClient
+import com.example.bookservice.rest.client.BookServiceRestClientImpl
 import io.netty.channel.ChannelOption
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -12,13 +12,13 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
-@EnableConfigurationProperties(BookServiceClientProperties::class)
-class BookServiceClientAutoConfiguration(private val properties: BookServiceClientProperties) {
+@EnableConfigurationProperties(BookServiceRestClientProperties::class)
+class BookServiceRestClientAutoConfiguration(private val properties: BookServiceRestClientProperties) {
 
     @Bean
-    @ConditionalOnMissingBean(BookServiceClient::class)
-    fun bookServiceClient(bookServiceHttpClient: HttpClient): BookServiceClient =
-        BookServiceClientImpl(
+    @ConditionalOnMissingBean
+    fun bookServiceRestClient(bookServiceHttpClient: HttpClient): BookServiceRestClient =
+        BookServiceRestClientImpl(
             WebClient.builder()
                 .baseUrl(properties.http.baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

@@ -1,1 +1,1 @@
-com.example.bookservice.rest.client.config.BookServiceClientAutoConfiguration
+com.example.bookservice.rest.client.config.BookServiceRestClientAutoConfiguration

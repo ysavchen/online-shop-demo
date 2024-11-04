@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 import java.time.Duration
 
 @ConfigurationProperties("application.client.book-service", ignoreUnknownFields = false)
-data class BookServiceClientProperties(
+data class BookServiceRestClientProperties(
 
     @NestedConfigurationProperty
     val http: HttpClientProperties

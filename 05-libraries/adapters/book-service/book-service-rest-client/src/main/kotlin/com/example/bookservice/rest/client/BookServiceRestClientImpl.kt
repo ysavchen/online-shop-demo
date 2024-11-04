@@ -5,7 +5,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import java.util.*
 
-class BookServiceClientImpl(private val webClient: WebClient) : BookServiceClient {
+class BookServiceRestClientImpl(private val webClient: WebClient) : BookServiceRestClient {
 
     companion object {
         private const val BOOKS_PATH_V1 = "/api/v1/books"
