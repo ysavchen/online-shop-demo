@@ -1,6 +1,6 @@
 package com.example.orderservice.api.rest
 
-import com.example.bookservice.rest.client.BookServiceClient
+import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.mapping.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
@@ -39,7 +39,7 @@ class OrderControllerTests {
     lateinit var objectMapper: ObjectMapper
 
     @MockBean
-    lateinit var bookServiceClient: BookServiceClient
+    lateinit var bookServiceClient: BookServiceRestClient
 
     @Test
     fun `search orders by userId`() {

@@ -37,7 +37,7 @@ application:
   features:
     book-validation:
       enabled: true
-  client:
+  clients:
     book-service:
       http:
         base-url: http://localhost:8090
