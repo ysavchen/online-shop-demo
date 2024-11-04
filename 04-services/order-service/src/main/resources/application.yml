@@ -7,7 +7,11 @@ spring:
     username: app_user
     password: app_password
     hikari:
-      connection-timeout: 3000 # default is 30000
+      data-source-properties:
+        ApplicationName: ${spring.application.name}
+        assumeMinServerVersion: 16.0
+      pool-name: ${spring.application.name}-pool
+      connection-timeout: 10000      # default is 30000
   data:
     web:
       pageable:
