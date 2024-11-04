@@ -10,6 +10,7 @@ project("order-service-kafka-client") {
 project("order-service-kafka-client-starter") {
     dependencies {
         api(project(":order-service:order-service-kafka-client"))
+        api("org.springframework.kafka:spring-kafka")
         api("org.springframework.boot:spring-boot-starter")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
