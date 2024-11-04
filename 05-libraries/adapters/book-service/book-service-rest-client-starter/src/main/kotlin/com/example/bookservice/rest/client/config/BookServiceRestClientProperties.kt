@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import java.time.Duration
 
-@ConfigurationProperties("application.client.book-service", ignoreUnknownFields = false)
+@ConfigurationProperties("application.clients.book-service", ignoreUnknownFields = false)
 data class BookServiceRestClientProperties(
 
     @NestedConfigurationProperty

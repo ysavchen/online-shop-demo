@@ -31,7 +31,7 @@ class OrderServiceKafkaClientAutoConfiguration {
         @ConditionalOnMissingBean
         fun orderServiceDomainKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, Order> =
             DefaultKafkaProducerFactory(
-                mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers),
+                mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList()),
                 UUIDSerializer(),
                 JsonSerializer(jacksonTypeRef<Order>(), objectMapper),
                 true

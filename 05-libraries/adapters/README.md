@@ -22,7 +22,7 @@ application:
 
 ```
 @Service
-class ExampleService(private val bookServiceClient: BookServiceClient) {
+class ExampleService(private val bookServiceClient: BookServiceRestClient) {
 
     fun getBook(id: UUID) {
         runBlocking {

@@ -3,7 +3,7 @@ package com.example.orderservice.domain.kafka.client.config
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 
-@ConfigurationProperties("application.client.order-service", ignoreUnknownFields = false)
+@ConfigurationProperties("application.clients.order-service", ignoreUnknownFields = false)
 data class OrderServiceKafkaClientProperties(
     @NestedConfigurationProperty
     val kafka: KafkaProperties
