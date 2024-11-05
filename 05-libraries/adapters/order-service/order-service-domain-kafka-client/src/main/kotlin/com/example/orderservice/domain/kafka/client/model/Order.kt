@@ -27,3 +27,7 @@ enum class Status {
     CANCELLED,
     DELIVERED
 }
+
+enum class Currency {
+    RUB, EUR
+}
