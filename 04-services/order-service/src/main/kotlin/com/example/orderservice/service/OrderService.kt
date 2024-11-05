@@ -5,10 +5,10 @@ import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
 import com.example.orderservice.api.rest.RequestValidationException
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderMapper.toEntity
-import com.example.orderservice.mapping.OrderMapper.toModel
-import com.example.orderservice.mapping.OrderMapper.toPagedModel
-import com.example.orderservice.mapping.RequestMapper.toPageable
+import com.example.orderservice.mapping.api.OrderMapper.toEntity
+import com.example.orderservice.mapping.api.OrderMapper.toModel
+import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
+import com.example.orderservice.mapping.api.RequestMapper.toPageable
 import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec

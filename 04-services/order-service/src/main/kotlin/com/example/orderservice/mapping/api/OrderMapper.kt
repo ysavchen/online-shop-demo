@@ -1,8 +1,8 @@
-package com.example.orderservice.mapping
+package com.example.orderservice.mapping.api
 
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderItemMapper.toEntity
-import com.example.orderservice.mapping.OrderItemMapper.toModel
+import com.example.orderservice.mapping.api.OrderItemMapper.toEntity
+import com.example.orderservice.mapping.api.OrderItemMapper.toModel
 import com.example.orderservice.repository.entity.*
 import org.springframework.data.domain.Page
 import org.springframework.data.web.PagedModel

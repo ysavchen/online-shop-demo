@@ -1,4 +1,4 @@
-package com.example.orderservice.mapping
+package com.example.orderservice.mapping.api
 
 import com.example.orderservice.api.rest.model.ItemCategory
 import com.example.orderservice.api.rest.model.ItemCurrency

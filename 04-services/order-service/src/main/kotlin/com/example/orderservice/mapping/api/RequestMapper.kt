@@ -1,4 +1,4 @@
-package com.example.orderservice.mapping
+package com.example.orderservice.mapping.api
 
 import com.example.orderservice.api.rest.model.OrderRequestParams
 import com.example.orderservice.api.rest.RequestValidationException

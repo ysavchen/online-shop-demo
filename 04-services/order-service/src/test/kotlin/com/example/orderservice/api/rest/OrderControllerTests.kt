@@ -2,7 +2,7 @@ package com.example.orderservice.api.rest
 
 import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.orderservice.api.rest.model.*
-import com.example.orderservice.mapping.OrderMapper.toModel
+import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.test.BookTestData.book
