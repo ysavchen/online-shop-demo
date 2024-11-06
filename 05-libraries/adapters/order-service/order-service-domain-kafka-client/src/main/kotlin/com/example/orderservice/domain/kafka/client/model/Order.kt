@@ -13,7 +13,7 @@ data class Order(
     val totalPrice: TotalPrice,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
-)
+) : Data
 
 data class TotalPrice(
     val value: BigDecimal,

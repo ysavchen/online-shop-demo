@@ -2,7 +2,6 @@ package com.example.orderservice.domain.kafka.client.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
-import org.springframework.boot.context.properties.bind.DefaultValue
 
 internal const val propertiesPrefix = "application.clients.order-service-domain"
 
@@ -22,17 +21,23 @@ data class KafkaProperties(
 )
 
 data class KafkaConnectionProperties(
-    @DefaultValue("http://localhost:9092")
+    /**
+     * bootstrap-servers: http://localhost:9092
+     */
     val bootstrapServers: Set<String>,
 )
 
 data class KafkaProducerProperties(
-    @DefaultValue("order-service.domain")
+    /**
+     * topic: order-service.domain
+     */
     val topic: String
 )
 
 data class KafkaConsumerProperties(
     val groupId: String,
-    @DefaultValue("order-service.domain")
+    /**
+     * topics: order-service.domain
+     */
     val topics: Set<String>
 )

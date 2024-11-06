@@ -2,7 +2,7 @@ package com.example.orderservice.domain.kafka.client.config
 
 import com.example.orderservice.domain.kafka.client.OrderServiceDomainKafkaConsumer
 import com.example.orderservice.domain.kafka.client.OrderServiceDomainKafkaProducerImpl
-import com.example.orderservice.domain.kafka.client.model.Order
+import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -32,25 +32,25 @@ import java.util.*
 class OrderServiceDomainKafkaClientAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.producer"])
+    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.producer.topic"])
     class OrderServiceDomainKafkaProducerConfiguration(private val properties: OrderServiceKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["orderServiceDomainKafkaProducerFactory"])
-        fun orderServiceDomainKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, Order> =
+        fun orderServiceDomainKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> =
             DefaultKafkaProducerFactory(
                 mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList()),
                 UUIDSerializer(),
-                JsonSerializer(jacksonTypeRef<Order>(), objectMapper),
+                JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper),
                 true
             )
 
         @Bean
         @ConditionalOnMissingBean(name = ["orderServiceDomainKafkaTemplate"])
         fun orderServiceDomainKafkaTemplate(
-            orderServiceDomainKafkaProducerFactory: ProducerFactory<UUID, Order>
-        ): KafkaTemplate<UUID, Order> {
+            orderServiceDomainKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>
+        ): KafkaTemplate<UUID, DomainEvent> {
             val topic = properties.kafka.producer?.topic
-                ?: throw IllegalArgumentException("Kafka producer is not defined in application.yml")
+                ?: throw IllegalArgumentException("Kafka producer.topic is not defined in application.yml")
             return KafkaTemplate(orderServiceDomainKafkaProducerFactory).apply {
                 defaultTopic = topic
                 setObservationEnabled(true)
@@ -59,20 +59,20 @@ class OrderServiceDomainKafkaClientAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(name = ["orderServiceDomainKafkaProducer"])
-        fun orderServiceDomainKafkaProducer(orderServiceDomainKafkaTemplate: KafkaTemplate<UUID, Order>) =
+        fun orderServiceDomainKafkaProducer(orderServiceDomainKafkaTemplate: KafkaTemplate<UUID, DomainEvent>) =
             OrderServiceDomainKafkaProducerImpl(orderServiceDomainKafkaTemplate)
 
     }
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnBean(OrderServiceDomainKafkaConsumer::class)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.consumer"])
+    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.consumer.topics"])
     class OrderServiceDomainKafkaConsumerConfiguration(private val properties: OrderServiceKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["notificationUserAuthoritiesKafkaConsumerFactory"])
-        fun orderServiceDomainKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, Order> {
+        fun orderServiceDomainKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
             val groupId = properties.kafka.consumer?.groupId
-                ?: throw IllegalArgumentException("Kafka consumer is not defined in application.yml")
+                ?: throw IllegalArgumentException("Kafka consumer.group-id is not defined in application.yml")
             return DefaultKafkaConsumerFactory(
                 mapOf(
                     ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
@@ -81,8 +81,7 @@ class OrderServiceDomainKafkaClientAutoConfiguration {
                 ),
                 ErrorHandlingDeserializer(UUIDDeserializer()),
                 ErrorHandlingDeserializer(
-                    JsonDeserializer(jacksonTypeRef<Order>(), objectMapper, false)
-                        .apply { setRemoveTypeHeaders(false) }
+                    JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
                 )
             )
         }
@@ -91,15 +90,14 @@ class OrderServiceDomainKafkaClientAutoConfiguration {
         @ConditionalOnMissingBean(name = ["orderServiceDomainKafkaListenerContainer"])
         fun orderServiceDomainKafkaListenerContainer(
             consumer: OrderServiceDomainKafkaConsumer,
-            orderServiceDomainKafkaConsumerFactory: ConsumerFactory<UUID, Order>
+            orderServiceDomainKafkaConsumerFactory: ConsumerFactory<UUID, DomainEvent>
         ): MessageListenerContainer {
             val topics = properties.kafka.consumer?.topics?.toTypedArray()
-                ?: throw IllegalArgumentException("Kafka consumer is not defined in application.yml")
-            val containerProperties = ContainerProperties(*topics)
-                .apply {
-                    messageListener = consumer
-                    isObservationEnabled = true
-                }
+                ?: throw IllegalArgumentException("Kafka consumer.topics is not defined in application.yml")
+            val containerProperties = ContainerProperties(*topics).apply {
+                messageListener = consumer
+                isObservationEnabled = true
+            }
 
             return ConcurrentMessageListenerContainer(
                 orderServiceDomainKafkaConsumerFactory,
