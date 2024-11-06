@@ -46,16 +46,11 @@ class DomainOrderKafkaClientAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
-        fun domainOrderKafkaTemplate(
-            domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>
-        ): KafkaTemplate<UUID, DomainEvent> {
-            val topic = properties.kafka.producer?.topic
-                ?: throw IllegalArgumentException("Kafka producer.topic is not defined in application.yml")
-            return KafkaTemplate(domainOrderKafkaProducerFactory).apply {
-                defaultTopic = topic
+        fun domainOrderKafkaTemplate(domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>) =
+            KafkaTemplate(domainOrderKafkaProducerFactory).apply {
+                defaultTopic = properties.kafka.producer!!.topic
                 setObservationEnabled(true)
             }
-        }
 
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaProducer"])
@@ -71,12 +66,10 @@ class DomainOrderKafkaClientAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
         fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
-            val groupId = properties.kafka.consumer?.groupId
-                ?: throw IllegalArgumentException("Kafka consumer.group-id is not defined in application.yml")
             return DefaultKafkaConsumerFactory(
                 mapOf(
                     ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                    ConsumerConfig.GROUP_ID_CONFIG to groupId,
+                    ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.consumer!!.groupId,
                     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST
                 ),
                 ErrorHandlingDeserializer(UUIDDeserializer()),
@@ -92,8 +85,7 @@ class DomainOrderKafkaClientAutoConfiguration {
             consumer: DomainOrderKafkaConsumer,
             domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, DomainEvent>
         ): MessageListenerContainer {
-            val topics = properties.kafka.consumer?.topics?.toTypedArray()
-                ?: throw IllegalArgumentException("Kafka consumer.topics is not defined in application.yml")
+            val topics = properties.kafka.consumer!!.topics.toTypedArray()
             val containerProperties = ContainerProperties(*topics).apply {
                 messageListener = consumer
                 isObservationEnabled = true
