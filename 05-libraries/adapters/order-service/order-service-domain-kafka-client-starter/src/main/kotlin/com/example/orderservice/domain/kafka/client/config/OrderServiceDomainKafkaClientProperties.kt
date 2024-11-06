@@ -7,6 +7,7 @@ internal const val propertiesPrefix = "application.clients.order-service-domain"
 
 @ConfigurationProperties(propertiesPrefix, ignoreUnknownFields = false)
 data class OrderServiceKafkaClientProperties(
+
     @NestedConfigurationProperty
     val kafka: KafkaProperties
 )
@@ -14,13 +15,16 @@ data class OrderServiceKafkaClientProperties(
 data class KafkaProperties(
     @NestedConfigurationProperty
     val connection: KafkaConnectionProperties,
+
     @NestedConfigurationProperty
     val producer: KafkaProducerProperties?,
+
     @NestedConfigurationProperty
     val consumer: KafkaConsumerProperties?
 )
 
 data class KafkaConnectionProperties(
+
     /**
      * bootstrap-servers: http://localhost:9092
      */
@@ -28,6 +32,7 @@ data class KafkaConnectionProperties(
 )
 
 data class KafkaProducerProperties(
+
     /**
      * topic: order-service.domain
      */
@@ -36,6 +41,7 @@ data class KafkaProducerProperties(
 
 data class KafkaConsumerProperties(
     val groupId: String,
+
     /**
      * topics: order-service.domain
      */

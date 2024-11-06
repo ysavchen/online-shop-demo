@@ -12,6 +12,7 @@ data class BookServiceRestClientProperties(
 )
 
 data class HttpClientProperties(
+
     /**
      * base-url: http://localhost:8090
      */
