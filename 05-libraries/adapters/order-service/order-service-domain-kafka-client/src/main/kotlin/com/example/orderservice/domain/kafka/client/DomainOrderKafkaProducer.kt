@@ -6,14 +6,14 @@ import org.springframework.kafka.support.SendResult
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-interface OrderServiceDomainKafkaProducer {
+interface DomainOrderKafkaProducer {
 
     fun send(event: DomainEvent): CompletableFuture<SendResult<UUID, DomainEvent>>
 }
 
-class OrderServiceDomainKafkaProducerImpl(
+class DomainOrderKafkaProducerImpl(
     private val kafkaTemplate: KafkaTemplate<UUID, DomainEvent>
-) : OrderServiceDomainKafkaProducer {
+) : DomainOrderKafkaProducer {
 
     override fun send(event: DomainEvent): CompletableFuture<SendResult<UUID, DomainEvent>> =
         kafkaTemplate.sendDefault(UUID.randomUUID(), event)

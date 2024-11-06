@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 internal const val propertiesPrefix = "application.clients.order-service-domain"
 
 @ConfigurationProperties(propertiesPrefix, ignoreUnknownFields = false)
-data class OrderServiceKafkaClientProperties(
+data class DomainOrderKafkaClientProperties(
 
     @NestedConfigurationProperty
     val kafka: KafkaProperties

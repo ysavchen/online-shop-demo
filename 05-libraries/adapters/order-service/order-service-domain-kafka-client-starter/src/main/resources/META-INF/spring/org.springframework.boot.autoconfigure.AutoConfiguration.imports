@@ -1,1 +1,1 @@
-com.example.orderservice.domain.kafka.client.config.OrderServiceDomainKafkaClientAutoConfiguration
+com.example.orderservice.domain.kafka.client.config.DomainOrderKafkaClientAutoConfiguration
