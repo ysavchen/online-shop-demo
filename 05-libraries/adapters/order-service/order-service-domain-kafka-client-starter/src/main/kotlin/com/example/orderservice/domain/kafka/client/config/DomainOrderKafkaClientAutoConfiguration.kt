@@ -20,6 +20,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.core.*
+import org.springframework.kafka.listener.CommonLoggingErrorHandler
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.listener.MessageListenerContainer
@@ -37,13 +38,15 @@ class DomainOrderKafkaClientAutoConfiguration {
     class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaProducerFactory"])
-        fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> =
-            DefaultKafkaProducerFactory(
-                mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList()),
+        fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> {
+            val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
+            return DefaultKafkaProducerFactory(
+                mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
                 UUIDSerializer(),
                 JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper),
                 true
             )
+        }
 
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
@@ -74,10 +77,10 @@ class DomainOrderKafkaClientAutoConfiguration {
                     ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.consumer!!.groupId,
                     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
                 ),
-                ErrorHandlingDeserializer(UUIDDeserializer()),
+                ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
                 ErrorHandlingDeserializer(
                     JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
-                )
+                ).apply { isForKey = false }
             )
         }
 
@@ -96,7 +99,9 @@ class DomainOrderKafkaClientAutoConfiguration {
             return ConcurrentMessageListenerContainer(
                 domainOrderKafkaConsumerFactory,
                 containerProperties
-            )
+            ).apply {
+                commonErrorHandler = CommonLoggingErrorHandler()
+            }
         }
     }
 }
