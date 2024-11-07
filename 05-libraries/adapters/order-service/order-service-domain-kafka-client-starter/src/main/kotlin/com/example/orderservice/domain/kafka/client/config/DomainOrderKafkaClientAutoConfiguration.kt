@@ -12,6 +12,7 @@ import org.apache.kafka.common.serialization.UUIDDeserializer
 import org.apache.kafka.common.serialization.UUIDSerializer
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
@@ -62,6 +63,7 @@ class DomainOrderKafkaClientAutoConfiguration {
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnBean(DomainOrderKafkaConsumer::class)
     @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.consumer.topics"])
+    @ConditionalOnExpression("#{\${$propertiesPrefix.kafka.consumer.enabled:true}}")
     class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])

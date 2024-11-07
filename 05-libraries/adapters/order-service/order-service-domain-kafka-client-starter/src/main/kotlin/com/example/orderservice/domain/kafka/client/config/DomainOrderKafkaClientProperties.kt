@@ -45,5 +45,6 @@ data class KafkaConsumerProperties(
     /**
      * topics: order-service.domain
      */
-    val topics: Set<String>
+    val topics: Set<String>,
+    val enabled: Boolean = true
 )
