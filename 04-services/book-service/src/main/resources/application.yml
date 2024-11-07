@@ -24,6 +24,16 @@ server:
   port: 8090
   shutdown: graceful
 
+application:
+  clients:
+    order-service-domain:
+      kafka:
+        connection:
+          bootstrap-servers: http://localhost:9092
+        consumer:
+          group-id: ${spring.application.name}
+          topics: order-service.domain
+
 management:
   health:
     disk-space.enabled: false

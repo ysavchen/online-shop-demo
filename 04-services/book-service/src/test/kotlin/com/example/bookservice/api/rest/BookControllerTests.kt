@@ -4,6 +4,7 @@ import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
+import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
 import com.example.bookservice.test.BookTestData.updateBookRequest
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -32,7 +34,16 @@ class BookControllerTests {
     lateinit var bookRepository: BookRepository
 
     @Autowired
+    lateinit var reviewRepository: ReviewRepository
+
+    @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    @BeforeEach
+    fun beforeEach() {
+        reviewRepository.deleteAll()
+        bookRepository.deleteAll()
+    }
 
     @Test
     fun `search books by title`() {

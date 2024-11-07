@@ -20,6 +20,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -60,6 +61,9 @@ dependencies {
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     // Dependency is needed for latency visualization
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+
+    // Integration
+    implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
 }
 
 kotlin {

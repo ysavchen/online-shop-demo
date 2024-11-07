@@ -14,6 +14,11 @@ import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import com.example.bookservice.repository.entity.PriceEntity
 import com.example.bookservice.service.RequestValidation.validate
+import com.example.orderservice.domain.kafka.client.model.DomainEvent
+import com.example.orderservice.domain.kafka.client.model.Order
+import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
+import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -25,6 +30,10 @@ class BookService(
     private val bookRepository: BookRepository,
     private val idempotencyKeyRepository: IdempotencyKeyRepository
 ) {
+
+    companion object {
+        private val logger = KotlinLogging.logger(BookService::class.java.name)
+    }
 
     @Transactional(readOnly = true)
     fun getBooks(bookRequestParams: BookRequestParams, request: BookSearchRequest?): PagedModel<Book> =
@@ -65,6 +74,24 @@ class BookService(
         }.toModel()
     }
 
+    @Transactional
+    fun processEvent(event: DomainEvent) {
+        when (event) {
+            is OrderCreatedEvent -> processOrder(event.data)
+            is OrderUpdatedEvent -> Unit
+        }
+    }
+
+    private fun processOrder(order: Order) {
+        order.items.forEach { book ->
+            val bookEntity = bookRepository.findByIdWithPessimisticWrite(book.id)
+            if (bookEntity != null) {
+                bookEntity.quantity -= book.quantity
+            } else {
+                logger.error { "Book with id=${book.id} is not found to reduce the quantity by ${book.quantity}" }
+            }
+        }
+    }
 }
 
 private object RequestValidation {

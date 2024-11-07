@@ -15,6 +15,7 @@ import com.example.bookservice.test.ReviewTestData.reviewEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -37,6 +38,12 @@ class ReviewControllerTests {
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    @BeforeEach
+    fun beforeEach() {
+        reviewRepository.deleteAll()
+        bookRepository.deleteAll()
+    }
 
     @Test
     fun `search reviews by bookId`() {
