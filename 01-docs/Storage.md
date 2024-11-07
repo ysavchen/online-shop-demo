@@ -32,6 +32,7 @@ Buffers:
 shared hit=10 - количество чтений из кэша
 read=24       - количество чтений с диска
 ```
+
 - Get duration of active queries
 ```
 select pid, usename, client_addr, state, application_name, now()-query_start as duration, query
@@ -39,11 +40,13 @@ from pg_catalog.pg_stat_activity
 where client_addr is not null
   and state != 'idle';
 ```
+
 - Get table size
 ```
 select pg_size_pretty(pg_table_size('<schema_name.<table_name>')) as table_size_without_indexes,
        pg_size_pretty(pg_total_relation_size('<schema_name.<table_name>')) as table_size_with_indexes;
 ```
+
 - Get counters for index scans
 ```
 select relname as "table",
@@ -52,6 +55,7 @@ select relname as "table",
 from pg_catalog.pg_stat_user_indexes
 where schemaname = '<schema_name>';
 ```
+
 - Get unused indexes
 ```
 select indexrelid::regclass as "index",
@@ -64,6 +68,7 @@ where idx_scan = 0
   and indisunique is false
 order by "table";
 ```
+
 - Get ratio of cache hits to disk reads<br/>
   The higher ratio, the more data is retrieved from the page cache.
 ```
@@ -73,6 +78,7 @@ select sum(heap_blks_read) as disk_reads,
 from pg_catalog.pg_statio_user_tables
 where relname = '<table_name>';
 ```
+
 - Get size of page cache
 ```
 select pg_size_pretty(setting::bigint * 8 * 1024) as cache_size
