@@ -19,5 +19,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'gradle'
-      - name: Build with Gradle
+      - name: Build adapters
+        run: cd ./05-libraries/adapters && chmod +x gradlew && ./gradlew publishToMavenLocal --no-daemon
+      - name: Build book-service
         run: cd ./04-services/book-service && chmod +x gradlew && ./gradlew build --no-daemon
