@@ -32,6 +32,10 @@ spring:
       key-prefix: "order-service::"
       time-to-live: 10m
 
+server:
+  port: 8091
+  shutdown: graceful
+
 application:
   timezone: Europe/Moscow # made timezone configurable for dev purposes
   features:
@@ -47,10 +51,6 @@ application:
           bootstrap-servers: http://localhost:9092
         producer:
           topic: order-service.domain
-
-server:
-  port: 8091
-  shutdown: graceful
 
 management:
   health:

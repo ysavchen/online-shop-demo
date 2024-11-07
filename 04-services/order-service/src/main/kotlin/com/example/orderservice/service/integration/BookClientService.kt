@@ -1,4 +1,4 @@
-package com.example.orderservice.service
+package com.example.orderservice.service.integration
 
 import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.orderservice.api.rest.OrderItemValidationException
@@ -9,8 +9,8 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class BookService(
-    private val bookServiceClient: BookServiceRestClient,
+class BookClientService(
+    private val restClient: BookServiceRestClient,
     private val appProperties: ApplicationProperties
 ) {
 
@@ -21,7 +21,7 @@ class BookService(
         runBlocking {
             items.forEach { item ->
                 launch {
-                    val book = bookServiceClient.getBookById(item.id)
+                    val book = restClient.getBookById(item.id)
                     if (item.quantity > book.quantity) {
                         throw OrderItemValidationException("Insufficient quantity of books (bookId=${item.id}): ordered=${item.quantity}, available in store=${book.quantity}")
                     }

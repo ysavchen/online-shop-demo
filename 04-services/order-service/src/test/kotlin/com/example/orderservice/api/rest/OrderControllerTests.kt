@@ -2,6 +2,8 @@ package com.example.orderservice.api.rest
 
 import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.orderservice.api.rest.model.*
+import com.example.orderservice.domain.kafka.client.DomainOrderKafkaProducer
+import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.entity.StatusEntity
@@ -13,9 +15,11 @@ import com.example.orderservice.test.OrderTestData.orderItem
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.wheneverBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -39,7 +43,15 @@ class OrderControllerTests {
     lateinit var objectMapper: ObjectMapper
 
     @MockBean
-    lateinit var bookServiceClient: BookServiceRestClient
+    lateinit var bookServiceRestClient: BookServiceRestClient
+
+    @MockBean
+    lateinit var domainOrderKafkaProducer: DomainOrderKafkaProducer
+
+    @BeforeEach
+    fun beforeEach() {
+        orderRepository.deleteAll()
+    }
 
     @Test
     fun `search orders by userId`() {
@@ -138,7 +150,7 @@ class OrderControllerTests {
         val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
 
-        wheneverBlocking { bookServiceClient.getBookById(any()) }.doReturn(book)
+        wheneverBlocking { bookServiceRestClient.getBookById(any<UUID>()) }.doReturn(book)
 
         val result = mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON
@@ -166,6 +178,8 @@ class OrderControllerTests {
                 request.items.sumOf { it.price.value },
                 request.items.first().price.currency.name
             )
+
+        verify(domainOrderKafkaProducer).send(any<DomainEvent>())
     }
 
     @Test
@@ -193,7 +207,7 @@ class OrderControllerTests {
         val request = createOrderRequest(items = setOf(orderItem(book)))
         val idempotencyKey = UUID.randomUUID()
 
-        wheneverBlocking { bookServiceClient.getBookById(any()) }.doReturn(book)
+        wheneverBlocking { bookServiceRestClient.getBookById(any<UUID>()) }.doReturn(book)
 
         mockMvc.post("/api/v1/orders") {
             contentType = MediaType.APPLICATION_JSON
@@ -215,6 +229,8 @@ class OrderControllerTests {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
+
+        verify(domainOrderKafkaProducer).send(any<DomainEvent>())
     }
 
     @Test
@@ -235,6 +251,8 @@ class OrderControllerTests {
         assertThat(updatedOrder)
             .hasFieldOrPropertyWithValue("id", order.id)
             .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
+
+        verify(domainOrderKafkaProducer).send(any<DomainEvent>())
     }
 
     @Test
@@ -255,6 +273,8 @@ class OrderControllerTests {
         assertThat(updatedOrder)
             .hasFieldOrPropertyWithValue("id", order.id)
             .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
+
+        verify(domainOrderKafkaProducer).send(any<DomainEvent>())
     }
 
     @Test

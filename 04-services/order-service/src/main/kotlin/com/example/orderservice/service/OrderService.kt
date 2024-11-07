@@ -5,10 +5,13 @@ import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
 import com.example.orderservice.api.rest.RequestValidationException
 import com.example.orderservice.api.rest.model.*
+import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
+import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
 import com.example.orderservice.mapping.api.OrderMapper.toEntity
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.api.RequestMapper.toPageable
+import com.example.orderservice.mapping.integration.OrderMapper.toDomainModel
 import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
@@ -16,6 +19,8 @@ import com.example.orderservice.repository.entity.IdempotencyKeyEntity
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
 import com.example.orderservice.service.RequestValidation.validate
+import com.example.orderservice.service.integration.BookClientService
+import com.example.orderservice.service.integration.DomainEventService
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
@@ -34,7 +39,8 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val idempotencyKeyRepository: IdempotencyKeyRepository,
     private val transactionManager: PlatformTransactionManager,
-    private val bookService: BookService
+    private val bookClientService: BookClientService,
+    private val domainEventService: DomainEventService
 ) {
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
@@ -55,7 +61,7 @@ class OrderService(
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
             if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
         }
-        bookService.validateBooks(request.items)
+        bookClientService.validateBooks(request.items)
 
         val order = transactionTemplate.execute {
             val savedOrder = orderRepository.save(request.toEntity())
@@ -65,6 +71,9 @@ class OrderService(
             metricService.countOrders(order!!.status)
             metricService.lastOrderTime(order.createdAt)
             metricService.orderPriceSummary(order.totalPrice)
+        }.also { order ->
+            val event = OrderCreatedEvent(order!!.toDomainModel())
+            domainEventService.send(event)
         }
         return order!!
     }
@@ -80,11 +89,15 @@ class OrderService(
                 throw InvalidOrderStatusUpdate(orderEntity.id!!, orderEntity.status.toModel(), request.status)
             }
             orderEntity.toModel()
+        }.also { order ->
+            if (order!!.status != request.status) {
+                metricService.countOrders(order.status)
+            }
+        }.also { order ->
+            val event = OrderUpdatedEvent(order!!.toDomainModel())
+            domainEventService.send(event)
         }
-        if (order!!.status != request.status) {
-            metricService.countOrders(order.status)
-        }
-        return order
+        return order!!
     }
 
     private fun isStatusUpdateValid(currentStatus: StatusEntity, newStatus: StatusEntity): Boolean =
