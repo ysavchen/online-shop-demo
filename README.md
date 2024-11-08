@@ -10,7 +10,12 @@ Demo application for experiments
 cd 02-infra
 docker-compose up -d
 ```
-2. Run services
+2. Build adapters
+```bash
+cd 05-libraries/adapters
+./gradlew publishToMavenLocal
+```
+3. Run services
 ```bash
 cd 04-services/book-service
 ./gradlew bootRun

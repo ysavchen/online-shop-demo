@@ -75,9 +75,7 @@ application:
 3. Use DomainOrderKafkaConsumer in a service
 ```
 @Component
-class DomainOrderKafkaConsumerImpl(
-    private val bookService: BookService
-) : DomainOrderKafkaConsumer {
+class DomainOrderKafkaConsumerImpl(private val bookService: BookService) : DomainOrderKafkaConsumer {
 
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
         bookService.processEvent(data.value())
