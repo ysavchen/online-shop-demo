@@ -15,7 +15,7 @@ class BookClientService(
 ) {
 
     fun validateBooks(items: Collection<OrderItem>) {
-        if (appProperties.features.bookValidation.enabled.not()) {
+        if (!appProperties.features.bookValidation.enabled) {
             return
         }
         runBlocking {
