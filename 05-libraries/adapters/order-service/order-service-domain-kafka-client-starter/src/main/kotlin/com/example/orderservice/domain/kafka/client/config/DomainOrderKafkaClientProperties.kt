@@ -24,7 +24,6 @@ data class KafkaProperties(
 )
 
 data class KafkaConnectionProperties(
-
     /**
      * bootstrap-servers: http://localhost:9092
      */
@@ -32,7 +31,6 @@ data class KafkaConnectionProperties(
 )
 
 data class KafkaProducerProperties(
-
     /**
      * topic: order-service.domain
      */
