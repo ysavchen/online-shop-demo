@@ -2,7 +2,7 @@ services:
 
   ### Storage ###
   postgres:
-    image: postgres:16.3-alpine
+    image: postgres:17.0-alpine
     container_name: postgres
     environment:
       PGTZ: Europe/Moscow
@@ -27,7 +27,7 @@ services:
 
   ### Kafka ###
   kafka:
-    image: confluentinc/cp-kafka:7.6.1
+    image: confluentinc/cp-kafka:7.7.1
     hostname: kafka
     container_name: kafka
     ports:
@@ -56,7 +56,7 @@ services:
       - kafka
 
   init-kafka:
-    image: confluentinc/cp-kafka:7.6.1
+    image: confluentinc/cp-kafka:7.7.1
     container_name: init-kafka
     depends_on:
       - kafka
@@ -92,7 +92,7 @@ services:
 
   ### Observability ###
   prometheus:
-    image: prom/prometheus:v2.53.1
+    image: prom/prometheus:v2.55.0
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -134,7 +134,7 @@ services:
 
   ## Grafana stack ##
   loki:
-    image: grafana/loki:2.9.2
+    image: grafana/loki:3.2.1
     container_name: loki
     environment:
       TZ: ${SYSTEM_TIMEZONE:-Europe/Moscow}
@@ -145,7 +145,7 @@ services:
       - observability
 
   tempo:
-    image: grafana/tempo:2.5.0
+    image: grafana/tempo:2.6.1
     container_name: tempo
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
@@ -159,7 +159,7 @@ services:
       - observability
 
   grafana:
-    image: grafana/grafana:11.1.0
+    image: grafana/grafana:11.3.0
     container_name: grafana
     user: "104"
     environment:
@@ -177,7 +177,7 @@ services:
 
   ## ELK stack ##
   logstash:
-    image: logstash:8.14.1
+    image: logstash:8.15.3
     container_name: logstash
     profiles: [ "elk" ]
     ports:
@@ -189,7 +189,7 @@ services:
       - observability
 
   elasticsearch:
-    image: elasticsearch:8.14.1
+    image: elasticsearch:8.15.3
     container_name: elasticsearch
     profiles: [ "elk" ]
     environment:
@@ -202,7 +202,7 @@ services:
       - observability
 
   kibana:
-    image: kibana:8.14.1
+    image: kibana:8.15.3
     container_name: kibana
     profiles: [ "elk" ]
     ports:
