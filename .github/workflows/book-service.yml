@@ -1,5 +1,3 @@
-# This workflow builds book-service with Gradle
-
 name: Build book-service
 
 on:
@@ -12,14 +10,22 @@ jobs:
   book-service:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'gradle'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+
       - name: Build adapters
-        run: cd ./05-libraries/adapters && chmod +x gradlew && ./gradlew publishToMavenLocal --no-daemon
+        run: cd ./05-libraries/adapters && gradle publishToMavenLocal
+
       - name: Build book-service
-        run: cd ./04-services/book-service && chmod +x gradlew && ./gradlew build --no-daemon
+        run: cd ./04-services/book-service && gradle build
