@@ -29,7 +29,8 @@ cd 04-services/book-service
 ### Local URLs
 
 #### Infra
-- [Kafka UI](http://localhost:9095)
+- [Kafka](http://localhost:9095)
+- [Redis](http://localhost:8001)
 - [Prometheus](http://localhost:9090)
 - [Alertmanager](http://localhost:9093)
 - [Smtp4dev](http://localhost:5000)
