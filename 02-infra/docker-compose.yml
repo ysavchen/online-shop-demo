@@ -17,10 +17,11 @@ services:
       - storage
 
   redis:
-    image: redis:7.2-alpine
+    image: redis/redis-stack:7.4.0-v1
     container_name: redis
     ports:
       - "6379:6379"
+      - "8001:8001"
     networks:
       - storage
 
