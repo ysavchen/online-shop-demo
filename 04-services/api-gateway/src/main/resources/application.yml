@@ -36,10 +36,6 @@ spring:
       host: localhost
       port: 6379
       connect-timeout: 10000
-  cache:
-    redis:
-      key-prefix: "api-gateway::"
-      time-to-live: 10m
 
 server:
   port: 8080
@@ -47,11 +43,19 @@ server:
 
 management:
   health:
-    probes.enabled: true
-  # true by default in docs, but in fact it's false
+    disk-space.enabled: false
+  # gateway.enabled is true by default in docs, but in fact it's false
   # bug in docs or implementation
   endpoint:
     gateway.enabled: true
+    health:
+      show-components: always
+      probes.enabled: true
+      group:
+        readiness:
+          include:
+            - readinessState
+            - redis
   endpoints:
     web.exposure.include: health,gateway,metrics,prometheus
   observations:
@@ -71,4 +75,4 @@ management:
 logging:
   level:
     root: info
-    org.springframework.cloud.gateway: debug
+    org.springframework.cloud.gateway: info
