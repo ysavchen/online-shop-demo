@@ -18,13 +18,17 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 2,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 16,
@@ -43,6 +47,7 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -50,7 +55,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{application=\"order-service\"} |= ``",
+          "expr": "{application=\"$application\"} |= ``",
           "queryType": "range",
           "refId": "A"
         }
@@ -59,19 +64,41 @@
       "type": "logs"
     }
   ],
-  "schemaVersion": 39,
+  "preload": false,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "book-service",
+          "value": "book-service"
+        },
+        "definition": "",
+        "label": "Service",
+        "name": "application",
+        "options": [],
+        "query": {
+          "label": "application",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Logging",
   "uid": "fe0negf3z7gu8c",
-  "version": 3,
-  "weekStart": ""
+  "version": 6,
+  "weekStart": "monday"
 }
