@@ -45,8 +45,8 @@ application:
     book-service:
       http:
         base-url: http://localhost:8090
-    order-service-domain:
-      kafka:
+    order-service:
+      kafka.domain:
         connection:
           bootstrap-servers: http://localhost:9092
         producer:

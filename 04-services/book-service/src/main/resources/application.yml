@@ -26,8 +26,8 @@ server:
 
 application:
   clients:
-    order-service-domain:
-      kafka:
+    order-service:
+      kafka.domain:
         connection:
           bootstrap-servers: http://localhost:9092
         consumer:
