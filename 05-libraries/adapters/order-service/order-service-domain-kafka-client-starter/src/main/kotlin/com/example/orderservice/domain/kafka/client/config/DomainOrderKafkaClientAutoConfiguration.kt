@@ -34,12 +34,12 @@ import java.util.*
 class DomainOrderKafkaClientAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.producer.topic"])
+    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.producer.topic"])
     class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaProducerFactory"])
         fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> {
-            val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
+            val bootstrapServers = properties.kafka.domain.connection.bootstrapServers.toList()
             return DefaultKafkaProducerFactory(
                 mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
                 UUIDSerializer(),
@@ -52,7 +52,7 @@ class DomainOrderKafkaClientAutoConfiguration {
         @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
         fun domainOrderKafkaTemplate(domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>) =
             KafkaTemplate(domainOrderKafkaProducerFactory).apply {
-                defaultTopic = properties.kafka.producer!!.topic
+                defaultTopic = properties.kafka.domain.producer!!.topic
                 setObservationEnabled(true)
             }
 
@@ -65,16 +65,16 @@ class DomainOrderKafkaClientAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnBean(DomainOrderKafkaConsumer::class)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.consumer.topics"])
-    @ConditionalOnExpression("#{\${$propertiesPrefix.kafka.consumer.enabled:true}}")
+    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.consumer.topics"])
+    @ConditionalOnExpression("#{\${$propertiesPrefix.kafka.domain.consumer.enabled:true}}")
     class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
         @Bean
         @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
         fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
             return DefaultKafkaConsumerFactory(
                 mapOf(
-                    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                    ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.consumer!!.groupId,
+                    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.domain.connection.bootstrapServers.toList(),
+                    ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.domain.consumer!!.groupId,
                     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
                 ),
                 ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
@@ -90,7 +90,7 @@ class DomainOrderKafkaClientAutoConfiguration {
             consumer: DomainOrderKafkaConsumer,
             domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, DomainEvent>
         ): MessageListenerContainer {
-            val topics = properties.kafka.consumer!!.topics.toTypedArray()
+            val topics = properties.kafka.domain.consumer!!.topics.toTypedArray()
             val containerProperties = ContainerProperties(*topics).apply {
                 messageListener = consumer
                 isObservationEnabled = true

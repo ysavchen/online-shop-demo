@@ -3,7 +3,7 @@ package com.example.orderservice.domain.kafka.client.config
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 
-internal const val propertiesPrefix = "application.clients.order-service-domain"
+internal const val propertiesPrefix = "application.clients.order-service"
 
 @ConfigurationProperties(propertiesPrefix, ignoreUnknownFields = false)
 data class DomainOrderKafkaClientProperties(
@@ -13,6 +13,11 @@ data class DomainOrderKafkaClientProperties(
 )
 
 data class KafkaProperties(
+    @NestedConfigurationProperty
+    val domain: DomainProperties
+)
+
+data class DomainProperties(
     @NestedConfigurationProperty
     val connection: KafkaConnectionProperties,
 
