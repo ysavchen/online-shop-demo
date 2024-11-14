@@ -21,6 +21,7 @@ import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -64,6 +65,7 @@ class BookService(
         return savedBook.toModel()
     }
 
+    @Retryable
     @Transactional
     fun updateBook(bookId: UUID, request: UpdateBookRequest): Book {
         val bookEntity = bookRepository.findByIdWithPessimisticWrite(bookId) ?: throw BookNotFoundException(bookId)
@@ -74,6 +76,7 @@ class BookService(
         }.toModel()
     }
 
+    @Retryable
     @Transactional
     fun processEvent(event: DomainEvent) {
         when (event) {
