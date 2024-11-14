@@ -30,6 +30,7 @@ data class OrderEntity(
     @Column(name = "created_at", nullable = false)
     val createdAt: OffsetDateTime,
 
+    @Version
     @Column(name = "updated_at", nullable = false)
     val updatedAt: OffsetDateTime
 ) {
