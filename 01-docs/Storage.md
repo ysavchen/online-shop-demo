@@ -79,7 +79,7 @@ from pg_catalog.pg_statio_user_tables
 where relname = '<table_name>';
 ```
 
-- Get size of page cache
+- Get size of the page cache
 ```
 select pg_size_pretty(setting::bigint * 8 * 1024) as cache_size
 from pg_catalog.pg_settings
