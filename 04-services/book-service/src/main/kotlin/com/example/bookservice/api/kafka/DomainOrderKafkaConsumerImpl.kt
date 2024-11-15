@@ -13,6 +13,6 @@ class DomainOrderKafkaConsumerImpl(
 ) : DomainOrderKafkaConsumer {
 
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
-        bookService.processEvent(data.value())
+        bookService.processMessage(data)
     }
 }

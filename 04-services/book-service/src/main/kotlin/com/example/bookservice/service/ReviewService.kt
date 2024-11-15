@@ -41,7 +41,7 @@ class ReviewService(
             throw DuplicateRequestException(key.idempotencyKey, key.reviewId)
         }
         val savedReview = reviewRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, null, savedReview.id))
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, null, savedReview.id, null))
         return savedReview.toModel()
     }
 }

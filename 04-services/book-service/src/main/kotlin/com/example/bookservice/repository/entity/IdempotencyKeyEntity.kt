@@ -20,7 +20,10 @@ data class IdempotencyKeyEntity(
     val bookId: UUID?,
 
     @Column(name = "review_id")
-    val reviewId: UUID?
+    val reviewId: UUID?,
+
+    @Column(name = "order_id")
+    val orderId: UUID?
 ) {
 
     override fun equals(other: Any?): Boolean {

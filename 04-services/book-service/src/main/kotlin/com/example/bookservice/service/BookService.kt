@@ -16,6 +16,7 @@ import com.example.bookservice.repository.entity.PriceEntity
 import com.example.bookservice.service.RequestValidation.validate
 import com.example.orderservice.domain.kafka.client.model.*
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.retry.annotation.Retryable
@@ -58,7 +59,7 @@ class BookService(
             throw DuplicateRequestException(key.idempotencyKey, key.bookId)
         }
         val savedBook = bookRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id, null))
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id, null, null))
         return savedBook.toModel()
     }
 
@@ -75,14 +76,21 @@ class BookService(
 
     @Retryable
     @Transactional
-    fun processEvent(event: DomainEvent) {
-        when (event) {
+    fun processMessage(message: ConsumerRecord<UUID, DomainEvent>) {
+        val key = idempotencyKeyRepository.findByIdOrNull(message.key())
+        if (key != null) {
+            logger.debug { "Duplicate message with key=${key.idempotencyKey}, message already processed" }
+            return
+        }
+
+        val order = when (val event = message.value()) {
             is OrderCreatedEvent -> processCreatedOrder(event.data)
             is OrderUpdatedEvent -> processUpdatedOrder(event.data)
         }
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(message.key(), null, null, order.id))
     }
 
-    private fun processCreatedOrder(order: Order) {
+    private fun processCreatedOrder(order: Order): Order {
         order.items.forEach { book ->
             val bookEntity = bookRepository.findByIdWithPessimisticWrite(book.id)
             if (bookEntity != null) {
@@ -91,9 +99,10 @@ class BookService(
                 logger.error { "Book with id=${book.id} is not found to decrease the quantity by ${book.quantity}" }
             }
         }
+        return order
     }
 
-    private fun processUpdatedOrder(order: Order) {
+    private fun processUpdatedOrder(order: Order): Order {
         if (order.status == Status.DECLINED || order.status == Status.CANCELLED) {
             order.items.forEach { book ->
                 val bookEntity = bookRepository.findByIdWithPessimisticWrite(book.id)
@@ -104,6 +113,7 @@ class BookService(
                 }
             }
         }
+        return order
     }
 }
 
