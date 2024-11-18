@@ -26,6 +26,19 @@ services:
       - storage
 
 
+  ### Test ###
+  wiremock:
+    image: wiremock/wiremock:3.9.2-alpine
+    container_name: wiremock
+    profiles: [ "test" ]
+    ports:
+      - "8090:8080"   # book-service port
+    volumes:
+      - ./wiremock:/home/wiremock/mappings
+    networks:
+      - test
+
+
   ### Messaging ###
   kafka:
     image: confluentinc/cp-kafka:7.7.1
@@ -233,5 +246,6 @@ services:
 
 networks:
   storage:
+  test:
   messaging:
   observability:

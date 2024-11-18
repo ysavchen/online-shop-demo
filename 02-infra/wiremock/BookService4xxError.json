@@ -1,0 +1,19 @@
+{
+  "request": {
+    "urlPath": "/api/v1/books/0193325e-13ff-7c37-a6a9-02cf4ea934bc",
+    "method": "GET"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "errorId": "b2ad9686-4759-4e1e-8ca7-4b9626e74bdf",
+      "timestamp": "2024-11-17T11:28:15.243+03",
+      "path": "/api/v1/books/0193325e-13ff-7c37-a6a9-02cf4ea934bc",
+      "code": "RESOURCE_NOT_FOUND",
+      "message": "Book not found by id=0193325e-13ff-7c37-a6a9-02cf4ea934bc"
+    }
+  }
+}

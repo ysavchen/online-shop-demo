@@ -1,0 +1,19 @@
+{
+  "request": {
+    "urlPath": "/api/v1/books/0193361c-895c-7009-80d2-cdc952e050a4",
+    "method": "GET"
+  },
+  "response": {
+    "status": 500,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "errorId": "d628fec2-308e-4eea-b57e-771c83435ea2",
+      "timestamp": "2024-11-16T20:16:09.757+03",
+      "path": "/api/v1/books/0193361c-895c-7009-80d2-cdc952e050a4",
+      "code": "INTERNAL_SERVER_ERROR",
+      "message": "Internal Server Error"
+    }
+  }
+}

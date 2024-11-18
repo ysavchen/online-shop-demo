@@ -1,0 +1,28 @@
+{
+  "request": {
+    "urlPath": "/api/v1/books/01907548-a05c-756e-8bd0-8a2a38a37786",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 5000,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "01907548-a05c-756e-8bd0-8a2a38a37786",
+      "isbn": "9781662513459",
+      "title": "The Promise of Tomorrow",
+      "authors": [
+        "Mary Ellen Taylor"
+      ],
+      "genre": "FICTION",
+      "releaseDate": null,
+      "quantity": 54,
+      "price": {
+        "value": 361.17,
+        "currency": "RUB"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "request": {
+    "urlPath": "/api/v1/books/01907548-35f6-703c-ada1-4c0df1f77d74",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "01907548-35f6-703c-ada1-4c0df1f77d74",
+      "isbn": "9781525826689",
+      "title": "The Paris Agent: A Gripping Tale of Family Secrets",
+      "authors": [
+        "Kelly Rimmer"
+      ],
+      "genre": "FICTION",
+      "releaseDate": null,
+      "quantity": 136,
+      "price": {
+        "value": 746.00,
+        "currency": "RUB"
+      }
+    }
+  }
+}
