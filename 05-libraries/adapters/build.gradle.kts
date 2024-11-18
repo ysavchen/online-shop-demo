@@ -2,6 +2,7 @@ plugins {
     `maven-publish`
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
+    kotlin("kapt") version "1.9.25"
 }
 
 allprojects {
@@ -32,7 +33,6 @@ allprojects {
 val clientSubprojects = subprojects.filter { it.name.contains("client") }
 configure(clientSubprojects) {
     apply {
-        plugin("org.gradle.maven-publish")
         plugin("io.spring.dependency-management")
     }
 
@@ -49,6 +49,18 @@ configure(clientSubprojects) {
 
     tasks.test {
         useJUnitPlatform()
+    }
+}
+
+configure(clientSubprojects) {
+    apply {
+        plugin("org.gradle.maven-publish")
+        plugin("org.jetbrains.kotlin.kapt")
+    }
+
+    dependencies {
+        kapt("org.springframework.boot:spring-boot-configuration-processor")
+        kapt("org.springframework.boot:spring-boot-autoconfigure-processor")
     }
 
     publishing {
