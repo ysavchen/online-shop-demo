@@ -2,8 +2,9 @@
 
 ### Redis
 ```
-redis-cli   // connect to Redis inside a container
-keys *      // get all keys
+redis-cli     // connect to Redis inside a container
+client list   // get a list of connected clients
+keys *        // get all keys
 ```
 
 ### Postgres

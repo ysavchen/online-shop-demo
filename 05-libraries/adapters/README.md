@@ -8,7 +8,7 @@ implementation("com.example:book-service-rest-client-starter:1.0.0")
 2. Add configuration
 ```
 application:
-  client:
+  clients:
     book-service:
       http:
         base-url: http://localhost:8090
@@ -38,8 +38,8 @@ implementation("com.example:order-service-domain-client-starter:1.0.0")
 ```
 application:
   clients:
-    order-service-domain:
-      kafka:
+    order-service:
+      kafka.domain:
         connection:
           bootstrap-servers: http://localhost:9092
         producer:
@@ -64,8 +64,8 @@ implementation("com.example:order-service-domain-client-starter:1.0.0")
 ```
 application:
   clients:
-    order-service-domain:
-      kafka:
+    order-service:
+      kafka.domain:
         connection:
           bootstrap-servers: http://localhost:9092
         consumer:
