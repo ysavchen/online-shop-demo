@@ -1,8 +1,9 @@
 package com.example.bookservice.rest.client
 
+import com.example.bookservice.rest.client.error.ErrorHandler.clientException
 import com.example.bookservice.rest.client.model.Book
+import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.awaitBody
 import java.util.*
 
 class BookServiceRestClientImpl(private val webClient: WebClient) : BookServiceRestClient {
@@ -14,6 +15,8 @@ class BookServiceRestClientImpl(private val webClient: WebClient) : BookServiceR
     override suspend fun getBookById(bookId: UUID): Book =
         webClient.get().uri("$BOOKS_PATH_V1/$bookId")
             .retrieve()
-            .awaitBody<Book>()
+            .bodyToMono(Book::class.java)
+            .onErrorResume { clientException(bookId, it) }
+            .awaitSingle()
 
 }

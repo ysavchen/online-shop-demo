@@ -1,6 +1,7 @@
 project("book-service-rest-client") {
     dependencies {
         api("org.springframework:spring-webflux")
+        api("io.projectreactor.netty:reactor-netty-http")
         api("com.fasterxml.jackson.module:jackson-module-kotlin")
         api("io.projectreactor.kotlin:reactor-kotlin-extensions")
         api("org.jetbrains.kotlin:kotlin-reflect")

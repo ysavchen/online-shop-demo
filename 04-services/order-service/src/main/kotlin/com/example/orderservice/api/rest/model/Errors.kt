@@ -7,7 +7,7 @@ data class ErrorResponse(
     val errorId: UUID,
     val timestamp: OffsetDateTime,
     val path: String,
-    val code: ErrorCode,
+    val code: String,
     val message: String
 )
 
