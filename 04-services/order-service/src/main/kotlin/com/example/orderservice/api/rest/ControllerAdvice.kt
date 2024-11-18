@@ -25,7 +25,7 @@ class ControllerAdvice {
                 errorId = UUID.randomUUID(),
                 timestamp = OffsetDateTime.now(),
                 path = request.requestURI,
-                code = ex.errorCode,
+                code = ex.errorCode.name,
                 message = ex.message!!
             ),
             ex.httpStatusCode
@@ -38,7 +38,7 @@ class ControllerAdvice {
                 errorId = UUID.randomUUID(),
                 timestamp = OffsetDateTime.now(),
                 path = request.requestURI,
-                code = ErrorCode.INTERNAL_SERVER_ERROR,
+                code = ErrorCode.INTERNAL_SERVER_ERROR.name,
                 // message must be logged, but not included in response due to security reasons
                 message = "Internal Server Error"
             ),
