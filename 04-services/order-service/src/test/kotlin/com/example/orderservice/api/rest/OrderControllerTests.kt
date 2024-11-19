@@ -290,7 +290,7 @@ class OrderControllerTests {
             status { isForbidden() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.INVALID_ORDER_STATUS_UPDATE.name)) }
-        }.andReturn()
+        }
     }
 
     @Test
@@ -305,6 +305,6 @@ class OrderControllerTests {
             status { isNotFound() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
-        }.andReturn()
+        }
     }
 }

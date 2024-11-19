@@ -1,5 +1,6 @@
 package com.example.orderservice.api.rest
 
+import com.example.bookservice.rest.client.BookServiceClientException
 import com.example.orderservice.api.rest.model.ErrorCode
 import com.example.orderservice.api.rest.model.ErrorResponse
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -30,6 +31,21 @@ class ControllerAdvice {
             ),
             ex.httpStatusCode
         )
+
+    //@formatter:off
+    @ExceptionHandler
+    fun bookServiceClientException(ex: BookServiceClientException, request: HttpServletRequest): ResponseEntity<ErrorResponse> =
+        ResponseEntity(
+            ErrorResponse(
+                errorId = UUID.randomUUID(),
+                timestamp = OffsetDateTime.now(),
+                path = request.requestURI,
+                code = ex.errorCode.name,
+                message = ex.message!!
+            ),
+            ex.httpStatusCode
+        )
+    //@formatter:on
 
     @ExceptionHandler
     fun exception(ex: Exception, request: HttpServletRequest): ResponseEntity<ErrorResponse> {

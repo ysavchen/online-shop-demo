@@ -14,7 +14,7 @@ import java.util.*
 class OrderController(private val orderService: OrderService) {
 
     @Operation(summary = "Search orders")
-    @PostMapping("/orders/search")
+    @PostMapping("/orders/search", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun orders(
         orderRequestParams: OrderRequestParams,
         @RequestBody request: OrderSearchRequest
@@ -33,7 +33,7 @@ class OrderController(private val orderService: OrderService) {
     ): Order = orderService.createOrder(idempotencyKey, request)
 
     @Operation(summary = "Update order status")
-    @PatchMapping("/orders/{orderId}/status")
+    @PatchMapping("/orders/{orderId}/status", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun updateOrderStatus(
         @PathVariable("orderId") orderId: UUID,
         @RequestBody request: UpdateOrderStatusRequest

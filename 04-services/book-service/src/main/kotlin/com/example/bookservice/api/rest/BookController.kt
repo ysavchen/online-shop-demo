@@ -14,14 +14,14 @@ import java.util.*
 class BookController(private val bookService: BookService) {
 
     @Operation(summary = "Search books")
-    @PostMapping("/books/search")
+    @PostMapping("/books/search", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun books(
         bookRequestParams: BookRequestParams,
         @RequestBody request: BookSearchRequest?
     ): PagedModel<Book> = bookService.getBooks(bookRequestParams, request)
 
     @Operation(summary = "Filter books by ids")
-    @PostMapping("/books/filter")
+    @PostMapping("/books/filter", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun booksByIds(@RequestBody request: BooksFilterRequest): List<Book> =
         bookService.getBooksByIds(request)
 
