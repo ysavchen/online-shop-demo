@@ -7,18 +7,19 @@ Demo application for experiments
 ### Run application locally
 1. Set up infrastructure
 ```bash
-cd 02-infra
-docker-compose up -d
+docker-compose --project-directory ./02-infra up -d
 ```
-2. Build adapters
+2. Build libraries
 ```bash
-cd 05-libraries/adapters
-./gradlew publishToMavenLocal
+gradle publishToMavenLocal -p ./05-libraries/online-shop-model
+gradle publishToMavenLocal -p ./05-libraries/adapters
 ```
 3. Run services
 ```bash
-cd 04-services/book-service
-./gradlew bootRun
+gradle bootRun -p ./04-services/api-gateway
+gradle bootRun -p ./04-services/book-service
+gradle bootRun -p ./04-services/order-service
+gradle bootRun -p ./04-services/delivery-service
 ```
 
 ### Configuration
