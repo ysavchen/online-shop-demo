@@ -1,6 +1,6 @@
 package com.example.orderservice.api.rest
 
-import com.example.bookservice.rest.client.BookServiceClientException
+import com.example.bookservice.rest.client.error.BookServiceClientException
 import com.example.orderservice.api.rest.model.ErrorCode
 import com.example.orderservice.api.rest.model.ErrorResponse
 import io.github.oshai.kotlinlogging.KotlinLogging
