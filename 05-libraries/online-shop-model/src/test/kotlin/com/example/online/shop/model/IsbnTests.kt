@@ -1,6 +1,5 @@
 package com.example.online.shop.model
 
-import com.example.online.shop.model.Isbn.Companion.validate
 import com.example.online.shop.model.validation.IsbnValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,9 +22,7 @@ class IsbnTests {
             "ISBN-13 978 1 42051 505 3"
         )
 
-        numbers.forEach { number ->
-            assertEquals(number, validate(number))
-        }
+        numbers.forEach { Isbn.of(it) }
     }
 
     @Test
@@ -36,7 +33,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { validate(it) }
+            val exception = assertThrows<IsbnValidationException> { Isbn.of(it) }
             assertContains(exception.message!!, "length", true)
         }
     }
@@ -50,7 +47,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { validate(it) }
+            val exception = assertThrows<IsbnValidationException> { Isbn.of(it) }
             assertContains(exception.message!!, "format", true)
         }
     }
@@ -71,7 +68,7 @@ class IsbnTests {
         val expectedValue = "978-1-42051-505-3"
 
         numbers.forEach {
-            assertEquals(expectedValue, Isbn(it).formattedValue)
+            assertEquals(expectedValue, Isbn.of(it).toString())
         }
     }
 }
