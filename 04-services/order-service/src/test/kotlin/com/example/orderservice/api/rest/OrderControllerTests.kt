@@ -91,7 +91,7 @@ class OrderControllerTests {
         val order = orderRepository.save(orderEntity()).toModel()
         val request = OrderSearchRequest(order.userId)
 
-        mockMvc.post("/api/v1/orders/search?page=0&sortBy=invalidSortBy") {
+        mockMvc.post("/api/v1/orders/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
@@ -107,7 +107,7 @@ class OrderControllerTests {
         val order = orderRepository.save(orderEntity()).toModel()
         val request = OrderSearchRequest(order.userId)
 
-        mockMvc.post("/api/v1/orders/search?page=0&orderBy=invalidOrderBy") {
+        mockMvc.post("/api/v1/orders/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)

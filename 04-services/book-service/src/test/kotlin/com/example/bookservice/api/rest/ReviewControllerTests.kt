@@ -85,7 +85,7 @@ class ReviewControllerTests {
         reviewRepository.save(reviewEntity(book.id)).toModel()
         val request = ReviewSearchRequest(book.id)
 
-        mockMvc.post("/api/v1/reviews/search?page=0&sortBy=invalidSortBy") {
+        mockMvc.post("/api/v1/reviews/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
@@ -102,7 +102,7 @@ class ReviewControllerTests {
         reviewRepository.save(reviewEntity(book.id)).toModel()
         val request = ReviewSearchRequest(book.id)
 
-        mockMvc.post("/api/v1/reviews/search?page=0&orderBy=invalidOrderBy") {
+        mockMvc.post("/api/v1/reviews/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)

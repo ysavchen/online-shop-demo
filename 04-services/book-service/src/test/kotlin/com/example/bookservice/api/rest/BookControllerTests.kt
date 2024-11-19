@@ -121,7 +121,7 @@ class BookControllerTests {
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search?page=0&sortBy=invalidSortBy") {
+        mockMvc.post("/api/v1/books/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
@@ -142,7 +142,7 @@ class BookControllerTests {
             maxPrice = null
         )
 
-        mockMvc.post("/api/v1/books/search?page=0&orderBy=invalidOrderBy") {
+        mockMvc.post("/api/v1/books/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
