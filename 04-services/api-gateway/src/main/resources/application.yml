@@ -33,6 +33,7 @@ spring:
                   burstCapacity: 15
   data:
     redis:
+      client-name: ${spring.application.name}
       host: localhost
       port: 6379
       connect-timeout: 10000
