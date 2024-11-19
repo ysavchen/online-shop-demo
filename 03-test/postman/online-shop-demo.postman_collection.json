@@ -75,80 +75,75 @@
 					]
 				},
 				{
-					"name": "book-controller",
-					"item": [
-						{
-							"name": "getBookById",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8090/api/v1/books/01907545-eaf3-7de3-9157-dce3ece084e6",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8090",
-									"path": [
-										"api",
-										"v1",
-										"books",
-										"01907545-eaf3-7de3-9157-dce3ece084e6"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "searchBooks",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"genre\": \"travel\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8090/api/v1/books/search?page=0&pageSize=10&sortBy=title&orderBy=asc",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8090",
-									"path": [
-										"api",
-										"v1",
-										"books",
-										"search"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "pageSize",
-											"value": "10"
-										},
-										{
-											"key": "sortBy",
-											"value": "title"
-										},
-										{
-											"key": "orderBy",
-											"value": "asc"
-										}
-									]
-								}
-							},
-							"response": []
+					"name": "bookById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/v1/books/01907548-35f6-703c-ada1-4c0df1f77d74",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"01907548-35f6-703c-ada1-4c0df1f77d74"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "searchBooks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"genre\": \"travel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/v1/books/search?page=0&pageSize=10&sortBy=title&orderBy=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -179,6 +174,26 @@
 							"response": []
 						},
 						{
+							"name": "/actuator/gateway",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/gateway",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"gateway"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "/actuator/gateway/routes",
 							"request": {
 								"method": "GET",
@@ -202,7 +217,7 @@
 					]
 				},
 				{
-					"name": "getBookById",
+					"name": "bookById",
 					"event": [
 						{
 							"listen": "test",
@@ -219,7 +234,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api-gateway/api/v1/books/01907545-eaf3-7de3-9157-dce3ece084e6",
+							"raw": "http://localhost:8080/api-gateway/api/v1/books/01907548-35f6-703c-ada1-4c0df1f77d74",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -230,7 +245,7 @@
 								"api",
 								"v1",
 								"books",
-								"01907545-eaf3-7de3-9157-dce3ece084e6"
+								"01907548-35f6-703c-ada1-4c0df1f77d74"
 							]
 						}
 					},
@@ -307,7 +322,75 @@
 					]
 				},
 				{
-					"name": "getOrderById",
+					"name": "business-metrics",
+					"item": [
+						{
+							"name": "online_shop_order_price_summary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/metrics/online_shop_order_price_summary",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"metrics",
+										"online_shop_order_price_summary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "online_shop_last_order_time",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/metrics/online_shop_last_order_time",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"metrics",
+										"online_shop_last_order_time"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "online_shop_orders_total",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/actuator/metrics/online_shop_orders_total",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"actuator",
+										"metrics",
+										"online_shop_orders_total"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "orderById",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -324,7 +407,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/902a1cfb-4e43-4d1a-844a-0e902b13c2db",
+							"raw": "http://localhost:8091/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -334,7 +417,7 @@
 								"api",
 								"v1",
 								"orders",
-								"902a1cfb-4e43-4d1a-844a-0e902b13c2db"
+								"019251e2-46c8-72b2-9a71-bb14e49a1857"
 							]
 						}
 					},
@@ -355,7 +438,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/search?page=0&page_size=2",
+							"raw": "http://localhost:8091/api/v1/orders/search?page=0&page_size=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -374,7 +457,7 @@
 								},
 								{
 									"key": "page_size",
-									"value": "2"
+									"value": "10"
 								}
 							]
 						}
@@ -388,13 +471,13 @@
 						"header": [
 							{
 								"key": "Idempotency-Key",
-								"value": "20df42e4-4351-4b51-b680-db0295d5ed74",
+								"value": "01933277-2663-7bb7-8369-edd0e3d5c8dc",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": \"dffa77f3-7cb2-4e30-b554-825b6377e58f\",\r\n    \"items\": [\r\n        {\r\n            \"id\": \"2d738afa-f3ec-4d20-9ed6-eaf5f3e24a23\",\r\n            \"category\": \"BOOK\",\r\n            \"quantity\": 3,\r\n            \"price\": {\r\n                \"value\": 372.17,\r\n                \"currency\": \"RUB\"\r\n            }\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"userId\": \"0190bd8a-8d20-72b2-a4a6-46de1cb92e06\",\r\n    \"items\": [\r\n        {\r\n            \"id\": \"01907548-35f6-703c-ada1-4c0df1f77d74\",\r\n            \"category\": \"BOOKS\",\r\n            \"quantity\": 1,\r\n            \"price\": {\r\n                \"value\": 746.00,\r\n                \"currency\": \"RUB\"\r\n            }\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -432,7 +515,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/0190bd82-13e5-77fe-bb73-0764d5e3efdb/status",
+							"raw": "http://localhost:8091/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857/status",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -442,7 +525,7 @@
 								"api",
 								"v1",
 								"orders",
-								"0190bd82-13e5-77fe-bb73-0764d5e3efdb",
+								"019251e2-46c8-72b2-9a71-bb14e49a1857",
 								"status"
 							]
 						}
