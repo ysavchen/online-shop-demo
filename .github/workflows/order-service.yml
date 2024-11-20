@@ -25,7 +25,7 @@ jobs:
           gradle-version: "8.10.2"
 
       - name: Build adapters
-        run: cd ./05-libraries/adapters && gradle publishToMavenLocal
+        run: gradle publishToMavenLocal -p ./05-libraries/adapters
 
       - name: Build order-service
-        run: cd ./04-services/order-service && gradle build
+        run: gradle build -p ./04-services/order-service

@@ -25,4 +25,4 @@ jobs:
           gradle-version: "8.10.2"
 
       - name: Build adapters
-        run: cd ./05-libraries/adapters && gradle build
+        run: gradle build -p ./05-libraries/adapters

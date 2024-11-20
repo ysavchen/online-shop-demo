@@ -25,4 +25,4 @@ jobs:
           gradle-version: "8.10.2"
 
       - name: Build online-shop-model
-        run: cd ./05-libraries/online-shop-model && gradle build
+        run: gradle build -p ./05-libraries/online-shop-model

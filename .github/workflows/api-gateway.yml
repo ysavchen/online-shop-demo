@@ -25,4 +25,4 @@ jobs:
           gradle-version: "8.10.2"
 
       - name: Build api-gateway
-        run: cd ./04-services/api-gateway && gradle build
+        run: gradle build -p ./04-services/api-gateway
