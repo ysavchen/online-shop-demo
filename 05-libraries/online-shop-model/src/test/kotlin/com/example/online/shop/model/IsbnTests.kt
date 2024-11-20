@@ -22,7 +22,7 @@ class IsbnTests {
             "ISBN-13 978 1 42051 505 3"
         )
 
-        numbers.forEach { Isbn.of(it) }
+        numbers.forEach { Isbn.valueOf(it) }
     }
 
     @Test
@@ -33,7 +33,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { Isbn.of(it) }
+            val exception = assertThrows<IsbnValidationException> { Isbn.valueOf(it) }
             assertContains(exception.message!!, "length", true)
         }
     }
@@ -47,7 +47,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { Isbn.of(it) }
+            val exception = assertThrows<IsbnValidationException> { Isbn.valueOf(it) }
             assertContains(exception.message!!, "format", true)
         }
     }
@@ -68,7 +68,7 @@ class IsbnTests {
         val expectedValue = "978-1-42051-505-3"
 
         numbers.forEach {
-            assertEquals(expectedValue, Isbn.of(it).toString())
+            assertEquals(expectedValue, Isbn.valueOf(it).toString())
         }
     }
 }
