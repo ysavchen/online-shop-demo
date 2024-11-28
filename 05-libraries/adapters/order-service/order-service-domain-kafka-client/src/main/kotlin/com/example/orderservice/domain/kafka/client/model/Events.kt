@@ -23,9 +23,7 @@ sealed class DomainEvent(
      */
     @get:JsonProperty("@type")
     val typeName: String
-        get() {
-            return meta.type.name
-        }
+        get() = meta.type.name
 }
 
 interface Data
