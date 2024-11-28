@@ -69,6 +69,8 @@ dependencies {
     implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
 }
 
+//todo: добавить коммент зачем нужно
+// https://spring.io/guides/tutorials/spring-boot-kotlin/
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")

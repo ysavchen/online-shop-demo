@@ -81,6 +81,7 @@ class OrderService(
     @CachePut(key = "#result.id")
     fun updateOrderStatus(orderId: UUID, request: UpdateOrderStatusRequest): Order {
         val order = transactionTemplate.execute {
+            //todo: add retry
             val orderEntity = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
             val newStatusEntity = request.status.toEntity()
             if (isStatusUpdateValid(orderEntity.status, newStatusEntity)) {
