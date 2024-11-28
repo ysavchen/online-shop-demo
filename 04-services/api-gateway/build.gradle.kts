@@ -8,6 +8,7 @@ plugins {
 group = "com.example"
 version = "1.0.0"
 val dockerHubRepository = "ysavchen"
+val springCloudVersion by extra("2023.0.3")
 
 java {
     toolchain {
@@ -18,8 +19,6 @@ java {
 repositories {
     mavenCentral()
 }
-
-extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
     // Gateway
@@ -43,7 +42,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
     }
 }
 
