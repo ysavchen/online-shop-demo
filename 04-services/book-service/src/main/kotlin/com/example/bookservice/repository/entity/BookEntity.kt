@@ -1,5 +1,6 @@
 package com.example.bookservice.repository.entity
 
+import com.example.online.shop.model.Isbn
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
 import org.hibernate.annotations.NaturalId
@@ -19,7 +20,7 @@ data class BookEntity(
 
     @NaturalId
     @Column(name = "isbn", nullable = false, unique = true)
-    val isbn: String,
+    val isbn: Isbn,
 
     @Column(name = "title", nullable = false)
     val title: String,

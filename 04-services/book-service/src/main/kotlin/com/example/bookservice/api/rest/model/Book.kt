@@ -1,5 +1,6 @@
 package com.example.bookservice.api.rest.model
 
+import com.example.online.shop.model.Isbn
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
@@ -16,7 +17,7 @@ data class BooksFilterRequest(
 )
 
 data class CreateBookRequest(
-    val isbn: String,
+    val isbn: Isbn,
     val title: String,
     val authors: List<String>,
     val description: String?,
@@ -34,7 +35,7 @@ data class UpdateBookRequest(
 
 data class Book(
     val id: UUID,
-    val isbn: String,
+    val isbn: Isbn,
     val title: String,
     val authors: List<String>,
     val genre: Genre,

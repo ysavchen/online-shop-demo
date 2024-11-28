@@ -9,6 +9,7 @@ import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
 import com.example.bookservice.test.BookTestData.updateBookRequest
 import com.example.bookservice.test.IntegrationTest
+import com.example.online.shop.model.Isbn
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.assertj.core.api.Assertions.assertThat
@@ -155,8 +156,8 @@ class BookControllerTests {
 
     @Test
     fun `filter books by ids`() {
-        val bookOne = bookRepository.save(bookEntity()).toModel()
-        val bookTwo = bookRepository.save(bookEntity()).toModel()
+        val bookOne = bookRepository.save(bookEntity(isbn = Isbn.valueOf("9781783758746"))).toModel()
+        val bookTwo = bookRepository.save(bookEntity(isbn = Isbn.valueOf("9780733641541"))).toModel()
         val request = BooksFilterRequest(listOf(bookOne.id, bookTwo.id))
 
         val result = mockMvc.post("/api/v1/books/filter") {

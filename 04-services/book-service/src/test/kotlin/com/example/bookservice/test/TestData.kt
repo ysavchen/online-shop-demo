@@ -3,13 +3,14 @@ package com.example.bookservice.test
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.api.rest.model.Currency
 import com.example.bookservice.repository.entity.*
+import com.example.online.shop.model.Isbn
 import org.apache.commons.lang3.RandomStringUtils.*
 import java.util.*
 
 object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
-        isbn = randomNumeric(17),
+        isbn = Isbn.valueOf("9781525826689"),
         title = randomAlphabetic(15),
         authors = listOf(randomAlphabetic(10)),
         description = randomAlphanumeric(25),
@@ -25,8 +26,10 @@ object BookTestData {
         price = Price(randomPrice(), nextValue<Currency>())
     )
 
-    fun bookEntity() = BookEntity(
-        isbn = randomNumeric(17),
+    fun bookEntity(
+        isbn: Isbn = Isbn.valueOf("9781525826689")
+    ) = BookEntity(
+        isbn = isbn,
         title = randomAlphabetic(15),
         authors = arrayOf(randomAlphabetic(10)),
         description = randomAlphanumeric(25),
