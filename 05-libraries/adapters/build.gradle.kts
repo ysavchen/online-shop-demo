@@ -5,6 +5,8 @@ plugins {
     kotlin("kapt") version "1.9.25"
 }
 
+val springBootVersion by extra("3.3.4")
+
 allprojects {
     group = "com.example"
     version = "1.0.0"
@@ -43,7 +45,7 @@ configure(clientSubprojects) {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.4")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
         }
     }
 
