@@ -1,0 +1,272 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8091
+    description: Generated server url
+paths:
+  /api/v1/orders:
+    post:
+      tags:
+        - order-controller
+      summary: Create order
+      operationId: createOrder
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+  /api/v1/orders/search:
+    post:
+      tags:
+        - order-controller
+      summary: Search orders
+      operationId: orders
+      parameters:
+        - name: orderRequestParams
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/OrderRequestParams"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderSearchRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedModelOrder"
+  /api/v1/orders/{orderId}/status:
+    patch:
+      tags:
+        - order-controller
+      summary: Update order status
+      operationId: updateOrderStatus
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStatusRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+  /api/v1/orders/{orderId}:
+    get:
+      tags:
+        - order-controller
+      summary: Get order by id
+      operationId: orderById
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+components:
+  schemas:
+    CreateOrderRequest:
+      required:
+        - items
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        items:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+    ItemPrice:
+      required:
+        - currency
+        - value
+      type: object
+      properties:
+        value:
+          type: number
+        currency:
+          type: string
+          enum:
+            - RUB
+            - EUR
+    OrderItem:
+      required:
+        - category
+        - id
+        - price
+        - quantity
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        category:
+          type: string
+          enum:
+            - BOOKS
+        quantity:
+          type: integer
+          format: int32
+        price:
+          $ref: "#/components/schemas/ItemPrice"
+    Order:
+      required:
+        - createdAt
+        - id
+        - items
+        - status
+        - totalPrice
+        - totalQuantity
+        - updatedAt
+        - userId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_PROGRESS
+            - DECLINED
+            - CANCELLED
+            - DELIVERED
+        items:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        totalQuantity:
+          type: integer
+          format: int32
+        totalPrice:
+          $ref: "#/components/schemas/TotalPrice"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TotalPrice:
+      required:
+        - currency
+        - value
+      type: object
+      properties:
+        value:
+          type: number
+        currency:
+          type: string
+          enum:
+            - RUB
+            - EUR
+    OrderRequestParams:
+      required:
+        - orderBy
+        - page
+        - pageSize
+        - sortBy
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        sortBy:
+          type: string
+        orderBy:
+          type: string
+    OrderSearchRequest:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+    PagedModelOrder:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    UpdateOrderStatusRequest:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_PROGRESS
+            - DECLINED
+            - CANCELLED
+            - DELIVERED

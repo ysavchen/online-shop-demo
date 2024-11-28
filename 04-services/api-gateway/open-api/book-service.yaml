@@ -1,0 +1,456 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8090
+    description: Generated server url
+paths:
+  /api/v1/reviews:
+    post:
+      tags:
+        - review-controller
+      summary: Create review
+      operationId: createReview
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReviewRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+  /api/v1/reviews/search:
+    post:
+      tags:
+        - review-controller
+      summary: Search reviews
+      operationId: reviews
+      parameters:
+        - name: reviewRequestParams
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/ReviewRequestParams"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewSearchRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedModelReview"
+  /api/v1/books:
+    post:
+      tags:
+        - book-controller
+      summary: Create book
+      operationId: createBook
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBookRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /api/v1/books/search:
+    post:
+      tags:
+        - book-controller
+      summary: Search books
+      operationId: books
+      parameters:
+        - name: bookRequestParams
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/BookRequestParams"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookSearchRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedModelBook"
+  /api/v1/books/filter:
+    post:
+      tags:
+        - book-controller
+      summary: Filter books by ids
+      operationId: booksByIds
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BooksFilterRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+  /api/v1/books/{bookId}:
+    get:
+      tags:
+        - book-controller
+      summary: Get book by id
+      operationId: bookById
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+    patch:
+      tags:
+        - book-controller
+      summary: Update book
+      operationId: updateBook
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBookRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /api/v1/reviews/{reviewId}:
+    get:
+      tags:
+        - review-controller
+      summary: Get review by id
+      operationId: reviewById
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+  /api/v1/books/{bookId}/description:
+    get:
+      tags:
+        - book-controller
+      summary: Get description by bookId
+      description: "Book description can be quite large, that's why a separate endpoint\
+        \ is used"
+      operationId: bookDescription
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookDescription"
+components:
+  schemas:
+    CreateReviewRequest:
+      required:
+        - author
+        - bookId
+        - rating
+      type: object
+      properties:
+        title:
+          type: string
+        reviewText:
+          type: string
+        author:
+          type: string
+        rating:
+          type: number
+        bookId:
+          type: string
+          format: uuid
+    Review:
+      required:
+        - author
+        - bookId
+        - id
+        - rating
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        reviewText:
+          type: string
+        author:
+          type: string
+        rating:
+          type: number
+        bookId:
+          type: string
+          format: uuid
+    ReviewRequestParams:
+      required:
+        - orderBy
+        - page
+        - pageSize
+        - sortBy
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        sortBy:
+          type: string
+        orderBy:
+          type: string
+    ReviewSearchRequest:
+      required:
+        - bookId
+      type: object
+      properties:
+        bookId:
+          type: string
+          format: uuid
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+    PagedModelReview:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Review"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    CreateBookRequest:
+      required:
+        - authors
+        - genre
+        - isbn
+        - quantity
+        - title
+      type: object
+      properties:
+        isbn:
+          type: string
+        title:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        genre:
+          type: string
+          enum:
+            - HEALTH
+            - TRAVEL
+            - FICTION
+        releaseDate:
+          type: string
+          format: date
+        quantity:
+          type: integer
+          format: int32
+        price:
+          $ref: "#/components/schemas/Price"
+    Price:
+      required:
+        - currency
+        - value
+      type: object
+      properties:
+        value:
+          type: number
+        currency:
+          type: string
+          enum:
+            - RUB
+            - EUR
+    Book:
+      required:
+        - authors
+        - genre
+        - id
+        - isbn
+        - quantity
+        - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isbn:
+          type: string
+        title:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        genre:
+          type: string
+          enum:
+            - HEALTH
+            - TRAVEL
+            - FICTION
+        releaseDate:
+          type: string
+          format: date
+        quantity:
+          type: integer
+          format: int32
+        price:
+          $ref: "#/components/schemas/Price"
+    BookRequestParams:
+      required:
+        - orderBy
+        - page
+        - pageSize
+        - sortBy
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        sortBy:
+          type: string
+        orderBy:
+          type: string
+    BookSearchRequest:
+      type: object
+      properties:
+        query:
+          type: string
+        genre:
+          type: string
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+    PagedModelBook:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Book"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    BooksFilterRequest:
+      required:
+        - bookIds
+      type: object
+      properties:
+        bookIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    UpdateBookRequest:
+      required:
+        - quantity
+      type: object
+      properties:
+        releaseDate:
+          type: string
+          format: date
+        quantity:
+          type: integer
+          format: int32
+        price:
+          $ref: "#/components/schemas/Price"
+    BookDescription:
+      type: object
+      properties:
+        description:
+          type: string
