@@ -6,5 +6,5 @@ databaseChangeLog:
       file: liquibase/v-1.0.0/002-deliveries-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/003-idempotency-table.sql
+      file: liquibase/v-1.0.0/003-idempotency-keys-table.sql
       relativeToChangelogFile: false
