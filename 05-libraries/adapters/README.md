@@ -39,10 +39,10 @@ implementation("com.example:order-service-domain-client-starter:1.0.0")
 application:
   clients:
     order-service:
-      kafka.domain:
+      kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        producer:
+        domain.producer:
           topic: order-service.domain
 ```
 3. Use DomainOrderKafkaProducer in a service
@@ -65,10 +65,10 @@ implementation("com.example:order-service-domain-client-starter:1.0.0")
 application:
   clients:
     order-service:
-      kafka.domain:
+      kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        consumer:
+        domain.consumer:
           group-id: ${spring.application.name}
           topics: order-service.domain
 ```
