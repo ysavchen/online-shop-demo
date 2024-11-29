@@ -21,9 +21,9 @@ class ReviewNotFoundException(id: UUID) :
 class RequestValidationException(message: String) :
     ServiceException(message, ErrorCode.REQUEST_VALIDATION_ERROR, HttpStatus.BAD_REQUEST)
 
-class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID) :
+class DuplicateRequestException(idempotencyKey: UUID, resourceId: UUID, resource: String) :
     ServiceException(
-        "Duplicate request with idempotencyKey=$idempotencyKey, resource already created with id=$resourceId",
+        "Duplicate request with idempotencyKey=$idempotencyKey, $resource already created with id=$resourceId",
         ErrorCode.REQUEST_ALREADY_PROCESSED,
         HttpStatus.CONFLICT
     )

@@ -13,6 +13,7 @@ import com.example.bookservice.repository.BookRepository.Companion.searchSpec
 import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
 import com.example.bookservice.repository.entity.PriceEntity
+import com.example.bookservice.repository.entity.ResourceEntity
 import com.example.bookservice.service.RequestValidation.validate
 import com.example.orderservice.domain.kafka.client.model.*
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -55,11 +56,13 @@ class BookService(
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.bookId != null) {
-            throw DuplicateRequestException(key.idempotencyKey, key.bookId)
+        if (key?.resourceId != null) {
+            throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
         }
         val savedBook = bookRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedBook.id, null, null))
+        idempotencyKeyRepository.save(
+            IdempotencyKeyEntity(idempotencyKey, savedBook.id!!, ResourceEntity.BOOK)
+        )
         return savedBook.toModel()
     }
 
@@ -87,7 +90,9 @@ class BookService(
             is OrderCreatedEvent -> processCreatedOrder(event.data)
             is OrderUpdatedEvent -> processUpdatedOrder(event.data)
         }
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(message.key(), null, null, order.id))
+        idempotencyKeyRepository.save(
+            IdempotencyKeyEntity(message.key(), order.id, ResourceEntity.ORDER)
+        )
     }
 
     private fun processCreatedOrder(order: Order): Order {

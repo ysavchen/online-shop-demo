@@ -1,9 +1,6 @@
 package com.example.orderservice.repository.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.hibernate.annotations.Immutable
 import java.util.*
 
@@ -12,11 +9,15 @@ import java.util.*
 @Table(name = "idempotency_keys")
 data class IdempotencyKeyEntity(
     @Id
-    @Column(name = "idempotency_key")
+    @Column(name = "idempotency_key", nullable = false)
     val idempotencyKey: UUID,
 
-    @Column(name = "order_id")
-    val orderId: UUID
+    @Column(name = "resource_id", nullable = false)
+    val resourceId: UUID,
+
+    @Column(name = "resource", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val resource: ResourceEntity
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -31,4 +32,8 @@ data class IdempotencyKeyEntity(
     override fun hashCode(): Int {
         return idempotencyKey.hashCode()
     }
+}
+
+enum class ResourceEntity {
+    ORDER, DELIVERY
 }

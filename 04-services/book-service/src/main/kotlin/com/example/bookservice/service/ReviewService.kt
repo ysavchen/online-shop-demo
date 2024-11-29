@@ -14,6 +14,7 @@ import com.example.bookservice.repository.IdempotencyKeyRepository
 import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.repository.ReviewRepository.Companion.searchSpec
 import com.example.bookservice.repository.entity.IdempotencyKeyEntity
+import com.example.bookservice.repository.entity.ResourceEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -37,11 +38,13 @@ class ReviewService(
     @Transactional
     fun createReview(idempotencyKey: UUID, request: CreateReviewRequest): Review {
         val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.reviewId != null) {
-            throw DuplicateRequestException(key.idempotencyKey, key.reviewId)
+        if (key?.resourceId != null) {
+            throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
         }
         val savedReview = reviewRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, null, savedReview.id, null))
+        idempotencyKeyRepository.save(
+            IdempotencyKeyEntity(idempotencyKey, savedReview.id!!, ResourceEntity.REVIEW)
+        )
         return savedReview.toModel()
     }
 }

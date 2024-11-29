@@ -16,6 +16,7 @@ import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
+import com.example.orderservice.repository.entity.ResourceEntity
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
 import com.example.orderservice.service.RequestValidation.validate
@@ -59,13 +60,17 @@ class OrderService(
         request.validate()
         transactionTemplate.execute {
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-            if (key?.orderId != null) throw DuplicateRequestException(key.idempotencyKey, key.orderId)
+            if (key?.resourceId != null) {
+                throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
+            }
         }
         bookClientService.validateBooks(request.items)
 
         val order = transactionTemplate.execute {
             val savedOrder = orderRepository.save(request.toEntity())
-            idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!))
+            idempotencyKeyRepository.save(
+                IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!, ResourceEntity.ORDER)
+            )
             savedOrder.toModel()
         }.also { order ->
             metricService.countOrders(order!!.status)
