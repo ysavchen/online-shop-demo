@@ -19,6 +19,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -52,6 +53,9 @@ dependencies {
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
+    // Integration
+    implementation("com.example:delivery-service-api-kafka-client-starter:1.0.0")
 }
 
 kotlin {

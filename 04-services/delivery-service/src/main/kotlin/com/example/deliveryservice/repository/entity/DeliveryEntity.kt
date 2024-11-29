@@ -26,7 +26,7 @@ data class DeliveryEntity(
 
     @Type(JsonBinaryType::class)
     @Column(name = "address", columnDefinition = "jsonb", nullable = false)
-    val address: AddressEntity,
+    val address: String,
 
     @Column(columnDefinition = "order_id", nullable = false)
     val orderId: UUID,

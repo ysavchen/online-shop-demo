@@ -21,6 +21,18 @@ server:
   port: 8092
   shutdown: graceful
 
+application:
+  clients:
+    delivery-service:
+      kafka:
+        connection:
+          bootstrap-servers: http://localhost:9092
+        request.consumer:
+          group-id: ${spring.application.name}
+          topics: delivery-service.request
+        response.producer:
+          topic: delivery-service.response
+
 management:
   health:
     disk-space.enabled: false
