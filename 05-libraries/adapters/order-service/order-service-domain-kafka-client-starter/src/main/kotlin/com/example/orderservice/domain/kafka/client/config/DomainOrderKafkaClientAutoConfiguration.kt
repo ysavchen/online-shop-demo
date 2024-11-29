@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 import org.springframework.kafka.core.*
 import org.springframework.kafka.listener.CommonLoggingErrorHandler
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
@@ -31,77 +32,80 @@ import java.util.*
 
 @AutoConfiguration(before = [KafkaAutoConfiguration::class])
 @EnableConfigurationProperties(DomainOrderKafkaClientProperties::class)
-class DomainOrderKafkaClientAutoConfiguration {
+@Import(
+    DomainOrderKafkaProducerConfiguration::class,
+    DomainOrderKafkaConsumerConfiguration::class
+)
+class DomainOrderKafkaClientAutoConfiguration
 
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.producer.topic"])
-    class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
-        @Bean
-        @ConditionalOnMissingBean(name = ["domainOrderKafkaProducerFactory"])
-        fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> {
-            val bootstrapServers = properties.kafka.domain.connection.bootstrapServers.toList()
-            return DefaultKafkaProducerFactory(
-                mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
-                UUIDSerializer(),
-                JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper),
-                true
-            )
-        }
-
-        @Bean
-        @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
-        fun domainOrderKafkaTemplate(domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>) =
-            KafkaTemplate(domainOrderKafkaProducerFactory).apply {
-                defaultTopic = properties.kafka.domain.producer!!.topic
-                setObservationEnabled(true)
-            }
-
-        @Bean
-        @ConditionalOnMissingBean(name = ["domainOrderKafkaProducer"])
-        fun domainOrderKafkaProducer(domainOrderKafkaTemplate: KafkaTemplate<UUID, DomainEvent>) =
-            DomainOrderKafkaProducerImpl(domainOrderKafkaTemplate)
-
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.producer.topic"])
+class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
+    @Bean
+    @ConditionalOnMissingBean(name = ["domainOrderKafkaProducerFactory"])
+    fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> {
+        val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
+        return DefaultKafkaProducerFactory(
+            mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
+            UUIDSerializer(),
+            JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper),
+            true
+        )
     }
 
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnBean(DomainOrderKafkaConsumer::class)
-    @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.consumer.topics"])
-    @ConditionalOnExpression("#{\${$propertiesPrefix.kafka.domain.consumer.enabled:true}}")
-    class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
-        @Bean
-        @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
-        fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
-            return DefaultKafkaConsumerFactory(
-                mapOf(
-                    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.domain.connection.bootstrapServers.toList(),
-                    ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.domain.consumer!!.groupId,
-                    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
-                ),
-                ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
-                ErrorHandlingDeserializer(
-                    JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
-                ).apply { isForKey = false }
-            )
+    @Bean
+    @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
+    fun domainOrderKafkaTemplate(domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>) =
+        KafkaTemplate(domainOrderKafkaProducerFactory).apply {
+            defaultTopic = properties.kafka.domain.producer!!.topic
+            setObservationEnabled(true)
         }
 
-        @Bean
-        @ConditionalOnMissingBean(name = ["domainOrderKafkaListenerContainer"])
-        fun domainOrderKafkaListenerContainer(
-            consumer: DomainOrderKafkaConsumer,
-            domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, DomainEvent>
-        ): MessageListenerContainer {
-            val topics = properties.kafka.domain.consumer!!.topics.toTypedArray()
-            val containerProperties = ContainerProperties(*topics).apply {
-                messageListener = consumer
-                isObservationEnabled = true
-            }
+    @Bean
+    @ConditionalOnMissingBean(name = ["domainOrderKafkaProducer"])
+    fun domainOrderKafkaProducer(domainOrderKafkaTemplate: KafkaTemplate<UUID, DomainEvent>) =
+        DomainOrderKafkaProducerImpl(domainOrderKafkaTemplate, properties.kafka.domain.producer!!.enabled)
 
-            return ConcurrentMessageListenerContainer(
-                domainOrderKafkaConsumerFactory,
-                containerProperties
-            ).apply {
-                commonErrorHandler = CommonLoggingErrorHandler()
-            }
+}
+
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnBean(DomainOrderKafkaConsumer::class)
+@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.domain.consumer.topics"])
+@ConditionalOnExpression("#{\${$propertiesPrefix.kafka.domain.consumer.enabled:true}}")
+class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
+    @Bean
+    @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
+    fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
+        return DefaultKafkaConsumerFactory(
+            mapOf(
+                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
+                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.domain.consumer!!.groupId,
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
+            ),
+            ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
+            ErrorHandlingDeserializer(
+                JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
+            ).apply { isForKey = false }
+        )
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = ["domainOrderKafkaListenerContainer"])
+    fun domainOrderKafkaListenerContainer(
+        consumer: DomainOrderKafkaConsumer,
+        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, DomainEvent>
+    ): MessageListenerContainer {
+        val topics = properties.kafka.domain.consumer!!.topics.toTypedArray()
+        val containerProperties = ContainerProperties(*topics).apply {
+            messageListener = consumer
+            isObservationEnabled = true
+        }
+
+        return ConcurrentMessageListenerContainer(
+            domainOrderKafkaConsumerFactory,
+            containerProperties
+        ).apply {
+            commonErrorHandler = CommonLoggingErrorHandler()
         }
     }
 }

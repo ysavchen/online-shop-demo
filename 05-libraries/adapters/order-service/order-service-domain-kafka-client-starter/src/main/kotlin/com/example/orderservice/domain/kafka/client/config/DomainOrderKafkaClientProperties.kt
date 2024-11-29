@@ -14,13 +14,13 @@ data class DomainOrderKafkaClientProperties(
 
 data class KafkaProperties(
     @NestedConfigurationProperty
+    val connection: KafkaConnectionProperties,
+
+    @NestedConfigurationProperty
     val domain: DomainProperties
 )
 
 data class DomainProperties(
-    @NestedConfigurationProperty
-    val connection: KafkaConnectionProperties,
-
     @NestedConfigurationProperty
     val producer: KafkaProducerProperties?,
 
@@ -39,12 +39,12 @@ data class KafkaProducerProperties(
     /**
      * topic: order-service.domain
      */
-    val topic: String
+    val topic: String,
+    val enabled: Boolean = true
 )
 
 data class KafkaConsumerProperties(
     val groupId: String,
-
     /**
      * topics: order-service.domain
      */

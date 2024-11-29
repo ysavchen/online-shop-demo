@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue
     property = "@type"
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(value = OrderCreatedEvent::class, name = EventTypeName.ORDER_CREATED_EVENT_NAME),
-    JsonSubTypes.Type(value = OrderUpdatedEvent::class, name = EventTypeName.ORDER_UPDATED_EVENT_NAME)
+    JsonSubTypes.Type(value = OrderCreatedEvent::class, name = EventTypeName.ORDER_CREATED_EVENT),
+    JsonSubTypes.Type(value = OrderUpdatedEvent::class, name = EventTypeName.ORDER_UPDATED_EVENT)
 )
 sealed class DomainEvent(
     open val data: Data,
@@ -30,13 +30,13 @@ interface Data
 data class Meta(val service: String, val type: EventType, val version: Int)
 
 enum class EventType(@JsonValue val eventTypeName: String) {
-    ORDER_CREATED_EVENT(EventTypeName.ORDER_CREATED_EVENT_NAME),
-    ORDER_UPDATED_EVENT(EventTypeName.ORDER_UPDATED_EVENT_NAME)
+    ORDER_CREATED_EVENT(EventTypeName.ORDER_CREATED_EVENT),
+    ORDER_UPDATED_EVENT(EventTypeName.ORDER_UPDATED_EVENT)
 }
 
 object EventTypeName {
-    const val ORDER_CREATED_EVENT_NAME = "ORDER_CREATED_EVENT"
-    const val ORDER_UPDATED_EVENT_NAME = "ORDER_UPDATED_EVENT"
+    const val ORDER_CREATED_EVENT = "ORDER_CREATED_EVENT"
+    const val ORDER_UPDATED_EVENT = "ORDER_UPDATED_EVENT"
 }
 
 data class OrderCreatedEvent(

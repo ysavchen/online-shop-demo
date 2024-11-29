@@ -12,9 +12,14 @@ interface DomainOrderKafkaProducer {
 }
 
 class DomainOrderKafkaProducerImpl(
-    private val kafkaTemplate: KafkaTemplate<UUID, DomainEvent>
+    private val kafkaTemplate: KafkaTemplate<UUID, DomainEvent>,
+    private val enabled: Boolean
 ) : DomainOrderKafkaProducer {
 
     override fun send(event: DomainEvent): CompletableFuture<SendResult<UUID, DomainEvent>> =
-        kafkaTemplate.sendDefault(UUID.randomUUID(), event)
+        if (enabled) {
+            kafkaTemplate.sendDefault(UUID.randomUUID(), event)
+        } else {
+            CompletableFuture.failedFuture(UnsupportedOperationException("DomainOrderKafkaProducer is disabled"))
+        }
 }
