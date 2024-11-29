@@ -38,7 +38,7 @@ server:
   shutdown: graceful
 
 application:
-  timezone: Europe/Moscow # made timezone configurable for dev purposes
+  timezone: Europe/Moscow
   features:
     book-validation:
       enabled: true
@@ -47,11 +47,20 @@ application:
       http:
         base-url: http://localhost:8090
     order-service:
-      kafka.domain:
+      kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        producer:
+        domain.producer:
           topic: order-service.domain
+    delivery-service:
+      kafka:
+        connection:
+          bootstrap-servers: http://localhost:9092
+        request.producer:
+          topic: delivery-service.request
+        response.consumer:
+          group-id: ${spring.application.name}
+          topics: delivery-service.response
 
 management:
   health:

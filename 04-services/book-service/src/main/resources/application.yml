@@ -27,10 +27,10 @@ server:
 application:
   clients:
     order-service:
-      kafka.domain:
+      kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        consumer:
+        domain.consumer:
           group-id: ${spring.application.name}
           topics: order-service.domain
 
