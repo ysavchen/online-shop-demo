@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 @JsonSubTypes(
     JsonSubTypes.Type(value = CreateDeliveryRequest::class, name = MessageTypeName.CREATE_DELIVERY_REQUEST)
 )
-sealed class RequestMessage(
+sealed class RequestDeliveryMessage(
     open val data: Data,
     open val meta: Meta
 ) {
@@ -33,7 +33,7 @@ sealed class RequestMessage(
 @JsonSubTypes(
     JsonSubTypes.Type(value = DeliveryCreatedResponse::class, name = MessageTypeName.DELIVERY_CREATED_RESPONSE)
 )
-sealed class ResponseMessage(
+sealed class ResponseDeliveryMessage(
     open val data: Data,
     open val meta: Meta
 ) {
@@ -61,17 +61,13 @@ object MessageTypeName {
 data class CreateDeliveryRequest(
     override val data: CreateDeliveryRequestData,
     override val meta: Meta = Meta(
-        service = "order-service",
-        type = MessageType.CREATE_DELIVERY_REQUEST,
-        version = 1
+        service = "order-service", type = MessageType.CREATE_DELIVERY_REQUEST, version = 1
     )
-) : RequestMessage(data = data, meta = meta)
+) : RequestDeliveryMessage(data = data, meta = meta)
 
 data class DeliveryCreatedResponse(
     override val data: Delivery,
     override val meta: Meta = Meta(
-        service = "delivery-service",
-        type = MessageType.DELIVERY_CREATED_RESPONSE,
-        version = 1
+        service = "delivery-service", type = MessageType.DELIVERY_CREATED_RESPONSE, version = 1
     )
-) : ResponseMessage(data = data, meta = meta)
+) : ResponseDeliveryMessage(data = data, meta = meta)

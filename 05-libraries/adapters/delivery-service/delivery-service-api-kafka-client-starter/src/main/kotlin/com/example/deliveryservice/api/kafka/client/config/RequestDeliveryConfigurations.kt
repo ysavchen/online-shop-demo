@@ -2,7 +2,7 @@ package com.example.deliveryservice.api.kafka.client.config
 
 import com.example.deliveryservice.api.kafka.client.RequestDeliveryKafkaConsumer
 import com.example.deliveryservice.api.kafka.client.RequestDeliveryKafkaProducerImpl
-import com.example.deliveryservice.api.kafka.client.model.RequestMessage
+import com.example.deliveryservice.api.kafka.client.model.RequestDeliveryMessage
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -31,19 +31,19 @@ import java.util.*
 class RequestDeliveryKafkaProducerConfiguration(private val properties: DeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaProducerFactory"])
-    fun requestDeliveryKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, RequestMessage> {
+    fun requestDeliveryKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, RequestDeliveryMessage> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<RequestMessage>(), objectMapper),
+            JsonSerializer(jacksonTypeRef<RequestDeliveryMessage>(), objectMapper),
             true
         )
     }
 
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaTemplate"])
-    fun requestDeliveryKafkaTemplate(requestDeliveryKafkaProducerFactory: ProducerFactory<UUID, RequestMessage>) =
+    fun requestDeliveryKafkaTemplate(requestDeliveryKafkaProducerFactory: ProducerFactory<UUID, RequestDeliveryMessage>) =
         KafkaTemplate(requestDeliveryKafkaProducerFactory).apply {
             defaultTopic = properties.kafka.request!!.producer!!.topic
             setObservationEnabled(true)
@@ -51,7 +51,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: Delivery
 
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaProducer"])
-    fun requestDeliveryKafkaProducer(requestDeliveryKafkaTemplate: KafkaTemplate<UUID, RequestMessage>) =
+    fun requestDeliveryKafkaProducer(requestDeliveryKafkaTemplate: KafkaTemplate<UUID, RequestDeliveryMessage>) =
         RequestDeliveryKafkaProducerImpl(
             kafkaTemplate = requestDeliveryKafkaTemplate,
             enabled = properties.kafka.request!!.producer!!.enabled
@@ -65,7 +65,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: Delivery
 class RequestDeliveryKafkaConsumerConfiguration(private val properties: DeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaConsumerFactory"])
-    fun requestDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, RequestMessage> {
+    fun requestDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, RequestDeliveryMessage> {
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
@@ -74,7 +74,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Delivery
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
-                JsonDeserializer(jacksonTypeRef<RequestMessage>(), objectMapper, false)
+                JsonDeserializer(jacksonTypeRef<RequestDeliveryMessage>(), objectMapper, false)
             ).apply { isForKey = false }
         )
     }
@@ -83,7 +83,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Delivery
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaListenerContainer"])
     fun requestDeliveryKafkaListenerContainer(
         consumer: RequestDeliveryKafkaConsumer,
-        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, RequestMessage>
+        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, RequestDeliveryMessage>
     ): MessageListenerContainer {
         val topics = properties.kafka.request!!.consumer!!.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
