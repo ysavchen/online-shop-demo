@@ -78,7 +78,7 @@ application:
 class DomainOrderKafkaConsumerImpl(private val bookService: BookService) : DomainOrderKafkaConsumer {
 
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
-        bookService.processEvent(data.value())
+        bookService.processMessage(data)
     }
 }
 ```
