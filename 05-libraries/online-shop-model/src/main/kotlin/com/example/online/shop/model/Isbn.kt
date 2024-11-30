@@ -26,11 +26,9 @@ value class Isbn(private val value: String) : Model {
      */
     @JsonValue
     override fun toString(): String = value.formatValue()
-
 }
 
 private object IsbnUtils {
-
     private const val MIN_LENGTH = 13
     private const val MAX_LENGTH = 25
     private val isbnRegex = Regex(
