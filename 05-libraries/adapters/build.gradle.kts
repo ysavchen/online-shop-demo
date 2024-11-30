@@ -32,7 +32,7 @@ allprojects {
     }
 }
 
-val clientSubprojects = subprojects.filter { it.name.contains("client") }
+val clientSubprojects = subprojects.filter { it.name.contains("client") || it.name.contains("model") }
 configure(clientSubprojects) {
     apply {
         plugin("io.spring.dependency-management")
