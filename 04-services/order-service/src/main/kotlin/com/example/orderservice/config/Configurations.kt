@@ -24,6 +24,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair
+import org.springframework.retry.support.RetryTemplate
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.format.DateTimeFormatter
@@ -33,7 +34,7 @@ import java.util.*
 @ConfigurationPropertiesScan("com.example.orderservice")
 class PropertiesConfiguration
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ImportRuntimeHints(AppRuntimeHints::class)
 class ApplicationConfiguration(private val appProperties: ApplicationProperties) {
 
@@ -41,6 +42,9 @@ class ApplicationConfiguration(private val appProperties: ApplicationProperties)
     fun setTimezone() {
         TimeZone.setDefault(TimeZone.getTimeZone(appProperties.timezone))
     }
+
+    @Bean
+    fun retryTemplate() = RetryTemplate()
 }
 
 @EnableCaching
