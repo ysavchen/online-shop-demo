@@ -1,5 +1,6 @@
 package com.example.orderservice.service
 
+import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
 import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
 import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
 import com.example.orderservice.api.rest.DuplicateRequestException
@@ -14,6 +15,7 @@ import com.example.orderservice.mapping.api.OrderMapper.toEntity
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.api.RequestMapper.toPageable
+import com.example.orderservice.mapping.integration.DeliveryMapper.toKafkaModel
 import com.example.orderservice.mapping.integration.OrderMapper.toDomainModel
 import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
@@ -24,6 +26,7 @@ import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
 import com.example.orderservice.service.RequestValidation.validate
 import com.example.orderservice.service.integration.BookClientService
+import com.example.orderservice.service.integration.DeliveryClientService
 import com.example.orderservice.service.integration.DomainEventService
 import jakarta.persistence.OptimisticLockException
 import org.apache.kafka.clients.consumer.ConsumerRecord
@@ -49,7 +52,8 @@ class OrderService(
     private val cacheService: CacheService,
     private val retryTemplate: RetryTemplate,
     private val bookClientService: BookClientService,
-    private val domainEventService: DomainEventService
+    private val domainEventService: DomainEventService,
+    private val deliveryClientService: DeliveryClientService
 ) {
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
@@ -87,6 +91,9 @@ class OrderService(
         }.also { order ->
             val event = OrderCreatedEvent(order.toDomainModel())
             domainEventService.send(event)
+        }.also { order ->
+            val message = CreateDeliveryRequest(request.delivery.toKafkaModel(order.id))
+            deliveryClientService.send(message)
         }
         return order
     }
@@ -122,12 +129,12 @@ class OrderService(
         }
     }
 
+    //@formatter:off
     private fun isStatusUpdateValid(currentStatus: StatusEntity, newStatus: StatusEntity): Boolean =
-        if (currentStatus == newStatus) true
-        else if (currentStatus == CREATED && newStatus in listOf(IN_PROGRESS, DECLINED, CANCELLED)) true
-        else if (currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, DELIVERED)) true
-        else false
-
+        currentStatus == newStatus ||
+        currentStatus == CREATED && newStatus in listOf(IN_PROGRESS, DECLINED, CANCELLED) ||
+        currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, DELIVERED)
+    //@formatter:on
 }
 
 private object RequestValidation {

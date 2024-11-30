@@ -4,6 +4,8 @@ import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequestData
 import com.example.deliveryservice.kafka.client.model.Delivery
 import com.example.deliveryservice.kafka.client.model.Status
 import com.example.deliveryservice.kafka.client.model.Type
+import com.example.deliveryservice.mapping.AddressMapper.toEntity
+import com.example.deliveryservice.mapping.AddressMapper.toModel
 import com.example.deliveryservice.repository.entity.DeliveryEntity
 import com.example.deliveryservice.repository.entity.StatusEntity
 import com.example.deliveryservice.repository.entity.TypeEntity
@@ -14,7 +16,7 @@ object DeliveryMapper {
     internal fun CreateDeliveryRequestData.toEntity() = DeliveryEntity(
         type = type.toEntity(),
         status = StatusEntity.CREATED,
-        address = address,
+        address = address.toEntity(),
         orderId = orderId,
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
@@ -24,21 +26,17 @@ object DeliveryMapper {
         id = id!!,
         type = type.toModel(),
         status = status.toModel(),
-        address = address,
+        address = address.toModel(),
         orderId = orderId
     )
 
     private fun Type.toEntity() = when (this) {
         Type.HOME_DELIVERY -> TypeEntity.HOME_DELIVERY
-        Type.PICKUP_POINT -> TypeEntity.PICKUP_POINT
-        Type.PARCEL_LOCKER -> TypeEntity.PARCEL_LOCKER
         Type.IN_STORE_PICKUP -> TypeEntity.IN_STORE_PICKUP
     }
 
     private fun TypeEntity.toModel() = when (this) {
         TypeEntity.HOME_DELIVERY -> Type.HOME_DELIVERY
-        TypeEntity.PICKUP_POINT -> Type.PICKUP_POINT
-        TypeEntity.PARCEL_LOCKER -> Type.PARCEL_LOCKER
         TypeEntity.IN_STORE_PICKUP -> Type.IN_STORE_PICKUP
     }
 

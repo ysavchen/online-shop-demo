@@ -41,10 +41,14 @@ object EventTypeName {
 
 data class OrderCreatedEvent(
     override val data: Order,
-    override val meta: Meta = Meta(service = "order-service", type = EventType.ORDER_CREATED_EVENT, version = 1)
+    override val meta: Meta = Meta(
+        service = "order-service", type = EventType.ORDER_CREATED_EVENT, version = 1
+    )
 ) : DomainEvent(data = data, meta = meta)
 
 data class OrderUpdatedEvent(
     override val data: Order,
-    override val meta: Meta = Meta(service = "order-service", type = EventType.ORDER_UPDATED_EVENT, version = 1)
+    override val meta: Meta = Meta(
+        service = "order-service", type = EventType.ORDER_UPDATED_EVENT, version = 1
+    )
 ) : DomainEvent(data = data, meta = meta)

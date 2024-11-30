@@ -26,7 +26,7 @@ data class DeliveryEntity(
 
     @Type(JsonBinaryType::class)
     @Column(name = "address", columnDefinition = "jsonb", nullable = false)
-    val address: String,
+    val address: AddressEntity,
 
     @Column(columnDefinition = "order_id", nullable = false)
     val orderId: UUID,
@@ -54,8 +54,6 @@ data class DeliveryEntity(
 
 enum class TypeEntity {
     HOME_DELIVERY,
-    PICKUP_POINT,
-    PARCEL_LOCKER,
     IN_STORE_PICKUP
 }
 

@@ -1,6 +1,6 @@
-package com.example.deliveryservice.repository.entity
+package com.example.deliveryservice.kafka.client.model
 
-data class AddressEntity(
+data class Address(
     val country: String,
     val city: String,
     val street: String,
