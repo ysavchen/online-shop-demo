@@ -1,9 +1,9 @@
 package com.example.deliveryservice.mapping
 
-import com.example.deliveryservice.api.kafka.client.model.CreateDeliveryRequestData
-import com.example.deliveryservice.api.kafka.client.model.Delivery
-import com.example.deliveryservice.api.kafka.client.model.Status
-import com.example.deliveryservice.api.kafka.client.model.Type
+import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequestData
+import com.example.deliveryservice.kafka.client.model.Delivery
+import com.example.deliveryservice.kafka.client.model.Status
+import com.example.deliveryservice.kafka.client.model.Type
 import com.example.deliveryservice.repository.entity.DeliveryEntity
 import com.example.deliveryservice.repository.entity.StatusEntity
 import com.example.deliveryservice.repository.entity.TypeEntity

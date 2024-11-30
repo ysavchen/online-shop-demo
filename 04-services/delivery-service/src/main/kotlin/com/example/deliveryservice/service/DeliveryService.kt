@@ -1,15 +1,15 @@
 package com.example.deliveryservice.service
 
-import com.example.deliveryservice.api.kafka.client.ResponseDeliveryKafkaProducer
-import com.example.deliveryservice.api.kafka.client.model.CreateDeliveryRequest
-import com.example.deliveryservice.api.kafka.client.model.DeliveryCreatedResponse
-import com.example.deliveryservice.api.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
+import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
+import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import com.example.deliveryservice.mapping.DeliveryMapper.toEntity
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.repository.IdempotencyKeyRepository
 import com.example.deliveryservice.repository.entity.IdempotencyKeyEntity
 import com.example.deliveryservice.repository.entity.ResourceEntity
+import com.example.deliveryservice.response.kafka.client.ResponseDeliveryKafkaProducer
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull

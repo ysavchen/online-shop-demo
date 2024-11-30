@@ -1,7 +1,7 @@
 package com.example.orderservice.service
 
-import com.example.deliveryservice.api.kafka.client.model.DeliveryCreatedResponse
-import com.example.deliveryservice.api.kafka.client.model.ResponseDeliveryMessage
+import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
+import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
 import com.example.orderservice.api.rest.DuplicateRequestException
 import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException

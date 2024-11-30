@@ -1,7 +1,7 @@
 package com.example.deliveryservice.api.kafka
 
-import com.example.deliveryservice.api.kafka.client.RequestDeliveryKafkaConsumer
-import com.example.deliveryservice.api.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.response.kafka.client.RequestDeliveryKafkaConsumer
 import com.example.deliveryservice.service.DeliveryService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.stereotype.Component
