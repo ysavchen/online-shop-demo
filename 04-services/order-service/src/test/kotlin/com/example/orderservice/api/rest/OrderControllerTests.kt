@@ -1,6 +1,8 @@
 package com.example.orderservice.api.rest
 
 import com.example.bookservice.rest.client.BookServiceRestClient
+import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.request.kafka.client.RequestDeliveryKafkaProducer
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.domain.kafka.client.DomainOrderKafkaProducer
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
@@ -47,6 +49,9 @@ class OrderControllerTests {
 
     @MockBean
     lateinit var domainOrderKafkaProducer: DomainOrderKafkaProducer
+
+    @MockBean
+    lateinit var deliveryKafkaProducer: RequestDeliveryKafkaProducer
 
     @BeforeEach
     fun beforeEach() {
@@ -180,6 +185,7 @@ class OrderControllerTests {
             )
 
         verify(domainOrderKafkaProducer).send(any<DomainEvent>())
+        verify(deliveryKafkaProducer).send(any<RequestDeliveryMessage>())
     }
 
     @Test
@@ -231,6 +237,7 @@ class OrderControllerTests {
         }
 
         verify(domainOrderKafkaProducer).send(any<DomainEvent>())
+        verify(deliveryKafkaProducer).send(any<RequestDeliveryMessage>())
     }
 
     @Test

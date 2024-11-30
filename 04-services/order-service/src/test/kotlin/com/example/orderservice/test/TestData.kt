@@ -4,8 +4,8 @@ import com.example.bookservice.rest.client.model.Book
 import com.example.bookservice.rest.client.model.Currency
 import com.example.bookservice.rest.client.model.Genre
 import com.example.bookservice.rest.client.model.Price
+import com.example.online.shop.model.Isbn
 import com.example.orderservice.api.rest.model.*
-
 import com.example.orderservice.repository.entity.*
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
@@ -16,7 +16,7 @@ object BookTestData {
 
     fun book() = Book(
         id = UUID.randomUUID(),
-        isbn = randomNumeric(17),
+        isbn = Isbn.valueOf("9781525826689"),
         title = randomAlphabetic(15),
         authors = listOf(randomAlphabetic(10)),
         genre = nextValue<Genre>(),
@@ -57,7 +57,8 @@ object OrderTestData {
         items: Set<OrderItem> = setOf(orderItem())
     ) = CreateOrderRequest(
         userId = UUID.randomUUID(),
-        items = items
+        items = items,
+        delivery = delivery()
     )
 
     fun orderItem(
@@ -79,6 +80,16 @@ object OrderTestData {
         price = ItemPrice(
             value = book.price!!.value,
             currency = ItemCurrency.valueOf(book.price!!.currency.name)
+        )
+    )
+
+    fun delivery() = Delivery(
+        type = nextValue<DeliveryType>(),
+        address = Address(
+            country = randomAlphabetic(15),
+            city = randomAlphabetic(15),
+            street = randomAlphabetic(15),
+            building = randomNumeric(3)
         )
     )
 }

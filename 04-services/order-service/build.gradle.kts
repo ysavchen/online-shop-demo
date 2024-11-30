@@ -65,6 +65,9 @@ dependencies {
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
+    // Model
+    implementation("com.example:online-shop-model:1.0.0")
+
     // Integration
     implementation("com.example:book-service-rest-client-starter:1.0.0")
     implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
