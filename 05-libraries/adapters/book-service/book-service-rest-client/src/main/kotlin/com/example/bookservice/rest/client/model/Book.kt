@@ -1,12 +1,13 @@
 package com.example.bookservice.rest.client.model
 
+import com.example.online.shop.model.Isbn
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
 
 data class Book(
     val id: UUID,
-    val isbn: String,
+    val isbn: Isbn,
     val title: String,
     val authors: List<String>,
     val genre: Genre,

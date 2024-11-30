@@ -6,6 +6,7 @@ plugins {
 }
 
 val springBootVersion by extra("3.3.4")
+val modelVersion by extra("1.0.0")
 
 allprojects {
     group = "com.example"
@@ -23,6 +24,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     kotlin {
@@ -39,6 +41,7 @@ configure(clientSubprojects) {
     }
 
     dependencies {
+        api("com.example:online-shop-model:$modelVersion")
         testImplementation(kotlin("test-junit5"))
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
