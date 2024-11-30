@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS deliveries
 (
     id         uuid        PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
-    type       varchar(10) NOT NULL,
+    type       varchar(25) NOT NULL,
     status     varchar(15) NOT NULL,
     address    jsonb       NOT NULL,
     order_id   uuid        NOT NULL,
