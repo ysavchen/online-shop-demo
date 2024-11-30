@@ -7,9 +7,6 @@ include(
     "order-service:order-service-domain-kafka-client",
     "order-service:order-service-domain-kafka-client-starter",
 
-    "delivery-service:delivery-service-api-kafka-client",
-    "delivery-service:delivery-service-api-kafka-client-starter",
-
     "delivery-service:delivery-service-model",
     "delivery-service:delivery-service-request-kafka-client",
     "delivery-service:delivery-service-request-kafka-client-starter",
