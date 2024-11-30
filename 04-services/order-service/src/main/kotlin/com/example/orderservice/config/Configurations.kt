@@ -18,10 +18,14 @@ import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.ImportRuntimeHints
+import org.springframework.data.redis.cache.RedisCacheConfiguration
+import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -41,19 +45,42 @@ class ApplicationConfiguration(private val appProperties: ApplicationProperties)
 
 @EnableCaching
 @Configuration(proxyBeanMethods = false)
-class CacheConfiguration {
+class CacheConfiguration(objectMapper: ObjectMapper) {
+
+    companion object {
+        const val CACHE_NAME_PREFIX: String = "order-service::"
+        const val ORDER_CACHE_NAME: String = "orders"
+        const val ENTRY_TTL_MINUTES: Long = 10
+    }
+
+    private val redisKeySerializer = Jackson2JsonRedisSerializer(objectMapper, String::class.java)
+    private val redisValueSerializer = Jackson2JsonRedisSerializer(objectMapper, Order::class.java)
 
     @Bean
-    fun redisTemplate(
-        objectMapper: ObjectMapper,
-        connectionFactory: RedisConnectionFactory
-    ): RedisTemplate<UUID, Order> {
-        val serializer = Jackson2JsonRedisSerializer(objectMapper, Order::class.java)
-        return RedisTemplate<UUID, Order>().apply {
-            setConnectionFactory(connectionFactory)
-            setValueSerializer(serializer)
+    fun redisCacheConfiguration(): RedisCacheConfiguration =
+        RedisCacheConfiguration.defaultCacheConfig()
+            .prefixCacheNameWith(CACHE_NAME_PREFIX)
+            .serializeKeysWith(SerializationPair.fromSerializer(redisKeySerializer))
+            .serializeValuesWith(SerializationPair.fromSerializer(redisValueSerializer))
+            .entryTtl(Duration.ofMinutes(ENTRY_TTL_MINUTES))
+
+    @Bean
+    fun redisCacheManager(
+        redisCacheConfiguration: RedisCacheConfiguration,
+        redisConnectionFactory: RedisConnectionFactory
+    ): RedisCacheManager =
+        RedisCacheManager.builder(redisConnectionFactory)
+            .cacheDefaults(redisCacheConfiguration)
+            .initialCacheNames(setOf(ORDER_CACHE_NAME))
+            .build()
+
+    @Bean
+    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory) =
+        RedisTemplate<String, Order>().apply {
+            connectionFactory = redisConnectionFactory
+            keySerializer = redisKeySerializer
+            valueSerializer = redisValueSerializer
         }
-    }
 }
 
 @Configuration(proxyBeanMethods = false)

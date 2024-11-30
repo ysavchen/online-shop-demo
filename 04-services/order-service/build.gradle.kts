@@ -68,6 +68,7 @@ dependencies {
     // Integration
     implementation("com.example:book-service-rest-client-starter:1.0.0")
     implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
+    implementation("com.example:delivery-service-api-kafka-client-starter:1.0.0")
 }
 
 kotlin {

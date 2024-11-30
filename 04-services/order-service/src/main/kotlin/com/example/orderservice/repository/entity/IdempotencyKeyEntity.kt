@@ -35,5 +35,5 @@ data class IdempotencyKeyEntity(
 }
 
 enum class ResourceEntity {
-    ORDER, DELIVERY
+    ORDER
 }

@@ -37,6 +37,6 @@ class OrderController(private val orderService: OrderService) {
     fun updateOrderStatus(
         @PathVariable("orderId") orderId: UUID,
         @RequestBody request: UpdateOrderStatusRequest
-    ): Order = orderService.updateOrderStatus(orderId, request)
+    ): Order = orderService.updateOrderStatus(orderId, request.status)
 
 }

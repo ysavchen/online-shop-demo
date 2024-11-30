@@ -28,10 +28,6 @@ spring:
         default_batch_fetch_size: 10
   liquibase:
     change-log: classpath:liquibase/master.yaml
-  cache:
-    redis:
-      key-prefix: "order-service::"
-      time-to-live: 10m
 
 server:
   port: 8091
