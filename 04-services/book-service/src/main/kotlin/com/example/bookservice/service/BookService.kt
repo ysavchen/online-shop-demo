@@ -17,6 +17,8 @@ import com.example.bookservice.repository.entity.ResourceEntity
 import com.example.bookservice.service.RequestValidation.validate
 import com.example.orderservice.domain.kafka.client.model.*
 import io.github.oshai.kotlinlogging.KotlinLogging
+import jakarta.persistence.LockTimeoutException
+import jakarta.persistence.PessimisticLockException
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
@@ -66,7 +68,7 @@ class BookService(
         return savedBook.toModel()
     }
 
-    @Retryable
+    @Retryable(retryFor = [LockTimeoutException::class])
     @Transactional
     fun updateBook(bookId: UUID, request: UpdateBookRequest): Book {
         val bookEntity = bookRepository.findByIdWithPessimisticWrite(bookId) ?: throw BookNotFoundException(bookId)
@@ -77,7 +79,7 @@ class BookService(
         }.toModel()
     }
 
-    @Retryable
+    @Retryable(retryFor = [LockTimeoutException::class])
     @Transactional
     fun processMessage(message: ConsumerRecord<UUID, DomainEvent>) {
         val key = idempotencyKeyRepository.findByIdOrNull(message.key())
