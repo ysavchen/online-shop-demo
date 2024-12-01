@@ -21,7 +21,8 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         val delivery = when (reply) {
             is DeliveryCreatedReply -> reply.data.toModel()
             is ClientErrorReply -> throw DownstreamServiceException(
-                "Error message: ${reply.data.message}, errorCode=${reply.data.errorCode}, service=${reply.meta.service}"
+                "Error message: ${reply.data.message}, " +
+                        "errorCode=${reply.data.errorCode}, service=${reply.meta.service}"
             )
         }
         return delivery
