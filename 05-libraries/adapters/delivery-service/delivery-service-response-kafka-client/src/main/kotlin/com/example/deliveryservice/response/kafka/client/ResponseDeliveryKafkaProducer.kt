@@ -14,17 +14,13 @@ interface ResponseDeliveryKafkaProducer {
 }
 
 class ResponseDeliveryKafkaProducerImpl(
-    private val enabled: Boolean,
     private val responseTopic: String,
     private val kafkaTemplate: KafkaTemplate<UUID, ResponseDeliveryMessage>,
 ) : ResponseDeliveryKafkaProducer {
 
-    override fun send(correlationId: Header, message: ResponseDeliveryMessage): CompletableFuture<SendResult<UUID, ResponseDeliveryMessage>> =
-        if (enabled) {
-            val record = ProducerRecord<UUID, ResponseDeliveryMessage>(responseTopic, UUID.randomUUID(), message)
-                .apply { headers().add(correlationId) }
-            kafkaTemplate.send(record)
-        } else {
-            CompletableFuture.failedFuture(UnsupportedOperationException("ResponseDeliveryKafkaProducer is disabled"))
-        }
+    override fun send(correlationId: Header, message: ResponseDeliveryMessage): CompletableFuture<SendResult<UUID, ResponseDeliveryMessage>> {
+        val record = ProducerRecord<UUID, ResponseDeliveryMessage>(responseTopic, UUID.randomUUID(), message)
+            .apply { headers().add(correlationId) }
+        return kafkaTemplate.send(record)
+    }
 }

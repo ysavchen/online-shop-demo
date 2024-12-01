@@ -2,8 +2,8 @@ package com.example.deliveryservice.request.kafka.client.config
 
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
-import com.example.deliveryservice.request.kafka.client.RequestDeliveryKafkaProducer
-import com.example.deliveryservice.request.kafka.client.RequestDeliveryKafkaProducerImpl
+import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducer
+import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducerImpl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -39,7 +39,7 @@ import java.util.*
 class RequestDeliveryKafkaClientAutoConfiguration
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.request.producer.topic"])
+@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.replying.producer.request.topic"])
 class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestDeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaProducerFactory"])
@@ -59,7 +59,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.response.consumer.groupId,
+                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.response.groupIdPrefix + UUID.randomUUID(),
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
@@ -74,7 +74,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     fun responseDeliveryKafkaListenerContainer(
         domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, ResponseDeliveryMessage>
     ): ConcurrentMessageListenerContainer<UUID, ResponseDeliveryMessage> {
-        val topics = properties.kafka.response.consumer.topics.toTypedArray()
+        val topics = properties.kafka.replying.producer.response.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
             isObservationEnabled = true
         }
@@ -95,20 +95,20 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage> =
         ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, responseDeliveryKafkaListenerContainer)
             .apply {
-                defaultTopic = properties.kafka.request.producer.topic
+                defaultTopic = properties.kafka.replying.producer.request.topic
                 setDefaultReplyTimeout(Duration.ofSeconds(3))
                 setBinaryCorrelation(false)
                 setObservationEnabled(true)
             }
 
     @Bean
-    @ConditionalOnMissingBean(name = ["requestDeliveryKafkaProducer"])
-    fun requestDeliveryKafkaProducer(
+    @ConditionalOnMissingBean(name = ["replyingDeliveryKafkaProducer"])
+    fun replyingDeliveryKafkaProducer(
         requestDeliveryKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage>
-    ): RequestDeliveryKafkaProducer =
-        RequestDeliveryKafkaProducerImpl(
-            enabled = properties.kafka.request.producer.enabled,
-            requestTopic = properties.kafka.request.producer.topic,
+    ): ReplyingDeliveryKafkaProducer =
+        ReplyingDeliveryKafkaProducerImpl(
+            enabled = properties.kafka.replying.producer.enabled,
+            requestTopic = properties.kafka.replying.producer.request.topic,
             kafkaTemplate = requestDeliveryKafkaTemplate
         )
 }

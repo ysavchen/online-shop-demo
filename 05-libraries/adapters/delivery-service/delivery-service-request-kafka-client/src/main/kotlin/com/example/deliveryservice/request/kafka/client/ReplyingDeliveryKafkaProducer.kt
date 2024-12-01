@@ -8,18 +8,17 @@ import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-interface RequestDeliveryKafkaProducer {
+interface ReplyingDeliveryKafkaProducer {
 
     fun sendAndReceive(message: RequestDeliveryMessage): CompletableFuture<ConsumerRecord<UUID, ResponseDeliveryMessage>>
 }
 
-class RequestDeliveryKafkaProducerImpl(
+class ReplyingDeliveryKafkaProducerImpl(
     private val enabled: Boolean,
     private val requestTopic: String,
     private val kafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage>
-) : RequestDeliveryKafkaProducer {
+) : ReplyingDeliveryKafkaProducer {
 
-    @Suppress("UNCHECKED_CAST")
     override fun sendAndReceive(message: RequestDeliveryMessage): CompletableFuture<ConsumerRecord<UUID, ResponseDeliveryMessage>> =
         if (enabled) {
             val record = ProducerRecord<UUID, RequestDeliveryMessage>(requestTopic, UUID.randomUUID(), message)

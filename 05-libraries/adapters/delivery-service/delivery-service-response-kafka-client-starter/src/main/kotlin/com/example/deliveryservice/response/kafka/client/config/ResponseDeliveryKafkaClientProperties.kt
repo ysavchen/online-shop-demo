@@ -17,42 +17,42 @@ data class KafkaProperties(
     val connection: KafkaConnectionProperties,
 
     @NestedConfigurationProperty
-    val request: RequestProperties,
-
-    @NestedConfigurationProperty
-    val response: ResponseProperties
-)
-
-data class RequestProperties(
-    @NestedConfigurationProperty
-    val consumer: KafkaConsumerProperties
-)
-
-data class ResponseProperties(
-    @NestedConfigurationProperty
-    val producer: KafkaProducerProperties
+    val replying: ReplyingProperties
 )
 
 data class KafkaConnectionProperties(
     /**
      * bootstrap-servers: http://localhost:9092
      */
-    val bootstrapServers: Set<String>,
+    val bootstrapServers: Set<String>
 )
 
-data class KafkaProducerProperties(
-    /**
-     * topic: delivery-service.response
-     */
-    val topic: String,
-    val enabled: Boolean = true
+data class ReplyingProperties(
+    @NestedConfigurationProperty
+    val consumer: KafkaConsumerProperties
 )
 
 data class KafkaConsumerProperties(
+    @NestedConfigurationProperty
+    val request: RequestProperties,
+
+    @NestedConfigurationProperty
+    val response: ResponseProperties,
+
+    val enabled: Boolean = true
+)
+
+data class RequestProperties(
     val groupId: String,
     /**
      * topic: delivery-service.request
      */
-    val topics: Set<String>,
-    val enabled: Boolean = true
+    val topics: Set<String>
+)
+
+data class ResponseProperties(
+    /**
+     * topic: delivery-service.response
+     */
+    val topic: String
 )
