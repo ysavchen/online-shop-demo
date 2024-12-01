@@ -3,6 +3,7 @@ package com.example.deliveryservice.service
 import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
 import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
 import com.example.deliveryservice.mapping.DeliveryMapper.toEntity
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.repository.DeliveryRepository
@@ -32,19 +33,19 @@ class DeliveryService(
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
 
-    fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>) {
+    fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ResponseDeliveryMessage {
         val key = idempotencyKeyRepository.findByIdOrNull(message.key())
         if (key != null) {
             logger.debug { "Duplicate message with key=${key.idempotencyKey}, message already processed" }
-            return
+            throw RuntimeException()
         }
 
-        when (val request = message.value()) {
+        return when (val request = message.value()) {
             is CreateDeliveryRequest -> processRequest(message.key(), request)
         }
     }
 
-    private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest) {
+    private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ResponseDeliveryMessage {
         val delivery = transactionTemplate.execute {
             val savedDelivery = deliveryRepository.save(request.data.toEntity())
             idempotencyKeyRepository.save(
@@ -52,6 +53,6 @@ class DeliveryService(
             )
             savedDelivery.toModel()
         }!!
-        kafkaProducer.send(DeliveryCreatedResponse(delivery))
+        return DeliveryCreatedResponse(delivery)
     }
 }

@@ -27,11 +27,12 @@ application:
       kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        request.consumer:
-          group-id: ${spring.application.name}
-          topics: delivery-service.request
-        response.producer:
-          topic: delivery-service.response
+        replying.consumer:
+          request:
+            group-id: ${spring.application.name}
+            topics: delivery-service.request
+          response:
+            topic: delivery-service.response
 
 management:
   health:
