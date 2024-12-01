@@ -1,7 +1,7 @@
 package com.example.deliveryservice.request.kafka.client.config
 
+import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
 import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducer
 import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducerImpl
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -31,6 +31,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonSerializer
 import java.time.Duration
+import java.time.Instant
 import java.util.*
 
 @AutoConfiguration(before = [KafkaAutoConfiguration::class])
@@ -55,16 +56,17 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
 
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaConsumerFactory"])
-    fun responseDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, ResponseDeliveryMessage> {
+    fun responseDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, ReplyDeliveryMessage> {
+        val postfix = Instant.now().epochSecond
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.reply.groupIdPrefix + UUID.randomUUID(),
-                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
+                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.reply.groupIdPrefix + "-" + postfix,
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.LATEST.name.lowercase() //LATEST is correct for request-reply pattern
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
-                JsonDeserializer(jacksonTypeRef<ResponseDeliveryMessage>(), objectMapper, false)
+                JsonDeserializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper, false)
             ).apply { isForKey = false }
         )
     }
@@ -72,8 +74,8 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaListenerContainer"])
     fun responseDeliveryKafkaListenerContainer(
-        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, ResponseDeliveryMessage>
-    ): ConcurrentMessageListenerContainer<UUID, ResponseDeliveryMessage> {
+        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, ReplyDeliveryMessage>
+    ): ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage> {
         val topics = properties.kafka.replying.producer.reply.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
             isObservationEnabled = true
@@ -91,8 +93,8 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaTemplate"])
     fun requestDeliveryKafkaTemplate(
         requestDeliveryKafkaProducerFactory: ProducerFactory<UUID, RequestDeliveryMessage>,
-        responseDeliveryKafkaListenerContainer: ConcurrentMessageListenerContainer<UUID, ResponseDeliveryMessage>
-    ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage> =
+        responseDeliveryKafkaListenerContainer: ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage>
+    ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage> =
         ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, responseDeliveryKafkaListenerContainer)
             .apply {
                 defaultTopic = properties.kafka.replying.producer.request.topic
@@ -104,7 +106,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @Bean
     @ConditionalOnMissingBean(name = ["replyingDeliveryKafkaProducer"])
     fun replyingDeliveryKafkaProducer(
-        requestDeliveryKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage>
+        requestDeliveryKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
     ): ReplyingDeliveryKafkaProducer =
         ReplyingDeliveryKafkaProducerImpl(
             enabled = properties.kafka.replying.producer.enabled,

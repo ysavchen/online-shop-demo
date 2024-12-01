@@ -1,8 +1,10 @@
 package com.example.deliveryservice.response.kafka.client.config
 
+import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
-import com.example.deliveryservice.response.kafka.client.*
+import com.example.deliveryservice.response.kafka.client.ReplyingDeliveryKafkaConsumer
+import com.example.deliveryservice.response.kafka.client.RequestDeliveryKafkaConsumer
+import com.example.deliveryservice.response.kafka.client.ResponseDeliveryKafkaProducer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -83,19 +85,19 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Response
 class ResponseDeliveryKafkaProducerConfiguration(private val properties: ResponseDeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaProducerFactory"])
-    fun responseDeliveryKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, ResponseDeliveryMessage> {
+    fun responseDeliveryKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, ReplyDeliveryMessage> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<ResponseDeliveryMessage>(), objectMapper),
+            JsonSerializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper),
             true
         )
     }
 
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaTemplate"])
-    fun responseDeliveryKafkaTemplate(responseDeliveryKafkaProducerFactory: ProducerFactory<UUID, ResponseDeliveryMessage>) =
+    fun responseDeliveryKafkaTemplate(responseDeliveryKafkaProducerFactory: ProducerFactory<UUID, ReplyDeliveryMessage>) =
         KafkaTemplate(responseDeliveryKafkaProducerFactory).apply {
             defaultTopic = properties.kafka.replying.consumer.reply.topic
             setObservationEnabled(true)
@@ -103,8 +105,8 @@ class ResponseDeliveryKafkaProducerConfiguration(private val properties: Respons
 
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaProducer"])
-    fun responseDeliveryKafkaProducer(responseDeliveryKafkaTemplate: KafkaTemplate<UUID, ResponseDeliveryMessage>) =
-        ResponseDeliveryKafkaProducerImpl(
+    fun responseDeliveryKafkaProducer(responseDeliveryKafkaTemplate: KafkaTemplate<UUID, ReplyDeliveryMessage>) =
+        ResponseDeliveryKafkaProducer(
             replyTopic = properties.kafka.replying.consumer.reply.topic,
             kafkaTemplate = responseDeliveryKafkaTemplate
         )
@@ -117,12 +119,12 @@ class ReplyingDeliveryKafkaConsumerConfiguration(private val properties: Respons
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaConsumer"])
     fun requestDeliveryKafkaConsumer(
-        replyingDeliveryKafkaConsumer: ReplyingDeliveryKafkaConsumer,
-        responseDeliveryKafkaProducer: ResponseDeliveryKafkaProducer
+        replyingKafkaConsumer: ReplyingDeliveryKafkaConsumer,
+        replyKafkaProducer: ResponseDeliveryKafkaProducer
     ): RequestDeliveryKafkaConsumer =
-        RequestDeliveryKafkaConsumerImpl(
-            properties.kafka.replying.consumer.enabled,
-            replyingDeliveryKafkaConsumer,
-            responseDeliveryKafkaProducer
+        RequestDeliveryKafkaConsumer(
+            enabled = properties.kafka.replying.consumer.enabled,
+            kafkaConsumer = replyingKafkaConsumer,
+            kafkaProducer = replyKafkaProducer
         )
 }
