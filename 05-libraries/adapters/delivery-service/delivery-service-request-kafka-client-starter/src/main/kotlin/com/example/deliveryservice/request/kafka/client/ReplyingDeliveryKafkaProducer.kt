@@ -5,7 +5,7 @@ import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 interface ReplyingDeliveryKafkaProducer {

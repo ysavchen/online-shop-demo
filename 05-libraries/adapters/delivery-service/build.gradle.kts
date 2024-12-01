@@ -5,35 +5,21 @@ project("delivery-service-model") {
     }
 }
 
-project("delivery-service-request-kafka-client") {
+project("delivery-service-request-kafka-client-starter") {
     dependencies {
         api(project(":delivery-service:delivery-service-model"))
         api("org.springframework.kafka:spring-kafka")
-        testImplementation("org.springframework.kafka:spring-kafka-test")
-    }
-}
-
-project("delivery-service-request-kafka-client-starter") {
-    dependencies {
-        api(project(":delivery-service:delivery-service-request-kafka-client"))
-        api("org.springframework.kafka:spring-kafka")
+        api("org.springframework.kafka:spring-kafka-test")
         api("org.springframework.boot:spring-boot-starter")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
 
-project("delivery-service-reply-kafka-client") {
+project("delivery-service-reply-kafka-client-starter") {
     dependencies {
         api(project(":delivery-service:delivery-service-model"))
         api("org.springframework.kafka:spring-kafka")
-        testImplementation("org.springframework.kafka:spring-kafka-test")
-    }
-}
-
-project("delivery-service-reply-kafka-client-starter") {
-    dependencies {
-        api(project(":delivery-service:delivery-service-reply-kafka-client"))
-        api("org.springframework.kafka:spring-kafka")
+        api("org.springframework.kafka:spring-kafka-test")
         api("org.springframework.boot:spring-boot-starter")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
