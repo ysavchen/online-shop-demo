@@ -57,7 +57,7 @@ application:
             topic: delivery-service.request
           reply:
             group-id-prefix: ${spring.application.name}
-            topics: delivery-service.response
+            topics: delivery-service.reply
 
 management:
   health:

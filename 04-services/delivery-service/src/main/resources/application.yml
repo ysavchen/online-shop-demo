@@ -32,7 +32,7 @@ application:
             group-id: ${spring.application.name}
             topics: delivery-service.request
           reply:
-            topic: delivery-service.response
+            topic: delivery-service.reply
 
 management:
   health:
