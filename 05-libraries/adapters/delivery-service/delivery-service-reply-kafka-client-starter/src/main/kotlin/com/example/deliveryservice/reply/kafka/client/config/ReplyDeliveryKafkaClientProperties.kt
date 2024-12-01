@@ -1,4 +1,4 @@
-package com.example.deliveryservice.response.kafka.client.config
+package com.example.deliveryservice.reply.kafka.client.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty

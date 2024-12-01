@@ -1,4 +1,4 @@
-package com.example.deliveryservice.response.kafka.client
+package com.example.deliveryservice.reply.kafka.client
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import org.apache.kafka.clients.producer.ProducerRecord

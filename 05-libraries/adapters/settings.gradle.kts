@@ -10,6 +10,6 @@ include(
     "delivery-service:delivery-service-model",
     "delivery-service:delivery-service-request-kafka-client",
     "delivery-service:delivery-service-request-kafka-client-starter",
-    "delivery-service:delivery-service-response-kafka-client",
-    "delivery-service:delivery-service-response-kafka-client-starter"
+    "delivery-service:delivery-service-reply-kafka-client",
+    "delivery-service:delivery-service-reply-kafka-client-starter"
 )

@@ -1,10 +1,10 @@
-package com.example.deliveryservice.response.kafka.client.config
+package com.example.deliveryservice.reply.kafka.client.config
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.response.kafka.client.ReplyDeliveryKafkaProducer
-import com.example.deliveryservice.response.kafka.client.ReplyingDeliveryKafkaConsumer
-import com.example.deliveryservice.response.kafka.client.RequestDeliveryKafkaConsumer
+import com.example.deliveryservice.reply.kafka.client.ReplyDeliveryKafkaProducer
+import com.example.deliveryservice.reply.kafka.client.ReplyingDeliveryKafkaConsumer
+import com.example.deliveryservice.reply.kafka.client.RequestDeliveryKafkaConsumer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
