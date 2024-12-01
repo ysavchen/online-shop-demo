@@ -9,7 +9,7 @@ import java.util.*
 class RequestDeliveryKafkaConsumer(
     private val enabled: Boolean,
     private val kafkaConsumer: ReplyingDeliveryKafkaConsumer,
-    private val kafkaProducer: ResponseDeliveryKafkaProducer
+    private val kafkaProducer: ReplyDeliveryKafkaProducer
 ) : MessageListener<UUID, RequestDeliveryMessage> {
 
     override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>) {

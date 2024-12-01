@@ -8,7 +8,7 @@ import org.springframework.kafka.support.SendResult
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-class ResponseDeliveryKafkaProducer(
+class ReplyDeliveryKafkaProducer(
     private val replyTopic: String,
     private val kafkaTemplate: KafkaTemplate<UUID, ReplyDeliveryMessage>
 ) {

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 internal const val propertiesPrefix = "application.clients.delivery-service"
 
 @ConfigurationProperties(propertiesPrefix, ignoreUnknownFields = false)
-data class ResponseDeliveryKafkaClientProperties(
+data class ReplyDeliveryKafkaClientProperties(
 
     @NestedConfigurationProperty
     val kafka: KafkaProperties

@@ -55,8 +55,8 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = ["responseDeliveryKafkaConsumerFactory"])
-    fun responseDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, ReplyDeliveryMessage> {
+    @ConditionalOnMissingBean(name = ["replyDeliveryKafkaConsumerFactory"])
+    fun replyDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, ReplyDeliveryMessage> {
         val postfix = Instant.now().epochSecond
         return DefaultKafkaConsumerFactory(
             mapOf(
@@ -72,9 +72,9 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = ["responseDeliveryKafkaListenerContainer"])
-    fun responseDeliveryKafkaListenerContainer(
-        domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, ReplyDeliveryMessage>
+    @ConditionalOnMissingBean(name = ["replyDeliveryKafkaListenerContainer"])
+    fun replyDeliveryKafkaListenerContainer(
+        replyDeliveryKafkaConsumerFactory: ConsumerFactory<UUID, ReplyDeliveryMessage>
     ): ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage> {
         val topics = properties.kafka.replying.producer.reply.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
@@ -82,7 +82,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
         }
 
         return ConcurrentMessageListenerContainer(
-            domainOrderKafkaConsumerFactory,
+            replyDeliveryKafkaConsumerFactory,
             containerProperties
         ).apply {
             commonErrorHandler = CommonLoggingErrorHandler()
@@ -93,9 +93,9 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaTemplate"])
     fun requestDeliveryKafkaTemplate(
         requestDeliveryKafkaProducerFactory: ProducerFactory<UUID, RequestDeliveryMessage>,
-        responseDeliveryKafkaListenerContainer: ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage>
+        replyDeliveryKafkaListenerContainer: ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage>
     ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage> =
-        ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, responseDeliveryKafkaListenerContainer)
+        ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, replyDeliveryKafkaListenerContainer)
             .apply {
                 defaultTopic = properties.kafka.replying.producer.request.topic
                 setDefaultReplyTimeout(Duration.ofSeconds(3))
@@ -106,11 +106,11 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @Bean
     @ConditionalOnMissingBean(name = ["replyingDeliveryKafkaProducer"])
     fun replyingDeliveryKafkaProducer(
-        requestDeliveryKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
+        requestKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
     ): ReplyingDeliveryKafkaProducer =
         ReplyingDeliveryKafkaProducerImpl(
             enabled = properties.kafka.replying.producer.enabled,
             requestTopic = properties.kafka.replying.producer.request.topic,
-            kafkaTemplate = requestDeliveryKafkaTemplate
+            kafkaTemplate = requestKafkaTemplate
         )
 }
