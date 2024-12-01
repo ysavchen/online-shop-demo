@@ -1,24 +1,29 @@
 package com.example.deliveryservice.request.kafka.client
 
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.support.SendResult
+import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
+import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
 interface RequestDeliveryKafkaProducer {
 
-    fun send(message: RequestDeliveryMessage): CompletableFuture<SendResult<UUID, RequestDeliveryMessage>>
+    fun sendAndReceive(message: RequestDeliveryMessage): CompletableFuture<ConsumerRecord<UUID, ResponseDeliveryMessage>>
 }
 
 class RequestDeliveryKafkaProducerImpl(
-    private val kafkaTemplate: KafkaTemplate<UUID, RequestDeliveryMessage>,
-    private val enabled: Boolean
+    private val enabled: Boolean,
+    private val requestTopic: String,
+    private val kafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ResponseDeliveryMessage>
 ) : RequestDeliveryKafkaProducer {
 
-    override fun send(message: RequestDeliveryMessage): CompletableFuture<SendResult<UUID, RequestDeliveryMessage>> =
+    @Suppress("UNCHECKED_CAST")
+    override fun sendAndReceive(message: RequestDeliveryMessage): CompletableFuture<ConsumerRecord<UUID, ResponseDeliveryMessage>> =
         if (enabled) {
-            kafkaTemplate.sendDefault(UUID.randomUUID(), message)
+            val record = ProducerRecord<UUID, RequestDeliveryMessage>(requestTopic, UUID.randomUUID(), message)
+            kafkaTemplate.sendAndReceive(record)
         } else {
             CompletableFuture.failedFuture(UnsupportedOperationException("RequestDeliveryKafkaProducer is disabled"))
         }

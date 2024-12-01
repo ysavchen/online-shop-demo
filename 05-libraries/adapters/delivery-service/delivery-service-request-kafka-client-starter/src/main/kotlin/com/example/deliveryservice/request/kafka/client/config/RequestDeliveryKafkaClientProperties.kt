@@ -20,7 +20,7 @@ data class KafkaProperties(
     val request: RequestProperties,
 
     @NestedConfigurationProperty
-    val response: ResponseProperties?
+    val response: ResponseProperties
 )
 
 data class RequestProperties(
@@ -30,7 +30,7 @@ data class RequestProperties(
 
 data class ResponseProperties(
     @NestedConfigurationProperty
-    val consumer: KafkaConsumerProperties?
+    val consumer: KafkaConsumerProperties
 )
 
 data class KafkaConnectionProperties(
@@ -43,10 +43,6 @@ data class KafkaConnectionProperties(
 data class KafkaProducerProperties(
     /**
      * topic: delivery-service.request
-     *
-     * OR
-     *
-     * topic: delivery-service.response
      */
     val topic: String,
     val enabled: Boolean = true
@@ -55,12 +51,7 @@ data class KafkaProducerProperties(
 data class KafkaConsumerProperties(
     val groupId: String,
     /**
-     * topic: delivery-service.request
-     *
-     * OR
-     *
      * topic: delivery-service.response
      */
-    val topics: Set<String>,
-    val enabled: Boolean = true
+    val topics: Set<String>
 )

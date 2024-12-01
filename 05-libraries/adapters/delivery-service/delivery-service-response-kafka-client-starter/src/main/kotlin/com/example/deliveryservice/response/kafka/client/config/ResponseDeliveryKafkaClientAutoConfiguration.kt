@@ -50,7 +50,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Response
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.request!!.consumer!!.groupId,
+                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.request.consumer.groupId,
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
@@ -66,7 +66,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Response
         consumer: RequestDeliveryKafkaConsumer,
         domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, RequestDeliveryMessage>
     ): MessageListenerContainer {
-        val topics = properties.kafka.request!!.consumer!!.topics.toTypedArray()
+        val topics = properties.kafka.request.consumer.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
             messageListener = consumer
             isObservationEnabled = true
@@ -100,7 +100,7 @@ class ResponseDeliveryKafkaProducerConfiguration(private val properties: Respons
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaTemplate"])
     fun responseDeliveryKafkaTemplate(responseDeliveryKafkaProducerFactory: ProducerFactory<UUID, ResponseDeliveryMessage>) =
         KafkaTemplate(responseDeliveryKafkaProducerFactory).apply {
-            defaultTopic = properties.kafka.response!!.producer!!.topic
+            defaultTopic = properties.kafka.response.producer.topic
             setObservationEnabled(true)
         }
 
@@ -108,7 +108,8 @@ class ResponseDeliveryKafkaProducerConfiguration(private val properties: Respons
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaProducer"])
     fun responseDeliveryKafkaProducer(responseDeliveryKafkaTemplate: KafkaTemplate<UUID, ResponseDeliveryMessage>) =
         ResponseDeliveryKafkaProducerImpl(
-            kafkaTemplate = responseDeliveryKafkaTemplate,
-            enabled = properties.kafka.response!!.producer!!.enabled
+            enabled = properties.kafka.response.producer.enabled,
+            responseTopic = properties.kafka.response.producer.topic,
+            kafkaTemplate = responseDeliveryKafkaTemplate
         )
 }
