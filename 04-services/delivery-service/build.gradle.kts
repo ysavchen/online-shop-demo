@@ -55,7 +55,7 @@ dependencies {
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
     // Integration
-    implementation("com.example:delivery-service-response-kafka-client-starter:1.0.0")
+    implementation("com.example:delivery-service-reply-kafka-client-starter:1.0.0")
 }
 
 kotlin {
