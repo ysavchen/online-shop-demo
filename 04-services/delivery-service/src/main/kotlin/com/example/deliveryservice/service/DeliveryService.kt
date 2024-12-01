@@ -1,9 +1,6 @@
 package com.example.deliveryservice.service
 
-import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
-import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
-import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
+import com.example.deliveryservice.kafka.client.model.*
 import com.example.deliveryservice.mapping.DeliveryMapper.toEntity
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.repository.DeliveryRepository
@@ -23,10 +20,11 @@ class DeliveryService(
 ) {
 
     @Transactional
-    fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ResponseDeliveryMessage {
+    fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage {
         val key = idempotencyKeyRepository.findByIdOrNull(message.key())
         if (key != null) {
-            throw DuplicateMessageException(key.idempotencyKey)
+            val error = DuplicateMessageError(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
+            return ClientErrorReply(error)
         }
 
         return when (val request = message.value()) {
@@ -34,10 +32,10 @@ class DeliveryService(
         }
     }
 
-    private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ResponseDeliveryMessage {
+    private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ReplyDeliveryMessage {
         val deliveryEntity = request.data.toEntity()
         val delivery = deliveryRepository.save(deliveryEntity).toModel()
         idempotencyKeyRepository.save(IdempotencyKeyEntity(messageKey, delivery.id, DELIVERY))
-        return DeliveryCreatedResponse(delivery)
+        return DeliveryCreatedReply(delivery)
     }
 }
