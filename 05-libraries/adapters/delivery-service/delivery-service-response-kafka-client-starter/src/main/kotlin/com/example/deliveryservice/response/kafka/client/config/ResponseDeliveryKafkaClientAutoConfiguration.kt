@@ -79,7 +79,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: Response
 }
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.replying.consumer.response.topic"])
+@ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.replying.consumer.reply.topic"])
 class ResponseDeliveryKafkaProducerConfiguration(private val properties: ResponseDeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaProducerFactory"])
@@ -97,7 +97,7 @@ class ResponseDeliveryKafkaProducerConfiguration(private val properties: Respons
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaTemplate"])
     fun responseDeliveryKafkaTemplate(responseDeliveryKafkaProducerFactory: ProducerFactory<UUID, ResponseDeliveryMessage>) =
         KafkaTemplate(responseDeliveryKafkaProducerFactory).apply {
-            defaultTopic = properties.kafka.replying.consumer.response.topic
+            defaultTopic = properties.kafka.replying.consumer.reply.topic
             setObservationEnabled(true)
         }
 
@@ -105,7 +105,7 @@ class ResponseDeliveryKafkaProducerConfiguration(private val properties: Respons
     @ConditionalOnMissingBean(name = ["responseDeliveryKafkaProducer"])
     fun responseDeliveryKafkaProducer(responseDeliveryKafkaTemplate: KafkaTemplate<UUID, ResponseDeliveryMessage>) =
         ResponseDeliveryKafkaProducerImpl(
-            responseTopic = properties.kafka.replying.consumer.response.topic,
+            replyTopic = properties.kafka.replying.consumer.reply.topic,
             kafkaTemplate = responseDeliveryKafkaTemplate
         )
 }

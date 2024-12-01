@@ -24,6 +24,6 @@ class ReplyingDeliveryKafkaProducerImpl(
             val record = ProducerRecord<UUID, RequestDeliveryMessage>(requestTopic, UUID.randomUUID(), message)
             kafkaTemplate.sendAndReceive(record)
         } else {
-            CompletableFuture.failedFuture(UnsupportedOperationException("RequestDeliveryKafkaProducer is disabled"))
+            CompletableFuture.failedFuture(UnsupportedOperationException("ReplyingDeliveryKafkaProducer is disabled"))
         }
 }

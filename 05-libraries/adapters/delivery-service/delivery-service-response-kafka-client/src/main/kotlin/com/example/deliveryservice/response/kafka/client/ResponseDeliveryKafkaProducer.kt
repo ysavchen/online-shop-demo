@@ -14,12 +14,12 @@ interface ResponseDeliveryKafkaProducer {
 }
 
 class ResponseDeliveryKafkaProducerImpl(
-    private val responseTopic: String,
+    private val replyTopic: String,
     private val kafkaTemplate: KafkaTemplate<UUID, ResponseDeliveryMessage>,
 ) : ResponseDeliveryKafkaProducer {
 
     override fun send(correlationId: Header, message: ResponseDeliveryMessage): CompletableFuture<SendResult<UUID, ResponseDeliveryMessage>> {
-        val record = ProducerRecord<UUID, ResponseDeliveryMessage>(responseTopic, UUID.randomUUID(), message)
+        val record = ProducerRecord<UUID, ResponseDeliveryMessage>(replyTopic, UUID.randomUUID(), message)
             .apply { headers().add(correlationId) }
         return kafkaTemplate.send(record)
     }

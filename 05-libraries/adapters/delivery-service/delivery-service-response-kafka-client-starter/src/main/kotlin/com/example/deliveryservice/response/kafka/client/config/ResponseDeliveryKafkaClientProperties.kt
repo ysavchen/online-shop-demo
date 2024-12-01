@@ -37,7 +37,7 @@ data class KafkaConsumerProperties(
     val request: RequestProperties,
 
     @NestedConfigurationProperty
-    val response: ResponseProperties,
+    val reply: ReplyProperties,
 
     val enabled: Boolean = true
 )
@@ -50,9 +50,9 @@ data class RequestProperties(
     val topics: Set<String>
 )
 
-data class ResponseProperties(
+data class ReplyProperties(
     /**
-     * topic: delivery-service.response
+     * topic: delivery-service.reply
      */
     val topic: String
 )

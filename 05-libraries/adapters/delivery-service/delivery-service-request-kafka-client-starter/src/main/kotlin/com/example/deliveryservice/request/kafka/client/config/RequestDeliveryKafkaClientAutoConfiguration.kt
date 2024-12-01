@@ -59,7 +59,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
-                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.response.groupIdPrefix + UUID.randomUUID(),
+                ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.reply.groupIdPrefix + UUID.randomUUID(),
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase()
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
@@ -74,7 +74,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     fun responseDeliveryKafkaListenerContainer(
         domainOrderKafkaConsumerFactory: ConsumerFactory<UUID, ResponseDeliveryMessage>
     ): ConcurrentMessageListenerContainer<UUID, ResponseDeliveryMessage> {
-        val topics = properties.kafka.replying.producer.response.topics.toTypedArray()
+        val topics = properties.kafka.replying.producer.reply.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
             isObservationEnabled = true
         }
