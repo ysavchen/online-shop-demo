@@ -83,9 +83,9 @@ object OrderTestData {
         )
     )
 
-    fun delivery() = Delivery(
+    fun delivery() = DeliveryRequest(
         type = nextValue<DeliveryType>(),
-        address = Address(
+        address = DeliveryAddress(
             country = randomAlphabetic(15),
             city = randomAlphabetic(15),
             street = randomAlphabetic(15),

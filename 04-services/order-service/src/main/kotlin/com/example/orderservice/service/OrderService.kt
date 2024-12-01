@@ -1,8 +1,5 @@
 package com.example.orderservice.service
 
-import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
-import com.example.deliveryservice.kafka.client.model.DeliveryCreatedResponse
-import com.example.deliveryservice.kafka.client.model.ResponseDeliveryMessage
 import com.example.orderservice.api.rest.DuplicateRequestException
 import com.example.orderservice.api.rest.InvalidOrderStatusUpdate
 import com.example.orderservice.api.rest.OrderNotFoundException
@@ -11,17 +8,17 @@ import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.config.CacheConfiguration.Companion.ORDER_CACHE_NAME
 import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
 import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
+import com.example.orderservice.mapping.api.OrderMapper.toCreateOrderResponse
 import com.example.orderservice.mapping.api.OrderMapper.toEntity
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.api.RequestMapper.toPageable
-import com.example.orderservice.mapping.integration.DeliveryMapper.toKafkaModel
 import com.example.orderservice.mapping.integration.OrderMapper.toDomainModel
 import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
 import com.example.orderservice.repository.entity.IdempotencyKeyEntity
-import com.example.orderservice.repository.entity.ResourceEntity
+import com.example.orderservice.repository.entity.ResourceEntity.ORDER
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
 import com.example.orderservice.service.RequestValidation.validate
@@ -29,7 +26,6 @@ import com.example.orderservice.service.integration.BookClientService
 import com.example.orderservice.service.integration.DeliveryClientService
 import com.example.orderservice.service.integration.DomainEventService
 import jakarta.persistence.OptimisticLockException
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
@@ -68,7 +64,7 @@ class OrderService(
         ?: throw OrderNotFoundException(orderId)
 
     @CachePut(key = "#result.id")
-    fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
+    fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): CreateOrderResponse {
         request.validate()
         transactionTemplate.execute {
             val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
@@ -78,12 +74,10 @@ class OrderService(
         }
         bookClientService.validateBooks(request.items)
 
-        val order = transactionTemplate.execute {
-            val savedOrder = orderRepository.save(request.toEntity())
-            idempotencyKeyRepository.save(
-                IdempotencyKeyEntity(idempotencyKey, savedOrder.id!!, ResourceEntity.ORDER)
-            )
-            savedOrder.toModel()
+        val orderResponse = transactionTemplate.execute {
+            val order = orderRepository.save(request.toEntity()).toModel()
+            idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, order.id, ORDER))
+            order
         }!!.also { order ->
             metricService.countOrders(order.status)
             metricService.lastOrderTime(order.createdAt)
@@ -91,11 +85,11 @@ class OrderService(
         }.also { order ->
             val event = OrderCreatedEvent(order.toDomainModel())
             domainEventService.send(event)
-        }.also { order ->
-            val message = CreateDeliveryRequest(request.delivery.toKafkaModel(order.id))
-            deliveryClientService.send(message)
+        }.let { order ->
+            val delivery = deliveryClientService.createDelivery(order.id, request.delivery)
+            order.toCreateOrderResponse(delivery)
         }
-        return order
+        return orderResponse
     }
 
     fun updateOrderStatus(orderId: UUID, newStatus: Status): Order {
@@ -121,12 +115,6 @@ class OrderService(
             cacheService.set(order)
         }
         return order
-    }
-
-    fun processMessage(message: ConsumerRecord<UUID, ResponseDeliveryMessage>) {
-        when (val response = message.value()) {
-            is DeliveryCreatedResponse -> updateOrderStatus(response.data.orderId, Status.IN_PROGRESS)
-        }
     }
 
     //@formatter:off

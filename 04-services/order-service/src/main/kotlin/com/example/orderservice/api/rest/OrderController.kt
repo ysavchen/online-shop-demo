@@ -30,7 +30,7 @@ class OrderController(private val orderService: OrderService) {
     fun createOrder(
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest
-    ): Order = orderService.createOrder(idempotencyKey, request)
+    ): CreateOrderResponse = orderService.createOrder(idempotencyKey, request)
 
     @Operation(summary = "Update order status")
     @PatchMapping("/orders/{orderId}/status", consumes = [MediaType.APPLICATION_JSON_VALUE])

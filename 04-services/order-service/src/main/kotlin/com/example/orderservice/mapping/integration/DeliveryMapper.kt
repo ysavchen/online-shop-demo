@@ -3,15 +3,14 @@ package com.example.orderservice.mapping.integration
 import com.example.deliveryservice.kafka.client.model.Address
 import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequestData
 import com.example.deliveryservice.kafka.client.model.Type
-import com.example.orderservice.api.rest.model.Delivery
+import com.example.orderservice.api.rest.model.DeliveryAddress
+import com.example.orderservice.api.rest.model.DeliveryRequest
 import com.example.orderservice.api.rest.model.DeliveryType
 import java.util.*
 
-typealias DeliveryAddress = com.example.orderservice.api.rest.model.Address
-
 object DeliveryMapper {
 
-    internal fun Delivery.toKafkaModel(orderId: UUID) =
+    internal fun DeliveryRequest.toKafkaModel(orderId: UUID) =
         CreateDeliveryRequestData(
             type = type.toKafkaModel(),
             address = address.toKafkaModel(),

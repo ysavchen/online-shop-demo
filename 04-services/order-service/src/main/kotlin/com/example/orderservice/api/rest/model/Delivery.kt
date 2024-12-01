@@ -1,11 +1,20 @@
 package com.example.orderservice.api.rest.model
 
-data class Delivery(
+import java.util.*
+
+data class DeliveryRequest(
     val type: DeliveryType,
-    val address: Address
+    val address: DeliveryAddress
 )
 
-data class Address(
+data class Delivery(
+    val id: UUID,
+    val type: DeliveryType,
+    val address: DeliveryAddress,
+    val status: DeliveryStatus
+)
+
+data class DeliveryAddress(
     val country: String,
     val city: String,
     val street: String,
@@ -15,4 +24,10 @@ data class Address(
 enum class DeliveryType {
     HOME_DELIVERY,
     IN_STORE_PICKUP
+}
+
+enum class DeliveryStatus {
+    CREATED,
+    IN_PROGRESS,
+    DELIVERED
 }

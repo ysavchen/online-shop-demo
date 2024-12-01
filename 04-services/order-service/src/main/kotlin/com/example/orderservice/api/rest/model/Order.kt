@@ -12,7 +12,19 @@ data class OrderSearchRequest(
 data class CreateOrderRequest(
     val userId: UUID,
     val items: Set<OrderItem>,
-    val delivery: Delivery
+    val delivery: DeliveryRequest
+)
+
+data class CreateOrderResponse(
+    val id: UUID,
+    val userId: UUID,
+    val status: Status,
+    val items: Set<OrderItem>,
+    val totalQuantity: Int,
+    val totalPrice: TotalPrice,
+    val delivery: Delivery,
+    val createdAt: OffsetDateTime,
+    val updatedAt: OffsetDateTime
 )
 
 data class UpdateOrderStatusRequest(

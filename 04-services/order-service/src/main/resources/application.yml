@@ -52,11 +52,12 @@ application:
       kafka:
         connection:
           bootstrap-servers: http://localhost:9092
-        request.producer:
-          topic: delivery-service.request
-        response.consumer:
-          group-id: ${spring.application.name}
-          topics: delivery-service.response
+        replying.producer:
+          request:
+            topic: delivery-service.request
+          reply:
+            group-id-prefix: ${spring.application.name}
+            topics: delivery-service.response
 
 management:
   health:

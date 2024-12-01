@@ -21,6 +21,18 @@ object OrderMapper {
         updatedAt = updatedAt
     )
 
+    internal fun Order.toCreateOrderResponse(delivery: Delivery) = CreateOrderResponse(
+        id = id,
+        userId = userId,
+        status = status,
+        items = items,
+        totalQuantity = totalQuantity,
+        totalPrice = totalPrice,
+        delivery = delivery,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+
     internal fun TotalPriceEntity.toModel() = TotalPrice(
         value = value,
         currency = currency.toModel()
@@ -72,5 +84,4 @@ object OrderMapper {
         require(itemCurrencies.distinctBy { it }.size == itemCurrencies.size)
         return CurrencyEntity.valueOf(items.first().price.currency.name)
     }
-
 }
