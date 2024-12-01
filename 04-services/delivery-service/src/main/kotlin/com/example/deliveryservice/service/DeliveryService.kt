@@ -9,35 +9,24 @@ import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.repository.IdempotencyKeyRepository
 import com.example.deliveryservice.repository.entity.IdempotencyKeyEntity
-import com.example.deliveryservice.repository.entity.ResourceEntity
-import com.example.deliveryservice.response.kafka.client.ResponseDeliveryKafkaProducer
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.example.deliveryservice.repository.entity.ResourceEntity.DELIVERY
+import jakarta.transaction.Transactional
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.PlatformTransactionManager
-import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 
 @Service
 class DeliveryService(
     private val deliveryRepository: DeliveryRepository,
-    private val idempotencyKeyRepository: IdempotencyKeyRepository,
-    private val transactionManager: PlatformTransactionManager,
-    private val kafkaProducer: ResponseDeliveryKafkaProducer
+    private val idempotencyKeyRepository: IdempotencyKeyRepository
 ) {
 
-    companion object {
-        private val logger = KotlinLogging.logger(DeliveryService::class.java.name)
-    }
-
-    private val transactionTemplate = TransactionTemplate(transactionManager)
-
+    @Transactional
     fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ResponseDeliveryMessage {
         val key = idempotencyKeyRepository.findByIdOrNull(message.key())
         if (key != null) {
-            logger.debug { "Duplicate message with key=${key.idempotencyKey}, message already processed" }
-            throw RuntimeException()
+            throw DuplicateMessageException(key.idempotencyKey)
         }
 
         return when (val request = message.value()) {
@@ -46,13 +35,9 @@ class DeliveryService(
     }
 
     private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ResponseDeliveryMessage {
-        val delivery = transactionTemplate.execute {
-            val savedDelivery = deliveryRepository.save(request.data.toEntity())
-            idempotencyKeyRepository.save(
-                IdempotencyKeyEntity(messageKey, savedDelivery.id!!, ResourceEntity.DELIVERY)
-            )
-            savedDelivery.toModel()
-        }!!
+        val deliveryEntity = request.data.toEntity()
+        val delivery = deliveryRepository.save(deliveryEntity).toModel()
+        idempotencyKeyRepository.save(IdempotencyKeyEntity(messageKey, delivery.id, DELIVERY))
         return DeliveryCreatedResponse(delivery)
     }
 }

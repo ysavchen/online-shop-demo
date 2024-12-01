@@ -31,7 +31,7 @@ application:
           request:
             group-id: ${spring.application.name}
             topics: delivery-service.request
-          response:
+          reply:
             topic: delivery-service.response
 
 management:
