@@ -1,11 +1,11 @@
-package com.example.deliveryservice.reply.kafka.client
+package com.example.deliveryservice.reply.kafka.client.internal
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.header.Header
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 class ReplyDeliveryKafkaProducer(

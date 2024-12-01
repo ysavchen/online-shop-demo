@@ -1,10 +1,11 @@
-package com.example.deliveryservice.reply.kafka.client
+package com.example.deliveryservice.reply.kafka.client.internal
 
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
+import com.example.deliveryservice.reply.kafka.client.ReplyingDeliveryKafkaConsumer
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.listener.MessageListener
-import org.springframework.kafka.support.KafkaHeaders.CORRELATION_ID
-import java.util.*
+import org.springframework.kafka.support.KafkaHeaders
+import java.util.UUID
 
 class RequestDeliveryKafkaConsumer(
     private val enabled: Boolean,
@@ -15,7 +16,7 @@ class RequestDeliveryKafkaConsumer(
     override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>) {
         if (enabled) {
             val replyDeliveryMessage = kafkaConsumer.onMessage(data)
-            val correlationId = data.headers().lastHeader(CORRELATION_ID)
+            val correlationId = data.headers().lastHeader(KafkaHeaders.CORRELATION_ID)
             kafkaProducer.send(correlationId, replyDeliveryMessage)
         }
     }
