@@ -32,7 +32,7 @@ class BookClientService(private val bookServiceClient: BookServiceRestClient) {
 #### Kafka producer
 1. Add dependency
 ```kotlin
-implementation("com.example:order-service-domain-client-starter:1.0.0")
+implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
 ```
 2. Add configuration
 ```yaml
@@ -58,7 +58,7 @@ class DomainEventService(private val kafkaProducer: DomainOrderKafkaProducer) {
 #### Kafka consumer
 1. Add dependency
 ```kotlin
-implementation("com.example:order-service-domain-client-starter:1.0.0")
+implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
 ```
 2. Add configuration
 ```yaml
@@ -80,5 +80,72 @@ class DomainOrderKafkaConsumerImpl(private val bookService: BookService) : Domai
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
         bookService.processMessage(data)
     }
+}
+```
+
+### delivery-service-request-kafka-client
+1. Add dependency
+```kotlin
+implementation("com.example:delivery-service-request-kafka-client-starter:1.0.0")
+```
+2. Add configuration
+```yaml
+application:
+  clients:
+    delivery-service:
+      kafka:
+        connection:
+          bootstrap-servers: http://localhost:9092
+        replying.producer:
+          request:
+            topic: delivery-service.request
+          reply:
+            group-id-prefix: ${spring.application.name}
+            topics: delivery-service.reply
+```
+3. Use ReplyingDeliveryKafkaProducer in a service
+```kotlin
+@Service
+class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProducer) {
+
+    fun createDelivery(request: CreateDeliveryRequest): Delivery {
+        val reply = kafkaProducer.sendAndReceive(request).get().value()
+        val delivery = when (reply) {
+            is DeliveryCreatedReply -> reply.data.toModel()
+            //handle replies
+        }
+        return delivery
+    }
+}
+```
+
+### delivery-service-reply-kafka-client
+1. Add dependency
+```kotlin
+implementation("com.example:delivery-service-reply-kafka-client-starter:1.0.0")
+```
+2. Add configuration
+```yaml
+application:
+  clients:
+    delivery-service:
+      kafka:
+        connection:
+          bootstrap-servers: http://localhost:9092
+        replying.consumer:
+          request:
+            group-id: ${spring.application.name}
+            topics: delivery-service.request
+          reply:
+            topic: delivery-service.reply
+```
+3. Use ReplyingDeliveryKafkaConsumer in a service
+```kotlin
+@Component
+class ReplyingDeliveryKafkaConsumerImpl(private val deliveryService: DeliveryService) : ReplyingDeliveryKafkaConsumer {
+
+    override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage = 
+        deliveryService.processMessage(data)
+    
 }
 ```
