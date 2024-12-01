@@ -38,7 +38,7 @@ import java.util.*
     ReplyDeliveryKafkaProducerConfiguration::class,
     ReplyingDeliveryKafkaConsumerConfiguration::class
 )
-class ResponseDeliveryKafkaClientAutoConfiguration
+class ReplyDeliveryKafkaClientAutoConfiguration
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = propertiesPrefix, name = ["kafka.replying.consumer.request.topics"])
