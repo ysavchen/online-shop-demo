@@ -7,7 +7,7 @@ on:
       - '*/online-shop-model/**'
 
 jobs:
-  api-gateway:
+  online-shop-model:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
