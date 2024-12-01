@@ -38,3 +38,8 @@ class OrderItemValidationException(message: String) :
         ErrorCode.ORDER_ITEM_VALIDATION_ERROR,
         HttpStatus.FORBIDDEN
     )
+
+class DownstreamServiceException(
+    message: String,
+    val errorCode: ErrorCode = ErrorCode.DOWNSTREAM_SERVICE_ERROR
+) : RuntimeException(message)
