@@ -48,7 +48,9 @@ class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderK
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper),
+            JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper).apply {
+                isAddTypeInfo = false
+            },
             true
         )
     }

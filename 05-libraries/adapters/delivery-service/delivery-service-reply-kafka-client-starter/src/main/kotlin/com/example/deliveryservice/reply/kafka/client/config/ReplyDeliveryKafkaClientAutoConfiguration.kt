@@ -2,8 +2,8 @@ package com.example.deliveryservice.reply.kafka.client.config
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.reply.kafka.client.internal.ReplyDeliveryKafkaProducer
 import com.example.deliveryservice.reply.kafka.client.ReplyingDeliveryKafkaConsumer
+import com.example.deliveryservice.reply.kafka.client.internal.ReplyDeliveryKafkaProducer
 import com.example.deliveryservice.reply.kafka.client.internal.RequestDeliveryKafkaConsumer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
@@ -90,7 +90,9 @@ class ReplyDeliveryKafkaProducerConfiguration(private val properties: ReplyDeliv
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper),
+            JsonSerializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper).apply {
+                isAddTypeInfo = false
+            },
             true
         )
     }
