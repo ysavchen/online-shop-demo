@@ -28,14 +28,23 @@ class DeliveryService(
         }
 
         return when (val request = message.value()) {
+            is GetDeliveryByIdRequest -> processRequest(request)
             is CreateDeliveryRequest -> processRequest(message.key(), request)
         }
+    }
+
+    private fun processRequest(request: GetDeliveryByIdRequest): ReplyDeliveryMessage {
+        val id = request.data.deliveryId
+        val delivery = deliveryRepository.findByIdOrNull(id)?.toModel()
+        return if (delivery != null) {
+            DeliveryDataReply(delivery)
+        } else ClientErrorReply(DeliveryNotFoundError(id))
     }
 
     private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ReplyDeliveryMessage {
         val deliveryEntity = request.data.toEntity()
         val delivery = deliveryRepository.save(deliveryEntity).toModel()
         idempotencyKeyRepository.save(IdempotencyKeyEntity(messageKey, delivery.id, DELIVERY))
-        return DeliveryCreatedReply(delivery)
+        return DeliveryDataReply(delivery)
     }
 }

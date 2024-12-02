@@ -1,6 +1,6 @@
 package com.example.deliveryservice.mapping
 
-import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequestData
+import com.example.deliveryservice.kafka.client.model.CreateDelivery
 import com.example.deliveryservice.kafka.client.model.Delivery
 import com.example.deliveryservice.kafka.client.model.Status
 import com.example.deliveryservice.kafka.client.model.Type
@@ -13,7 +13,7 @@ import java.time.OffsetDateTime
 
 object DeliveryMapper {
 
-    internal fun CreateDeliveryRequestData.toEntity() = DeliveryEntity(
+    internal fun CreateDelivery.toEntity() = DeliveryEntity(
         type = type.toEntity(),
         status = StatusEntity.CREATED,
         address = address.toEntity(),
