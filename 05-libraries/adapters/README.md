@@ -75,7 +75,7 @@ application:
 3. Use DomainOrderKafkaConsumer in a service
 ```kotlin
 @Component
-class DomainOrderKafkaConsumerImpl(private val bookService: BookService) : DomainOrderKafkaConsumer {
+class OrderKafkaConsumer(private val bookService: BookService) : DomainOrderKafkaConsumer {
 
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
         bookService.processMessage(data)
@@ -142,10 +142,10 @@ application:
 3. Use ReplyingDeliveryKafkaConsumer in a service
 ```kotlin
 @Component
-class ReplyingDeliveryKafkaConsumerImpl(private val deliveryService: DeliveryService) : ReplyingDeliveryKafkaConsumer {
+class DeliveryKafkaConsumer(private val deliveryService: DeliveryService) : ReplyingDeliveryKafkaConsumer {
 
-    override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage = 
+    override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
         deliveryService.processMessage(data)
-    
+
 }
 ```
