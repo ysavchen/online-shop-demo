@@ -2,10 +2,14 @@ package com.example.deliveryservice.kafka.client.model
 
 import java.util.*
 
-data class CreateDeliveryRequestData(
+data class CreateDelivery(
     val type: Type,
     val address: Address,
     val orderId: UUID
+) : Data
+
+data class GetDeliveryById(
+    val deliveryId: UUID
 ) : Data
 
 data class Delivery(

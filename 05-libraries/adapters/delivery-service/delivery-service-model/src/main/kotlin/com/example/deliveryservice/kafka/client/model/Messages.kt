@@ -31,7 +31,7 @@ sealed class RequestDeliveryMessage(
     property = "@type"
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(value = DeliveryCreatedReply::class, name = MessageTypeName.DELIVERY_CREATED_REPLY),
+    JsonSubTypes.Type(value = DeliveryDataReply::class, name = MessageTypeName.DELIVERY_DATA_REPLY),
     JsonSubTypes.Type(value = ClientErrorReply::class, name = MessageTypeName.CLIENT_ERROR_REPLY)
 )
 sealed class ReplyDeliveryMessage(
@@ -52,13 +52,13 @@ data class ReplyMeta(val service: String, val type: MessageType, val statusCode:
 
 enum class MessageType(@JsonValue val messageTypeName: String) {
     CREATE_DELIVERY_REQUEST(MessageTypeName.CREATE_DELIVERY_REQUEST),
-    DELIVERY_CREATED_REPLY(MessageTypeName.DELIVERY_CREATED_REPLY),
+    DELIVERY_DATA_REPLY(MessageTypeName.DELIVERY_DATA_REPLY),
     CLIENT_ERROR_REPLY(MessageTypeName.CLIENT_ERROR_REPLY)
 }
 
 object MessageTypeName {
     const val CREATE_DELIVERY_REQUEST = "CREATE_DELIVERY_REQUEST"
-    const val DELIVERY_CREATED_REPLY = "DELIVERY_CREATED_REPLY"
+    const val DELIVERY_DATA_REPLY = "DELIVERY_DATA_REPLY"
     const val CLIENT_ERROR_REPLY = "CLIENT_ERROR_REPLY"
 }
 
@@ -67,7 +67,7 @@ enum class StatusCode {
 }
 
 data class CreateDeliveryRequest(
-    override val data: CreateDeliveryRequestData,
+    override val data: CreateDelivery,
     override val meta: RequestMeta = RequestMeta(
         service = "order-service",
         type = MessageType.CREATE_DELIVERY_REQUEST,
@@ -75,11 +75,20 @@ data class CreateDeliveryRequest(
     )
 ) : RequestDeliveryMessage(data = data, meta = meta)
 
-data class DeliveryCreatedReply(
+data class GetDeliveryByIdRequest(
+    override val data: GetDeliveryById,
+    override val meta: RequestMeta = RequestMeta(
+        service = "order-service",
+        type = MessageType.CREATE_DELIVERY_REQUEST,
+        version = 1
+    )
+) : RequestDeliveryMessage(data = data, meta = meta)
+
+data class DeliveryDataReply(
     override val data: Delivery,
     override val meta: ReplyMeta = ReplyMeta(
         service = "delivery-service",
-        type = MessageType.DELIVERY_CREATED_REPLY,
+        type = MessageType.DELIVERY_DATA_REPLY,
         statusCode = StatusCode.SUCCESS,
         version = 1
     )
