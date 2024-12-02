@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class ReplyingDeliveryKafkaConsumerImpl(
+class DeliveryKafkaConsumer(
     private val deliveryService: DeliveryService
 ) : ReplyingDeliveryKafkaConsumer {
 
-    override fun onMessage(
-        data: ConsumerRecord<UUID, RequestDeliveryMessage>
-    ): ReplyDeliveryMessage = deliveryService.processMessage(data)
+    override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
+        deliveryService.processMessage(data)
 
 }

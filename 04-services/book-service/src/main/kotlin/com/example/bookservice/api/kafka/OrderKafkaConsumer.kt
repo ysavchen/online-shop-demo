@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class DomainOrderKafkaConsumerImpl(
-    private val bookService: BookService
-) : DomainOrderKafkaConsumer {
+class OrderKafkaConsumer(private val bookService: BookService) : DomainOrderKafkaConsumer {
 
     override fun onMessage(data: ConsumerRecord<UUID, DomainEvent>) {
         bookService.processMessage(data)
