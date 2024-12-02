@@ -7,6 +7,7 @@ import com.example.bookservice.rest.client.model.Price
 import com.example.online.shop.model.Isbn
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
+import com.example.orderservice.test.DeliveryTestData.deliveryRequest
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
@@ -58,7 +59,7 @@ object OrderTestData {
     ) = CreateOrderRequest(
         userId = UUID.randomUUID(),
         items = items,
-        delivery = delivery()
+        delivery = deliveryRequest()
     )
 
     fun orderItem(
@@ -82,14 +83,26 @@ object OrderTestData {
             currency = ItemCurrency.valueOf(book.price!!.currency.name)
         )
     )
+}
 
-    fun delivery() = DeliveryRequest(
+object DeliveryTestData {
+
+    fun deliveryRequest() = DeliveryRequest(
         type = nextValue<DeliveryType>(),
-        address = DeliveryAddress(
-            country = randomAlphabetic(15),
-            city = randomAlphabetic(15),
-            street = randomAlphabetic(15),
-            building = randomNumeric(3)
-        )
+        address = deliveryAddress()
+    )
+
+    fun delivery() = Delivery(
+        id = UUID.randomUUID(),
+        type = nextValue<DeliveryType>(),
+        status = nextValue<DeliveryStatus>(),
+        address = deliveryAddress()
+    )
+
+    fun deliveryAddress() = DeliveryAddress(
+        country = randomAlphabetic(15),
+        city = randomAlphabetic(15),
+        street = randomAlphabetic(15),
+        building = randomNumeric(3)
     )
 }
