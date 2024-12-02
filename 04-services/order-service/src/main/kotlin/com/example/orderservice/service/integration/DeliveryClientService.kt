@@ -1,8 +1,7 @@
 package com.example.orderservice.service.integration
 
-import com.example.deliveryservice.kafka.client.model.ClientErrorReply
-import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
-import com.example.deliveryservice.kafka.client.model.DeliveryCreatedReply
+import com.example.deliveryservice.kafka.client.model.*
+import com.example.deliveryservice.kafka.client.model.ErrorCode.MESSAGE_ALREADY_PROCESSED
 import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducer
 import com.example.orderservice.api.rest.DownstreamServiceException
 import com.example.orderservice.api.rest.model.Delivery
@@ -19,12 +18,32 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         val request = CreateDeliveryRequest(request.toKafkaModel(orderId))
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
-            is DeliveryCreatedReply -> reply.data.toModel()
-            is ClientErrorReply -> throw DownstreamServiceException(
-                "Error message: ${reply.data.message}, " +
-                        "errorCode=${reply.data.errorCode}, service=${reply.meta.service}"
-            )
+            is DeliveryDataReply -> reply.data.toModel()
+            is ClientErrorReply ->
+                if (reply.data.errorCode == MESSAGE_ALREADY_PROCESSED) {
+                    recover(reply)
+                } else throw exception(reply)
         }
         return delivery
     }
+
+    fun deliveryById(id: UUID): Delivery {
+        val request = GetDeliveryByIdRequest(GetDeliveryById(id))
+        val reply = kafkaProducer.sendAndReceive(request).get().value()
+        val delivery = when (reply) {
+            is DeliveryDataReply -> reply.data.toModel()
+            is ClientErrorReply -> throw exception(reply)
+        }
+        return delivery
+    }
+
+    private fun recover(reply: ClientErrorReply): Delivery {
+        val details = reply.data.details as DuplicateMessageDetails
+        return deliveryById(details.resourceId)
+    }
+
+    private fun exception(reply: ClientErrorReply) = DownstreamServiceException(
+        message = reply.data.message,
+        service = reply.meta.service
+    )
 }

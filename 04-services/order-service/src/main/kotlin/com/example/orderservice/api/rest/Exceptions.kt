@@ -41,5 +41,6 @@ class OrderItemValidationException(message: String) :
 
 class DownstreamServiceException(
     message: String,
+    val service: String,
     val errorCode: ErrorCode = ErrorCode.DOWNSTREAM_SERVICE_ERROR
 ) : RuntimeException(message)
