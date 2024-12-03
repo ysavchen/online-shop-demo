@@ -15,9 +15,9 @@ data class ProcessedMessageEntity(
     @Column(name = "resource_id", nullable = false)
     val resourceId: UUID,
 
-    @Column(name = "resource", nullable = false)
+    @Column(name = "resource_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    val resource: ResourceEntity
+    val resourceType: ResourceTypeEntity
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -33,6 +33,6 @@ data class ProcessedMessageEntity(
     }
 }
 
-enum class ResourceEntity {
+enum class ResourceTypeEntity {
     DELIVERY
 }

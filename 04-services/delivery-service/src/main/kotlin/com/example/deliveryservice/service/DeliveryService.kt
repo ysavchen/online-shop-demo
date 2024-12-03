@@ -6,7 +6,7 @@ import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.repository.ProcessedMessageRepository
 import com.example.deliveryservice.repository.entity.ProcessedMessageEntity
-import com.example.deliveryservice.repository.entity.ResourceEntity.DELIVERY
+import com.example.deliveryservice.repository.entity.ResourceTypeEntity.DELIVERY
 import jakarta.transaction.Transactional
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull
@@ -23,6 +23,7 @@ class DeliveryService(
     fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
         when (val request = message.value()) {
             is GetDeliveryByIdRequest -> processRequest(request)
+            is GetDeliveryByOrderIdRequest -> processRequest(request)
             is CreateDeliveryRequest -> processRequest(message.key(), request)
         }
 
@@ -31,7 +32,15 @@ class DeliveryService(
         val delivery = deliveryRepository.findByIdOrNull(id)?.toModel()
         return if (delivery != null) {
             DeliveryDataReply(delivery)
-        } else DeliveryNotFoundErrorReply(DeliveryNotFoundError(id))
+        } else DeliveryNotFoundErrorReply(DeliveryNotFoundError("Delivery not found by id=$id"))
+    }
+
+    private fun processRequest(request: GetDeliveryByOrderIdRequest): ReplyDeliveryMessage {
+        val id = request.data.orderId
+        val delivery = deliveryRepository.findDeliveryByOrderId(id)?.toModel()
+        return if (delivery != null) {
+            DeliveryDataReply(delivery)
+        } else DeliveryNotFoundErrorReply(DeliveryNotFoundError("Delivery not found by orderId=$id"))
     }
 
     private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ReplyDeliveryMessage {
@@ -50,7 +59,7 @@ class DeliveryService(
             val error = DuplicateMessageError(
                 messageKey = processedMessage.messageKey,
                 resourceId = processedMessage.resourceId,
-                resource = processedMessage.resource.name.lowercase()
+                resource = processedMessage.resourceType.name.lowercase()
             )
             DuplicateMessageErrorReply(error)
         } else null
