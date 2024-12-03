@@ -4,22 +4,13 @@ import java.util.*
 
 data class DeliveryNotFoundError(
     val message: String,
-    val details: ResourceNotFoundDetails,
     val errorCode: ErrorCode,
 ) : Data {
-    constructor(id: UUID) : this(
-        message = "Delivery not found by id=$id",
-        errorCode = ErrorCode.RESOURCE_NOT_FOUND,
-        details = ResourceNotFoundDetails(id)
+    constructor(message: String) : this(
+        message = message,
+        errorCode = ErrorCode.RESOURCE_NOT_FOUND
     )
 }
-
-/**
- * Details to process an error by machine
- */
-data class ResourceNotFoundDetails(
-    val resourceId: UUID
-)
 
 data class DuplicateMessageError(
     val message: String,
