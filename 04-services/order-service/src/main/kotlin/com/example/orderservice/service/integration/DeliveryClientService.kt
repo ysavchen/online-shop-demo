@@ -1,7 +1,6 @@
 package com.example.orderservice.service.integration
 
 import com.example.deliveryservice.kafka.client.model.*
-import com.example.deliveryservice.kafka.client.model.ErrorCode.MESSAGE_ALREADY_PROCESSED
 import com.example.deliveryservice.request.kafka.client.ReplyingDeliveryKafkaProducer
 import com.example.orderservice.api.rest.DownstreamServiceException
 import com.example.orderservice.api.rest.model.Delivery
@@ -19,10 +18,8 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
             is DeliveryDataReply -> reply.data.toModel()
-            is ClientErrorReply ->
-                if (reply.data.errorCode == MESSAGE_ALREADY_PROCESSED) {
-                    recover(reply)
-                } else throw exception(reply)
+            is DuplicateMessageErrorReply -> recover(reply)
+            else -> throw exception(reply)
         }
         return delivery
     }
@@ -32,18 +29,17 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
             is DeliveryDataReply -> reply.data.toModel()
-            is ClientErrorReply -> throw exception(reply)
+            else -> throw exception(reply)
         }
         return delivery
     }
 
-    private fun recover(reply: ClientErrorReply): Delivery {
-        val details = reply.data.details as DuplicateMessageDetails
-        return deliveryById(details.resourceId)
+    private fun recover(reply: DuplicateMessageErrorReply): Delivery {
+        val id = reply.data.details.resourceId
+        return deliveryById(id)
     }
 
-    private fun exception(reply: ClientErrorReply) = DownstreamServiceException(
-        message = reply.data.message,
-        service = reply.meta.service
-    )
+    private fun exception(message: ReplyDeliveryMessage): DownstreamServiceException =
+        DownstreamServiceException(message.data.toString(), message.meta.service)
+
 }
