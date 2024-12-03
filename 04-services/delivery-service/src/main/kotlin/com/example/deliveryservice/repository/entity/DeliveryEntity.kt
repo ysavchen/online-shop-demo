@@ -4,6 +4,7 @@ import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.UuidGenerator
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -20,13 +21,16 @@ data class DeliveryEntity(
     @Enumerated(EnumType.STRING)
     val type: TypeEntity,
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    val status: StatusEntity,
+    @Column(name = "date", nullable = false)
+    val date: LocalDate,
 
     @Type(JsonBinaryType::class)
     @Column(name = "address", columnDefinition = "jsonb", nullable = false)
     val address: AddressEntity,
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val status: StatusEntity,
 
     @Column(columnDefinition = "order_id", nullable = false)
     val orderId: UUID,

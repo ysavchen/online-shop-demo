@@ -9,14 +9,16 @@ import com.example.deliveryservice.mapping.AddressMapper.toModel
 import com.example.deliveryservice.repository.entity.DeliveryEntity
 import com.example.deliveryservice.repository.entity.StatusEntity
 import com.example.deliveryservice.repository.entity.TypeEntity
+import java.time.LocalDate
 import java.time.OffsetDateTime
 
 object DeliveryMapper {
 
     internal fun CreateDelivery.toEntity() = DeliveryEntity(
         type = type.toEntity(),
-        status = StatusEntity.CREATED,
+        date = LocalDate.now().plusDays(3),
         address = address.toEntity(),
+        status = StatusEntity.CREATED,
         orderId = orderId,
         createdAt = OffsetDateTime.now(),
         updatedAt = OffsetDateTime.now()
@@ -25,8 +27,9 @@ object DeliveryMapper {
     internal fun DeliveryEntity.toModel() = Delivery(
         id = id!!,
         type = type.toModel(),
-        status = status.toModel(),
+        date = date,
         address = address.toModel(),
+        status = status.toModel(),
         orderId = orderId
     )
 

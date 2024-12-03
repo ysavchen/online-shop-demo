@@ -5,8 +5,9 @@ CREATE TABLE IF NOT EXISTS deliveries
 (
     id         uuid        PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     type       varchar(25) NOT NULL,
-    status     varchar(15) NOT NULL,
+    "date"     date        NOT NULL,
     address    jsonb       NOT NULL,
+    status     varchar(15) NOT NULL,
     order_id   uuid        NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     updated_at timestamptz NOT NULL DEFAULT NOW()
@@ -15,8 +16,9 @@ CREATE TABLE IF NOT EXISTS deliveries
 COMMENT ON TABLE deliveries IS 'Таблица для хранения информации о доставке заказа';
 COMMENT ON COLUMN deliveries.id IS 'ID записи, первичный ключ';
 COMMENT ON COLUMN deliveries.type IS 'Тип доставки';
-COMMENT ON COLUMN deliveries.status IS 'Статус доставки';
+COMMENT ON COLUMN deliveries."date" IS 'Дата доставки';
 COMMENT ON COLUMN deliveries.address IS 'Адрес доставки';
+COMMENT ON COLUMN deliveries.status IS 'Статус доставки';
 COMMENT ON COLUMN deliveries.order_id IS 'ID заказа, по которому осуществляется доставка';
 COMMENT ON COLUMN deliveries.created_at IS 'Дата и время создания записи';
 COMMENT ON COLUMN deliveries.updated_at IS 'Дата и время последнего изменения записи';
