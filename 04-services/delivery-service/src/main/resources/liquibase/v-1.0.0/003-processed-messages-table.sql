@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS processed_messages
 );
 
 COMMENT ON TABLE processed_messages IS 'Таблица для хранения обработанных сообщений';
-COMMENT ON COLUMN idempotency_keys.message_key IS 'Уникальный ключ сообщения, первичный ключ';
-COMMENT ON COLUMN idempotency_keys.resource_id IS 'ID ресурса';
-COMMENT ON COLUMN idempotency_keys.resource IS 'Название ресурса (delivery)';
+COMMENT ON COLUMN processed_messages.message_key IS 'Уникальный ключ сообщения, первичный ключ';
+COMMENT ON COLUMN processed_messages.resource_id IS 'ID ресурса';
+COMMENT ON COLUMN processed_messages.resource IS 'Название ресурса (delivery)';
