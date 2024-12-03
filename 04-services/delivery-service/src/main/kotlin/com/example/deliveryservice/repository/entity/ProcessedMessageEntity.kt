@@ -6,11 +6,11 @@ import java.util.*
 
 @Entity
 @Immutable
-@Table(name = "idempotency_keys")
-data class IdempotencyKeyEntity(
+@Table(name = "processed_messages")
+data class ProcessedMessageEntity(
     @Id
-    @Column(name = "idempotency_key", nullable = false)
-    val idempotencyKey: UUID,
+    @Column(name = "message_key", nullable = false)
+    val messageKey: UUID,
 
     @Column(name = "resource_id", nullable = false)
     val resourceId: UUID,
@@ -19,18 +19,17 @@ data class IdempotencyKeyEntity(
     @Enumerated(EnumType.STRING)
     val resource: ResourceEntity
 ) {
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as IdempotencyKeyEntity
+        other as ProcessedMessageEntity
 
-        return idempotencyKey == other.idempotencyKey
+        return messageKey == other.messageKey
     }
 
     override fun hashCode(): Int {
-        return idempotencyKey.hashCode()
+        return messageKey.hashCode()
     }
 }
 
