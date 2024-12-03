@@ -11,10 +11,13 @@ import java.time.Duration
 @Service
 class CacheService(private val redisTemplate: RedisTemplate<String, Order>) {
 
-    private val entryTtl = Duration.ofMinutes(ENTRY_TTL_MINUTES)
+    companion object {
+        private const val KEY_PREFIX = "$CACHE_NAME_PREFIX$ORDER_CACHE_NAME"
+        private val entryTtl = Duration.ofMinutes(ENTRY_TTL_MINUTES)
+    }
 
     fun set(order: Order) {
-        val key = "$CACHE_NAME_PREFIX$ORDER_CACHE_NAME::${order.id}"
+        val key = "$KEY_PREFIX::${order.id}"
         redisTemplate.opsForValue().set(key, order, entryTtl)
     }
 }
