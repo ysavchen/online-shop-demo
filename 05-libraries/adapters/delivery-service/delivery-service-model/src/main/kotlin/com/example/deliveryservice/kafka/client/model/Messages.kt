@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
+import java.util.*
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -54,6 +55,7 @@ data class ReplyMeta(val service: String, val type: MessageType, val statusCode:
 
 enum class MessageType(@JsonValue val messageTypeName: String) {
     GET_DELIVERY_BY_ID_REQUEST(MessageTypeName.GET_DELIVERY_BY_ID_REQUEST),
+    GET_DELIVERY_BY_ORDER_ID_REQUEST(MessageTypeName.GET_DELIVERY_BY_ORDER_ID_REQUEST),
     CREATE_DELIVERY_REQUEST(MessageTypeName.CREATE_DELIVERY_REQUEST),
     DELIVERY_DATA_REPLY(MessageTypeName.DELIVERY_DATA_REPLY),
     DELIVERY_NOT_FOUND_ERROR_REPLY(MessageTypeName.DELIVERY_NOT_FOUND_ERROR_REPLY),
@@ -62,6 +64,7 @@ enum class MessageType(@JsonValue val messageTypeName: String) {
 
 object MessageTypeName {
     const val GET_DELIVERY_BY_ID_REQUEST = "GET_DELIVERY_BY_ID_REQUEST"
+    const val GET_DELIVERY_BY_ORDER_ID_REQUEST = "GET_DELIVERY_BY_ORDER_ID_REQUEST"
     const val CREATE_DELIVERY_REQUEST = "CREATE_DELIVERY_REQUEST"
     const val DELIVERY_DATA_REPLY = "DELIVERY_DATA_REPLY"
     const val DELIVERY_NOT_FOUND_ERROR_REPLY = "DELIVERY_NOT_FOUND_ERROR_REPLY"
@@ -79,7 +82,20 @@ data class GetDeliveryByIdRequest(
         type = MessageType.GET_DELIVERY_BY_ID_REQUEST,
         version = 1
     )
-) : RequestDeliveryMessage(data = data, meta = meta)
+) : RequestDeliveryMessage(data = data, meta = meta) {
+    constructor(deliveryId: UUID) : this(GetDeliveryById(deliveryId))
+}
+
+data class GetDeliveryByOrderIdRequest(
+    override val data: GetDeliveryByOrderId,
+    override val meta: RequestMeta = RequestMeta(
+        service = "order-service",
+        type = MessageType.GET_DELIVERY_BY_ORDER_ID_REQUEST,
+        version = 1
+    )
+) : RequestDeliveryMessage(data = data, meta = meta) {
+    constructor(orderId: UUID) : this(GetDeliveryByOrderId(orderId))
+}
 
 data class CreateDeliveryRequest(
     override val data: CreateDelivery,

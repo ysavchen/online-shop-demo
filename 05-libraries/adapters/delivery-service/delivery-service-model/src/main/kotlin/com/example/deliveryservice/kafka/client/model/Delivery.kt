@@ -1,5 +1,6 @@
 package com.example.deliveryservice.kafka.client.model
 
+import java.time.LocalDate
 import java.util.*
 
 data class CreateDelivery(
@@ -12,11 +13,16 @@ data class GetDeliveryById(
     val deliveryId: UUID
 ) : Data
 
+data class GetDeliveryByOrderId(
+    val orderId: UUID
+) : Data
+
 data class Delivery(
     val id: UUID,
     val type: Type,
-    val status: Status,
+    val date: LocalDate,
     val address: Address,
+    val status: Status,
     val orderId: UUID
 ) : Data
 
