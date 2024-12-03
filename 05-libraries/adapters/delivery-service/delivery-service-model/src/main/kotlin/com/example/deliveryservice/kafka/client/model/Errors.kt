@@ -2,42 +2,47 @@ package com.example.deliveryservice.kafka.client.model
 
 import java.util.*
 
-open class ServiceError(
+data class DeliveryNotFoundError(
     val message: String,
+    val details: ResourceNotFoundDetails,
     val errorCode: ErrorCode,
-    val details: Details? = null
-) : Data
+) : Data {
+    constructor(id: UUID) : this(
+        message = "Delivery not found by id=$id",
+        errorCode = ErrorCode.RESOURCE_NOT_FOUND,
+        details = ResourceNotFoundDetails(id)
+    )
+}
 
 /**
  * Details to process an error by machine
  */
-interface Details
+data class ResourceNotFoundDetails(
+    val resourceId: UUID
+)
 
-class DuplicateMessageError(messageKey: UUID, resourceId: UUID, resource: String) :
-    ServiceError(
-        "Duplicate message with key=$messageKey, $resource already created with id=$resourceId",
-        ErrorCode.MESSAGE_ALREADY_PROCESSED,
-        DuplicateMessageDetails(messageKey, resourceId, resource)
+data class DuplicateMessageError(
+    val message: String,
+    val details: DuplicateMessageDetails,
+    val errorCode: ErrorCode
+) : Data {
+    constructor(messageKey: UUID, resourceId: UUID, resource: String) : this(
+        message = "Duplicate message with key=$messageKey, $resource already created with id=$resourceId",
+        errorCode = ErrorCode.DUPLICATE_MESSAGE_ERROR,
+        details = DuplicateMessageDetails(messageKey, resourceId, resource)
     )
+}
 
+/**
+ * Details to process an error by machine
+ */
 data class DuplicateMessageDetails(
     val messageKey: UUID,
     val resourceId: UUID,
     val resource: String
-) : Details
-
-class DeliveryNotFoundError(id: UUID) :
-    ServiceError(
-        "Delivery not found by id=$id",
-        ErrorCode.RESOURCE_NOT_FOUND,
-        ResourceNotFoundDetails(id)
-    )
-
-data class ResourceNotFoundDetails(
-    val resourceId: UUID
-) : Details
+)
 
 enum class ErrorCode {
     RESOURCE_NOT_FOUND,
-    MESSAGE_ALREADY_PROCESSED
+    DUPLICATE_MESSAGE_ERROR
 }

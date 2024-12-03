@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue
     property = "@type"
 )
 @JsonSubTypes(
+    JsonSubTypes.Type(value = GetDeliveryByIdRequest::class, name = MessageTypeName.GET_DELIVERY_BY_ID_REQUEST),
     JsonSubTypes.Type(value = CreateDeliveryRequest::class, name = MessageTypeName.CREATE_DELIVERY_REQUEST)
 )
 sealed class RequestDeliveryMessage(
@@ -32,7 +33,8 @@ sealed class RequestDeliveryMessage(
 )
 @JsonSubTypes(
     JsonSubTypes.Type(value = DeliveryDataReply::class, name = MessageTypeName.DELIVERY_DATA_REPLY),
-    JsonSubTypes.Type(value = ClientErrorReply::class, name = MessageTypeName.CLIENT_ERROR_REPLY)
+    JsonSubTypes.Type(value = DeliveryNotFoundErrorReply::class, name = MessageTypeName.DELIVERY_NOT_FOUND_ERROR_REPLY),
+    JsonSubTypes.Type(value = DuplicateMessageErrorReply::class, name = MessageTypeName.DUPLICATE_MESSAGE_ERROR_REPLY)
 )
 sealed class ReplyDeliveryMessage(
     open val data: Data,
@@ -51,32 +53,36 @@ data class RequestMeta(val service: String, val type: MessageType, val version: 
 data class ReplyMeta(val service: String, val type: MessageType, val statusCode: StatusCode, val version: Int)
 
 enum class MessageType(@JsonValue val messageTypeName: String) {
+    GET_DELIVERY_BY_ID_REQUEST(MessageTypeName.GET_DELIVERY_BY_ID_REQUEST),
     CREATE_DELIVERY_REQUEST(MessageTypeName.CREATE_DELIVERY_REQUEST),
     DELIVERY_DATA_REPLY(MessageTypeName.DELIVERY_DATA_REPLY),
-    CLIENT_ERROR_REPLY(MessageTypeName.CLIENT_ERROR_REPLY)
+    DELIVERY_NOT_FOUND_ERROR_REPLY(MessageTypeName.DELIVERY_NOT_FOUND_ERROR_REPLY),
+    DUPLICATE_MESSAGE_ERROR_REPLY(MessageTypeName.DUPLICATE_MESSAGE_ERROR_REPLY)
 }
 
 object MessageTypeName {
+    const val GET_DELIVERY_BY_ID_REQUEST = "GET_DELIVERY_BY_ID_REQUEST"
     const val CREATE_DELIVERY_REQUEST = "CREATE_DELIVERY_REQUEST"
     const val DELIVERY_DATA_REPLY = "DELIVERY_DATA_REPLY"
-    const val CLIENT_ERROR_REPLY = "CLIENT_ERROR_REPLY"
+    const val DELIVERY_NOT_FOUND_ERROR_REPLY = "DELIVERY_NOT_FOUND_ERROR_REPLY"
+    const val DUPLICATE_MESSAGE_ERROR_REPLY = "DUPLICATE_MESSAGE_ERROR_REPLY"
 }
 
 enum class StatusCode {
     SUCCESS, ERROR
 }
 
-data class CreateDeliveryRequest(
-    override val data: CreateDelivery,
+data class GetDeliveryByIdRequest(
+    override val data: GetDeliveryById,
     override val meta: RequestMeta = RequestMeta(
         service = "order-service",
-        type = MessageType.CREATE_DELIVERY_REQUEST,
+        type = MessageType.GET_DELIVERY_BY_ID_REQUEST,
         version = 1
     )
 ) : RequestDeliveryMessage(data = data, meta = meta)
 
-data class GetDeliveryByIdRequest(
-    override val data: GetDeliveryById,
+data class CreateDeliveryRequest(
+    override val data: CreateDelivery,
     override val meta: RequestMeta = RequestMeta(
         service = "order-service",
         type = MessageType.CREATE_DELIVERY_REQUEST,
@@ -94,11 +100,21 @@ data class DeliveryDataReply(
     )
 ) : ReplyDeliveryMessage(data = data, meta = meta)
 
-data class ClientErrorReply(
-    override val data: ServiceError,
+data class DeliveryNotFoundErrorReply(
+    override val data: DeliveryNotFoundError,
     override val meta: ReplyMeta = ReplyMeta(
         service = "delivery-service",
-        type = MessageType.CLIENT_ERROR_REPLY,
+        type = MessageType.DELIVERY_NOT_FOUND_ERROR_REPLY,
+        statusCode = StatusCode.ERROR,
+        version = 1
+    )
+) : ReplyDeliveryMessage(data = data, meta = meta)
+
+data class DuplicateMessageErrorReply(
+    override val data: DuplicateMessageError,
+    override val meta: ReplyMeta = ReplyMeta(
+        service = "delivery-service",
+        type = MessageType.DUPLICATE_MESSAGE_ERROR_REPLY,
         statusCode = StatusCode.ERROR,
         version = 1
     )
