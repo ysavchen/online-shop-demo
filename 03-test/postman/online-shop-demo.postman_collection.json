@@ -443,7 +443,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8091/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857",
+							"raw": "http://localhost:8091/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857?_embed=delivery",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -454,6 +454,12 @@
 								"v1",
 								"orders",
 								"019251e2-46c8-72b2-9a71-bb14e49a1857"
+							],
+							"query": [
+								{
+									"key": "_embed",
+									"value": "delivery"
+								}
 							]
 						}
 					},
