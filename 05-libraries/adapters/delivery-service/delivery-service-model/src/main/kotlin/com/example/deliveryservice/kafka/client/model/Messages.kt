@@ -13,6 +13,7 @@ import java.util.*
 )
 @JsonSubTypes(
     JsonSubTypes.Type(value = GetDeliveryByIdRequest::class, name = MessageTypeName.GET_DELIVERY_BY_ID_REQUEST),
+    JsonSubTypes.Type(value = GetDeliveryByOrderIdRequest::class, name = MessageTypeName.GET_DELIVERY_BY_ORDER_ID_REQUEST),
     JsonSubTypes.Type(value = CreateDeliveryRequest::class, name = MessageTypeName.CREATE_DELIVERY_REQUEST)
 )
 sealed class RequestDeliveryMessage(
