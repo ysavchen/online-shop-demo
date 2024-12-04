@@ -8,7 +8,6 @@ import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.config.CacheConfiguration.Companion.ORDER_CACHE_NAME
 import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
 import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
-import com.example.orderservice.mapping.api.OrderMapper.toCreateOrderResponse
 import com.example.orderservice.mapping.api.OrderMapper.toEntity
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
@@ -28,7 +27,6 @@ import com.example.orderservice.service.integration.DomainEventService
 import jakarta.persistence.OptimisticLockException
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CachePut
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.retry.support.RetryTemplate
@@ -53,18 +51,34 @@ class OrderService(
 ) {
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
+    private val readTransactionTemplate = TransactionTemplate(transactionManager)
+        .apply { isReadOnly = true }
 
     @Transactional(readOnly = true)
     fun getOrders(orderRequestParams: OrderRequestParams, request: OrderSearchRequest): PagedModel<Order> =
         orderRepository.findAll(searchSpec(request), orderRequestParams.toPageable()).toPagedModel()
 
-    @Cacheable(key = "#orderId")
-    @Transactional(readOnly = true)
-    fun getOrderById(orderId: UUID): Order = orderRepository.findByIdOrNull(orderId)?.toModel()
-        ?: throw OrderNotFoundException(orderId)
+    fun getOrderById(orderId: UUID, embed: Set<String>): Order {
+        val cachedOrder = cacheService.get(orderId)
+        if (cachedOrder != null && validateCache(cachedOrder, embed)) {
+            return cachedOrder
+        }
+
+        val order = readTransactionTemplate.execute {
+            orderRepository.findByIdOrNull(orderId)?.toModel() ?: throw OrderNotFoundException(orderId)
+        }!!.let { order ->
+            if (embed.contains(EmbeddedParam.DELIVERY)) {
+                val delivery = deliveryClientService.deliveryByOrderId(order.id)
+                order.copy(embedded = Embedded(delivery))
+            } else order
+        }.also { order ->
+            cacheService.set(order)
+        }
+        return order
+    }
 
     @CachePut(key = "#result.id")
-    fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): CreateOrderResponse {
+    fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
         request.validate()
         val processedRequest = requestRepository.findByIdOrNull(idempotencyKey)
         if (processedRequest?.resourceId != null) {
@@ -115,6 +129,14 @@ class OrderService(
             cacheService.set(order)
         }
         return order
+    }
+
+    private fun validateCache(order: Order, embedded: Set<String>): Boolean {
+        val isDeliveryRequested = embedded.contains(EmbeddedParam.DELIVERY)
+        val isDeliveryCached = order.embedded?.delivery != null
+        val requestedAndCached = isDeliveryRequested && isDeliveryCached
+        val notRequestedAndNotCached = !isDeliveryRequested && !isDeliveryCached
+        return requestedAndCached || notRequestedAndNotCached
     }
 
     //@formatter:off

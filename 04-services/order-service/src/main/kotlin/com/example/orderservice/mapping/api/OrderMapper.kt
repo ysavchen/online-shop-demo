@@ -17,18 +17,7 @@ object OrderMapper {
         items = items.map { it.toModel() }.toSet(),
         totalQuantity = totalQuantity,
         totalPrice = totalPrice.toModel(),
-        createdAt = createdAt,
-        updatedAt = updatedAt
-    )
-
-    internal fun Order.toCreateOrderResponse(delivery: Delivery) = CreateOrderResponse(
-        id = id,
-        userId = userId,
-        status = status,
-        items = items,
-        totalQuantity = totalQuantity,
-        totalPrice = totalPrice,
-        delivery = delivery,
+        embedded = null,
         createdAt = createdAt,
         updatedAt = updatedAt
     )

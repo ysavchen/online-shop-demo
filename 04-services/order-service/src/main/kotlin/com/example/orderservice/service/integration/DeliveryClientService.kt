@@ -24,8 +24,18 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         return delivery
     }
 
-    fun deliveryById(id: UUID): Delivery {
-        val request = GetDeliveryByIdRequest(GetDeliveryById(id))
+    fun deliveryById(deliveryId: UUID): Delivery {
+        val request = GetDeliveryByIdRequest(deliveryId)
+        val reply = kafkaProducer.sendAndReceive(request).get().value()
+        val delivery = when (reply) {
+            is DeliveryDataReply -> reply.data.toModel()
+            else -> throw exception(reply)
+        }
+        return delivery
+    }
+
+    fun deliveryByOrderId(orderId: UUID): Delivery {
+        val request = GetDeliveryByOrderIdRequest(orderId)
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
             is DeliveryDataReply -> reply.data.toModel()

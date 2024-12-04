@@ -1,5 +1,6 @@
 package com.example.orderservice.api.rest.model
 
+import java.time.LocalDate
 import java.util.*
 
 data class DeliveryRequest(
@@ -10,6 +11,7 @@ data class DeliveryRequest(
 data class Delivery(
     val id: UUID,
     val type: DeliveryType,
+    val date: LocalDate,
     val address: DeliveryAddress,
     val status: DeliveryStatus
 )

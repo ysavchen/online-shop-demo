@@ -3,6 +3,7 @@ package com.example.orderservice.api.rest
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.service.OrderService
 import io.swagger.v3.oas.annotations.Operation
+import org.springframework.boot.convert.Delimiter
 import org.springframework.data.web.PagedModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -22,7 +23,11 @@ class OrderController(private val orderService: OrderService) {
 
     @Operation(summary = "Get order by id")
     @GetMapping("/orders/{orderId}")
-    fun orderById(@PathVariable("orderId") orderId: UUID): Order = orderService.getOrderById(orderId)
+    fun orderById(
+        @PathVariable("orderId") orderId: UUID,
+        @RequestParam("_embed", required = false, defaultValue = "")
+        @Delimiter(",") embed: Set<String>
+    ): Order = orderService.getOrderById(orderId, embed)
 
     @Operation(summary = "Create order")
     @PostMapping("/orders", consumes = [MediaType.APPLICATION_JSON_VALUE])
@@ -30,7 +35,7 @@ class OrderController(private val orderService: OrderService) {
     fun createOrder(
         @RequestHeader(IDEMPOTENCY_KEY) idempotencyKey: UUID,
         @RequestBody request: CreateOrderRequest
-    ): CreateOrderResponse = orderService.createOrder(idempotencyKey, request)
+    ): Order = orderService.createOrder(idempotencyKey, request)
 
     @Operation(summary = "Update order status")
     @PatchMapping("/orders/{orderId}/status", consumes = [MediaType.APPLICATION_JSON_VALUE])

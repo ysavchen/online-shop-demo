@@ -12,3 +12,7 @@ constructor(
     val sortBy: String = "created_at",
     val orderBy: String = "desc"
 )
+
+object EmbeddedParam {
+    const val DELIVERY = "delivery"
+}

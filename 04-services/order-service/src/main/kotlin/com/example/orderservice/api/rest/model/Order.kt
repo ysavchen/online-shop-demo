@@ -18,18 +18,6 @@ data class CreateOrderRequest(
     val delivery: DeliveryRequest
 )
 
-data class CreateOrderResponse(
-    val id: UUID,
-    val userId: UUID,
-    val status: Status,
-    val items: Set<OrderItem>,
-    val totalQuantity: Int,
-    val totalPrice: TotalPrice,
-    val delivery: Delivery,
-    val createdAt: OffsetDateTime,
-    val updatedAt: OffsetDateTime
-)
-
 data class UpdateOrderStatusRequest(
     val status: Status
 )

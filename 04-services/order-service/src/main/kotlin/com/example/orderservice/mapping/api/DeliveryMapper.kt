@@ -15,6 +15,7 @@ object DeliveryMapper {
     internal fun Delivery.toModel() = OrderDelivery(
         id = id,
         type = type.toModel(),
+        date = date,
         address = address.toModel(),
         status = status.toModel()
     )
