@@ -64,7 +64,8 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
                 ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.producer.reply.groupIdPrefix + "-" + postfix,
-                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.LATEST.name.lowercase()
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.LATEST.name.lowercase(),
+                ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG to "false"
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
