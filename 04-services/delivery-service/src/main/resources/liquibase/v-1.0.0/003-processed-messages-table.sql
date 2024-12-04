@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS processed_messages
 COMMENT ON TABLE processed_messages IS 'Таблица для хранения обработанных сообщений';
 COMMENT ON COLUMN processed_messages.message_key IS 'Уникальный ключ сообщения, первичный ключ';
 COMMENT ON COLUMN processed_messages.resource_id IS 'ID ресурса';
-COMMENT ON COLUMN processed_messages.resource_type IS 'Тип ресурса (delivery)';
+COMMENT ON COLUMN processed_messages.resource_type IS 'Тип ресурса';

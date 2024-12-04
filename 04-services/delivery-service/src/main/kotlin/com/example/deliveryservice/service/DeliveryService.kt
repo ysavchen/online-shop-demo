@@ -16,7 +16,7 @@ import java.util.*
 @Service
 class DeliveryService(
     private val deliveryRepository: DeliveryRepository,
-    private val processedMessageRepository: ProcessedMessageRepository
+    private val messageRepository: ProcessedMessageRepository
 ) {
 
     @Transactional
@@ -49,12 +49,12 @@ class DeliveryService(
 
         val deliveryEntity = request.data.toEntity()
         val delivery = deliveryRepository.save(deliveryEntity).toModel()
-        processedMessageRepository.save(ProcessedMessageEntity(messageKey, delivery.id, DELIVERY))
+        messageRepository.save(ProcessedMessageEntity(messageKey, delivery.id, DELIVERY))
         return DeliveryDataReply(delivery)
     }
 
     private fun validateMessage(messageKey: UUID): DuplicateMessageErrorReply? {
-        val processedMessage = processedMessageRepository.findByIdOrNull(messageKey)
+        val processedMessage = messageRepository.findByIdOrNull(messageKey)
         return if (processedMessage != null) {
             val error = DuplicateMessageError(
                 messageKey = processedMessage.messageKey,
