@@ -105,7 +105,9 @@ data class CreateDeliveryRequest(
         type = MessageType.CREATE_DELIVERY_REQUEST,
         version = 1
     )
-) : RequestDeliveryMessage(data = data, meta = meta)
+) : RequestDeliveryMessage(data = data, meta = meta) {
+    constructor(type: Type, address: Address, orderId: UUID) : this(CreateDelivery(type, address, orderId))
+}
 
 data class DeliveryDataReply(
     override val data: Delivery,
@@ -125,7 +127,9 @@ data class DeliveryNotFoundErrorReply(
         statusCode = StatusCode.ERROR,
         version = 1
     )
-) : ReplyDeliveryMessage(data = data, meta = meta)
+) : ReplyDeliveryMessage(data = data, meta = meta) {
+    constructor(message: String) : this(DeliveryNotFoundError(message))
+}
 
 data class DuplicateMessageErrorReply(
     override val data: DuplicateMessageError,
@@ -135,4 +139,8 @@ data class DuplicateMessageErrorReply(
         statusCode = StatusCode.ERROR,
         version = 1
     )
-) : ReplyDeliveryMessage(data = data, meta = meta)
+) : ReplyDeliveryMessage(data = data, meta = meta) {
+    constructor(messageKey: UUID, resourceId: UUID, resource: String) : this(
+        DuplicateMessageError(messageKey, resourceId, resource)
+    )
+}
