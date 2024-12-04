@@ -2,6 +2,8 @@ package com.example.deliveryservice.request.kafka.client.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
+import org.springframework.boot.context.properties.bind.DefaultValue
+import java.time.Duration
 
 internal const val propertiesPrefix = "application.clients.delivery-service"
 
@@ -39,7 +41,8 @@ data class KafkaProducerProperties(
     @NestedConfigurationProperty
     val reply: ReplyProperties,
 
-    val enabled: Boolean = true
+    @DefaultValue("true")
+    val enabled: Boolean
 )
 
 data class RequestProperties(
@@ -54,5 +57,6 @@ data class ReplyProperties(
     /**
      * topic: delivery-service.reply
      */
-    val topics: Set<String>
+    val topics: Set<String>,
+    val timeout: Duration = Duration.ofSeconds(3)
 )

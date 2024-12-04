@@ -2,6 +2,7 @@ package com.example.orderservice.domain.kafka.client.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
+import org.springframework.boot.context.properties.bind.DefaultValue
 
 internal const val propertiesPrefix = "application.clients.order-service"
 
@@ -40,7 +41,9 @@ data class KafkaProducerProperties(
      * topic: order-service.domain
      */
     val topic: String,
-    val enabled: Boolean = true
+
+    @DefaultValue("true")
+    val enabled: Boolean
 )
 
 data class KafkaConsumerProperties(
@@ -49,5 +52,7 @@ data class KafkaConsumerProperties(
      * topics: order-service.domain
      */
     val topics: Set<String>,
-    val enabled: Boolean = true
+
+    @DefaultValue("true")
+    val enabled: Boolean
 )

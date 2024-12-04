@@ -30,7 +30,6 @@ import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonSerializer
-import java.time.Duration
 import java.time.Instant
 import java.util.*
 
@@ -101,7 +100,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
         ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, replyDeliveryKafkaListenerContainer)
             .apply {
                 defaultTopic = properties.kafka.replying.producer.request.topic
-                setDefaultReplyTimeout(Duration.ofSeconds(3))
+                setDefaultReplyTimeout(properties.kafka.replying.producer.reply.timeout)
                 setBinaryCorrelation(false)
                 setObservationEnabled(true)
             }

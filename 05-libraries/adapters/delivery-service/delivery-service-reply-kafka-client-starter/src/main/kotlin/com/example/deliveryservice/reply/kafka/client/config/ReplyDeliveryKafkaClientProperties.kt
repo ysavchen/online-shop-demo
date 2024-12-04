@@ -2,6 +2,7 @@ package com.example.deliveryservice.reply.kafka.client.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
+import org.springframework.boot.context.properties.bind.DefaultValue
 
 internal const val propertiesPrefix = "application.clients.delivery-service"
 
@@ -39,7 +40,8 @@ data class KafkaConsumerProperties(
     @NestedConfigurationProperty
     val reply: ReplyProperties,
 
-    val enabled: Boolean = true
+    @DefaultValue("true")
+    val enabled: Boolean
 )
 
 data class RequestProperties(
