@@ -3,7 +3,7 @@
 --changeset ysavchen:004.01 runOnChange:false splitStatements:true runInTransaction:false
 CREATE TABLE IF NOT EXISTS idempotency_keys
 (
-    idempotency_key uuid        NOT NULL,
+    idempotency_key uuid        PRIMARY KEY,
     resource_id     uuid        NOT NULL,
     resource        varchar(15) NOT NULL,
     created_at      timestamptz NOT NULL DEFAULT NOW()
