@@ -81,7 +81,7 @@ class OrderService(
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): Order {
         request.validate()
         val processedRequest = requestRepository.findByIdOrNull(idempotencyKey)
-        if (processedRequest?.resourceId != null) {
+        if (processedRequest != null) {
             throw DuplicateRequestException(
                 idempotencyKey = processedRequest.idempotencyKey,
                 resourceId = processedRequest.resourceId,
