@@ -14,11 +14,11 @@ import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.mapping.api.OrderMapper.toPagedModel
 import com.example.orderservice.mapping.api.RequestMapper.toPageable
 import com.example.orderservice.mapping.integration.OrderMapper.toDomainModel
-import com.example.orderservice.repository.IdempotencyKeyRepository
 import com.example.orderservice.repository.OrderRepository
 import com.example.orderservice.repository.OrderRepository.Companion.searchSpec
-import com.example.orderservice.repository.entity.IdempotencyKeyEntity
-import com.example.orderservice.repository.entity.ResourceEntity.ORDER
+import com.example.orderservice.repository.ProcessedRequestRepository
+import com.example.orderservice.repository.entity.ProcessedRequestEntity
+import com.example.orderservice.repository.entity.ResourceTypeEntity.ORDER
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.repository.entity.StatusEntity.*
 import com.example.orderservice.service.RequestValidation.validate
@@ -43,7 +43,7 @@ import java.util.*
 class OrderService(
     private val metricService: MetricService,
     private val orderRepository: OrderRepository,
-    private val idempotencyKeyRepository: IdempotencyKeyRepository,
+    private val requestRepository: ProcessedRequestRepository,
     private val transactionManager: PlatformTransactionManager,
     private val cacheService: CacheService,
     private val retryTemplate: RetryTemplate,
@@ -66,18 +66,21 @@ class OrderService(
     @CachePut(key = "#result.id")
     fun createOrder(idempotencyKey: UUID, request: CreateOrderRequest): CreateOrderResponse {
         request.validate()
-        transactionTemplate.execute {
-            val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-            if (key?.resourceId != null) {
-                throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
-            }
+        val processedRequest = requestRepository.findByIdOrNull(idempotencyKey)
+        if (processedRequest?.resourceId != null) {
+            throw DuplicateRequestException(
+                idempotencyKey = processedRequest.idempotencyKey,
+                resourceId = processedRequest.resourceId,
+                resource = processedRequest.resourceType.name.lowercase()
+            )
         }
         bookClientService.validateBooks(request.items)
 
-        val orderResponse = transactionTemplate.execute {
+        val order = transactionTemplate.execute {
             val order = orderRepository.save(request.toEntity()).toModel()
-            idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, order.id, ORDER))
-            order
+            val delivery = deliveryClientService.createDelivery(order.id, request.delivery)
+            requestRepository.save(ProcessedRequestEntity(idempotencyKey, order.id, ORDER))
+            order.copy(embedded = Embedded(delivery))
         }!!.also { order ->
             metricService.countOrders(order.status)
             metricService.lastOrderTime(order.createdAt)
@@ -85,11 +88,8 @@ class OrderService(
         }.also { order ->
             val event = OrderCreatedEvent(order.toDomainModel())
             domainEventService.send(event)
-        }.let { order ->
-            val delivery = deliveryClientService.createDelivery(order.id, request.delivery)
-            order.toCreateOrderResponse(delivery)
         }
-        return orderResponse
+        return order
     }
 
     fun updateOrderStatus(orderId: UUID, newStatus: Status): Order {

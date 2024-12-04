@@ -1,5 +1,8 @@
 package com.example.orderservice.api.rest.model
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude.Include
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -38,9 +41,16 @@ data class Order(
     val items: Set<OrderItem>,
     val totalQuantity: Int,
     val totalPrice: TotalPrice,
+    @JsonInclude(Include.NON_NULL)
+    @JsonProperty("_embedded")
+    val embedded: Embedded?,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
-) : Serializable
+) : RepresentationModel<Order>
+
+data class Embedded(
+    val delivery: Delivery
+)
 
 data class TotalPrice(
     val value: BigDecimal,
