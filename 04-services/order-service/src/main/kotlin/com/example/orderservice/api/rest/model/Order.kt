@@ -34,11 +34,11 @@ data class Order(
     val embedded: Embedded?,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
-) : RepresentationModel<Order>
+) : Serializable
 
 data class Embedded(
     val delivery: Delivery
-)
+) : Serializable
 
 data class TotalPrice(
     val value: BigDecimal,
