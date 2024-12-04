@@ -10,11 +10,13 @@ import com.example.bookservice.mapping.BookMapper.toPagedModel
 import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.repository.BookRepository
 import com.example.bookservice.repository.BookRepository.Companion.searchSpec
-import com.example.bookservice.repository.IdempotencyKeyRepository
-import com.example.bookservice.repository.entity.IdempotencyKeyEntity
+import com.example.bookservice.repository.ProcessedMessageRepository
+import com.example.bookservice.repository.ProcessedRequestRepository
 import com.example.bookservice.repository.entity.PriceEntity
-import com.example.bookservice.repository.entity.ResourceEntity.BOOK
-import com.example.bookservice.repository.entity.ResourceEntity.ORDER
+import com.example.bookservice.repository.entity.ProcessedMessageEntity
+import com.example.bookservice.repository.entity.ProcessedRequestEntity
+import com.example.bookservice.repository.entity.ResourceTypeEntity.BOOK
+import com.example.bookservice.repository.entity.ResourceTypeEntity.ORDER
 import com.example.bookservice.service.RequestValidation.validate
 import com.example.orderservice.domain.kafka.client.model.*
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -30,7 +32,8 @@ import java.util.*
 @Service
 class BookService(
     private val bookRepository: BookRepository,
-    private val idempotencyKeyRepository: IdempotencyKeyRepository
+    private val requestRepository: ProcessedRequestRepository,
+    private val messageRepository: ProcessedMessageRepository
 ) {
 
     companion object {
@@ -57,12 +60,16 @@ class BookService(
 
     @Transactional
     fun createBook(idempotencyKey: UUID, request: CreateBookRequest): Book {
-        val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.resourceId != null) {
-            throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
+        val processedRequest = requestRepository.findByIdOrNull(idempotencyKey)
+        if (processedRequest != null) {
+            throw DuplicateRequestException(
+                idempotencyKey = processedRequest.idempotencyKey,
+                resourceId = processedRequest.resourceId,
+                resource = processedRequest.resourceType.name.lowercase()
+            )
         }
         val book = bookRepository.save(request.toEntity()).toModel()
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(idempotencyKey, book.id, BOOK))
+        requestRepository.save(ProcessedRequestEntity(idempotencyKey, book.id, BOOK))
         return book
     }
 
@@ -80,9 +87,9 @@ class BookService(
     @Retryable(retryFor = [LockTimeoutException::class])
     @Transactional
     fun processMessage(message: ConsumerRecord<UUID, DomainEvent>) {
-        val key = idempotencyKeyRepository.findByIdOrNull(message.key())
-        if (key != null) {
-            logger.debug { "Duplicate message with key=${key.idempotencyKey}, message already processed" }
+        val processedMessage = messageRepository.findByIdOrNull(message.key())
+        if (processedMessage != null) {
+            logger.debug { "Duplicate message with key=${processedMessage.messageKey}, message already processed" }
             return
         }
 
@@ -90,7 +97,7 @@ class BookService(
             is OrderCreatedEvent -> processCreatedOrder(event.data)
             is OrderUpdatedEvent -> processUpdatedOrder(event.data)
         }
-        idempotencyKeyRepository.save(IdempotencyKeyEntity(message.key(), order.id, ORDER))
+        messageRepository.save(ProcessedMessageEntity(message.key(), order.id, ORDER))
     }
 
     private fun processCreatedOrder(order: Order): Order {

@@ -10,11 +10,11 @@ import com.example.bookservice.mapping.RequestMapper.toPageable
 import com.example.bookservice.mapping.ReviewMapper.toEntity
 import com.example.bookservice.mapping.ReviewMapper.toModel
 import com.example.bookservice.mapping.ReviewMapper.toPagedModel
-import com.example.bookservice.repository.IdempotencyKeyRepository
+import com.example.bookservice.repository.ProcessedRequestRepository
 import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.repository.ReviewRepository.Companion.searchSpec
-import com.example.bookservice.repository.entity.IdempotencyKeyEntity
-import com.example.bookservice.repository.entity.ResourceEntity
+import com.example.bookservice.repository.entity.ProcessedRequestEntity
+import com.example.bookservice.repository.entity.ResourceTypeEntity.REVIEW
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.web.PagedModel
 import org.springframework.stereotype.Service
@@ -24,7 +24,7 @@ import java.util.*
 @Service
 class ReviewService(
     private val reviewRepository: ReviewRepository,
-    private val idempotencyKeyRepository: IdempotencyKeyRepository
+    private val requestRepository: ProcessedRequestRepository
 ) {
 
     @Transactional(readOnly = true)
@@ -37,14 +37,16 @@ class ReviewService(
 
     @Transactional
     fun createReview(idempotencyKey: UUID, request: CreateReviewRequest): Review {
-        val key = idempotencyKeyRepository.findByIdOrNull(idempotencyKey)
-        if (key?.resourceId != null) {
-            throw DuplicateRequestException(key.idempotencyKey, key.resourceId, key.resource.name.lowercase())
+        val processedRequest = requestRepository.findByIdOrNull(idempotencyKey)
+        if (processedRequest != null) {
+            throw DuplicateRequestException(
+                idempotencyKey = processedRequest.idempotencyKey,
+                resourceId = processedRequest.resourceId,
+                resource = processedRequest.resourceType.name.lowercase()
+            )
         }
-        val savedReview = reviewRepository.save(request.toEntity())
-        idempotencyKeyRepository.save(
-            IdempotencyKeyEntity(idempotencyKey, savedReview.id!!, ResourceEntity.REVIEW)
-        )
-        return savedReview.toModel()
+        val review = reviewRepository.save(request.toEntity()).toModel()
+        requestRepository.save(ProcessedRequestEntity(idempotencyKey, review.id, REVIEW))
+        return review
     }
 }

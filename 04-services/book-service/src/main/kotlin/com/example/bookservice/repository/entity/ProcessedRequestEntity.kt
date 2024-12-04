@@ -7,8 +7,8 @@ import java.util.*
 
 @Entity
 @Immutable
-@Table(name = "idempotency_keys")
-data class IdempotencyKeyEntity(
+@Table(name = "processed_requests")
+data class ProcessedRequestEntity(
     @Id
     @Column(name = "idempotency_key", nullable = false)
     val idempotencyKey: UUID,
@@ -16,16 +16,15 @@ data class IdempotencyKeyEntity(
     @Column(name = "resource_id", nullable = false)
     val resourceId: UUID,
 
-    @Column(name = "resource", nullable = false)
+    @Column(name = "resource_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    val resource: ResourceEntity
+    val resourceType: ResourceTypeEntity
 ) {
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as IdempotencyKeyEntity
+        other as ProcessedRequestEntity
 
         return idempotencyKey == other.idempotencyKey
     }
@@ -33,8 +32,4 @@ data class IdempotencyKeyEntity(
     override fun hashCode(): Int {
         return idempotencyKey.hashCode()
     }
-}
-
-enum class ResourceEntity {
-    BOOK, REVIEW, ORDER
 }

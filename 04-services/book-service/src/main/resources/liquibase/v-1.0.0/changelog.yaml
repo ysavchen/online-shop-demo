@@ -9,14 +9,17 @@ databaseChangeLog:
       file: liquibase/v-1.0.0/003-reviews-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/004-idempotency-keys-table.sql
+      file: liquibase/v-1.0.0/004-processed-requests-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/005-books-data.sql
+      file: liquibase/v-1.0.0/005-processed-messages-table.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/006-get-book-id-func.sql
+      file: liquibase/v-1.0.0/006-books-data.sql
       relativeToChangelogFile: false
   - include:
-      file: liquibase/v-1.0.0/007-reviews-data.sql
+      file: liquibase/v-1.0.0/007-get-book-id-func.sql
+      relativeToChangelogFile: false
+  - include:
+      file: liquibase/v-1.0.0/008-reviews-data.sql
       relativeToChangelogFile: false
