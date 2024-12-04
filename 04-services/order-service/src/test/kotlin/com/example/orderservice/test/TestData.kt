@@ -95,8 +95,9 @@ object DeliveryTestData {
     fun delivery() = Delivery(
         id = UUID.randomUUID(),
         type = nextValue<DeliveryType>(),
-        status = nextValue<DeliveryStatus>(),
-        address = deliveryAddress()
+        date = randomLocalDate(),
+        address = deliveryAddress(),
+        status = nextValue<DeliveryStatus>()
     )
 
     fun deliveryAddress() = DeliveryAddress(

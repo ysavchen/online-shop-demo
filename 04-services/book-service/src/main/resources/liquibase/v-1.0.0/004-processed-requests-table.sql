@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS processed_requests
     created_at      timestamptz NOT NULL DEFAULT NOW()
 );
 
-COMMENT ON TABLE idempotency_keys IS 'Таблица для хранения обработанных запросов';
-COMMENT ON COLUMN idempotency_keys.idempotency_key IS 'Ключ идемпотентности запроса';
-COMMENT ON COLUMN idempotency_keys.resource_id IS 'ID ресурса';
-COMMENT ON COLUMN idempotency_keys.resource_type IS 'Тип ресурса';
+COMMENT ON TABLE processed_requests IS 'Таблица для хранения обработанных запросов';
+COMMENT ON COLUMN processed_requests.idempotency_key IS 'Ключ идемпотентности запроса';
+COMMENT ON COLUMN processed_requests.resource_id IS 'ID ресурса';
+COMMENT ON COLUMN processed_requests.resource_type IS 'Тип ресурса';
