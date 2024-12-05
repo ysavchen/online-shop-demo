@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS processed_requests
 );
 
 COMMENT ON TABLE processed_requests IS 'Таблица для хранения обработанных запросов';
-COMMENT ON COLUMN processed_requests.idempotency_key IS 'Ключ идемпотентности запроса';
+COMMENT ON COLUMN processed_requests.idempotency_key IS 'Ключ идемпотентности запроса, первичный ключ';
 COMMENT ON COLUMN processed_requests.resource_id IS 'ID ресурса';
 COMMENT ON COLUMN processed_requests.resource_type IS 'Тип ресурса';

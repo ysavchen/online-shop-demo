@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset ysavchen:005.01 runOnChange:false splitStatements:false runInTransaction:false
+--changeset ysavchen:006.01 runOnChange:false splitStatements:false runInTransaction:false
 INSERT INTO books (id, isbn, title, authors, description, genre, quantity, price, currency)
 VALUES
   (

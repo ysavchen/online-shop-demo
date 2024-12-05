@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset ysavchen:006.01 runOnChange:false splitStatements:false runInTransaction:false
+--changeset ysavchen:007.01 runOnChange:false splitStatements:false runInTransaction:false
 CREATE OR REPLACE FUNCTION get_book_id(title varchar(150)) RETURNS uuid AS
 $$
 DECLARE book_id uuid;
