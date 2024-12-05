@@ -14,7 +14,7 @@ VALUES
   (
     '019251d3-4b85-7696-a9b9-b05c5d8e6a9e',
     '0190bd8a-8d20-72b2-a4a6-46de1cb92e06',
-    'CREATED',
+    'IN_PROGRESS',
     2,
     2325.41,
     'RUB'
@@ -22,7 +22,7 @@ VALUES
   (
     '0190bd82-13e5-77fe-bb73-0764d5e3efdb',
     '0190bd8a-8d20-72b2-a4a6-46de1cb92e06',
-    'CREATED',
+    'DELIVERED',
     3,
     1148.81,
     'RUB'
