@@ -14,7 +14,7 @@ import java.util.*
 class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProducer) {
 
     fun createDelivery(orderId: UUID, request: DeliveryRequest): Delivery {
-        val request = CreateDeliveryRequest(request.toKafkaModel(orderId))
+        val request = request.toKafkaModel(orderId)
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
             is DeliveryDataReply -> reply.data.toModel()

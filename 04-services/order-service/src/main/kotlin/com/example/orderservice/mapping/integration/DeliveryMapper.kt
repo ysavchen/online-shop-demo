@@ -1,7 +1,7 @@
 package com.example.orderservice.mapping.integration
 
 import com.example.deliveryservice.kafka.client.model.Address
-import com.example.deliveryservice.kafka.client.model.CreateDelivery
+import com.example.deliveryservice.kafka.client.model.CreateDeliveryRequest
 import com.example.deliveryservice.kafka.client.model.Type
 import com.example.orderservice.api.rest.model.DeliveryAddress
 import com.example.orderservice.api.rest.model.DeliveryRequest
@@ -11,7 +11,7 @@ import java.util.*
 object DeliveryMapper {
 
     internal fun DeliveryRequest.toKafkaModel(orderId: UUID) =
-        CreateDelivery(
+        CreateDeliveryRequest(
             type = type.toKafkaModel(),
             address = address.toKafkaModel(),
             orderId = orderId
