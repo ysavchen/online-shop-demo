@@ -7,10 +7,9 @@ import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.repository.ProcessedMessageRepository
 import com.example.deliveryservice.repository.entity.ProcessedMessageEntity
 import com.example.deliveryservice.repository.entity.ResourceTypeEntity.DELIVERY
-import jakarta.transaction.Transactional
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -19,31 +18,24 @@ class DeliveryService(
     private val messageRepository: ProcessedMessageRepository
 ) {
 
+    @Transactional(readOnly = true)
+    fun getDeliveryById(deliveryId: UUID): ReplyDeliveryMessage {
+        val delivery = deliveryRepository.findByIdOrNull(deliveryId)?.toModel()
+        return if (delivery != null) {
+            DeliveryDataReply(delivery)
+        } else DeliveryNotFoundErrorReply("Delivery not found by id=$deliveryId")
+    }
+
+    @Transactional(readOnly = true)
+    fun getDeliveryByOrderId(orderId: UUID): ReplyDeliveryMessage {
+        val delivery = deliveryRepository.findDeliveryByOrderId(orderId)?.toModel()
+        return if (delivery != null) {
+            DeliveryDataReply(delivery)
+        } else DeliveryNotFoundErrorReply("Delivery not found by orderId=$orderId")
+    }
+
     @Transactional
-    fun processMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
-        when (val request = message.value()) {
-            is GetDeliveryByIdRequest -> processRequest(request)
-            is GetDeliveryByOrderIdRequest -> processRequest(request)
-            is CreateDeliveryRequest -> processRequest(message.key(), request)
-        }
-
-    private fun processRequest(request: GetDeliveryByIdRequest): ReplyDeliveryMessage {
-        val id = request.data.deliveryId
-        val delivery = deliveryRepository.findByIdOrNull(id)?.toModel()
-        return if (delivery != null) {
-            DeliveryDataReply(delivery)
-        } else DeliveryNotFoundErrorReply(DeliveryNotFoundError("Delivery not found by id=$id"))
-    }
-
-    private fun processRequest(request: GetDeliveryByOrderIdRequest): ReplyDeliveryMessage {
-        val id = request.data.orderId
-        val delivery = deliveryRepository.findDeliveryByOrderId(id)?.toModel()
-        return if (delivery != null) {
-            DeliveryDataReply(delivery)
-        } else DeliveryNotFoundErrorReply(DeliveryNotFoundError("Delivery not found by orderId=$id"))
-    }
-
-    private fun processRequest(messageKey: UUID, request: CreateDeliveryRequest): ReplyDeliveryMessage {
+    fun createDelivery(messageKey: UUID, request: CreateDeliveryRequest): ReplyDeliveryMessage {
         val error = validateMessage(messageKey)
         if (error != null) return error
 
@@ -55,13 +47,12 @@ class DeliveryService(
 
     private fun validateMessage(messageKey: UUID): DuplicateMessageErrorReply? {
         val processedMessage = messageRepository.findByIdOrNull(messageKey)
-        return if (processedMessage != null) {
-            val error = DuplicateMessageError(
+        return processedMessage?.let {
+            DuplicateMessageErrorReply(
                 messageKey = processedMessage.messageKey,
                 resourceId = processedMessage.resourceId,
                 resource = processedMessage.resourceType.name.lowercase()
             )
-            DuplicateMessageErrorReply(error)
-        } else null
+        }
     }
 }
