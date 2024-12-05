@@ -7,7 +7,7 @@ import java.util.*
 
 data class BookSearchRequest(
     val query: String?,  //search request by book title
-    val genre: String?,
+    val genre: Genre?,
     val minPrice: BigDecimal?,
     val maxPrice: BigDecimal?
 )

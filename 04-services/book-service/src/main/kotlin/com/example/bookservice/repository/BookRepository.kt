@@ -1,6 +1,7 @@
 package com.example.bookservice.repository
 
 import com.example.bookservice.api.rest.model.BookSearchRequest
+import com.example.bookservice.api.rest.model.Genre
 import com.example.bookservice.repository.entity.BookEntity
 import com.example.bookservice.repository.entity.BookEntity_
 import jakarta.persistence.LockModeType
@@ -37,10 +38,11 @@ interface BookRepository : JpaRepository<BookEntity, UUID>, JpaSpecificationExec
                 else cb.like(cb.lower(root.get(BookEntity_.title).`as`(String::class.java)), "%${title.lowercase()}%")
             }
 
-        private fun genreEqualIgnoreCase(genre: String?): Specification<BookEntity> =
+        private fun genreEqualIgnoreCase(genre: Genre?): Specification<BookEntity> =
             Specification { root, _, cb ->
-                if (genre.isNullOrEmpty()) null
-                else cb.equal(cb.lower(root.get(BookEntity_.genre).`as`(String::class.java)), genre.lowercase())
+                genre?.let {
+                    cb.equal(cb.lower(root.get(BookEntity_.genre).`as`(String::class.java)), genre.name.lowercase())
+                }
             }
 
         private fun minPriceGreaterThanOrEqualTo(minPrice: BigDecimal?): Specification<BookEntity> =

@@ -9,9 +9,9 @@ import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
 import com.example.bookservice.test.BookTestData.updateBookRequest
 import com.example.bookservice.test.IntegrationTest
+import com.example.bookservice.test.nextValue
 import com.example.online.shop.model.Isbn
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
@@ -74,7 +74,7 @@ class BookControllerTests {
         val book = bookRepository.save(bookEntity()).toModel()
         val request = BookSearchRequest(
             query = null,
-            genre = book.genre.name.lowercase(),
+            genre = book.genre,
             minPrice = null,
             maxPrice = null
         )
@@ -96,7 +96,7 @@ class BookControllerTests {
     fun `search non-existing book`() {
         val request = BookSearchRequest(
             query = null,
-            genre = randomAlphabetic(15),
+            genre = nextValue<Genre>(),
             minPrice = null,
             maxPrice = null
         )
@@ -117,7 +117,7 @@ class BookControllerTests {
         val book = bookRepository.save(bookEntity()).toModel()
         val request = BookSearchRequest(
             query = null,
-            genre = book.genre.name.lowercase(),
+            genre = book.genre,
             minPrice = null,
             maxPrice = null
         )
@@ -138,7 +138,7 @@ class BookControllerTests {
         val book = bookRepository.save(bookEntity()).toModel()
         val request = BookSearchRequest(
             query = null,
-            genre = book.genre.name.lowercase(),
+            genre = book.genre,
             minPrice = null,
             maxPrice = null
         )
