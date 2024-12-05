@@ -67,7 +67,7 @@ class OrderService(
         val order = readTransactionTemplate.execute {
             orderRepository.findByIdOrNull(orderId)?.toModel() ?: throw OrderNotFoundException(orderId)
         }!!.let { order ->
-            if (embed.contains(EmbeddedParam.DELIVERY)) {
+            if (embed.contains(EmbedParam.DELIVERY)) {
                 val delivery = deliveryClientService.deliveryByOrderId(order.id)
                 order.copy(embedded = Embedded(delivery))
             } else order
@@ -131,8 +131,8 @@ class OrderService(
         return order
     }
 
-    private fun validateCache(order: Order, embedded: Set<String>): Boolean {
-        val isDeliveryRequested = embedded.contains(EmbeddedParam.DELIVERY)
+    private fun validateCache(order: Order, embed: Set<String>): Boolean {
+        val isDeliveryRequested = embed.contains(EmbedParam.DELIVERY)
         val isDeliveryCached = order.embedded?.delivery != null
         val requestedAndCached = isDeliveryRequested && isDeliveryCached
         val notRequestedAndNotCached = !isDeliveryRequested && !isDeliveryCached

@@ -13,6 +13,6 @@ constructor(
     val orderBy: String = "desc"
 )
 
-object EmbeddedParam {
+object EmbedParam {
     const val DELIVERY = "delivery"
 }
