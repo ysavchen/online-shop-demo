@@ -67,7 +67,11 @@ class CacheConfiguration(objectMapper: ObjectMapper) {
             .serializeKeysWith(SerializationPair.fromSerializer(redisKeySerializer))
             .serializeValuesWith(SerializationPair.fromSerializer(redisValueSerializer))
             .entryTtl(Duration.ofMinutes(ENTRY_TTL_MINUTES))
+            .disableCachingNullValues()
 
+    /**
+     * Configuration for @Cacheable, @CachePut annotations
+     */
     @Bean
     fun redisCacheManager(
         redisCacheConfiguration: RedisCacheConfiguration,
@@ -78,6 +82,9 @@ class CacheConfiguration(objectMapper: ObjectMapper) {
             .initialCacheNames(setOf(ORDER_CACHE_NAME))
             .build()
 
+    /**
+     * Configuration for RedisTemplate
+     */
     @Bean
     fun redisTemplate(redisConnectionFactory: RedisConnectionFactory) =
         RedisTemplate<String, Order>().apply {
