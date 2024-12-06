@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS orders
     id             uuid          PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     user_id        uuid          NOT NULL,
     status         varchar(15)   NOT NULL,
-    total_quantity smallint      NOT NULL,
+    total_quantity integer       NOT NULL,
     total_price    numeric(9, 2) NOT NULL,
     total_currency varchar(3)    NOT NULL,
     created_at     timestamptz   NOT NULL DEFAULT NOW(),
