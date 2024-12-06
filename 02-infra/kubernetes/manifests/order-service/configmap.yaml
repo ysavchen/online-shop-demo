@@ -4,5 +4,12 @@ metadata:
   name: order-service-config
   namespace: online-shop-demo
 data:
+  SPRING_DATA_REDIS_HOST: host.docker.internal
+  SPRING_DATA_REDIS_PORT: "6379"
   SERVER_PORT: "8080"
   SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/online_shop_demo?currentSchema=order_service
+  APPLICATION_CLIENTS_BOOK_SERVICE: book-service:8080
+  APPLICATION_CLIENTS_ORDER_SERVICE_KAFKA_CONNECTION_BOOTSTRAP_SERVERS: http://host.docker.internal:9092
+  APPLICATION_CLIENTS_DELIVERY_SERVICE_KAFKA_CONNECTION_BOOTSTRAP_SERVERS: http://host.docker.internal:9092
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://host.docker.internal:9411/api/v2/spans
+  LOGGING_LOKI_URL: http://host.docker.internal:3100/loki/api/v1/push

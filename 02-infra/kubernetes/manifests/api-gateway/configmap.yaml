@@ -4,7 +4,10 @@ metadata:
   name: api-gateway-config
   namespace: online-shop-demo
 data:
-  REDIS_HOST: host.docker.internal
-  REDIS_PORT: "6379"
+  SERVER_PORT: "8080"
+  SPRING_DATA_REDIS_HOST: host.docker.internal
+  SPRING_DATA_REDIS_PORT: "6379"
   BOOK_SERVICE_URL: book-service:8080
   ORDER_SERVICE_URL: order-service:8080
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://host.docker.internal:9411/api/v2/spans
+  LOGGING_LOKI_URL: http://host.docker.internal:3100/loki/api/v1/push
