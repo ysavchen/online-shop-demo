@@ -65,8 +65,10 @@ management:
     tags:
       application: ${spring.application.name}
     distribution:
-      # Publish a cumulative histogram with buckets defined by your service-level objectives
       slo.http.server.requests: 50ms, 100ms, 200ms, 300ms, 500ms, 1s, 2s, 5s
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
   # By default, Spring Boot samples only 10% of requests to prevent overwhelming the trace backend.
   # This property switches it to 100% so that every request is sent to the trace backend.
   tracing:
@@ -74,6 +76,8 @@ management:
       probability: 1.0
 
 logging:
+  loki:
+    url: http://localhost:3100/loki/api/v1/push
   level:
     root: info
     org.springframework.cloud.gateway: info
