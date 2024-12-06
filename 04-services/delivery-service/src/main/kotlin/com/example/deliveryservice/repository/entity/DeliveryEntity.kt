@@ -32,7 +32,7 @@ data class DeliveryEntity(
     @Enumerated(EnumType.STRING)
     val status: StatusEntity,
 
-    @Column(columnDefinition = "order_id", nullable = false)
+    @Column(name = "order_id", nullable = false)
     val orderId: UUID,
 
     @Column(name = "created_at", nullable = false)
