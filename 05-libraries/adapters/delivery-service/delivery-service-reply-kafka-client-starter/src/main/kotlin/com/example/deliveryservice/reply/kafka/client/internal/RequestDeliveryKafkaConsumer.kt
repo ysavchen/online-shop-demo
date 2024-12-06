@@ -5,7 +5,7 @@ import com.example.deliveryservice.reply.kafka.client.ReplyingDeliveryKafkaConsu
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.listener.MessageListener
 import org.springframework.kafka.support.KafkaHeaders
-import java.util.UUID
+import java.util.*
 
 class RequestDeliveryKafkaConsumer(
     private val enabled: Boolean,

@@ -92,8 +92,8 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = ["requestDeliveryKafkaTemplate"])
-    fun requestDeliveryKafkaTemplate(
+    @ConditionalOnMissingBean(name = ["replyingDeliveryKafkaTemplate"])
+    fun replyingDeliveryKafkaTemplate(
         requestDeliveryKafkaProducerFactory: ProducerFactory<UUID, RequestDeliveryMessage>,
         replyDeliveryKafkaListenerContainer: ConcurrentMessageListenerContainer<UUID, ReplyDeliveryMessage>
     ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage> =
@@ -108,11 +108,11 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     @Bean
     @ConditionalOnMissingBean(name = ["replyingDeliveryKafkaProducer"])
     fun replyingDeliveryKafkaProducer(
-        requestKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
+        replyingDeliveryKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
     ): ReplyingDeliveryKafkaProducer =
         ReplyingDeliveryKafkaProducerImpl(
             enabled = properties.kafka.replying.producer.enabled,
             requestTopic = properties.kafka.replying.producer.request.topic,
-            kafkaTemplate = requestKafkaTemplate
+            kafkaTemplate = replyingDeliveryKafkaTemplate
         )
 }
