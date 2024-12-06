@@ -4,13 +4,14 @@ import com.example.orderservice.api.rest.model.ErrorCode
 import com.example.orderservice.api.rest.model.Status
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
+import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
 open class ServiceException(
     message: String,
     val errorCode: ErrorCode,
     val httpStatusCode: HttpStatusCode
-) : RuntimeException(message)
+) : ResponseStatusException(httpStatusCode, message)
 
 class OrderNotFoundException(id: UUID) :
     ServiceException("Order not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
@@ -43,4 +44,4 @@ class DownstreamServiceException(
     message: String,
     val service: String,
     val errorCode: ErrorCode = ErrorCode.DOWNSTREAM_SERVICE_ERROR
-) : RuntimeException(message)
+) : ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, message)
