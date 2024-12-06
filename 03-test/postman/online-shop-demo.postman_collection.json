@@ -111,7 +111,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8090/api/v1/books/search?page=0&pageSize=10&sortBy=title&orderBy=asc",
+							"raw": "http://localhost:8090/api/v1/books/search?page=0&page_size=10&sort_by=title&order_by=asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -129,15 +129,15 @@
 									"value": "0"
 								},
 								{
-									"key": "pageSize",
+									"key": "page_size",
 									"value": "10"
 								},
 								{
-									"key": "sortBy",
+									"key": "sort_by",
 									"value": "title"
 								},
 								{
-									"key": "orderBy",
+									"key": "order_by",
 									"value": "asc"
 								}
 							]
