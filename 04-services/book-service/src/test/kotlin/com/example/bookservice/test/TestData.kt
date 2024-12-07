@@ -3,7 +3,9 @@ package com.example.bookservice.test
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.api.rest.model.Currency
 import com.example.bookservice.repository.entity.*
+import com.example.online.shop.model.Description
 import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.Title
 import org.apache.commons.lang3.RandomStringUtils.*
 import java.util.*
 
@@ -11,9 +13,9 @@ object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
         isbn = Isbn.valueOf("9781525826689"),
-        title = randomAlphabetic(15),
+        title = Title.valueOf(randomAlphabetic(15)),
         authors = listOf(randomAlphabetic(10)),
-        description = randomAlphanumeric(25),
+        description = Description.valueOf(randomAlphanumeric(25)),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
         quantity = randomNumeric(3).toInt(),
@@ -30,9 +32,9 @@ object BookTestData {
         isbn: Isbn = Isbn.valueOf("9781525826689")
     ) = BookEntity(
         isbn = isbn,
-        title = randomAlphabetic(15),
+        title = Title.valueOf(randomAlphabetic(15)),
         authors = arrayOf(randomAlphabetic(10)),
-        description = randomAlphanumeric(25),
+        description = Description.valueOf(randomAlphanumeric(25)),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
         quantity = randomNumeric(3).toInt(),
@@ -43,7 +45,7 @@ object BookTestData {
 object ReviewTestData {
 
     fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
-        title = randomAlphabetic(15),
+        title = Title.valueOf(randomAlphabetic(15)),
         reviewText = randomAlphabetic(25),
         author = randomAlphabetic(10),
         rating = randomRating(),
@@ -51,7 +53,7 @@ object ReviewTestData {
     )
 
     fun reviewEntity(bookFk: UUID) = ReviewEntity(
-        title = randomAlphabetic(15),
+        title = Title.valueOf(randomAlphabetic(15)),
         reviewText = randomAlphabetic(25),
         author = randomAlphabetic(10),
         rating = randomRating(),

@@ -50,7 +50,7 @@ class BookControllerTests {
     fun `search books by title`() {
         val book = bookRepository.save(bookEntity()).toModel()
         val request = BookSearchRequest(
-            query = book.title,
+            query = book.title.formattedValue,
             genre = null,
             minPrice = null,
             maxPrice = null
@@ -285,7 +285,7 @@ class BookControllerTests {
         val createdBook = objectMapper.readValue(result.response.contentAsString, Book::class.java)
         assertThat(createdBook)
             .hasFieldOrProperty("id")
-            .hasFieldOrPropertyWithValue("title", request.title)
+            .hasFieldOrPropertyWithValue("title", request.title.formattedValue)
             .hasFieldOrPropertyWithValue("authors", request.authors)
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
