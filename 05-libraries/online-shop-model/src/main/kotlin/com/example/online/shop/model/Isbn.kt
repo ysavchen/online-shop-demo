@@ -24,8 +24,11 @@ value class Isbn(private val value: String) : Model {
     /**
      * 978-1-42051-505-3
      */
-    @JsonValue
-    override fun toString(): String = value.formatValue()
+    @get:JsonValue
+    override val formattedValue: String
+        get() = value.formatValue()
+
+    override fun toString(): String = formattedValue
 }
 
 private object IsbnUtils {

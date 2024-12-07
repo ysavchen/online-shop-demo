@@ -21,8 +21,11 @@ value class Title(private val value: String) : Model {
         fun valueOf(value: String): Title = Title(value)
     }
 
-    @JsonValue
-    override fun toString(): String = value
+    @get:JsonValue
+    override val formattedValue: String
+        get() = value
+
+    override fun toString(): String = formattedValue
 }
 
 private object TitleUtils {
