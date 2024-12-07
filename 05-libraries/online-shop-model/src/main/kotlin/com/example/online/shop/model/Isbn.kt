@@ -2,7 +2,7 @@ package com.example.online.shop.model
 
 import com.example.online.shop.model.IsbnUtils.formatValue
 import com.example.online.shop.model.IsbnUtils.validate
-import com.example.online.shop.model.validation.IsbnValidationException
+import com.example.online.shop.model.validation.ModelValidationException
 import com.example.online.shop.model.validation.requireFormat
 import com.example.online.shop.model.validation.requireRange
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -39,10 +39,10 @@ private object IsbnUtils {
 
     fun String.validate(): String = this
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw IsbnValidationException("Invalid ISBN: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+            throw ModelValidationException("Invalid ISBN: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
         }
         .requireFormat(isbnRegex) {
-            throw IsbnValidationException("Invalid ISBN: $this; Format must correspond to ISBN-13")
+            throw ModelValidationException("Invalid ISBN: $this; Format must correspond to ISBN-13")
         }
 
     fun String.formatValue(): String {

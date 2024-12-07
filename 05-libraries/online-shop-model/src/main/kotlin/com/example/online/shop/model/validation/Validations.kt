@@ -1,7 +1,7 @@
 package com.example.online.shop.model.validation
 
-internal fun String.requireSize(size: Int, exception: () -> ModelValidationException): String {
-    if (length != size) {
+internal fun String.requireNotEmpty(exception: () -> ModelValidationException): String {
+    if (this.isEmpty()) {
         throw exception()
     }
     return this
@@ -16,6 +16,13 @@ internal fun String.requireRange(min: Int, max: Int, exception: () -> ModelValid
 
 internal fun String.requireFormat(regex: Regex, exception: () -> ModelValidationException): String {
     if (!this.matches(regex)) {
+        throw exception()
+    }
+    return this
+}
+
+internal fun String.rejectFormat(regex: Regex, exception: () -> ModelValidationException): String {
+    if (this.matches(regex)) {
         throw exception()
     }
     return this

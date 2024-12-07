@@ -1,6 +1,6 @@
 package com.example.online.shop.model
 
-import com.example.online.shop.model.validation.IsbnValidationException
+import com.example.online.shop.model.validation.ModelValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertContains
@@ -33,7 +33,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { Isbn.valueOf(it) }
+            val exception = assertThrows<ModelValidationException> { Isbn.valueOf(it) }
             assertContains(exception.message!!, "length", true)
         }
     }
@@ -47,7 +47,7 @@ class IsbnTests {
         )
 
         numbers.forEach {
-            val exception = assertThrows<IsbnValidationException> { Isbn.valueOf(it) }
+            val exception = assertThrows<ModelValidationException> { Isbn.valueOf(it) }
             assertContains(exception.message!!, "format", true)
         }
     }
