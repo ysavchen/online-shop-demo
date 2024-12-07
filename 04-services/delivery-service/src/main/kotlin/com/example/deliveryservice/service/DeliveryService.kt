@@ -49,9 +49,9 @@ class DeliveryService(
         val processedMessage = messageRepository.findByIdOrNull(messageKey)
         return processedMessage?.let {
             DuplicateMessageErrorReply(
-                messageKey = processedMessage.messageKey,
-                resourceId = processedMessage.resourceId,
-                resource = processedMessage.resourceType.name.lowercase()
+                messageKey = it.messageKey,
+                resourceId = it.resourceId,
+                resource = it.resourceType.name.lowercase()
             )
         }
     }

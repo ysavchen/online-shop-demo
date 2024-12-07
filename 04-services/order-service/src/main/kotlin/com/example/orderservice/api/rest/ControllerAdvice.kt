@@ -27,7 +27,7 @@ class ControllerAdvice {
                 timestamp = OffsetDateTime.now(),
                 path = request.requestURI,
                 code = ex.errorCode.name,
-                message = ex.message!!
+                message = ex.message
             ),
             ex.httpStatusCode
         )
@@ -41,7 +41,7 @@ class ControllerAdvice {
                 timestamp = OffsetDateTime.now(),
                 path = request.requestURI,
                 code = ex.errorCode.name,
-                message = ex.message!!
+                message = ex.message
             ),
             ex.httpStatusCode
         )

@@ -1,6 +1,6 @@
 package com.example.deliveryservice.config
 
-import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonFormat.Shape
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
@@ -40,7 +40,7 @@ class JsonConfiguration {
         OffsetDateTimeSerializer.INSTANCE,
         false,
         DateTimeFormatter.ofPattern(DATE_FORMAT_STR_ISO8601),
-        JsonFormat.Shape.STRING
+        Shape.STRING
     )
 
     @Bean

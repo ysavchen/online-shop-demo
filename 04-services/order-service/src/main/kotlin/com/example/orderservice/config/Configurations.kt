@@ -1,7 +1,7 @@
 package com.example.orderservice.config
 
 import com.example.orderservice.api.rest.model.Order
-import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonFormat.Shape
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
@@ -44,7 +44,8 @@ class ApplicationConfiguration(private val appProperties: ApplicationProperties)
     }
 
     @Bean
-    fun retryTemplate() = RetryTemplate()
+    fun retryTemplate(): RetryTemplate = RetryTemplate.defaultInstance()
+
 }
 
 @EnableCaching
@@ -101,7 +102,7 @@ class JsonConfiguration {
         OffsetDateTimeSerializer.INSTANCE,
         false,
         DateTimeFormatter.ofPattern(DATE_FORMAT_STR_ISO8601),
-        JsonFormat.Shape.STRING
+        Shape.STRING
     )
 
     @Bean
