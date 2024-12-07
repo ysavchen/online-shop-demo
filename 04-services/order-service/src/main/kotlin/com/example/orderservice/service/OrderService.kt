@@ -111,10 +111,10 @@ class OrderService(
             transactionTemplate.execute {
                 val orderEntity = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
                 val newStatusEntity = newStatus.toEntity()
-                if (isStatusUpdateValid(orderEntity.status, newStatusEntity)) {
+                if (validateStatusUpdate(orderEntity.status, newStatusEntity)) {
                     orderEntity.status = newStatusEntity
                 } else {
-                    throw InvalidOrderStatusUpdate(orderEntity.id!!, orderEntity.status.toModel(), newStatus)
+                    throw InvalidOrderStatusUpdate(orderId, orderEntity.status.toModel(), newStatus)
                 }
                 orderEntity.toModel()
             }
@@ -140,7 +140,7 @@ class OrderService(
     }
 
     //@formatter:off
-    private fun isStatusUpdateValid(currentStatus: StatusEntity, newStatus: StatusEntity): Boolean =
+    private fun validateStatusUpdate(currentStatus: StatusEntity, newStatus: StatusEntity): Boolean =
         currentStatus == newStatus ||
         currentStatus == CREATED && newStatus in listOf(IN_PROGRESS, DECLINED, CANCELLED) ||
         currentStatus == IN_PROGRESS && newStatus in listOf(DECLINED, CANCELLED, DELIVERED)
