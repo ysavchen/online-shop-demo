@@ -1,6 +1,6 @@
 ## Kubernetes
 
-1. Build native image with GraalVM for JDK 21
+1. Build image with JDK 21
 ```bash
 cd 04-services/book-service
 ./gradlew bootBuildImage
