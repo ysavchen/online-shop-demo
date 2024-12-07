@@ -27,12 +27,12 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15
           envFrom:
             - configMapRef:
                 name: delivery-service-config
