@@ -160,7 +160,7 @@ class ReviewControllerTests {
         val createdReview = objectMapper.readValue(result.response.contentAsString, Review::class.java)
         assertThat(createdReview)
             .hasFieldOrProperty("id")
-            .hasFieldOrPropertyWithValue("title", request.title)
+            .hasFieldOrPropertyWithValue("title", request.title?.formattedValue)
             .hasFieldOrPropertyWithValue("reviewText", request.reviewText)
             .hasFieldOrPropertyWithValue("author", request.author)
             .hasFieldOrPropertyWithValue("rating", request.rating)
