@@ -1,6 +1,8 @@
 package com.example.bookservice.api.rest.model
 
+import com.example.online.shop.model.Description
 import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.Title
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
@@ -18,9 +20,9 @@ data class BooksFilterRequest(
 
 data class CreateBookRequest(
     val isbn: Isbn,
-    val title: String,
+    val title: Title,
     val authors: List<String>,
-    val description: String?,
+    val description: Description?,
     val genre: Genre,
     val releaseDate: LocalDate?,
     val quantity: Int,
@@ -36,7 +38,7 @@ data class UpdateBookRequest(
 data class Book(
     val id: UUID,
     val isbn: Isbn,
-    val title: String,
+    val title: Title,
     val authors: List<String>,
     val genre: Genre,
     val releaseDate: LocalDate?,
@@ -50,7 +52,7 @@ data class Price(
 )
 
 data class BookDescription(
-    val description: String?
+    val description: Description?
 )
 
 enum class Currency {

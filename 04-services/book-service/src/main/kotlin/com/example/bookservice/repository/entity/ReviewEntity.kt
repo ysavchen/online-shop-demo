@@ -1,5 +1,6 @@
 package com.example.bookservice.repository.entity
 
+import com.example.online.shop.model.Title
 import jakarta.persistence.*
 import org.hibernate.annotations.UuidGenerator
 import java.math.BigDecimal
@@ -15,7 +16,7 @@ data class ReviewEntity(
     val id: UUID? = null,
 
     @Column(name = "title")
-    val title: String?,
+    val title: Title?,
 
     @Column(name = "review_text")
     val reviewText: String?,

@@ -1,6 +1,7 @@
 package com.example.bookservice.rest.client.model
 
 import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.Title
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
@@ -8,7 +9,7 @@ import java.util.*
 data class Book(
     val id: UUID,
     val isbn: Isbn,
-    val title: String,
+    val title: Title,
     val authors: List<String>,
     val genre: Genre,
     val releaseDate: LocalDate?,
