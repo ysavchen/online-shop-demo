@@ -1,7 +1,7 @@
 plugins {
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
-    id("org.graalvm.buildtools.native") version "0.10.3"
+    id("org.graalvm.buildtools.native") version "0.10.3" apply false
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
@@ -64,6 +64,10 @@ kotlin {
     }
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 tasks.bootBuildImage {
     imageName = "$dockerHubRepository/${rootProject.name}:$version"
 
@@ -71,8 +75,4 @@ tasks.bootBuildImage {
     docker {
         host = "//./pipe/dockerDesktopLinuxEngine"
     }
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
