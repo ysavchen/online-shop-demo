@@ -5,6 +5,7 @@ import com.example.bookservice.rest.client.model.Currency
 import com.example.bookservice.rest.client.model.Genre
 import com.example.bookservice.rest.client.model.Price
 import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.Title
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
 import com.example.orderservice.test.DeliveryTestData.deliveryRequest
@@ -18,7 +19,7 @@ object BookTestData {
     fun book() = Book(
         id = UUID.randomUUID(),
         isbn = Isbn.valueOf("9781525826689"),
-        title = randomAlphabetic(15),
+        title = Title.valueOf(randomAlphabetic(15)),
         authors = listOf(randomAlphabetic(10)),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
