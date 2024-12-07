@@ -33,7 +33,8 @@ private object DescriptionUtils {
     fun String.validate(): String = this
         .requireNotEmpty {
             throw ModelValidationException("Invalid description: $this; Description is empty")
-        }.rejectFormat(xssScriptRegex) {
+        }
+        .rejectFormat(xssScriptRegex) {
             throw ModelValidationException("Invalid description: $this; Description must not contain scripts")
         }
 }
