@@ -29,7 +29,7 @@ import java.util.*
 @AutoConfigureMockMvc
 @ActiveProfiles("junit")
 @EmbeddedKafka(
-    topics = ["\${application.clients.order-service.kafka.domain.producer.topic}"],
+    topics = ["\${application.clients.order-service.kafka.domain.consumer.topics}"],
     bootstrapServersProperty = "application.clients.order-service.kafka.connection.bootstrap-servers"
 )
 @Import(IntegrationTestConfiguration::class, TestKafkaConfiguration::class)
