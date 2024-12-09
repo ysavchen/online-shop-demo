@@ -1,5 +1,7 @@
 package com.example.online.shop.model.validation
 
+internal val xssScriptRegex = Regex("""/(\b)(on\w+)=|javascript|(<\s*)(/*)script/gi""")
+
 internal fun String.requireNotEmpty(exception: () -> ModelValidationException): String {
     if (this.isEmpty()) {
         throw exception()
