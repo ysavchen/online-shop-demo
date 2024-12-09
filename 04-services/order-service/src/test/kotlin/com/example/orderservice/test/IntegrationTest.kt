@@ -27,10 +27,10 @@ class IntegrationTestConfiguration {
 
     @Bean
     @ServiceConnection("postgres")
-    fun postgres() = PostgreSQLContainer("postgres:16.3-alpine")
+    fun postgres() = PostgreSQLContainer("postgres:17.0-alpine")
 
     @Bean
     @ServiceConnection("redis")
-    fun redis() = RedisContainer("redis:7.2-alpine")
+    fun redis() = RedisContainer("redis:7.4.0-alpine")
 
 }
