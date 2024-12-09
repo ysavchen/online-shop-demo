@@ -6,7 +6,7 @@ cd 04-services/book-service
 ./gradlew bootBuildImage
 ```
 
-2. Test image is running
+2. Test image
 ```bash
 docker run --rm -it -p 8090:8090 ysavchen/book-service:1.0.0
 ```
