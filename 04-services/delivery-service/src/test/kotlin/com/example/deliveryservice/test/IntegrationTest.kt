@@ -64,7 +64,7 @@ class TestKafkaConfiguration(private val properties: ReplyDeliveryKafkaClientPro
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to UUIDDeserializer::class.java,
         ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer(
             jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper, false
-        )
+        )::class.java
     )
 
     @Bean
