@@ -58,7 +58,7 @@ class TestKafkaConfiguration(private val properties: ReplyDeliveryKafkaClientPro
     fun testConsumerConfig(objectMapper: ObjectMapper) = mapOf(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
         ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.replying.consumer.request.groupId,
-        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase(),
+        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.toString(),
         ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG to false,
         ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to true,
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to UUIDDeserializer::class.java,
