@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
-value class Description(private val value: String) : Model {
+value class Description(private val value: String) : Model<String> {
 
     init {
         value.validate()
