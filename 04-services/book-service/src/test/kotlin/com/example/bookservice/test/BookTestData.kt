@@ -1,13 +1,20 @@
 package com.example.bookservice.test
 
-import com.example.bookservice.api.rest.model.*
+import com.example.bookservice.api.rest.model.CreateBookRequest
 import com.example.bookservice.api.rest.model.Currency
-import com.example.bookservice.repository.entity.*
+import com.example.bookservice.api.rest.model.Genre
+import com.example.bookservice.api.rest.model.Price
+import com.example.bookservice.api.rest.model.UpdateBookRequest
+import com.example.bookservice.repository.entity.BookEntity
+import com.example.bookservice.repository.entity.CurrencyEntity
+import com.example.bookservice.repository.entity.GenreEntity
+import com.example.bookservice.repository.entity.PriceEntity
 import com.example.online.shop.model.Description
 import com.example.online.shop.model.Isbn
 import com.example.online.shop.model.Title
-import org.apache.commons.lang3.RandomStringUtils.*
-import java.util.*
+import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
+import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 
 object BookTestData {
 
@@ -39,24 +46,5 @@ object BookTestData {
         releaseDate = randomLocalDate(),
         quantity = randomNumeric(3).toInt(),
         price = PriceEntity(randomPrice(), nextValue<CurrencyEntity>())
-    )
-}
-
-object ReviewTestData {
-
-    fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
-        title = Title.valueOf(randomAlphabetic(15)),
-        reviewText = randomAlphabetic(25),
-        author = randomAlphabetic(10),
-        rating = randomRating(),
-        bookId = bookId
-    )
-
-    fun reviewEntity(bookFk: UUID) = ReviewEntity(
-        title = Title.valueOf(randomAlphabetic(15)),
-        reviewText = randomAlphabetic(25),
-        author = randomAlphabetic(10),
-        rating = randomRating(),
-        bookFk = bookFk
     )
 }
