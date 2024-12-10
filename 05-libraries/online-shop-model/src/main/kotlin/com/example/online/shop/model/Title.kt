@@ -36,7 +36,8 @@ private object TitleUtils {
         }
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid title: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
-        }.rejectFormat(xssScriptRegex) {
+        }
+        .rejectFormat(xssScriptRegex) {
             throw ModelValidationException("Invalid title: $this; Title must not contain scripts")
         }
 
