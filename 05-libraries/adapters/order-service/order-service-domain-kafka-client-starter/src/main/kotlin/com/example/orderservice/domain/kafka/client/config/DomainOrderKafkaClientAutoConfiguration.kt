@@ -82,7 +82,7 @@ class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderK
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
                 ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.domain.consumer!!.groupId,
-                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.name.lowercase(),
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to OffsetResetStrategy.EARLIEST.toString(),
                 ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG to false
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
