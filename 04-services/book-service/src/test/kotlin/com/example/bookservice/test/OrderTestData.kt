@@ -43,7 +43,7 @@ object OrderTestData {
         quantity = randomNumeric(1).toInt(),
         price = ItemPrice(
             value = book.price!!.value,
-            currency = ItemCurrency.valueOf(book.price.currency.name)
+            currency = ItemCurrency.RUB
         )
     )
 }
