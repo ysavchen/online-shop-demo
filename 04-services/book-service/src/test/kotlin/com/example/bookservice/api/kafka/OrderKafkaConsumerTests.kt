@@ -2,6 +2,7 @@ package com.example.bookservice.api.kafka
 
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
+import com.example.bookservice.repository.ProcessedMessageRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.OrderTestData.order
@@ -9,6 +10,7 @@ import com.example.orderservice.domain.kafka.client.config.DomainOrderKafkaClien
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
 import com.example.orderservice.domain.kafka.client.model.Status
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -20,11 +22,18 @@ import kotlin.test.assertEquals
 @IntegrationTest
 class OrderKafkaConsumerTests(
     @Autowired val bookRepository: BookRepository,
+    @Autowired val processedMessageRepository: ProcessedMessageRepository,
     @Autowired val testKafkaTemplate: KafkaTemplate<UUID, DomainEvent>,
     @Autowired val properties: DomainOrderKafkaClientProperties
 ) {
 
     val topic = properties.kafka.domain.consumer!!.topics.first()
+
+    @BeforeEach
+    fun beforeEach() {
+        bookRepository.deleteAll()
+        processedMessageRepository.deleteAll()
+    }
 
     @Test
     fun `process created order`() {
