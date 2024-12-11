@@ -101,12 +101,13 @@ class BookService(
     }
 
     private fun processCreatedOrder(order: Order): Order {
-        order.items.forEach { book ->
-            val bookEntity = bookRepository.findByIdWithPessimisticWrite(book.id)
+        order.items.forEach loop@{ item ->
+            if (item.category != ItemCategory.BOOKS) return@loop
+            val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
             if (bookEntity != null) {
-                bookEntity.quantity -= book.quantity
+                bookEntity.quantity -= item.quantity
             } else {
-                logger.error { "Book with id=${book.id} is not found to decrease the quantity by ${book.quantity}" }
+                logger.error { "Book with id=${item.id} is not found to decrease the quantity by ${item.quantity}" }
             }
         }
         return order
@@ -114,12 +115,13 @@ class BookService(
 
     private fun processUpdatedOrder(order: Order): Order {
         if (order.status == Status.DECLINED || order.status == Status.CANCELLED) {
-            order.items.forEach { book ->
-                val bookEntity = bookRepository.findByIdWithPessimisticWrite(book.id)
+            order.items.forEach loop@{ item ->
+                if (item.category != ItemCategory.BOOKS) return@loop
+                val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
                 if (bookEntity != null) {
-                    bookEntity.quantity += book.quantity
+                    bookEntity.quantity += item.quantity
                 } else {
-                    logger.error { "Book with id=${book.id} is not found to increase the quantity by ${book.quantity}" }
+                    logger.error { "Book with id=${item.id} is not found to increase the quantity by ${item.quantity}" }
                 }
             }
         }
