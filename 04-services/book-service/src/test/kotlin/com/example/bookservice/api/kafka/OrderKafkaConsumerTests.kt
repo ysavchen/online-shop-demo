@@ -43,7 +43,26 @@ class OrderKafkaConsumerTests(
 
     @Test
     fun `duplicate message to process created order`() {
+        val book = bookRepository.save(bookEntity()).toModel()
+        val order = order(book, Status.CREATED)
+        val messageKey = UUID.randomUUID()
 
+        val event = OrderCreatedEvent(order)
+        testKafkaTemplate.send(topic, messageKey, event).get()
+
+        Thread.sleep(500)
+        val updatedBook = bookRepository.findByIdOrNull(book.id)!!.toModel()
+        val expectedQuantity = book.quantity - order.items.first().quantity
+        val actualQuantity = updatedBook.quantity
+        assertEquals(expectedQuantity, actualQuantity)
+
+        testKafkaTemplate.send(topic, messageKey, event).get()
+
+        Thread.sleep(500)
+        val duplicateUpdateBook = bookRepository.findByIdOrNull(book.id)!!.toModel()
+        val duplicateExpectedQuantity = updatedBook.quantity
+        val duplicateActualQuantity = duplicateUpdateBook.quantity
+        assertEquals(duplicateExpectedQuantity, duplicateActualQuantity)
     }
 
     @Test
