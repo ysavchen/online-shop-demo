@@ -25,19 +25,12 @@ import org.springframework.test.web.servlet.post
 import java.util.*
 
 @IntegrationTest
-class ReviewControllerTests {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
-
-    @Autowired
-    lateinit var bookRepository: BookRepository
-
-    @Autowired
-    lateinit var reviewRepository: ReviewRepository
-
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
+class ReviewControllerTests(
+    @Autowired val mockMvc: MockMvc,
+    @Autowired val bookRepository: BookRepository,
+    @Autowired val reviewRepository: ReviewRepository,
+    @Autowired val objectMapper: ObjectMapper
+) {
 
     @BeforeEach
     fun beforeEach() {

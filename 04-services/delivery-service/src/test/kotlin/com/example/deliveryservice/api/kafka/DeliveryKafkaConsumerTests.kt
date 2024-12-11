@@ -2,6 +2,7 @@ package com.example.deliveryservice.api.kafka;
 
 import com.example.deliveryservice.kafka.client.model.*
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
+import com.example.deliveryservice.reply.kafka.client.config.ReplyDeliveryKafkaClientProperties
 import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.test.DeliveryTestData.createDeliveryRequest
 import com.example.deliveryservice.test.DeliveryTestData.deliveryEntity
@@ -11,22 +12,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import java.util.*
 import kotlin.test.assertEquals
 
 @IntegrationTest
-class DeliveryKafkaConsumerTests {
+class DeliveryKafkaConsumerTests(
+    @Autowired val properties: ReplyDeliveryKafkaClientProperties,
+    @Autowired val deliveryRepository: DeliveryRepository,
+    @Autowired val testKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
+) {
 
-    @Value("\${application.clients.delivery-service.kafka.replying.consumer.request.topics}")
-    lateinit var requestTopic: String
-
-    @Autowired
-    lateinit var deliveryRepository: DeliveryRepository
-
-    @Autowired
-    lateinit var testKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
+    val requestTopic: String = properties.kafka.replying.consumer.request.topics.first()
 
     @BeforeEach
     fun beforeEach() {

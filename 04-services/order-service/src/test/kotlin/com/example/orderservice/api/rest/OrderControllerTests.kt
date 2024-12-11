@@ -33,16 +33,11 @@ import org.springframework.test.web.servlet.post
 import java.util.*
 
 @IntegrationTest
-class OrderControllerTests {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
-
-    @Autowired
-    lateinit var orderRepository: OrderRepository
-
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
+class OrderControllerTests(
+    @Autowired val mockMvc: MockMvc,
+    @Autowired val objectMapper: ObjectMapper,
+    @Autowired val orderRepository: OrderRepository
+) {
 
     @MockBean
     lateinit var bookServiceRestClient: BookServiceRestClient
