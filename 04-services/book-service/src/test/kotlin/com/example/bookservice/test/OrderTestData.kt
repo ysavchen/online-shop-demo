@@ -9,14 +9,6 @@ import java.util.*
 
 object OrderTestData {
 
-    fun orderCreatedEvent(book: Book) = OrderCreatedEvent(
-        data = order(book)
-    )
-
-    fun orderUpdatedEvent(book: Book) = OrderUpdatedEvent(
-        data = order(book)
-    )
-
     fun order(
         book: Book,
         status: Status = nextValue<Status>(),
