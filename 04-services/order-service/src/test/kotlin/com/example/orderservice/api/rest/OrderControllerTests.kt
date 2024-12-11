@@ -5,6 +5,7 @@ import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.example.orderservice.mapping.api.OrderMapper.toModel
 import com.example.orderservice.repository.OrderRepository
+import com.example.orderservice.repository.ProcessedRequestRepository
 import com.example.orderservice.repository.entity.StatusEntity
 import com.example.orderservice.service.integration.DeliveryClientService
 import com.example.orderservice.service.integration.DomainEventService
@@ -36,7 +37,8 @@ import java.util.*
 class OrderControllerTests(
     @Autowired val mockMvc: MockMvc,
     @Autowired val objectMapper: ObjectMapper,
-    @Autowired val orderRepository: OrderRepository
+    @Autowired val orderRepository: OrderRepository,
+    @Autowired val processedRequestRepository: ProcessedRequestRepository
 ) {
 
     @MockBean
@@ -51,6 +53,7 @@ class OrderControllerTests(
     @BeforeEach
     fun beforeEach() {
         orderRepository.deleteAll()
+        processedRequestRepository.deleteAll()
     }
 
     @Test
