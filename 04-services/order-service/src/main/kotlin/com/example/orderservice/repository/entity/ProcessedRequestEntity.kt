@@ -19,6 +19,7 @@ data class ProcessedRequestEntity(
     @Enumerated(EnumType.STRING)
     val resourceType: ResourceTypeEntity
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
