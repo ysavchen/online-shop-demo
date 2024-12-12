@@ -24,7 +24,7 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         return delivery
     }
 
-    fun deliveryById(deliveryId: UUID): Delivery {
+    fun getDeliveryById(deliveryId: UUID): Delivery {
         val request = GetDeliveryByIdRequest(deliveryId)
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
@@ -34,7 +34,7 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
         return delivery
     }
 
-    fun deliveryByOrderId(orderId: UUID): Delivery {
+    fun getDeliveryByOrderId(orderId: UUID): Delivery {
         val request = GetDeliveryByOrderIdRequest(orderId)
         val reply = kafkaProducer.sendAndReceive(request).get().value()
         val delivery = when (reply) {
@@ -46,7 +46,7 @@ class DeliveryClientService(private val kafkaProducer: ReplyingDeliveryKafkaProd
 
     private fun recover(reply: DuplicateMessageErrorReply): Delivery {
         val id = reply.data.details.resourceId
-        return deliveryById(id)
+        return getDeliveryById(id)
     }
 
     private fun exception(message: ReplyDeliveryMessage): DownstreamServiceException =

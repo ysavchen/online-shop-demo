@@ -68,7 +68,7 @@ class OrderService(
             orderRepository.findByIdOrNull(orderId)?.toModel() ?: throw OrderNotFoundException(orderId)
         }!!.let { order ->
             if (embed.contains(EmbedParam.DELIVERY)) {
-                val delivery = deliveryClientService.deliveryByOrderId(order.id)
+                val delivery = deliveryClientService.getDeliveryByOrderId(order.id)
                 order.copy(embedded = Embedded(delivery))
             } else order
         }.also { order ->
