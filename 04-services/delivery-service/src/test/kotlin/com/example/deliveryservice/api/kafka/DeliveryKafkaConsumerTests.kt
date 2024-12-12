@@ -4,7 +4,6 @@ import com.example.deliveryservice.kafka.client.model.*
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
 import com.example.deliveryservice.reply.kafka.client.config.ReplyDeliveryKafkaClientProperties
 import com.example.deliveryservice.repository.DeliveryRepository
-import com.example.deliveryservice.repository.ProcessedMessageRepository
 import com.example.deliveryservice.test.DeliveryTestData.createDeliveryRequest
 import com.example.deliveryservice.test.DeliveryTestData.deliveryEntity
 import com.example.deliveryservice.test.IntegrationTest
@@ -21,7 +20,6 @@ import kotlin.test.assertEquals
 class DeliveryKafkaConsumerTests(
     @Autowired val properties: ReplyDeliveryKafkaClientProperties,
     @Autowired val deliveryRepository: DeliveryRepository,
-    @Autowired val processedMessageRepository: ProcessedMessageRepository,
     @Autowired val testKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
 ) {
 
@@ -30,7 +28,6 @@ class DeliveryKafkaConsumerTests(
     @BeforeEach
     fun beforeEach() {
         deliveryRepository.deleteAll()
-        processedMessageRepository.deleteAll()
     }
 
     @Test

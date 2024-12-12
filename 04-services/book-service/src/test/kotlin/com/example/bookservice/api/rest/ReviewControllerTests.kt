@@ -7,7 +7,6 @@ import com.example.bookservice.api.rest.model.ReviewSearchRequest
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.mapping.ReviewMapper.toModel
 import com.example.bookservice.repository.BookRepository
-import com.example.bookservice.repository.ProcessedRequestRepository
 import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
@@ -30,7 +29,6 @@ class ReviewControllerTests(
     @Autowired val mockMvc: MockMvc,
     @Autowired val bookRepository: BookRepository,
     @Autowired val reviewRepository: ReviewRepository,
-    @Autowired val processedRequestRepository: ProcessedRequestRepository,
     @Autowired val objectMapper: ObjectMapper
 ) {
 
@@ -38,7 +36,6 @@ class ReviewControllerTests(
     fun beforeEach() {
         reviewRepository.deleteAll()
         bookRepository.deleteAll()
-        processedRequestRepository.deleteAll()
     }
 
     @Test
@@ -190,5 +187,4 @@ class ReviewControllerTests(
             content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
     }
-
 }

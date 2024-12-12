@@ -4,7 +4,6 @@ import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.mapping.BookMapper.toEntity
 import com.example.bookservice.mapping.BookMapper.toModel
 import com.example.bookservice.repository.BookRepository
-import com.example.bookservice.repository.ProcessedRequestRepository
 import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
@@ -31,7 +30,6 @@ class BookControllerTests(
     @Autowired val mockMvc: MockMvc,
     @Autowired val bookRepository: BookRepository,
     @Autowired val reviewRepository: ReviewRepository,
-    @Autowired val processedRequestRepository: ProcessedRequestRepository,
     @Autowired val objectMapper: ObjectMapper
 ) {
 
@@ -39,7 +37,6 @@ class BookControllerTests(
     fun beforeEach() {
         reviewRepository.deleteAll()
         bookRepository.deleteAll()
-        processedRequestRepository.deleteAll()
     }
 
     @Test
@@ -336,5 +333,4 @@ class BookControllerTests(
             .hasFieldOrPropertyWithValue("quantity", request.quantity)
             .hasFieldOrPropertyWithValue("price", request.price?.toEntity())
     }
-
 }
