@@ -27,7 +27,7 @@ class BookServiceFeignClientAutoConfiguration(private val properties: BookServic
 
     @Bean
     @ConditionalOnMissingBean(BookServiceFeignClient::class)
-    fun bookServiceRestClient(objectMapper: ObjectMapper): BookServiceFeignClient =
+    fun bookServiceFeignClient(objectMapper: ObjectMapper): BookServiceFeignClient =
         Feign.builder()
             .options(Request.Options(connectionTimeout, TimeUnit.SECONDS, responseTimeout, TimeUnit.SECONDS, true))
             .encoder(JacksonEncoder(objectMapper))
