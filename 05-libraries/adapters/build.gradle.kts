@@ -7,6 +7,7 @@ plugins {
 
 val springBootVersion by extra("3.3.4")
 val modelVersion by extra("1.0.0")
+val springCloudVersion by extra("2023.0.3")
 
 allprojects {
     group = "com.example"
@@ -42,6 +43,7 @@ configure(clientSubprojects) {
 
     dependencies {
         api("com.example:online-shop-model:$modelVersion")
+        api(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
         testImplementation(kotlin("test-junit5"))
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }

@@ -9,3 +9,14 @@ project("book-service-rest-client-starter") {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
+
+project("book-service-feign-client-starter") {
+    dependencies {
+        api("com.fasterxml.jackson.module:jackson-module-kotlin")
+        api("io.github.openfeign:feign-jackson:13.3")
+        api("io.github.openfeign:feign-kotlin:13.3")
+        api("org.springframework.boot:spring-boot-starter")
+        api("org.springframework.cloud:spring-cloud-starter-openfeign")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+}
