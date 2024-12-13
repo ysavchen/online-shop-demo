@@ -27,7 +27,7 @@ class OrderKafkaConsumerTests(
     @Autowired val properties: DomainOrderKafkaClientProperties
 ) {
 
-    val topic = properties.kafka.domain.consumer!!.topics.first()
+    val topic: String = properties.kafka.domain.consumer!!.topics.first()
 
     @BeforeEach
     fun beforeEach() {
