@@ -11,15 +11,15 @@ docker-compose --project-directory ./02-infra up -d
 ```
 2. Build libraries
 ```bash
-gradle publishToMavenLocal -p ./05-libraries/online-shop-model
-gradle publishToMavenLocal -p ./05-libraries/adapters
+./gradlew publishToMavenLocal -p ./05-libraries/online-shop-model
+./gradlew publishToMavenLocal -p ./05-libraries/adapters
 ```
 3. Run services
 ```bash
-gradle bootRun -p ./04-services/api-gateway
-gradle bootRun -p ./04-services/book-service
-gradle bootRun -p ./04-services/order-service
-gradle bootRun -p ./04-services/delivery-service
+./gradlew bootRun -p ./04-services/api-gateway
+./gradlew bootRun -p ./04-services/book-service
+./gradlew bootRun -p ./04-services/order-service
+./gradlew bootRun -p ./04-services/delivery-service
 ```
 
 ### Configuration
