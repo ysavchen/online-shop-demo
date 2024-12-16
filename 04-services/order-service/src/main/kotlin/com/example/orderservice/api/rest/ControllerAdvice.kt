@@ -56,7 +56,7 @@ class ControllerAdvice {
                 path = request.requestURI,
                 code = ErrorCode.INTERNAL_SERVER_ERROR.name,
                 // message must be logged, but not included in response due to security reasons
-                message = "Internal Server Error"
+                message = null
             ),
             HttpStatus.INTERNAL_SERVER_ERROR
         )

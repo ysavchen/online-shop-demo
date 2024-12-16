@@ -8,7 +8,7 @@ data class ErrorResponse(
     val timestamp: OffsetDateTime,
     val path: String,
     val code: ErrorCode,
-    val message: String
+    val message: String?
 )
 
 enum class ErrorCode {

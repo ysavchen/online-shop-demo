@@ -11,7 +11,7 @@ open class ServiceException(
     message: String,
     val errorCode: ErrorCode,
     val httpStatusCode: HttpStatusCode
-) : ResponseStatusException(httpStatusCode, message)
+) : RuntimeException(message)
 
 class OrderNotFoundException(id: UUID) :
     ServiceException("Order not found by id=$id", ErrorCode.RESOURCE_NOT_FOUND, HttpStatus.NOT_FOUND)
