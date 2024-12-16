@@ -11,17 +11,17 @@ import java.util.*
 
 internal object ErrorHandler {
 
-    fun clientException(bookId: UUID, throwable: Throwable): Mono<Book> =
+    fun fallback(bookId: UUID, throwable: Throwable): Mono<Book> =
         when (throwable) {
-            is WebClientRequestException -> requestException(throwable)
+            is WebClientRequestException -> requestException(bookId, throwable)
             is WebClientResponseException -> responseException(bookId, throwable)
             else -> Mono.error(throwable)
         }
 
-    private fun requestException(ex: WebClientRequestException): Mono<Book> =
+    private fun requestException(bookId: UUID, ex: WebClientRequestException): Mono<Book> =
         when (ex.cause) {
-            is ConnectException -> Mono.error(DownstreamServiceUnavailableException("book-service is not available"))
-            is TimeoutException -> Mono.error(DownstreamServiceUnavailableException("book-service is not available"))
+            is ConnectException -> Mono.error(DownstreamServiceUnavailableException("Request failed for bookId=$bookId: book-service is not available (connection timeout)"))
+            is TimeoutException -> Mono.error(DownstreamServiceUnavailableException("Request failed for bookId=$bookId: book-service is not available (response timeout)"))
             else -> Mono.error(ex)
         }
 

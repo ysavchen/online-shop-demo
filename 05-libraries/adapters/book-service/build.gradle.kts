@@ -6,6 +6,7 @@ project("book-service-rest-client-starter") {
         api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         api("org.springframework.boot:spring-boot-starter")
         api("org.springframework.boot:spring-boot-starter-webflux")
+        api("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
