@@ -1,4 +1,4 @@
-package com.example.bookservice.feign.client.config
+package com.example.bookservice.feign.client.autoconfigure
 
 import com.example.bookservice.feign.client.BookServiceFeignClient
 import com.fasterxml.jackson.databind.ObjectMapper

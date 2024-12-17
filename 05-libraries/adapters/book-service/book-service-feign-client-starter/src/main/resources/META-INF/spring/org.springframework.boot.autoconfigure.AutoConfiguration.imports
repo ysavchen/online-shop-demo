@@ -1,1 +1,1 @@
-com.example.bookservice.feign.client.config.BookServiceFeignClientAutoConfiguration
+com.example.bookservice.feign.client.autoconfigure.BookServiceFeignClientAutoConfiguration

@@ -1,4 +1,4 @@
-package com.example.bookservice.rest.client.config
+package com.example.bookservice.rest.client.autoconfigure
 
 import com.example.bookservice.rest.client.BookServiceRestClient
 import com.example.bookservice.rest.client.BookServiceRestClientImpl

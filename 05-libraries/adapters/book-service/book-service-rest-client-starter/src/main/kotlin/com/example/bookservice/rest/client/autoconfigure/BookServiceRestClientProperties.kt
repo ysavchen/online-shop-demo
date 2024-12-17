@@ -1,11 +1,11 @@
-package com.example.bookservice.feign.client.config
+package com.example.bookservice.rest.client.autoconfigure
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import java.time.Duration
 
 @ConfigurationProperties("application.clients.book-service", ignoreUnknownFields = false)
-data class BookServiceFeignClientProperties(
+data class BookServiceRestClientProperties(
 
     @NestedConfigurationProperty
     val http: HttpClientProperties
