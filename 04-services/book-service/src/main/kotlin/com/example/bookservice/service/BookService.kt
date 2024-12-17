@@ -101,8 +101,8 @@ class BookService(
     }
 
     private fun processCreatedOrder(order: Order): Order {
-        order.items.forEach loop@{ item ->
-            if (item.category != ItemCategory.BOOKS) return@loop
+        for (item in order.items) {
+            if (item.category != ItemCategory.BOOKS) continue
             val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
             if (bookEntity != null) {
                 bookEntity.quantity -= item.quantity
@@ -115,8 +115,8 @@ class BookService(
 
     private fun processUpdatedOrder(order: Order): Order {
         if (order.status == Status.DECLINED || order.status == Status.CANCELLED) {
-            order.items.forEach loop@{ item ->
-                if (item.category != ItemCategory.BOOKS) return@loop
+            for (item in order.items) {
+                if (item.category != ItemCategory.BOOKS) continue
                 val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
                 if (bookEntity != null) {
                     bookEntity.quantity += item.quantity
