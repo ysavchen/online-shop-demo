@@ -2,7 +2,7 @@ package com.example.deliveryservice.api.kafka;
 
 import com.example.deliveryservice.kafka.client.model.*
 import com.example.deliveryservice.mapping.DeliveryMapper.toModel
-import com.example.deliveryservice.reply.kafka.client.config.ReplyDeliveryKafkaClientProperties
+import com.example.deliveryservice.reply.kafka.client.autoconfigure.ReplyDeliveryKafkaClientProperties
 import com.example.deliveryservice.repository.DeliveryRepository
 import com.example.deliveryservice.test.DeliveryTestData.createDeliveryRequest
 import com.example.deliveryservice.test.DeliveryTestData.deliveryEntity

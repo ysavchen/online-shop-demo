@@ -6,7 +6,7 @@ import com.example.bookservice.repository.ReviewRepository
 import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.OrderTestData.order
-import com.example.orderservice.domain.kafka.client.config.DomainOrderKafkaClientProperties
+import com.example.orderservice.domain.kafka.client.autoconfigure.DomainOrderKafkaClientProperties
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
 import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent

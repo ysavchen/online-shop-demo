@@ -2,7 +2,7 @@ package com.example.deliveryservice.test
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
-import com.example.deliveryservice.reply.kafka.client.config.ReplyDeliveryKafkaClientProperties
+import com.example.deliveryservice.reply.kafka.client.autoconfigure.ReplyDeliveryKafkaClientProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig

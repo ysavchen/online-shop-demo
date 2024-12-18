@@ -1,6 +1,6 @@
 package com.example.bookservice.test
 
-import com.example.orderservice.domain.kafka.client.config.DomainOrderKafkaClientProperties
+import com.example.orderservice.domain.kafka.client.autoconfigure.DomainOrderKafkaClientProperties
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
