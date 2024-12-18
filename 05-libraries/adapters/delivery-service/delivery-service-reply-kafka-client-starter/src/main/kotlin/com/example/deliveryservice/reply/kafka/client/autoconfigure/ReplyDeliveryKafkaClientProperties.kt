@@ -1,14 +1,13 @@
-package com.example.deliveryservice.request.kafka.client.config
+package com.example.deliveryservice.reply.kafka.client.autoconfigure
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.boot.context.properties.bind.DefaultValue
-import java.time.Duration
 
 internal const val propertiesPrefix = "application.clients.delivery-service"
 
 @ConfigurationProperties(propertiesPrefix, ignoreUnknownFields = false)
-data class RequestDeliveryKafkaClientProperties(
+data class ReplyDeliveryKafkaClientProperties(
 
     @NestedConfigurationProperty
     val kafka: KafkaProperties
@@ -31,10 +30,10 @@ data class KafkaConnectionProperties(
 
 data class ReplyingProperties(
     @NestedConfigurationProperty
-    val producer: KafkaProducerProperties
+    val consumer: KafkaConsumerProperties
 )
 
-data class KafkaProducerProperties(
+data class KafkaConsumerProperties(
     @NestedConfigurationProperty
     val request: RequestProperties,
 
@@ -46,17 +45,16 @@ data class KafkaProducerProperties(
 )
 
 data class RequestProperties(
+    val groupId: String,
     /**
      * topic: delivery-service.request
      */
-    val topic: String
+    val topics: Set<String>
 )
 
 data class ReplyProperties(
-    val groupIdPrefix: String,
     /**
      * topic: delivery-service.reply
      */
-    val topics: Set<String>,
-    val timeout: Duration = Duration.ofSeconds(3)
+    val topic: String
 )

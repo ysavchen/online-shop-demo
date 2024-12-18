@@ -1,4 +1,4 @@
-package com.example.orderservice.domain.kafka.client.config
+package com.example.orderservice.domain.kafka.client.autoconfigure
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty

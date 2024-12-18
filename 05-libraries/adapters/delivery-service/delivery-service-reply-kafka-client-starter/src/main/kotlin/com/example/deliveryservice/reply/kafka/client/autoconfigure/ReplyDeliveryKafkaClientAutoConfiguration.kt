@@ -1,4 +1,4 @@
-package com.example.deliveryservice.reply.kafka.client.config
+package com.example.deliveryservice.reply.kafka.client.autoconfigure
 
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage

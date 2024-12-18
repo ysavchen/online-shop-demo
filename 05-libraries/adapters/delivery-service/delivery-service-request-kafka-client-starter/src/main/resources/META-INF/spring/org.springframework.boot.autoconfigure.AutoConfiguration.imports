@@ -1,1 +1,1 @@
-com.example.deliveryservice.request.kafka.client.config.RequestDeliveryKafkaClientAutoConfiguration
+com.example.deliveryservice.request.kafka.client.autoconfigure.RequestDeliveryKafkaClientAutoConfiguration

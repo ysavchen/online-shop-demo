@@ -1,4 +1,4 @@
-package com.example.orderservice.domain.kafka.client.config
+package com.example.orderservice.domain.kafka.client.autoconfigure
 
 import com.example.orderservice.domain.kafka.client.DomainOrderKafkaConsumer
 import com.example.orderservice.domain.kafka.client.DomainOrderKafkaProducerImpl
