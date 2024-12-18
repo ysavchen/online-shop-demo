@@ -41,7 +41,7 @@ services:
 
   ### Messaging ###
   kafka:
-    image: confluentinc/cp-kafka:7.7.1
+    image: apache/kafka-native:3.9.0
     hostname: kafka
     container_name: kafka
     ports:
@@ -70,7 +70,7 @@ services:
       - messaging
 
   init-kafka:
-    image: confluentinc/cp-kafka:7.7.1
+    image: apache/kafka-native:3.9.0
     container_name: init-kafka
     depends_on:
       - kafka
