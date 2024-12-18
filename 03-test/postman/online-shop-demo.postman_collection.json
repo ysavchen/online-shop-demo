@@ -286,6 +286,47 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "orderById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api-gateway/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857?_embed=delivery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api-gateway",
+								"api",
+								"v1",
+								"orders",
+								"019251e2-46c8-72b2-9a71-bb14e49a1857"
+							],
+							"query": [
+								{
+									"key": "_embed",
+									"value": "delivery"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
