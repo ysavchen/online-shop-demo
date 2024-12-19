@@ -118,7 +118,7 @@ services:
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.8.2
     container_name: node-exporter
-    profiles: [ "node-exporter" ]
+    profiles: [ "observability" ]
     command:
       - "--path.rootfs=/host"
     network_mode: host
