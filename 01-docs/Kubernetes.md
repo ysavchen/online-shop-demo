@@ -15,29 +15,34 @@ docker run --rm -it -p 8090:8090 ysavchen/book-service:1.0.0
 docker push ysavchen/book-service:1.0.0
 ```
 
-4. Start Kubernetes with profile name 'local-cluster'
+4. Set up infrastructure
+```bash
+docker-compose --project-directory ./02-infra up -d
+```
+
+5. Start Kubernetes with profile name 'local-cluster'
 ```bash
 minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local-cluster
 ```
 
-5. Apply manifests
+6. Apply manifests
 ```bash
 kubectl apply -f ./02-infra/kubernetes/manifests --recursive
 ```
 
-6. Set namespace to online-shop-demo
+7. Set namespace to online-shop-demo
 ```bash
 kubectl config set-context --current --namespace=online-shop-demo
 ```
 
-7. Set up Nginx Ingress
+8. Set up Nginx Ingress
 ```
 minikube addons enable ingress -p local-cluster
 kubectl apply -f ./02-infra/kubernetes/manifests/ingress.yaml
 minikube tunnel -p local-cluster
 ```
 
-8. Stop Kubernetes
+9. Stop Kubernetes
 ```bash
 minikube stop -p local-cluster
 ```
