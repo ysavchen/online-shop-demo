@@ -33,7 +33,7 @@ kubectl config set-context --current --namespace=online-shop-demo
 7. Set up Nginx Ingress
 ```
 minikube addons enable ingress -p local-cluster
-kubectl apply -f ingress.yaml
+kubectl apply -f ./02-infra/kubernetes/manifests/ingress.yaml
 minikube tunnel -p local-cluster
 ```
 
