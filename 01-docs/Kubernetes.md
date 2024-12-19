@@ -1,5 +1,7 @@
 ## Kubernetes
 
+![lens](lens.png)
+
 1. Build image with JDK 21
 ```bash
 ./gradlew bootBuildImage -p ./04-services/book-service
@@ -27,6 +29,7 @@ minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local
 
 6. Apply manifests
 ```bash
+kubectl apply -f ./02-infra/kubernetes/manifests/namespace.yaml
 kubectl apply -f ./02-infra/kubernetes/manifests --recursive
 ```
 
