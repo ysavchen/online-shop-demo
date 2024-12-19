@@ -2,8 +2,7 @@
 
 1. Build image with JDK 21
 ```bash
-cd 04-services/book-service
-./gradlew bootBuildImage
+./gradlew bootBuildImage -p ./04-services/book-service
 ```
 
 2. Test image
@@ -23,8 +22,7 @@ minikube start --driver=docker --container-runtime=containerd --nodes 3 -p local
 
 5. Apply manifests
 ```bash
-cd 02-infra/kubernetes/manifests
-kubectl apply -f deployment.yaml
+kubectl apply -f ./02-infra/kubernetes/manifests --recursive
 ```
 
 6. Set namespace to online-shop-demo
