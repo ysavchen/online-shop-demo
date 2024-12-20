@@ -18,8 +18,7 @@ spring:
         one-indexed-parameters: true # config doesn't work, bug in Spring
     redis:
       client-name: ${spring.application.name}
-      host: localhost
-      port: 6379
+      url: redis://localhost:6379
       connect-timeout: 10000
   jpa:
     open-in-view: false

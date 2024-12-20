@@ -5,8 +5,7 @@ metadata:
   namespace: online-shop-demo
 data:
   SERVER_PORT: "8080"
-  SPRING_DATA_REDIS_HOST: host.docker.internal
-  SPRING_DATA_REDIS_PORT: "6379"
+  SPRING_DATA_REDIS_URL: redis://host.docker.internal:6379
   SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/online_shop_demo?currentSchema=order_service
   APPLICATION_CLIENTS_BOOK_SERVICE: book-service:8080
   APPLICATION_CLIENTS_ORDER_SERVICE_KAFKA_CONNECTION_BOOTSTRAP_SERVERS: http://host.docker.internal:29092
