@@ -51,8 +51,7 @@ class OrderService(
 ) {
 
     private val transactionTemplate = TransactionTemplate(transactionManager)
-    private val readTransactionTemplate = TransactionTemplate(transactionManager)
-        .apply { isReadOnly = true }
+    private val readTransactionTemplate = TransactionTemplate(transactionManager).apply { isReadOnly = true }
 
     @Transactional(readOnly = true)
     fun getOrders(orderRequestParams: OrderRequestParams, request: OrderSearchRequest): PagedModel<Order> =
