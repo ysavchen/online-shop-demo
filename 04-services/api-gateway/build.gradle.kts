@@ -1,14 +1,16 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.graalvm.buildtools.native") version "0.10.3" apply false
+    id("org.springframework.boot") version "3.4.1"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("org.graalvm.buildtools.native") version "0.10.4" apply false
 }
 
 group = "com.example"
 version = "1.0.0"
+
 val dockerHubRepository = "ysavchen"
-val springCloudVersion by extra("2023.0.3")
+val springCloudVersion by extra("2024.0.0")
+val lokiLogbackAppender by extra("1.5.2")
 
 java {
     toolchain {
@@ -34,7 +36,7 @@ dependencies {
 
     // Observability
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("com.github.loki4j:loki-logback-appender:1.5.2")
+    implementation("com.github.loki4j:loki-logback-appender:$lokiLogbackAppender")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
@@ -52,9 +54,4 @@ tasks.test {
 
 tasks.bootBuildImage {
     imageName = "$dockerHubRepository/${rootProject.name}:$version"
-
-    //Fix https://github.com/spring-projects/spring-boot/issues/41199
-    docker {
-        host = "//./pipe/dockerDesktopLinuxEngine"
-    }
 }
