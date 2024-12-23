@@ -7,6 +7,153 @@
 	},
 	"item": [
 		{
+			"name": "api-gateway",
+			"item": [
+				{
+					"name": "actuator",
+					"item": [
+						{
+							"name": "/actuator/health",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/health",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/actuator/gateway",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/gateway",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"gateway"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/actuator/gateway/routes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/gateway/routes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"gateway",
+										"routes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "bookById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api-gateway/api/v1/books/01907548-35f6-703c-ada1-4c0df1f77d74",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api-gateway",
+								"api",
+								"v1",
+								"books",
+								"01907548-35f6-703c-ada1-4c0df1f77d74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api-gateway/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857?_embed=delivery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api-gateway",
+								"api",
+								"v1",
+								"orders",
+								"019251e2-46c8-72b2-9a71-bb14e49a1857"
+							],
+							"query": [
+								{
+									"key": "_embed",
+									"value": "delivery"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "book-service",
 			"item": [
 				{
@@ -176,153 +323,6 @@
 								"api",
 								"v1",
 								"books"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "api-gateway",
-			"item": [
-				{
-					"name": "actuator",
-					"item": [
-						{
-							"name": "/actuator/health",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/actuator/health",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"actuator",
-										"health"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "/actuator/gateway",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/actuator/gateway",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"actuator",
-										"gateway"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "/actuator/gateway/routes",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/actuator/gateway/routes",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"actuator",
-										"gateway",
-										"routes"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "bookById",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api-gateway/api/v1/books/01907548-35f6-703c-ada1-4c0df1f77d74",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api-gateway",
-								"api",
-								"v1",
-								"books",
-								"01907548-35f6-703c-ada1-4c0df1f77d74"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "orderById",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api-gateway/api/v1/orders/019251e2-46c8-72b2-9a71-bb14e49a1857?_embed=delivery",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api-gateway",
-								"api",
-								"v1",
-								"orders",
-								"019251e2-46c8-72b2-9a71-bb14e49a1857"
-							],
-							"query": [
-								{
-									"key": "_embed",
-									"value": "delivery"
-								}
 							]
 						}
 					},
