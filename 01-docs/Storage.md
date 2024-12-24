@@ -44,8 +44,8 @@ where client_addr is not null
 
 - Get table size
 ```
-select pg_size_pretty(pg_table_size('<schema_name.<table_name>')) as table_size_without_indexes,
-       pg_size_pretty(pg_total_relation_size('<schema_name.<table_name>')) as table_size_with_indexes;
+select pg_size_pretty(pg_table_size('<schema_name>.<table_name>')) as table_size_without_indexes,
+       pg_size_pretty(pg_total_relation_size('<schema_name>.<table_name>')) as table_size_with_indexes;
 ```
 
 - Get counters for index scans
