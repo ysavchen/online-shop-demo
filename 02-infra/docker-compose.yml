@@ -65,21 +65,22 @@ services:
       - messaging
 
   init-kafka:
-    image: confluentinc/cp-kafka:7.7.1
+    image: apache/kafka:3.9.0
     container_name: init-kafka
     depends_on:
       - kafka
+    working_dir: '/opt/kafka/bin'
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
       "
       # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
+      ./kafka-topics.sh --bootstrap-server kafka:29092 --list
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:29092 --create --topic order-service.domain --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:29092 --create --topic delivery-service.request --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:29092 --create --topic delivery-service.reply --replication-factor 1 --partitions 1
+      ./kafka-topics.sh --bootstrap-server kafka:29092 --create --topic order-service.domain --replication-factor 1 --partitions 1
+      ./kafka-topics.sh --bootstrap-server kafka:29092 --create --topic delivery-service.request --replication-factor 1 --partitions 1
+      ./kafka-topics.sh --bootstrap-server kafka:29092 --create --topic delivery-service.reply --replication-factor 1 --partitions 1
       echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
+      ./kafka-topics.sh --bootstrap-server kafka:29092 --list
       "
     networks:
       - messaging
