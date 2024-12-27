@@ -1,11 +1,11 @@
 ## Resilience
 
-### Idempotency
+### ————— Idempotency —————
 
 - Idempotent business logic
 - Idempotency key / Message key
 
-### Networking
+### ————— Networking —————
 
 #### Incoming requests
 
@@ -16,11 +16,16 @@
 - Timeouts
 - Circuit Breaker
 
-### Messaging
+### ————— Messaging —————
 
 - Transactional outbox (todo)
 
-### Health checks
+### ————— Redundancy —————
+
+- Service replicas in Kubernetes
+- Database replication (todo)
+
+### ————— Health checks —————
 
 - Liveness checks
 - Shallow health checks
