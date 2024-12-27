@@ -23,7 +23,7 @@
 #### ————— Redundancy —————
 
 - Service replication
-- Database replication (todo)
+- Data replication (todo)
 
 #### ————— Health checks —————
 
