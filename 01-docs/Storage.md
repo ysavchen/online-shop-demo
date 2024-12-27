@@ -9,11 +9,12 @@ keys *        // get all keys
 
 ### Postgres
 - Analyze query
-```text
+```sql
 explain (analyze, buffers)
 select *
 from <table_name>;
-
+```
+```text
 Analyze:
 cost=0.00..10.64 
      0.00 - сколько времени по оценке планировщика потребуется, чтобы получить первые результаты вычитки (в ms)
