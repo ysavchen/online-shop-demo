@@ -1,11 +1,13 @@
 plugins {
     `maven-publish`
-    id("io.spring.dependency-management") version "1.1.6"
+    id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "1.9.25"
 }
 
 group = "com.example"
 version = "1.0.0"
+
+val springBootVersion by extra("3.4.1")
 
 java {
     toolchain {
@@ -25,7 +27,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.4")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
     }
 }
 
