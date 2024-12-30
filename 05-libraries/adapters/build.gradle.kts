@@ -1,13 +1,13 @@
 plugins {
     `maven-publish`
-    id("io.spring.dependency-management") version "1.1.6"
+    id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "1.9.25"
     kotlin("kapt") version "1.9.25"
 }
 
-val springBootVersion by extra("3.3.4")
+val springBootVersion by extra("3.4.1")
 val modelVersion by extra("1.0.0")
-val springCloudVersion by extra("2023.0.3")
+val springCloudVersion by extra("2024.0.0")
 
 allprojects {
     group = "com.example"
