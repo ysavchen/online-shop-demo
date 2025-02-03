@@ -7,7 +7,7 @@ on:
       - '*/adapters/**'
 
 jobs:
-  adapters:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

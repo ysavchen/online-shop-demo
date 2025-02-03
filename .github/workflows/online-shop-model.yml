@@ -7,7 +7,7 @@ on:
       - '*/online-shop-model/**'
 
 jobs:
-  online-shop-model:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

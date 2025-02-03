@@ -7,7 +7,7 @@ on:
       - '*/book-service/**'
 
 jobs:
-  book-service:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
