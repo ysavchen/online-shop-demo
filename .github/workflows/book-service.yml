@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,14 +23,32 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.10.2"
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
 
       - name: Build online-shop-model
-        run: gradle publishToMavenLocal -p ./05-libraries/online-shop-model
+        run: ./gradlew publishToMavenLocal -p ./05-libraries/online-shop-model
 
       - name: Build adapters
-        run: gradle publishToMavenLocal -p ./05-libraries/adapters
+        run: ./gradlew publishToMavenLocal -p ./05-libraries/adapters
 
       - name: Build book-service
-        run: gradle build -p ./04-services/book-service
+        run: ./gradlew build -p ./04-services/book-service
+
+  dependency-submissions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v4
