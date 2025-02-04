@@ -36,7 +36,7 @@ jobs:
       - name: Build book-service
         run: ./gradlew build -p ./04-services/book-service
 
-  dependency-submissions:
+  dependency-submission:
     runs-on: ubuntu-latest
     permissions:
       contents: write

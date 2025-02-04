@@ -30,7 +30,7 @@ jobs:
       - name: Build online-shop-model
         run: ./gradlew build -p ./05-libraries/online-shop-model
 
-  dependency-submissions:
+  dependency-submission:
     runs-on: ubuntu-latest
     permissions:
       contents: write

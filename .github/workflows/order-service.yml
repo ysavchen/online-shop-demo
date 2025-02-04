@@ -36,7 +36,7 @@ jobs:
       - name: Build order-service
         run: ./gradlew build -p ./04-services/order-service
 
-  dependency-submissions:
+  dependency-submission:
     runs-on: ubuntu-latest
     permissions:
       contents: write

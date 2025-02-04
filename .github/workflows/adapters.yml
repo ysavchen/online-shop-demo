@@ -33,7 +33,7 @@ jobs:
       - name: Build adapters
         run: ./gradlew build -p ./05-libraries/adapters
 
-  dependency-submissions:
+  dependency-submission:
     runs-on: ubuntu-latest
     permissions:
       contents: write

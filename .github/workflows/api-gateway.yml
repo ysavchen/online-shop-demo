@@ -30,7 +30,7 @@ jobs:
       - name: Build api-gateway
         run: ./gradlew build -p ./04-services/api-gateway
 
-  dependency-submissions:
+  dependency-submission:
     runs-on: ubuntu-latest
     permissions:
       contents: write
