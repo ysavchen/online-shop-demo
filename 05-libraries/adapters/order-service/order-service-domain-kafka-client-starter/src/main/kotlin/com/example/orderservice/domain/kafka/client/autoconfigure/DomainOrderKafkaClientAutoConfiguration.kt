@@ -77,8 +77,8 @@ class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderK
 class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
-    fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> {
-        return DefaultKafkaConsumerFactory(
+    fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> =
+        DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
                 ConsumerConfig.GROUP_ID_CONFIG to properties.kafka.domain.consumer!!.groupId,
@@ -90,7 +90,6 @@ class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderK
                 JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
             ).apply { isForKey = false }
         )
-    }
 
     @Bean
     @ConditionalOnMissingBean(name = ["domainOrderKafkaListenerContainer"])
