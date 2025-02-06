@@ -2,7 +2,7 @@
 
 Demo application for experiments
 
-![application-schema](01-docs/application.png)
+![application-schema](01-docs/images/application.png)
 
 ### Run application locally
 1. Set up infrastructure

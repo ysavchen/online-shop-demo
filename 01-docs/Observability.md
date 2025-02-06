@@ -1,6 +1,6 @@
 ## Observability
 
-![observability-schema](observability.png)
+![observability-schema](images/observability.png)
 
 #### Logging
 Logger - kotlin-logging facade + Logback (default in Spring).<br/>
@@ -20,7 +20,7 @@ Prometheus scrapes metrics from `<service url>/actuator/prometheus`
 
 ### RED Monitoring
 
-![red-monitoring](red-monitoring.png)
+![red-monitoring](images/red-monitoring.png)
 
 1. Rate
 ```

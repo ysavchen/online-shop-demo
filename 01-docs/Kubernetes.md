@@ -1,6 +1,6 @@
 ## Kubernetes
 
-![lens](lens.png)
+![lens](images/lens.png)
 
 1. Build image with JDK 21
 ```bash
