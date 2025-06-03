@@ -39,6 +39,27 @@ services:
       - test
 
 
+  ### Security ###
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/online_shop_demo
+      KC_DB_SCHEMA: keycloak
+      KC_DB_USERNAME: app_user
+      KC_DB_PASSWORD: app_password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8010:8080
+    depends_on:
+      - postgres
+    networks:
+      - security
+      - storage
+
+
   ### Messaging ###
   kafka:
     image: apache/kafka-native:3.9.0
@@ -204,4 +225,5 @@ networks:
   storage:
   test:
   messaging:
+  security:
   observability:
