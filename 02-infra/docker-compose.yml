@@ -224,6 +224,6 @@ services:
 networks:
   storage:
   test:
-  messaging:
   security:
+  messaging:
   observability:
