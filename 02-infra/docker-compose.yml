@@ -2,7 +2,7 @@ services:
 
   ### Storage ###
   postgres:
-    image: postgres:17.0-alpine
+    image: postgres:17.5-alpine
     container_name: postgres
     environment:
       PGTZ: Europe/Moscow

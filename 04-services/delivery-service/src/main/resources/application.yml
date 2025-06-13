@@ -9,7 +9,7 @@ spring:
     hikari:
       data-source-properties:
         ApplicationName: ${spring.application.name}
-        assumeMinServerVersion: 17.0
+        assumeMinServerVersion: 17.5
       pool-name: ${spring.application.name}-pool
       connection-timeout: 10000    # default is 30000
   jpa:
