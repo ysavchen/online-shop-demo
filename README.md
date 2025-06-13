@@ -26,6 +26,7 @@ docker-compose --project-directory ./02-infra up -d
 - [Kubernetes](01-docs/Kubernetes.md)
 - [Observability](01-docs/Observability.md)
 - [Resilience](01-docs/Resilience.md)
+- [Security](01-docs/Security.md)
 - [Storage](01-docs/Storage.md)
 
 ### Local URLs
