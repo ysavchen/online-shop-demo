@@ -1,5 +1,3 @@
 ## Security
 
-Token Relay pattern with Spring Cloud Gateway
-
-todo
+todo - token relay pattern
