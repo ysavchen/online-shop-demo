@@ -41,7 +41,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.11")
-    kapt("org.hibernate.orm:hibernate-processor:7.0.2.Final")
+    kapt("org.hibernate.orm:hibernate-jpamodelgen:6.6.18.Final")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
