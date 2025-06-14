@@ -59,7 +59,7 @@ dependencies {
     // Kotlin wrapper for slf4j-api
     // SLF4J and Logback comes pre-configured with Spring Boot
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
-    implementation("com.github.loki4j:loki-logback-appender:1.5.18")
+    implementation("com.github.loki4j:loki-logback-appender:2.0.0")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     // Dependency is needed for latency visualization
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
