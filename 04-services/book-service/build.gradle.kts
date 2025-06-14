@@ -1,9 +1,9 @@
 plugins {
     java  //fix for plugin org.hibernate.orm
-    id("org.springframework.boot") version "3.4.1"
+    id("org.springframework.boot") version "3.5.0"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.graalvm.buildtools.native") version "0.10.4" apply false
-    id("org.hibernate.orm") version "6.6.4.Final"
+    id("org.graalvm.buildtools.native") version "0.10.6" apply false
+    id("org.hibernate.orm") version "6.6.15.Final"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
@@ -40,8 +40,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
-    implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.0")
-    kapt("org.hibernate.orm:hibernate-jpamodelgen:6.6.4.Final")
+    implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.11")
+    kapt("org.hibernate.orm:hibernate-processor:7.0.2.Final")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -51,15 +51,15 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Swagger
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
 
     // Observability
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     // Kotlin wrapper for slf4j-api
     // SLF4J and Logback comes pre-configured with Spring Boot
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
-    implementation("com.github.loki4j:loki-logback-appender:1.5.2")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
+    implementation("com.github.loki4j:loki-logback-appender:1.5.18")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     // Dependency is needed for latency visualization
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
