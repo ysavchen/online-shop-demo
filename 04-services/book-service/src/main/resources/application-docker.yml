@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5432/online_shop_demo?currentSchema=book_service
+
+application:
+  clients:
+    order-service:
+      kafka:
+        connection:
+          bootstrap-servers: http://host.docker.internal:9092
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://host.docker.internal:9411/api/v2/spans
+
+logging:
+  loki:
+    url: http://host.docker.internal:3100/loki/api/v1/push

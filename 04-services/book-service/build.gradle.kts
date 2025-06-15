@@ -95,4 +95,5 @@ tasks.test {
 
 tasks.bootBuildImage {
     imageName = "$dockerHubRepository/${rootProject.name}:$version"
+    environment = mapOf("SPRING_PROFILES_ACTIVE" to "docker")
 }
