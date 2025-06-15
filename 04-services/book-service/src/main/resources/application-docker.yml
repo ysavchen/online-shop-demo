@@ -7,7 +7,7 @@ application:
     order-service:
       kafka:
         connection:
-          bootstrap-servers: http://host.docker.internal:9092
+          bootstrap-servers: http://host.docker.internal:29092
 
 management:
   zipkin:
