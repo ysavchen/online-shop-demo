@@ -1,16 +1,16 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.4.1"
+    id("org.springframework.boot") version "3.4.6"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.graalvm.buildtools.native") version "0.10.4" apply false
+    id("org.graalvm.buildtools.native") version "0.10.6" apply false
 }
 
 group = "com.example"
 version = "1.0.0"
 
 val dockerHubRepository = "ysavchen"
-val springCloudVersion by extra("2024.0.0")
-val lokiLogbackAppender by extra("1.5.2")
+val springCloudVersion by extra("2024.0.1")
+val lokiLogbackAppender by extra("2.0.0")
 
 java {
     toolchain {
