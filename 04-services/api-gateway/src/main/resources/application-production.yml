@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: book-service
+          uri: http://host.docker.internal:8090
+        - id: order-service
+          uri: http://host.docker.internal:8091
+
+  data:
+    redis:
+      url: redis://host.docker.internal:6379
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://host.docker.internal:9411/api/v2/spans
+
+logging:
+  loki:
+    url: http://host.docker.internal:3100/loki/api/v1/push
