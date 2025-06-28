@@ -7,7 +7,7 @@ plugins {
 group = "com.example"
 version = "1.0.0"
 
-val springBootVersion by extra("3.4.1")
+val springBootVersion by extra("3.4.6")
 
 java {
     toolchain {
