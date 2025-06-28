@@ -5,9 +5,9 @@ plugins {
     kotlin("kapt") version "1.9.25"
 }
 
-val springBootVersion by extra("3.4.1")
+val springBootVersion by extra("3.4.6")
 val modelVersion by extra("1.0.0")
-val springCloudVersion by extra("2024.0.0")
+val springCloudVersion by extra("2024.0.1")
 
 allprojects {
     group = "com.example"
