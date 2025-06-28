@@ -100,5 +100,5 @@ tasks.test {
 
 tasks.bootBuildImage {
     imageName = "$dockerHubRepository/${rootProject.name}:$version"
-    environment = mapOf("BPE_SPRING_PROFILES_ACTIVE" to "prod")
+    environment = mapOf("BPE_SPRING_PROFILES_ACTIVE" to "docker")
 }
