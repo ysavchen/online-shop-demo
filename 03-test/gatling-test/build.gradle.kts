@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.gatling.gradle") version "3.13.1"
+    id("io.gatling.gradle") version "3.14.3"
 }
 
 group = "org.example"
