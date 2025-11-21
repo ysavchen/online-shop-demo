@@ -39,7 +39,17 @@ services:
       - test
 
 
-  ### Security ###
+  ### Entrypoint ###
+  nginx:
+    image: nginx:1.29.3-alpine
+    container_name: nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx:/etc/nginx
+    networks:
+      - entrypoint
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.2.5
     command: start-dev
@@ -56,7 +66,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - security
+      - entrypoint
       - storage
 
 
@@ -224,6 +234,6 @@ services:
 networks:
   storage:
   test:
-  security:
+  entrypoint:
   messaging:
   observability:
