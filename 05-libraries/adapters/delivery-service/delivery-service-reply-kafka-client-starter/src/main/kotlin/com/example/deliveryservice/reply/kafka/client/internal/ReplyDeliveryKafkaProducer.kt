@@ -14,7 +14,7 @@ class ReplyDeliveryKafkaProducer(
 ) {
 
     fun send(correlationId: Header?, message: ReplyDeliveryMessage): CompletableFuture<SendResult<UUID, ReplyDeliveryMessage>> {
-        val record = ProducerRecord<UUID, ReplyDeliveryMessage>(replyTopic, UUID.randomUUID(), message).apply {
+        val record = ProducerRecord(replyTopic, UUID.randomUUID(), message).apply {
             correlationId?.let { headers().add(it) }
         }
         return kafkaTemplate.send(record)
