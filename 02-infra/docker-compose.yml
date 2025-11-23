@@ -36,7 +36,7 @@ services:
     volumes:
       - ./wiremock:/home/wiremock/mappings
     networks:
-      - test
+      - application
 
 
   ### API Gateway ###
@@ -48,8 +48,7 @@ services:
     volumes:
       - ./nginx:/etc/nginx
     networks:
-      - api-gateway
-      - security
+      - application
 
 
   ### Security ###
@@ -69,7 +68,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - security
+      - application
       - storage
 
 
@@ -236,8 +235,6 @@ services:
 
 networks:
   storage:
-  test:
-  api-gateway:
-  security:
+  application:
   messaging:
   observability:
