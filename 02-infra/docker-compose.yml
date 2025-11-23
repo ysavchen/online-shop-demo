@@ -48,7 +48,8 @@ services:
     volumes:
       - ./nginx:/etc/nginx
     networks:
-      - entrypoint
+      - api-gateway
+      - security
 
 
   ### Security ###
@@ -68,7 +69,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - entrypoint
+      - security
       - storage
 
 
@@ -236,6 +237,7 @@ services:
 networks:
   storage:
   test:
-  entrypoint:
+  api-gateway:
+  security:
   messaging:
   observability:
