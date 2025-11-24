@@ -31,8 +31,8 @@ private object AuthorUtils {
     private const val MAX_LENGTH = 70
 
     fun String.validate(): String = this
-        .requireNotEmpty {
-            throw ModelValidationException("Invalid author: $this; Author is empty")
+        .requireNotBlank {
+            throw ModelValidationException("Invalid author: $this; Author is blank")
         }
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid author: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")

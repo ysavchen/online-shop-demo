@@ -31,8 +31,8 @@ private object TitleUtils {
     private const val MAX_LENGTH = 150
 
     fun String.validate(): String = this
-        .requireNotEmpty {
-            throw ModelValidationException("Invalid title: $this; Title is empty")
+        .requireNotBlank {
+            throw ModelValidationException("Invalid title: $this; Title is blank")
         }
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid title: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")

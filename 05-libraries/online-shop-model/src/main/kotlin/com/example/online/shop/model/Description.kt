@@ -4,7 +4,7 @@ import com.example.online.shop.model.DescriptionUtils.formatValue
 import com.example.online.shop.model.DescriptionUtils.validate
 import com.example.online.shop.model.validation.ModelValidationException
 import com.example.online.shop.model.validation.rejectFormat
-import com.example.online.shop.model.validation.requireNotEmpty
+import com.example.online.shop.model.validation.requireNotBlank
 import com.example.online.shop.model.validation.xssScriptRegex
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
@@ -32,8 +32,8 @@ value class Description(private val value: String) : Model<String> {
 private object DescriptionUtils {
 
     fun String.validate(): String = this
-        .requireNotEmpty {
-            throw ModelValidationException("Invalid description: $this; Description is empty")
+        .requireNotBlank {
+            throw ModelValidationException("Invalid description: $this; Description is blank")
         }
         .rejectFormat(xssScriptRegex) {
             throw ModelValidationException("Invalid description: $this; Description must not contain scripts")
