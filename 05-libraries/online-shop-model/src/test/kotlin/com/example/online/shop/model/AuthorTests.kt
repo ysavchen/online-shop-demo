@@ -9,13 +9,15 @@ import kotlin.test.assertContains
 class AuthorTests {
 
     private val randomString = RandomStringUtils.insecure()
+    private val minLength = 1
+    private val maxLength = 70
 
     @Test
     fun `valid author`() {
-        val authorRange = 1..70
-        val minAuthor = randomString.nextAlphabetic(1)
+        val authorRange = minLength..maxLength
+        val minAuthor = randomString.nextAlphabetic(minLength)
         val author = randomString.nextAlphabetic(authorRange.random())
-        val maxAuthor = randomString.nextAlphabetic(70)
+        val maxAuthor = randomString.nextAlphabetic(maxLength)
 
         listOf(minAuthor, author, maxAuthor)
             .forEach { Author.valueOf(it) }
@@ -23,7 +25,7 @@ class AuthorTests {
 
     @Test
     fun `invalid author length`() {
-        val author = randomString.nextAlphabetic(71)
+        val author = randomString.nextAlphabetic(maxLength + 1)
         val exception = assertThrows<ModelValidationException> { Author.valueOf(author) }
         assertContains(exception.message!!, "length", true)
     }

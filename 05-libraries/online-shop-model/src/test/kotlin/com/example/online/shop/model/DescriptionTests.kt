@@ -9,11 +9,13 @@ import kotlin.test.assertContains
 class DescriptionTests {
 
     private val randomString = RandomStringUtils.insecure()
+    private val minLength = 1
+    private val maxTestLength = 1000
 
     @Test
     fun `valid description`() {
-        val descriptionRange = 1..1000
-        val minDescription = randomString.nextAlphanumeric(1)
+        val descriptionRange = minLength..maxTestLength
+        val minDescription = randomString.nextAlphanumeric(minLength)
         val description = randomString.nextAlphabetic(descriptionRange.random())
 
         listOf(minDescription, description)
