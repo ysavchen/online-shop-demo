@@ -37,7 +37,7 @@ private object AuthorUtils {
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid author: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
         }
-        .rejectFormat(xssScriptRegex) {
+        .rejectFormats(xssPatterns) {
             throw ModelValidationException("Invalid author: $this; Author must not contain scripts")
         }
 

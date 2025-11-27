@@ -1,5 +1,6 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.test.XssTestData.xssScripts
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
@@ -37,6 +38,14 @@ class AuthorTests {
         listOf(emptyAuthor, blankAuthor).forEach {
             val exception = assertThrows<ModelValidationException> { Author.valueOf(it) }
             assertContains(exception.message!!, "blank", true)
+        }
+    }
+
+    @Test
+    fun `invalid author with xss-script`() {
+        xssScripts().forEach {
+            val exception = assertThrows<ModelValidationException> { Author.valueOf(it) }
+            assertContains(exception.message!!, "must not contain scripts", true)
         }
     }
 }

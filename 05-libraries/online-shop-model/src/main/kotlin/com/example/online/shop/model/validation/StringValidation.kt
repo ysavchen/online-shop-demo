@@ -48,8 +48,13 @@ internal fun String.requireFormat(regex: Regex, exception: () -> ModelValidation
 }
 
 internal fun String.rejectFormat(regex: Regex, exception: () -> ModelValidationException): String {
-    if (this.matches(regex)) {
+    if (regex.containsMatchIn(this)) {
         throw exception()
     }
+    return this
+}
+
+internal fun String.rejectFormats(regexes: List<Regex>, exception: () -> ModelValidationException): String {
+    regexes.forEach { rejectFormat(it, exception) }
     return this
 }

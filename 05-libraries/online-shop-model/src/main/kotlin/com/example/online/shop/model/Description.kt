@@ -3,9 +3,9 @@ package com.example.online.shop.model
 import com.example.online.shop.model.DescriptionUtils.formatValue
 import com.example.online.shop.model.DescriptionUtils.validate
 import com.example.online.shop.model.validation.ModelValidationException
-import com.example.online.shop.model.validation.rejectFormat
+import com.example.online.shop.model.validation.rejectFormats
 import com.example.online.shop.model.validation.requireNotBlank
-import com.example.online.shop.model.validation.xssScriptRegex
+import com.example.online.shop.model.validation.xssPatterns
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
@@ -35,7 +35,7 @@ private object DescriptionUtils {
         .requireNotBlank {
             throw ModelValidationException("Invalid description: $this; Description is blank")
         }
-        .rejectFormat(xssScriptRegex) {
+        .rejectFormats(xssPatterns) {
             throw ModelValidationException("Invalid description: $this; Description must not contain scripts")
         }
 
