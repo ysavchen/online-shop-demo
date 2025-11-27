@@ -5,7 +5,7 @@ import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 interface ReplyingDeliveryKafkaProducer {
@@ -21,7 +21,7 @@ class ReplyingDeliveryKafkaProducerImpl(
 
     override fun sendAndReceive(message: RequestDeliveryMessage): CompletableFuture<ConsumerRecord<UUID, ReplyDeliveryMessage>> =
         if (enabled) {
-            val record = ProducerRecord<UUID, RequestDeliveryMessage>(requestTopic, UUID.randomUUID(), message)
+            val record = ProducerRecord(requestTopic, UUID.randomUUID(), message)
             kafkaTemplate.sendAndReceive(record)
         } else {
             CompletableFuture.failedFuture(UnsupportedOperationException("ReplyingDeliveryKafkaProducer is disabled"))
