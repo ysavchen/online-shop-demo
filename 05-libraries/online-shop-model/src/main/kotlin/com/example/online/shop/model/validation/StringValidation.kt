@@ -1,6 +1,15 @@
 package com.example.online.shop.model.validation
 
-internal val xssScriptRegex = Regex("""/(\b)(on\w+)=|javascript|(<\s*)(/*)script/gi""")
+internal val xssPatterns = listOf(
+    Regex("""/<script\b[^>]*>.*?<\/script\s*>/gi"""),                    // script tags
+    Regex("""/on\w+\s*=\s*["']?[^"']*["']?/gi"""),                       // event handlers
+    Regex("""/javascript:\s*[^"'\s<>]*/gi"""),                           // javascript protocol
+    Regex("""/<\s*(?:iframe|form|meta|object|embed|applet)[^>]*>/gi"""), // dangerous tags
+    Regex("""/<\s*(?:style|link)[^>]*>/gi"""),                           // style and link
+    Regex("""/(?:eval|alert|prompt|confirm)\s*\([^)]*\)/gi"""),          // dangerous functions
+    Regex("""/<\s*img[^>]*\s+onerror\s*=[^>]*>/gi"""),                   // img on error
+    Regex("""/\b(?:expression|url)\s*\([^)]*\)/gi""")                    // expression
+)
 
 internal fun String.requireNotBlank(exception: () -> ModelValidationException): String {
     if (this.isBlank()) {
