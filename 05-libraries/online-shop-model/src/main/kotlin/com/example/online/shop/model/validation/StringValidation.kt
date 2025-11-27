@@ -1,14 +1,29 @@
 package com.example.online.shop.model.validation
 
 internal val xssPatterns = listOf(
-    Regex("""/<script\b[^>]*>.*?<\/script\s*>/gi"""),                    // script tags
-    Regex("""/on\w+\s*=\s*["']?[^"']*["']?/gi"""),                       // event handlers
-    Regex("""/javascript:\s*[^"'\s<>]*/gi"""),                           // javascript protocol
-    Regex("""/<\s*(?:iframe|form|meta|object|embed|applet)[^>]*>/gi"""), // dangerous tags
-    Regex("""/<\s*(?:style|link)[^>]*>/gi"""),                           // style and link
-    Regex("""/(?:eval|alert|prompt|confirm)\s*\([^)]*\)/gi"""),          // dangerous functions
-    Regex("""/<\s*img[^>]*\s+onerror\s*=[^>]*>/gi"""),                   // img on error
-    Regex("""/\b(?:expression|url)\s*\([^)]*\)/gi""")                    // expression
+    // script tags
+    Regex("""<script\b[^>]*>(.*?)</script\s*>""", RegexOption.IGNORE_CASE),
+
+    // event handlers
+    Regex("""on\w+\s*=\s*["']?[^"']*["']?""", RegexOption.IGNORE_CASE),
+
+    // javascript protocol
+    Regex("""javascript:\s*[^"'\s<>]*""", RegexOption.IGNORE_CASE),
+
+    // dangerous tags
+    Regex("""<\s*(?:iframe|form|meta|object|embed|applet)[^>]*>""", RegexOption.IGNORE_CASE),
+
+    // style and link
+    Regex("""<\s*(?:style|link)[^>]*>""", RegexOption.IGNORE_CASE),
+
+    // dangerous functions
+    Regex("""(?:eval|alert|prompt|confirm)\s*\([^)]*\)""", RegexOption.IGNORE_CASE),
+
+    // img on error
+    Regex("""<\s*img[^>]*\s+onerror\s*=[^>]*>""", RegexOption.IGNORE_CASE),
+
+    // expression
+    Regex("""\b(?:expression|url)\s*\([^)]*\)""", RegexOption.IGNORE_CASE)
 )
 
 internal fun String.requireNotBlank(exception: () -> ModelValidationException): String {
