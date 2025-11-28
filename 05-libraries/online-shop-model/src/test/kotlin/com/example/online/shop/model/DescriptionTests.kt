@@ -11,16 +11,24 @@ class DescriptionTests {
 
     private val randomString = RandomStringUtils.insecure()
     private val minLength = 1
-    private val maxTestLength = 1000
+    private val maxLength = 5000
 
     @Test
     fun `valid description`() {
-        val descriptionRange = minLength..maxTestLength
+        val descriptionRange = minLength..maxLength
         val minDescription = randomString.nextAlphanumeric(minLength)
         val description = randomString.nextAlphabetic(descriptionRange.random())
+        val maxDescription = randomString.nextAlphabetic(maxLength)
 
-        listOf(minDescription, description)
+        listOf(minDescription, description, maxDescription)
             .forEach { Description.valueOf(it) }
+    }
+
+    @Test
+    fun `invalid description length`() {
+        val description = randomString.nextAlphabetic(maxLength + 1)
+        val exception = assertThrows<ModelValidationException> { Description.valueOf(description) }
+        assertContains(exception.message!!, "length", true)
     }
 
     @Test
