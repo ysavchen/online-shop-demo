@@ -7,7 +7,10 @@ CREATE TABLE IF NOT EXISTS books
     isbn         varchar(25)    NOT NULL UNIQUE,
     title        varchar(150)   NOT NULL,
     authors      text[]         NOT NULL DEFAULT '{}',
-    description  text,
+    -- Почему используется text c валидацией длины, а не varchar(5000)?
+    -- Если понадобится увеличить лимит до 6000 символов, с text это делается простым изменением ограничения,
+    -- а с varchar(5000) потребуется миграция типа данных, что может быть дорогой операцией для больших таблиц.
+    description  text           CHECK (length(description) <= 5000),
     genre        varchar(50)    NOT NULL,
     release_date date,
     quantity     integer        NOT NULL,
