@@ -279,7 +279,7 @@ class BookControllerTests(
         val createdBook = objectMapper.readValue(result.response.contentAsString, Book::class.java)
         assertThat(createdBook)
             .hasFieldOrProperty("id")
-            .hasFieldOrPropertyWithValue("title", request.title.formattedValue)
+            .hasFieldOrPropertyWithValue("title", request.title)
             .hasFieldOrPropertyWithValue("authors", request.authors)
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
@@ -332,6 +332,6 @@ class BookControllerTests(
         assertThat(updatedBookEntity)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
             .hasFieldOrPropertyWithValue("quantity", request.quantity.formattedValue)
-            .hasFieldOrPropertyWithValue("price", request.price?.toEntity())
+            .hasFieldOrPropertyWithValue("price", request.price)
     }
 }
