@@ -2,7 +2,10 @@ package com.example.online.shop.model
 
 import com.example.online.shop.model.DescriptionUtils.formatValue
 import com.example.online.shop.model.DescriptionUtils.validate
-import com.example.online.shop.model.validation.*
+import com.example.online.shop.model.validation.ModelValidationException
+import com.example.online.shop.model.validation.requireNotBlank
+import com.example.online.shop.model.validation.requireRange
+import com.example.online.shop.model.validation.sanitize
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
@@ -37,9 +40,7 @@ private object DescriptionUtils {
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid description: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
         }
-        .rejectFormats(xssPatterns) {
-            throw ModelValidationException("Invalid description: $this; Description must not contain scripts")
-        }
+        .sanitize()
 
     fun String.formatValue(): String = this.trim()
 }

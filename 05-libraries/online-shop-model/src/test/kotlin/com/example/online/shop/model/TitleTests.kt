@@ -1,6 +1,5 @@
 package com.example.online.shop.model
 
-import com.example.online.shop.model.test.XssTestData.xssScripts
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
@@ -38,14 +37,6 @@ class TitleTests {
         listOf(emptyTitle, blankTitle).forEach {
             val exception = assertThrows<ModelValidationException> { Title.valueOf(it) }
             assertContains(exception.message!!, "blank", true)
-        }
-    }
-
-    @Test
-    fun `invalid title with xss-script`() {
-        xssScripts().forEach {
-            val exception = assertThrows<ModelValidationException> { Title.valueOf(it) }
-            assertContains(exception.message!!, "must not contain scripts", true)
         }
     }
 }

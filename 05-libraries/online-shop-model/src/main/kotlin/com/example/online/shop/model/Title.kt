@@ -2,7 +2,10 @@ package com.example.online.shop.model
 
 import com.example.online.shop.model.TitleUtils.formatValue
 import com.example.online.shop.model.TitleUtils.validate
-import com.example.online.shop.model.validation.*
+import com.example.online.shop.model.validation.ModelValidationException
+import com.example.online.shop.model.validation.requireNotBlank
+import com.example.online.shop.model.validation.requireRange
+import com.example.online.shop.model.validation.sanitize
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
@@ -37,9 +40,7 @@ private object TitleUtils {
         .requireRange(MIN_LENGTH, MAX_LENGTH) {
             throw ModelValidationException("Invalid title: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
         }
-        .rejectFormats(xssPatterns) {
-            throw ModelValidationException("Invalid title: $this; Title must not contain scripts")
-        }
+        .sanitize()
 
     fun String.formatValue(): String = this.trim()
 }
