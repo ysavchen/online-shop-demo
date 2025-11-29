@@ -1,8 +1,13 @@
 package com.example.deliveryservice.repository.entity
 
+import com.example.online.shop.model.Building
+import com.example.online.shop.model.City
+import com.example.online.shop.model.Country
+import com.example.online.shop.model.Street
+
 data class AddressEntity(
-    val country: String,
-    val city: String,
-    val street: String,
-    val building: String
+    val country: Country,
+    val city: City,
+    val street: Street,
+    val building: Building
 )

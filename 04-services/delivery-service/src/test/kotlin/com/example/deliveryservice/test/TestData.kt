@@ -7,6 +7,10 @@ import com.example.deliveryservice.repository.entity.AddressEntity
 import com.example.deliveryservice.repository.entity.DeliveryEntity
 import com.example.deliveryservice.repository.entity.StatusEntity
 import com.example.deliveryservice.repository.entity.TypeEntity
+import com.example.online.shop.model.Building
+import com.example.online.shop.model.City
+import com.example.online.shop.model.Country
+import com.example.online.shop.model.Street
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
@@ -31,16 +35,16 @@ object DeliveryTestData {
     )
 
     fun address() = Address(
-        country = randomAlphabetic(10),
-        city = randomAlphabetic(10),
-        street = randomAlphabetic(10),
-        building = randomNumeric(2).toString()
+        country = Country(randomAlphabetic(10)),
+        city = City(randomAlphabetic(10)),
+        street = Street(randomAlphabetic(10)),
+        building = Building(randomNumeric(2).toString())
     )
 
     fun addressEntity() = AddressEntity(
-        country = randomAlphabetic(10),
-        city = randomAlphabetic(10),
-        street = randomAlphabetic(10),
-        building = randomNumeric(2).toString()
+        country = Country(randomAlphabetic(10)),
+        city = City(randomAlphabetic(10)),
+        street = Street(randomAlphabetic(10)),
+        building = Building(randomNumeric(2).toString())
     )
 }
