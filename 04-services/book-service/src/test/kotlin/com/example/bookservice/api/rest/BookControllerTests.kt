@@ -280,7 +280,7 @@ class BookControllerTests(
         assertThat(createdBook)
             .hasFieldOrProperty("id")
             .hasFieldOrPropertyWithValue("title", request.title.formattedValue)
-            .hasFieldOrPropertyWithValue("authors", request.authors.map { it.formattedValue })
+            .hasFieldOrPropertyWithValue("authors", request.authors)
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
             .hasFieldOrPropertyWithValue("quantity", request.quantity.formattedValue)
