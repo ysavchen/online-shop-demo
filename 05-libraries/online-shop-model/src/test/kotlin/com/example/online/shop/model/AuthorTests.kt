@@ -17,11 +17,10 @@ class AuthorTests {
     fun `valid author`() {
         val authorRange = minLength..maxLength
         val minAuthor = randomString.nextAlphabetic(minLength)
-        val author = randomString.nextAlphabetic(authorRange.random())
+        val randomAuthor = randomString.nextAlphabetic(authorRange.random())
         val maxAuthor = randomString.nextAlphabetic(maxLength)
 
-        listOf(minAuthor, author, maxAuthor)
-            .forEach { Author.valueOf(it) }
+        listOf(minAuthor, randomAuthor, maxAuthor).forEach { Author.valueOf(it) }
     }
 
     @Test

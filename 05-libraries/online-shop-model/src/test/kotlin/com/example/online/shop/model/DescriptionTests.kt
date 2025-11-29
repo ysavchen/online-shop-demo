@@ -17,10 +17,10 @@ class DescriptionTests {
     fun `valid description`() {
         val descriptionRange = minLength..maxLength
         val minDescription = randomString.nextAlphanumeric(minLength)
-        val description = randomString.nextAlphabetic(descriptionRange.random())
+        val randomDescription = randomString.nextAlphabetic(descriptionRange.random())
         val maxDescription = randomString.nextAlphabetic(maxLength)
 
-        listOf(minDescription, description, maxDescription)
+        listOf(minDescription, randomDescription, maxDescription)
             .forEach { Description.valueOf(it) }
     }
 
