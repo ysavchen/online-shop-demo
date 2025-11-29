@@ -1,5 +1,9 @@
 package com.example.orderservice.api.rest.model
 
+import com.example.online.shop.model.Building
+import com.example.online.shop.model.City
+import com.example.online.shop.model.Country
+import com.example.online.shop.model.Street
 import java.time.LocalDate
 import java.util.*
 
@@ -17,10 +21,10 @@ data class Delivery(
 )
 
 data class DeliveryAddress(
-    val country: String,
-    val city: String,
-    val street: String,
-    val building: String
+    val country: Country,
+    val city: City,
+    val street: Street,
+    val building: Building
 )
 
 enum class DeliveryType {

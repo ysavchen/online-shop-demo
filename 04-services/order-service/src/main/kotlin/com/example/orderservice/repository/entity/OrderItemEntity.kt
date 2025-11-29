@@ -1,5 +1,6 @@
 package com.example.orderservice.repository.entity
 
+import com.example.online.shop.model.Quantity
 import jakarta.persistence.*
 
 @Entity
@@ -13,7 +14,7 @@ data class OrderItemEntity(
     val category: ItemCategoryEntity,
 
     @Column(name = "quantity", nullable = false)
-    val quantity: Int,
+    val quantity: Quantity,
 
     @Embedded
     val price: ItemPriceEntity

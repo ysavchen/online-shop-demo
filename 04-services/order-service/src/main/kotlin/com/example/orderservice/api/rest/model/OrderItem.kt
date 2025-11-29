@@ -1,13 +1,14 @@
 package com.example.orderservice.api.rest.model
 
+import com.example.online.shop.model.PriceValue
+import com.example.online.shop.model.Quantity
 import java.io.Serializable
-import java.math.BigDecimal
 import java.util.*
 
 data class OrderItem(
     val id: UUID,
     val category: ItemCategory,
-    val quantity: Int,
+    val quantity: Quantity,
     val price: ItemPrice
 ) : Serializable
 
@@ -20,6 +21,6 @@ enum class ItemCurrency {
 }
 
 data class ItemPrice(
-    val value: BigDecimal,
+    val value: PriceValue,
     val currency: ItemCurrency
 ) : Serializable

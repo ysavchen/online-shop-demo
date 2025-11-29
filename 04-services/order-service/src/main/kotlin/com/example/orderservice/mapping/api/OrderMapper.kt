@@ -1,5 +1,7 @@
 package com.example.orderservice.mapping.api
 
+import com.example.online.shop.model.PriceValue
+import com.example.online.shop.model.Quantity
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.mapping.api.OrderItemMapper.toEntity
 import com.example.orderservice.mapping.api.OrderItemMapper.toModel
@@ -49,9 +51,9 @@ object OrderMapper {
         val orderEntity = OrderEntity(
             userId = userId,
             status = StatusEntity.CREATED,
-            totalQuantity = itemEntities.sumOf { it.quantity },
+            totalQuantity = Quantity(itemEntities.sumOf { it.quantity.formattedValue }),
             totalPrice = TotalPriceEntity(
-                value = itemEntities.sumOf { it.price.value },
+                value = PriceValue(itemEntities.sumOf { it.price.value.formattedValue }),
                 currency = currencyEntity(itemEntities)
             ),
             createdAt = OffsetDateTime.now(),

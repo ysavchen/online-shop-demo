@@ -1,5 +1,6 @@
 package com.example.orderservice.repository.entity
 
+import com.example.online.shop.model.Quantity
 import jakarta.persistence.*
 import org.hibernate.annotations.UuidGenerator
 import java.time.OffsetDateTime
@@ -22,7 +23,7 @@ data class OrderEntity(
     var status: StatusEntity,
 
     @Column(name = "total_quantity", nullable = false)
-    val totalQuantity: Int,
+    val totalQuantity: Quantity,
 
     @Embedded
     val totalPrice: TotalPriceEntity,

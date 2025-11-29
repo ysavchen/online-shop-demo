@@ -4,8 +4,7 @@ import com.example.bookservice.rest.client.model.Book
 import com.example.bookservice.rest.client.model.Currency
 import com.example.bookservice.rest.client.model.Genre
 import com.example.bookservice.rest.client.model.Price
-import com.example.online.shop.model.Isbn
-import com.example.online.shop.model.Title
+import com.example.online.shop.model.*
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
 import com.example.orderservice.test.DeliveryTestData.deliveryRequest
@@ -20,11 +19,11 @@ object BookTestData {
         id = UUID.randomUUID(),
         isbn = Isbn.valueOf("9781525826689"),
         title = Title.valueOf(randomAlphabetic(15)),
-        authors = listOf(randomAlphabetic(10)),
+        authors = listOf(Author(randomAlphabetic(10))),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
-        quantity = randomNumeric(3).toInt(),
-        price = Price(randomPrice(), nextValue<Currency>())
+        quantity = Quantity(randomNumeric(3).toInt()),
+        price = Price(PriceValue(randomPrice()), nextValue<Currency>())
     )
 }
 
@@ -36,9 +35,9 @@ object OrderTestData {
     ) = OrderEntity(
         userId = UUID.randomUUID(),
         status = status,
-        totalQuantity = orderItemEntities.sumOf { it.quantity },
+        totalQuantity = Quantity(orderItemEntities.sumOf { it.quantity.formattedValue }),
         totalPrice = TotalPriceEntity(
-            value = orderItemEntities.sumOf { it.price.value },
+            value = PriceValue(orderItemEntities.sumOf { it.price.value.formattedValue }),
             currency = nextValue<CurrencyEntity>()
         ),
         createdAt = OffsetDateTime.now(),
@@ -48,9 +47,9 @@ object OrderTestData {
     fun orderItemEntity() = OrderItemEntity(
         orderItemId = OrderItemId(UUID.randomUUID()),
         category = nextValue<ItemCategoryEntity>(),
-        quantity = randomNumeric(3).toInt(),
+        quantity = Quantity(randomNumeric(3).toInt()),
         price = ItemPriceEntity(
-            value = randomPrice(),
+            value = PriceValue(randomPrice()),
             currency = nextValue<ItemCurrencyEntity>()
         )
     )
@@ -68,9 +67,9 @@ object OrderTestData {
     ) = OrderItem(
         id = UUID.randomUUID(),
         category = nextValue<ItemCategory>(),
-        quantity = randomNumeric(3).toInt(),
+        quantity = Quantity(randomNumeric(3).toInt()),
         price = ItemPrice(
-            value = randomPrice(),
+            value = PriceValue(randomPrice()),
             currency = currency
         )
     )
@@ -102,9 +101,9 @@ object DeliveryTestData {
     )
 
     fun deliveryAddress() = DeliveryAddress(
-        country = randomAlphabetic(15),
-        city = randomAlphabetic(15),
-        street = randomAlphabetic(15),
-        building = randomNumeric(3)
+        country = Country(randomAlphabetic(15)),
+        city = City(randomAlphabetic(15)),
+        street = Street(randomAlphabetic(15)),
+        building = Building(randomNumeric(3))
     )
 }
