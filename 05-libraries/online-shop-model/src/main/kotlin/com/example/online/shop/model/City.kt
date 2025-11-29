@@ -1,12 +1,45 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.CityUtils.formatValue
+import com.example.online.shop.model.CityUtils.validate
+import com.example.online.shop.model.validation.*
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
 value class City(private val value: String) : Model<String> {
 
+    init {
+        value.validate()
+    }
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun valueOf(value: String): City = City(value.validate().formatValue())
+    }
+
     @get:JsonValue
     override val formattedValue: String
-        get() = value
+        get() = value.formatValue()
 
+    override fun toString(): String = formattedValue
+}
+
+private object CityUtils {
+    private const val MIN_LENGTH = 1
+    private const val MAX_LENGTH = 100
+
+    fun String.validate(): String = this
+        .requireNotBlank {
+            throw ModelValidationException("Invalid city: $this; City is blank")
+        }
+        .requireRange(MIN_LENGTH, MAX_LENGTH) {
+            throw ModelValidationException("Invalid city: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        }
+        .rejectFormats(xssPatterns) {
+            throw ModelValidationException("Invalid city: $this; City must not contain scripts")
+        }
+
+    fun String.formatValue(): String = this.trim()
 }
