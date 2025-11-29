@@ -26,7 +26,7 @@ class AuthorTests {
     fun `invalid author length`() {
         val author = randomString.nextAlphabetic(maxLength + 1)
         val exception = assertThrows<ModelValidationException> { Author.valueOf(author) }
-        assertContains(exception.message!!, "length", true)
+        assertContains(exception.message!!, "invalid author", true)
     }
 
     @Test
@@ -35,7 +35,7 @@ class AuthorTests {
         val blankAuthor = " "
         listOf(emptyAuthor, blankAuthor).forEach {
             val exception = assertThrows<ModelValidationException> { Author.valueOf(it) }
-            assertContains(exception.message!!, "blank", true)
+            assertContains(exception.message!!, "invalid author", true)
         }
     }
 }

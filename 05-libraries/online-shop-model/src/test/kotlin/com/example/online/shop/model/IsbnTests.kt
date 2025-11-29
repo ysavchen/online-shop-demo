@@ -34,7 +34,7 @@ class IsbnTests {
 
         numbers.forEach {
             val exception = assertThrows<ModelValidationException> { Isbn.valueOf(it) }
-            assertContains(exception.message!!, "length", true)
+            assertContains(exception.message!!, "invalid isbn", true)
         }
     }
 
@@ -48,7 +48,7 @@ class IsbnTests {
 
         numbers.forEach {
             val exception = assertThrows<ModelValidationException> { Isbn.valueOf(it) }
-            assertContains(exception.message!!, "format", true)
+            assertContains(exception.message!!, "invalid isbn", true)
         }
     }
 

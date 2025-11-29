@@ -19,15 +19,14 @@ class TitleTests {
         val title = randomString.nextAlphabetic(titleRange.random())
         val maxTitle = randomString.nextAlphabetic(minLength)
 
-        listOf(minTitle, title, maxTitle)
-            .forEach { Title.valueOf(it) }
+        listOf(minTitle, title, maxTitle).forEach { Title.valueOf(it) }
     }
 
     @Test
     fun `invalid title length`() {
         val title = randomString.nextAlphabetic(maxLength + 1)
         val exception = assertThrows<ModelValidationException> { Title.valueOf(title) }
-        assertContains(exception.message!!, "length", true)
+        assertContains(exception.message!!, "invalid title", true)
     }
 
     @Test
@@ -36,7 +35,7 @@ class TitleTests {
         val blankTitle = " "
         listOf(emptyTitle, blankTitle).forEach {
             val exception = assertThrows<ModelValidationException> { Title.valueOf(it) }
-            assertContains(exception.message!!, "blank", true)
+            assertContains(exception.message!!, "invalid title", true)
         }
     }
 }

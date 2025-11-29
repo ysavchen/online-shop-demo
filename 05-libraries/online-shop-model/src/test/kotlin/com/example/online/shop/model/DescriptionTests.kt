@@ -27,7 +27,7 @@ class DescriptionTests {
     fun `invalid description length`() {
         val description = randomString.nextAlphabetic(maxLength + 1)
         val exception = assertThrows<ModelValidationException> { Description.valueOf(description) }
-        assertContains(exception.message!!, "length", true)
+        assertContains(exception.message!!, "invalid description", true)
     }
 
     @Test
@@ -36,7 +36,7 @@ class DescriptionTests {
         val blankDescription = " "
         listOf(emptyDescription, blankDescription).forEach {
             val exception = assertThrows<ModelValidationException> { Description.valueOf(it) }
-            assertContains(exception.message!!, "blank", true)
+            assertContains(exception.message!!, "invalid description", true)
         }
     }
 }
