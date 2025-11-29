@@ -18,7 +18,7 @@ value class SearchQuery(private val value: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: String): ReviewText = ReviewText(value.validate().formatValue())
+        fun valueOf(value: String): SearchQuery = SearchQuery(value.validate().formatValue())
     }
 
     @get:JsonValue
