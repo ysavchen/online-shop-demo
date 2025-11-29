@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
-value class Quantity(private val value: Int) : Model<Int> {
+value class Quantity(private val value: Int) : Model<Int>, Comparable<Quantity> {
 
     init {
         value.validate()
@@ -22,6 +22,8 @@ value class Quantity(private val value: Int) : Model<Int> {
     operator fun plus(increment: Quantity): Quantity = valueOf(value + increment.formattedValue)
 
     operator fun minus(decrement: Quantity): Quantity = valueOf(value - decrement.formattedValue)
+
+    override fun compareTo(other: Quantity): Int = this.formattedValue.compareTo(other.formattedValue)
 
     @get:JsonValue
     override val formattedValue: Int
