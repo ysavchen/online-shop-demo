@@ -1,12 +1,45 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.SearchQueryUtils.formatValue
+import com.example.online.shop.model.SearchQueryUtils.validate
+import com.example.online.shop.model.validation.ModelValidationException
+import com.example.online.shop.model.validation.rejectFormats
+import com.example.online.shop.model.validation.requireRange
+import com.example.online.shop.model.validation.xssPatterns
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
 value class SearchQuery(private val value: String) : Model<String> {
 
+    init {
+        value.validate()
+    }
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun valueOf(value: String): ReviewText = ReviewText(value.validate().formatValue())
+    }
+
     @get:JsonValue
     override val formattedValue: String
-        get() = value
+        get() = value.formatValue()
 
+    override fun toString(): String = formattedValue
+}
+
+private object SearchQueryUtils {
+    private const val MIN_LENGTH = 0
+    private const val MAX_LENGTH = 300
+
+    fun String.validate(): String = this
+        .requireRange(MIN_LENGTH, MAX_LENGTH) {
+            throw ModelValidationException("Invalid searchQuery: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        }
+        .rejectFormats(xssPatterns) {
+            throw ModelValidationException("Invalid searchQuery: $this; SearchQuery must not contain scripts")
+        }
+
+    fun String.formatValue(): String = this.trim()
 }
