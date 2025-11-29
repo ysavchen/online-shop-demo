@@ -1,6 +1,9 @@
 package com.example.bookservice.repository.entity
 
-import com.example.online.shop.model.*
+import com.example.online.shop.model.Description
+import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.Quantity
+import com.example.online.shop.model.Title
 import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
 import org.hibernate.annotations.NaturalId
@@ -27,7 +30,7 @@ data class BookEntity(
 
     @Type(StringArrayType::class)
     @Column(name = "authors", columnDefinition = "text[]", nullable = false)
-    val authors: Array<Author>,
+    val authors: Array<String>,
 
     @Column(name = "description")
     val description: Description?,

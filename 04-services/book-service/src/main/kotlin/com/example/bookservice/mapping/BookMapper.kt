@@ -5,6 +5,8 @@ import com.example.bookservice.repository.entity.BookEntity
 import com.example.bookservice.repository.entity.CurrencyEntity
 import com.example.bookservice.repository.entity.GenreEntity
 import com.example.bookservice.repository.entity.PriceEntity
+import com.example.online.shop.model.Author
+import com.example.online.shop.model.PriceValue
 import org.springframework.data.domain.Page
 import org.springframework.data.web.PagedModel
 
@@ -14,7 +16,7 @@ object BookMapper {
         id = id!!,
         isbn = isbn,
         title = title,
-        authors = authors.toList(),
+        authors = authors.map { Author(it) }.toList(),
         genre = genre.toModel(),
         releaseDate = releaseDate,
         quantity = quantity,
@@ -24,7 +26,7 @@ object BookMapper {
     internal fun CreateBookRequest.toEntity() = BookEntity(
         isbn = isbn,
         title = title,
-        authors = authors.toTypedArray(),
+        authors = authors.map { it.formattedValue }.toTypedArray(),
         description = description,
         genre = genre.toEntity(),
         releaseDate = releaseDate,
@@ -62,8 +64,8 @@ object BookMapper {
         if (value == null && currency == null) null
         else if (value == null || currency == null)
             throw IllegalStateException("Price is inconsistent: value=$value, currency=$currency")
-        else Price(value = value!!, currency = currency?.toModel()!!)
+        else Price(value = PriceValue(value!!), currency = currency?.toModel()!!)
 
-    internal fun Price.toEntity() = PriceEntity(value = value, currency = currency.toEntity())
+    internal fun Price.toEntity() = PriceEntity(value = value.formattedValue, currency = currency.toEntity())
 
 }

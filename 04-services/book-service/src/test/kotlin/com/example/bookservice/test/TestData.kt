@@ -35,12 +35,12 @@ object BookTestData {
     ) = BookEntity(
         isbn = isbn,
         title = Title(randomAlphabetic(15)),
-        authors = arrayOf(Author(randomAlphabetic(10))),
+        authors = arrayOf(randomAlphabetic(10)),
         description = Description(randomAlphanumeric(25)),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
         quantity = Quantity(randomNumeric(3).toInt()),
-        price = PriceEntity(PriceValue(randomPrice()), nextValue<CurrencyEntity>())
+        price = PriceEntity(randomPrice(), nextValue<CurrencyEntity>())
     )
 }
 
