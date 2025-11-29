@@ -19,6 +19,10 @@ value class Quantity(private val value: Int) : Model<Int> {
         fun valueOf(value: Int): Quantity = Quantity(value)
     }
 
+    operator fun plus(increment: Quantity): Quantity = valueOf(value + increment.formattedValue)
+
+    operator fun minus(decrement: Quantity): Quantity = valueOf(value - decrement.formattedValue)
+
     @get:JsonValue
     override val formattedValue: Int
         get() = value
