@@ -34,7 +34,7 @@ interface BookRepository : JpaRepository<BookEntity, UUID>, JpaSpecificationExec
 
         private fun titleLikeIgnoreCase(title: String?): Specification<BookEntity> =
             Specification { root, _, cb ->
-                if (title.isNullOrEmpty()) null
+                if (title.isNullOrBlank()) null
                 else cb.like(cb.lower(root.get(BookEntity_.title).`as`(String::class.java)), "%${title.lowercase()}%")
             }
 
