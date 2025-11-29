@@ -1,5 +1,6 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.test.nextValue
 import com.example.online.shop.model.validation.ModelValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -16,7 +17,7 @@ class PriceTests {
     fun `valid price`() {
         val randomPrice = Random.nextDouble(minPrice.toDouble(), maxPrice.toDouble()).toBigDecimal()
 
-        listOf(minPrice, randomPrice, maxPrice).forEach { Price.valueOf(it) }
+        listOf(minPrice, randomPrice, maxPrice).forEach { Price.valueOf(it, nextValue<Currency>()) }
     }
 
     @Test
@@ -25,7 +26,7 @@ class PriceTests {
         val overMaxPrice = maxPrice.plus(BigDecimal.valueOf(0.1))
 
         listOf(negativePrice, overMaxPrice).forEach {
-            val exception = assertThrows<ModelValidationException> { Price.valueOf(it) }
+            val exception = assertThrows<ModelValidationException> { Price.valueOf(it, nextValue<Currency>()) }
             assertContains(exception.message!!, "invalid price", true)
         }
     }

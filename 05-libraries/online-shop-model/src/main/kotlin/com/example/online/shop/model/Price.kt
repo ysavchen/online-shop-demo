@@ -10,8 +10,7 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-@JvmInline
-value class Price(private val value: BigDecimal) : Model<BigDecimal> {
+data class Price(private val value: BigDecimal, private val currency: Currency) : Model<String> {
 
     init {
         value.validate()
@@ -20,14 +19,18 @@ value class Price(private val value: BigDecimal) : Model<BigDecimal> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: BigDecimal): Price = Price(value.validate().formatValue())
+        fun valueOf(value: BigDecimal, currency: Currency): Price = Price(value.validate().formatValue(), currency)
     }
 
     @get:JsonValue
-    override val formattedValue: BigDecimal
-        get() = value.formatValue()
+    override val formattedValue: String
+        get() = "${value.formatValue()} $currency"
 
-    override fun toString(): String = formattedValue.toString()
+    override fun toString(): String = formattedValue
+}
+
+enum class Currency {
+    RUB, EUR
 }
 
 private object PriceUtils {
@@ -36,7 +39,7 @@ private object PriceUtils {
 
     fun BigDecimal.validate(): BigDecimal = this
         .requireRange(MIN_PRICE, MAX_PRICE) {
-            throw ModelValidationException("Invalid price: $this; Price is $this, but must be within $MIN_PRICE and $MAX_PRICE")
+            throw ModelValidationException("Invalid priceValue: $this; PriceValue is $this, but must be within $MIN_PRICE and $MAX_PRICE")
         }
 
     fun BigDecimal.formatValue(): BigDecimal = this.round(MathContext(9, RoundingMode.HALF_EVEN))
