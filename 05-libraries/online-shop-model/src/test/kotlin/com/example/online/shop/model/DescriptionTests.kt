@@ -19,8 +19,7 @@ class DescriptionTests {
         val randomDescription = randomString.nextAlphabetic(descriptionRange.random())
         val maxDescription = randomString.nextAlphabetic(maxLength)
 
-        listOf(minDescription, randomDescription, maxDescription)
-            .forEach { Description.valueOf(it) }
+        listOf(minDescription, randomDescription, maxDescription).forEach { Description.valueOf(it) }
     }
 
     @Test
