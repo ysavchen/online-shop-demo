@@ -1,7 +1,7 @@
 package com.example.orderservice.domain.kafka.client.model
 
+import com.example.online.shop.model.PriceValue
 import com.example.online.shop.model.Quantity
-import java.math.BigDecimal
 import java.util.*
 
 data class OrderItem(
@@ -20,6 +20,6 @@ enum class ItemCurrency {
 }
 
 data class ItemPrice(
-    val value: BigDecimal,
+    val value: PriceValue,
     val currency: ItemCurrency
 )
