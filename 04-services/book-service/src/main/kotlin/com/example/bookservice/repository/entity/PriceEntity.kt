@@ -8,7 +8,7 @@ import java.math.BigDecimal
 
 @Embeddable
 data class PriceEntity(
-    @Column(name = "price", columnDefinition = "NUMERIC")
+    @Column(name = "price", columnDefinition = "NUMERIC(9, 2)")
     var value: BigDecimal?,
 
     @Column(name = "currency")
