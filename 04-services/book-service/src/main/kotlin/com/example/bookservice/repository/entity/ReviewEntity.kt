@@ -1,9 +1,11 @@
 package com.example.bookservice.repository.entity
 
+import com.example.online.shop.model.Author
+import com.example.online.shop.model.Rating
+import com.example.online.shop.model.ReviewText
 import com.example.online.shop.model.Title
 import jakarta.persistence.*
 import org.hibernate.annotations.UuidGenerator
-import java.math.BigDecimal
 import java.util.*
 
 @Entity
@@ -19,13 +21,13 @@ data class ReviewEntity(
     val title: Title?,
 
     @Column(name = "review_text")
-    val reviewText: String?,
+    val reviewText: ReviewText?,
 
     @Column(name = "author", nullable = false)
-    val author: String,
+    val author: Author,
 
     @Column(name = "rating", nullable = false)
-    val rating: BigDecimal,
+    val rating: Rating,
 
     @Column(name = "book_fk", nullable = false)
     val bookFk: UUID

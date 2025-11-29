@@ -1,17 +1,14 @@
 package com.example.bookservice.api.rest.model
 
-import com.example.online.shop.model.Description
-import com.example.online.shop.model.Isbn
-import com.example.online.shop.model.Title
-import java.math.BigDecimal
+import com.example.online.shop.model.*
 import java.time.LocalDate
 import java.util.*
 
 data class BookSearchRequest(
-    val query: String?,  //search request by book title
+    val query: SearchQuery?,  //search request by book title
     val genre: Genre?,
-    val minPrice: BigDecimal?,
-    val maxPrice: BigDecimal?
+    val minPrice: PriceValue?,
+    val maxPrice: PriceValue?
 )
 
 data class BooksFilterRequest(
@@ -21,17 +18,17 @@ data class BooksFilterRequest(
 data class CreateBookRequest(
     val isbn: Isbn,
     val title: Title,
-    val authors: List<String>,
+    val authors: List<Author>,
     val description: Description?,
     val genre: Genre,
     val releaseDate: LocalDate?,
-    val quantity: Int,
+    val quantity: Quantity,
     val price: Price?
 )
 
 data class UpdateBookRequest(
     val releaseDate: LocalDate?,
-    val quantity: Int,
+    val quantity: Quantity,
     val price: Price?
 )
 
@@ -39,15 +36,15 @@ data class Book(
     val id: UUID,
     val isbn: Isbn,
     val title: Title,
-    val authors: List<String>,
+    val authors: List<Author>,
     val genre: Genre,
     val releaseDate: LocalDate?,
-    val quantity: Int,
+    val quantity: Quantity,
     val price: Price?
 )
 
 data class Price(
-    val value: BigDecimal,
+    val value: PriceValue,
     val currency: Currency
 )
 

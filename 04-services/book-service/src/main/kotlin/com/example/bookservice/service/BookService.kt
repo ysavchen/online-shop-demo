@@ -105,7 +105,7 @@ class BookService(
             if (item.category != ItemCategory.BOOKS) continue
             val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
             if (bookEntity != null) {
-                bookEntity.quantity -= item.quantity
+                bookEntity.quantity = bookEntity.quantity - item.quantity
             } else {
                 logger.error { "Book with id=${item.id} is not found to decrease the quantity by ${item.quantity}" }
             }
@@ -119,7 +119,7 @@ class BookService(
                 if (item.category != ItemCategory.BOOKS) continue
                 val bookEntity = bookRepository.findByIdWithPessimisticWrite(item.id)
                 if (bookEntity != null) {
-                    bookEntity.quantity += item.quantity
+                    bookEntity.quantity = bookEntity.quantity + item.quantity
                 } else {
                     logger.error { "Book with id=${item.id} is not found to increase the quantity by ${item.quantity}" }
                 }

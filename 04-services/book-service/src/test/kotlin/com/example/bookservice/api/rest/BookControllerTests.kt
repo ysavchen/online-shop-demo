@@ -11,6 +11,7 @@ import com.example.bookservice.test.BookTestData.updateBookRequest
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.nextValue
 import com.example.online.shop.model.Isbn
+import com.example.online.shop.model.SearchQuery
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
@@ -43,7 +44,7 @@ class BookControllerTests(
     fun `search books by title`() {
         val book = bookRepository.save(bookEntity()).toModel()
         val request = BookSearchRequest(
-            query = book.title.formattedValue,
+            query = SearchQuery(book.title.formattedValue),
             genre = null,
             minPrice = null,
             maxPrice = null

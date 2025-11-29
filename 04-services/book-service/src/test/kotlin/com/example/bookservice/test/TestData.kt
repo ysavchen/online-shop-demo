@@ -2,9 +2,7 @@ package com.example.bookservice.test
 
 import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.repository.entity.*
-import com.example.online.shop.model.Description
-import com.example.online.shop.model.Isbn
-import com.example.online.shop.model.Title
+import com.example.online.shop.model.*
 import com.example.orderservice.domain.kafka.client.model.*
 import org.apache.commons.lang3.RandomStringUtils.*
 import java.time.OffsetDateTime
@@ -16,51 +14,51 @@ typealias KafkaCurrency = com.example.orderservice.domain.kafka.client.model.Cur
 object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
-        isbn = Isbn.valueOf("9781525826689"),
-        title = Title.valueOf(randomAlphabetic(15)),
-        authors = listOf(randomAlphabetic(10)),
-        description = Description.valueOf(randomAlphanumeric(25)),
+        isbn = Isbn("9781525826689"),
+        title = Title(randomAlphabetic(15)),
+        authors = listOf(Author(randomAlphabetic(10))),
+        description = Description(randomAlphanumeric(25)),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
-        quantity = randomNumeric(3).toInt(),
-        price = Price(randomPrice(), nextValue<RestCurrency>())
+        quantity = Quantity(randomNumeric(3).toInt()),
+        price = Price(PriceValue(randomPrice()), nextValue<RestCurrency>())
     )
 
     fun updateBookRequest() = UpdateBookRequest(
         releaseDate = randomLocalDate(),
-        quantity = randomNumeric(3).toInt(),
-        price = Price(randomPrice(), nextValue<RestCurrency>())
+        quantity = Quantity(randomNumeric(3).toInt()),
+        price = Price(PriceValue(randomPrice()), nextValue<RestCurrency>())
     )
 
     fun bookEntity(
-        isbn: Isbn = Isbn.valueOf("9781525826689")
+        isbn: Isbn = Isbn("9781525826689")
     ) = BookEntity(
         isbn = isbn,
-        title = Title.valueOf(randomAlphabetic(15)),
-        authors = arrayOf(randomAlphabetic(10)),
-        description = Description.valueOf(randomAlphanumeric(25)),
+        title = Title(randomAlphabetic(15)),
+        authors = arrayOf(Author(randomAlphabetic(10))),
+        description = Description(randomAlphanumeric(25)),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
-        quantity = randomNumeric(3).toInt(),
-        price = PriceEntity(randomPrice(), nextValue<CurrencyEntity>())
+        quantity = Quantity(randomNumeric(3).toInt()),
+        price = PriceEntity(PriceValue(randomPrice()), nextValue<CurrencyEntity>())
     )
 }
 
 object ReviewTestData {
 
     fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
-        title = Title.valueOf(randomAlphabetic(15)),
-        reviewText = randomAlphabetic(25),
-        author = randomAlphabetic(10),
-        rating = randomRating(),
+        title = Title(randomAlphabetic(15)),
+        reviewText = ReviewText(randomAlphabetic(25)),
+        author = Author(randomAlphabetic(10)),
+        rating = Rating(randomRating()),
         bookId = bookId
     )
 
     fun reviewEntity(bookFk: UUID) = ReviewEntity(
-        title = Title.valueOf(randomAlphabetic(15)),
-        reviewText = randomAlphabetic(25),
-        author = randomAlphabetic(10),
-        rating = randomRating(),
+        title = Title(randomAlphabetic(15)),
+        reviewText = ReviewText(randomAlphabetic(25)),
+        author = Author(randomAlphabetic(10)),
+        rating = Rating(randomRating()),
         bookFk = bookFk
     )
 }
@@ -76,9 +74,9 @@ object OrderTestData {
         userId = UUID.randomUUID(),
         status = status,
         items = orderItems,
-        totalQuantity = orderItems.sumOf { it.quantity },
+        totalQuantity = Quantity(orderItems.sumOf { it.quantity.formattedValue }),
         totalPrice = TotalPrice(
-            value = orderItems.sumOf { it.price.value },
+            value = PriceValue(orderItems.sumOf { it.price.value.formattedValue }),
             currency = nextValue<KafkaCurrency>()
         ),
         createdAt = OffsetDateTime.now(),
@@ -90,7 +88,7 @@ object OrderTestData {
     ) = OrderItem(
         id = book.id,
         category = ItemCategory.BOOKS,
-        quantity = randomNumeric(1).toInt(),
+        quantity = Quantity(randomNumeric(1).toInt()),
         price = ItemPrice(
             value = book.price!!.value,
             currency = ItemCurrency.RUB

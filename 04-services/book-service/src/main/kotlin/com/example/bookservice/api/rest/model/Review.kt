@@ -1,7 +1,9 @@
 package com.example.bookservice.api.rest.model
 
+import com.example.online.shop.model.Author
+import com.example.online.shop.model.Rating
+import com.example.online.shop.model.ReviewText
 import com.example.online.shop.model.Title
-import java.math.BigDecimal
 import java.util.*
 
 data class ReviewSearchRequest(
@@ -10,17 +12,17 @@ data class ReviewSearchRequest(
 
 data class CreateReviewRequest(
     val title: Title?,
-    val reviewText: String?,
-    val author: String,
-    val rating: BigDecimal,
+    val reviewText: ReviewText?,
+    val author: Author,
+    val rating: Rating,
     val bookId: UUID
 )
 
 data class Review(
     val id: UUID,
     val title: Title?,
-    val reviewText: String?,
-    val author: String,
-    val rating: BigDecimal,
+    val reviewText: ReviewText?,
+    val author: Author,
+    val rating: Rating,
     val bookId: UUID
 )
