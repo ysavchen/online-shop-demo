@@ -154,9 +154,9 @@ class ReviewControllerTests(
         assertThat(createdReview)
             .hasFieldOrProperty("id")
             .hasFieldOrPropertyWithValue("title", request.title?.formattedValue)
-            .hasFieldOrPropertyWithValue("reviewText", request.reviewText)
-            .hasFieldOrPropertyWithValue("author", request.author)
-            .hasFieldOrPropertyWithValue("rating", request.rating)
+            .hasFieldOrPropertyWithValue("reviewText", request.reviewText?.formattedValue)
+            .hasFieldOrPropertyWithValue("author", request.author.formattedValue)
+            .hasFieldOrPropertyWithValue("rating", request.rating.formattedValue)
             .hasFieldOrPropertyWithValue("bookId", request.bookId)
     }
 
