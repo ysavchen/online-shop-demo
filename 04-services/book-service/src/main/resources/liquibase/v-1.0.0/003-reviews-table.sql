@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS reviews
 (
     id          uuid          PRIMARY KEY DEFAULT MD5(RANDOM()::text || CLOCK_TIMESTAMP()::text)::uuid,
     title       varchar(150),
-    review_text text,
+    review_text text,         CHECK (length(description) <= 5000),
     author      varchar(100)  NOT NULL,
     rating      numeric(2, 1) NOT NULL CONSTRAINT valid_rating CHECK(rating BETWEEN 1.0 AND 5.0),
     book_fk     uuid          NOT NULL REFERENCES books(id),
