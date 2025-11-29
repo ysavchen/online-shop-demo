@@ -37,7 +37,7 @@ object OrderTestData {
         status = status,
         totalQuantity = Quantity(orderItemEntities.sumOf { it.quantity.formattedValue }),
         totalPrice = TotalPriceEntity(
-            value = PriceValue(orderItemEntities.sumOf { it.price.value.formattedValue }),
+            value = orderItemEntities.sumOf { it.price.value },
             currency = nextValue<CurrencyEntity>()
         ),
         createdAt = OffsetDateTime.now(),
@@ -49,7 +49,7 @@ object OrderTestData {
         category = nextValue<ItemCategoryEntity>(),
         quantity = Quantity(randomNumeric(3).toInt()),
         price = ItemPriceEntity(
-            value = PriceValue(randomPrice()),
+            value = randomPrice(),
             currency = nextValue<ItemCurrencyEntity>()
         )
     )

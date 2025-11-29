@@ -25,7 +25,7 @@ object OrderMapper {
     )
 
     internal fun TotalPriceEntity.toModel() = TotalPrice(
-        value = value,
+        value = PriceValue(value),
         currency = currency.toModel()
     )
 
@@ -53,7 +53,7 @@ object OrderMapper {
             status = StatusEntity.CREATED,
             totalQuantity = Quantity(itemEntities.sumOf { it.quantity.formattedValue }),
             totalPrice = TotalPriceEntity(
-                value = PriceValue(itemEntities.sumOf { it.price.value.formattedValue }),
+                value = itemEntities.sumOf { it.price.value },
                 currency = currencyEntity(itemEntities)
             ),
             createdAt = OffsetDateTime.now(),

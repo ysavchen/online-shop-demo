@@ -1,5 +1,6 @@
 package com.example.orderservice.mapping.api
 
+import com.example.online.shop.model.PriceValue
 import com.example.orderservice.api.rest.model.ItemCategory
 import com.example.orderservice.api.rest.model.ItemCurrency
 import com.example.orderservice.api.rest.model.ItemPrice
@@ -12,7 +13,7 @@ object OrderItemMapper {
         id = orderItemId.id,
         category = category.toModel(),
         price = ItemPrice(
-            value = price.value,
+            value = PriceValue(price.value),
             currency = price.currency.toModel()
         ),
         quantity = quantity
@@ -22,7 +23,7 @@ object OrderItemMapper {
         orderItemId = OrderItemId(id),
         category = category.toEntity(),
         price = ItemPriceEntity(
-            value = price.value,
+            value = price.value.formattedValue,
             currency = price.currency.toEntity()
         ),
         quantity = quantity

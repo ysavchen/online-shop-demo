@@ -1,15 +1,15 @@
 package com.example.orderservice.repository.entity
 
-import com.example.online.shop.model.PriceValue
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import java.math.BigDecimal
 
 @Embeddable
 data class ItemPriceEntity(
-    @Column(name = "price", columnDefinition = "NUMERIC", nullable = false)
-    val value: PriceValue,
+    @Column(name = "price", columnDefinition = "NUMERIC(12, 2)", nullable = false)
+    val value: BigDecimal,
 
     @Column(name = "currency", nullable = false)
     @Enumerated(EnumType.STRING)
