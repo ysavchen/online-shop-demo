@@ -280,11 +280,11 @@ class BookControllerTests(
         assertThat(createdBook)
             .hasFieldOrProperty("id")
             .hasFieldOrPropertyWithValue("title", request.title.formattedValue)
-            .hasFieldOrPropertyWithValue("authors", request.authors)
+            .hasFieldOrPropertyWithValue("authors", request.authors.map { it.formattedValue })
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
-            .hasFieldOrPropertyWithValue("quantity", request.quantity)
-            .hasFieldOrPropertyWithValue("price", request.price)
+            .hasFieldOrPropertyWithValue("quantity", request.quantity.formattedValue)
+            .hasFieldOrPropertyWithValue("price", request.price?.toEntity())
     }
 
     @Test
@@ -331,7 +331,7 @@ class BookControllerTests(
         val updatedBookEntity = bookRepository.findByIdOrNull(book.id)
         assertThat(updatedBookEntity)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
-            .hasFieldOrPropertyWithValue("quantity", request.quantity)
+            .hasFieldOrPropertyWithValue("quantity", request.quantity.formattedValue)
             .hasFieldOrPropertyWithValue("price", request.price?.toEntity())
     }
 }
