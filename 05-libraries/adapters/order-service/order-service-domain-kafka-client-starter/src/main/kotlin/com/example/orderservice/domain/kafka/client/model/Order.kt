@@ -1,6 +1,7 @@
 package com.example.orderservice.domain.kafka.client.model
 
-import java.math.BigDecimal
+import com.example.online.shop.model.PriceValue
+import com.example.online.shop.model.Quantity
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -9,14 +10,14 @@ data class Order(
     val userId: UUID,
     val status: Status,
     val items: Set<OrderItem>,
-    val totalQuantity: Int,
+    val totalQuantity: Quantity,
     val totalPrice: TotalPrice,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
 ) : Data
 
 data class TotalPrice(
-    val value: BigDecimal,
+    val value: PriceValue,
     val currency: Currency
 )
 

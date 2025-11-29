@@ -1,12 +1,13 @@
 package com.example.orderservice.domain.kafka.client.model
 
+import com.example.online.shop.model.Quantity
 import java.math.BigDecimal
 import java.util.*
 
 data class OrderItem(
     val id: UUID,
     val category: ItemCategory,
-    val quantity: Int,
+    val quantity: Quantity,
     val price: ItemPrice
 )
 
