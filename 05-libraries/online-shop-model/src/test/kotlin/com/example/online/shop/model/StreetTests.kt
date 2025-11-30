@@ -1,5 +1,7 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.StreetUtils.MAX_LENGTH
+import com.example.online.shop.model.StreetUtils.MIN_LENGTH
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
@@ -9,22 +11,20 @@ import kotlin.test.assertContains
 class StreetTests {
 
     private val randomString = RandomStringUtils.insecure()
-    private val minLength = 1
-    private val maxLength = 150
 
     @Test
     fun `valid street`() {
-        val streetRange = minLength..maxLength
-        val minStreet = randomString.nextAlphabetic(minLength)
+        val streetRange = MIN_LENGTH..MAX_LENGTH
+        val minStreet = randomString.nextAlphabetic(MIN_LENGTH)
         val randomStreet = randomString.nextAlphabetic(streetRange.random())
-        val maxStreet = randomString.nextAlphabetic(maxLength)
+        val maxStreet = randomString.nextAlphabetic(MAX_LENGTH)
 
         listOf(minStreet, randomStreet, maxStreet).forEach { Street.valueOf(it) }
     }
 
     @Test
     fun `invalid street length`() {
-        val street = randomString.nextAlphabetic(maxLength + 1)
+        val street = randomString.nextAlphabetic(MAX_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Street.valueOf(street) }
         assertContains(exception.message!!, "invalid street", true)
     }
