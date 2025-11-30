@@ -1,5 +1,7 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.RatingUtils.MAX_RATING
+import com.example.online.shop.model.RatingUtils.MIN_RATING
 import com.example.online.shop.model.validation.ModelValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -9,21 +11,18 @@ import kotlin.test.assertContains
 
 class RatingTests {
 
-    private val minRating = BigDecimal.valueOf(1.0)
-    private val maxRating = BigDecimal.valueOf(5.0)
-
     @Test
     fun `valid rating`() {
-        val randomRating = Random.nextDouble(minRating.toDouble(), maxRating.toDouble()).toBigDecimal()
+        val randomRating = Random.nextDouble(MIN_RATING.toDouble(), MAX_RATING.toDouble()).toBigDecimal()
 
-        listOf(minRating, randomRating, maxRating).forEach { Rating.valueOf(it) }
+        listOf(MIN_RATING, randomRating, MAX_RATING).forEach { Rating.valueOf(it) }
     }
 
     @Test
     fun `invalid rating`() {
-        val negativeRating = minRating.minus(BigDecimal.valueOf(1.1))
+        val negativeRating = MIN_RATING.minus(BigDecimal.valueOf(1.1))
         val zeroRating = BigDecimal.valueOf(0.0)
-        val overMaxRating = maxRating.plus(BigDecimal.valueOf(0.1))
+        val overMaxRating = MAX_RATING.plus(BigDecimal.valueOf(0.1))
 
         listOf(negativeRating, zeroRating, overMaxRating).forEach {
             val exception = assertThrows<ModelValidationException> { Rating.valueOf(it) }
