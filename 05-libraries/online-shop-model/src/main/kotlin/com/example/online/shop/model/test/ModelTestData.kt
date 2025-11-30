@@ -38,7 +38,7 @@ object ModelTestData {
     private val randomDescriptionLength = (MIN_DESCRIPTION_LENGTH..MAX_DESCRIPTION_LENGTH).random()
     private val randomPriceValue = Random.nextDouble(MIN_PRICE_VALUE.toDouble(), MAX_PRICE_VALUE.toDouble()).toBigDecimal()
     private val randomQuantity = Random.nextInt(MIN_QUANTITY, MAX_QUANTITY)
-    private val ratingRange = MIN_RATING..MAX_RATING
+    private val randomRating = Random.nextDouble(MIN_RATING.toDouble(), MAX_RATING.toDouble()).toBigDecimal()
     private val reviewTextRange = MIN_REVIEW_TEXT_LENGTH..MAX_REVIEW_TEXT_LENGTH
     private val searchQueryRange = MIN_SEARCH_QUERY_LENGTH..MAX_SEARCH_QUERY_LENGTH
     private val streetRange = MIN_STREET_LENGTH..MAX_STREET_LENGTH
@@ -53,5 +53,6 @@ object ModelTestData {
     fun description(length: Int = randomDescriptionLength): Description = Description(randomString.nextAlphabetic(length))
     fun priceValue(value: BigDecimal = randomPriceValue) = PriceValue(value)
     fun quantity(value: Int = randomQuantity) = Quantity(value)
+    fun rating(value: BigDecimal = randomRating) = Rating(value)
 
 }
