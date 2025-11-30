@@ -30,15 +30,15 @@ value class Description(private val value: String) : Model<String> {
 }
 
 internal object DescriptionUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 5000
+    const val MIN_DESCRIPTION_LENGTH = 1
+    const val MAX_DESCRIPTION_LENGTH = 5000
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid description: $this; Description is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid description: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH) {
+            throw ModelValidationException("Invalid description: $this; Length is $length, but must be within $MIN_DESCRIPTION_LENGTH and $MAX_DESCRIPTION_LENGTH")
         }
         .sanitize()
 

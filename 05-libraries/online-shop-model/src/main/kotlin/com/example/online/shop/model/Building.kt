@@ -30,15 +30,15 @@ value class Building(private val value: String) : Model<String> {
 }
 
 internal object BuildingUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 10
+    const val MIN_BUILDING_LENGTH = 1
+    const val MAX_BUILDING_LENGTH = 10
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid building: $this; Building is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid building: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_BUILDING_LENGTH, MAX_BUILDING_LENGTH) {
+            throw ModelValidationException("Invalid building: $this; Length is $length, but must be within $MIN_BUILDING_LENGTH and $MAX_BUILDING_LENGTH")
         }
         .sanitize()
 

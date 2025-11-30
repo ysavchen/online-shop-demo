@@ -3,6 +3,14 @@ package com.example.online.shop.model.test
 import com.example.online.shop.model.*
 import com.example.online.shop.model.AuthorUtils.MAX_AUTHOR_LENGTH
 import com.example.online.shop.model.AuthorUtils.MIN_AUTHOR_LENGTH
+import com.example.online.shop.model.BuildingUtils.MAX_BUILDING_LENGTH
+import com.example.online.shop.model.BuildingUtils.MIN_BUILDING_LENGTH
+import com.example.online.shop.model.CityUtils.MAX_CITY_LENGTH
+import com.example.online.shop.model.CityUtils.MIN_CITY_LENGTH
+import com.example.online.shop.model.CountryUtils.MAX_COUNTRY_LENGTH
+import com.example.online.shop.model.CountryUtils.MIN_COUNTRY_LENGTH
+import com.example.online.shop.model.DescriptionUtils.MAX_DESCRIPTION_LENGTH
+import com.example.online.shop.model.DescriptionUtils.MIN_DESCRIPTION_LENGTH
 import com.example.online.shop.model.PriceValueUtils.MAX_PRICE_VALUE
 import com.example.online.shop.model.PriceValueUtils.MIN_PRICE_VALUE
 import com.example.online.shop.model.QuantityUtils.MAX_QUANTITY
@@ -14,10 +22,10 @@ import kotlin.random.Random
 object ModelTestData {
 
     private val randomAuthorLength = (MIN_AUTHOR_LENGTH..MAX_AUTHOR_LENGTH).random()
-    private val randomBuildingLength = (BuildingUtils.MIN_LENGTH..BuildingUtils.MAX_LENGTH).random()
-    private val randomCityLength = (CityUtils.MIN_LENGTH..CityUtils.MAX_LENGTH).random()
-    private val randomCountryLength = (CountryUtils.MIN_LENGTH..CountryUtils.MAX_LENGTH).random()
-    private val randomDescriptionLength = (DescriptionUtils.MIN_LENGTH..DescriptionUtils.MAX_LENGTH).random()
+    private val randomBuildingLength = (MIN_BUILDING_LENGTH..MAX_BUILDING_LENGTH).random()
+    private val randomCityLength = (MIN_CITY_LENGTH..MAX_CITY_LENGTH).random()
+    private val randomCountryLength = (MIN_COUNTRY_LENGTH..MAX_COUNTRY_LENGTH).random()
+    private val randomDescriptionLength = (MIN_DESCRIPTION_LENGTH..MAX_DESCRIPTION_LENGTH).random()
     private val randomPriceValue = Random.nextDouble(MIN_PRICE_VALUE.toDouble(), MAX_PRICE_VALUE.toDouble()).toBigDecimal()
     private val randomQuantity = Random.nextInt(MIN_QUANTITY, MAX_QUANTITY)
     private val ratingRange = RatingUtils.MIN_RATING..RatingUtils.MAX_RATING

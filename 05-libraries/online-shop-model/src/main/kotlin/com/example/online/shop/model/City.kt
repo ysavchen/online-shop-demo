@@ -30,15 +30,15 @@ value class City(private val value: String) : Model<String> {
 }
 
 internal object CityUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 100
+    const val MIN_CITY_LENGTH = 1
+    const val MAX_CITY_LENGTH = 100
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid city: $this; City is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid city: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_CITY_LENGTH, MAX_CITY_LENGTH) {
+            throw ModelValidationException("Invalid city: $this; Length is $length, but must be within $MIN_CITY_LENGTH and $MAX_CITY_LENGTH")
         }
         .sanitize()
 

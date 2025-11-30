@@ -1,6 +1,8 @@
 package com.example.online.shop.model
 
+import com.example.online.shop.model.CountryUtils.MAX_COUNTRY_LENGTH
 import com.example.online.shop.model.CountryUtils.MAX_LENGTH
+import com.example.online.shop.model.CountryUtils.MIN_COUNTRY_LENGTH
 import com.example.online.shop.model.CountryUtils.MIN_LENGTH
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
@@ -14,17 +16,17 @@ class CountryTests {
 
     @Test
     fun `valid country`() {
-        val countryRange = MIN_LENGTH..MAX_LENGTH
-        val minCountry = randomString.nextAlphabetic(MIN_LENGTH)
+        val countryRange = MIN_COUNTRY_LENGTH..MAX_COUNTRY_LENGTH
+        val minCountry = randomString.nextAlphabetic(MIN_COUNTRY_LENGTH)
         val randomCountry = randomString.nextAlphabetic(countryRange.random())
-        val maxCountry = randomString.nextAlphabetic(MAX_LENGTH)
+        val maxCountry = randomString.nextAlphabetic(MAX_COUNTRY_LENGTH)
 
         listOf(minCountry, randomCountry, maxCountry).forEach { Country.valueOf(it) }
     }
 
     @Test
     fun `invalid country length`() {
-        val country = randomString.nextAlphabetic(MAX_LENGTH + 1)
+        val country = randomString.nextAlphabetic(MAX_COUNTRY_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Country.valueOf(country) }
         assertContains(exception.message!!, "invalid country", true)
     }

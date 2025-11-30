@@ -1,7 +1,7 @@
 package com.example.online.shop.model
 
-import com.example.online.shop.model.DescriptionUtils.MAX_LENGTH
-import com.example.online.shop.model.DescriptionUtils.MIN_LENGTH
+import com.example.online.shop.model.DescriptionUtils.MAX_DESCRIPTION_LENGTH
+import com.example.online.shop.model.DescriptionUtils.MIN_DESCRIPTION_LENGTH
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
@@ -14,17 +14,17 @@ class DescriptionTests {
 
     @Test
     fun `valid description`() {
-        val descriptionRange = MIN_LENGTH..MAX_LENGTH
-        val minDescription = randomString.nextAlphanumeric(MIN_LENGTH)
+        val descriptionRange = MIN_DESCRIPTION_LENGTH..MAX_DESCRIPTION_LENGTH
+        val minDescription = randomString.nextAlphanumeric(MIN_DESCRIPTION_LENGTH)
         val randomDescription = randomString.nextAlphabetic(descriptionRange.random())
-        val maxDescription = randomString.nextAlphabetic(MAX_LENGTH)
+        val maxDescription = randomString.nextAlphabetic(MAX_DESCRIPTION_LENGTH)
 
         listOf(minDescription, randomDescription, maxDescription).forEach { Description.valueOf(it) }
     }
 
     @Test
     fun `invalid description length`() {
-        val description = randomString.nextAlphabetic(MAX_LENGTH + 1)
+        val description = randomString.nextAlphabetic(MAX_DESCRIPTION_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Description.valueOf(description) }
         assertContains(exception.message!!, "invalid description", true)
     }

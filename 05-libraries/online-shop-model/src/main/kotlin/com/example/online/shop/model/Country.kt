@@ -30,15 +30,15 @@ value class Country(private val value: String) : Model<String> {
 }
 
 internal object CountryUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 100
+    const val MIN_COUNTRY_LENGTH = 1
+    const val MAX_COUNTRY_LENGTH = 100
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid country: $this; Country is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid country: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_COUNTRY_LENGTH, MAX_COUNTRY_LENGTH) {
+            throw ModelValidationException("Invalid country: $this; Length is $length, but must be within $MIN_COUNTRY_LENGTH and $MAX_COUNTRY_LENGTH")
         }
         .sanitize()
 
