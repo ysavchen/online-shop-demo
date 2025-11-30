@@ -30,9 +30,9 @@ value class Rating(private val value: BigDecimal) : Model<BigDecimal> {
     override fun toString(): String = formattedValue.toString()
 }
 
-private object RatingUtils {
-    private val MIN_RATING = BigDecimal.valueOf(1.0)
-    private val MAX_RATING = BigDecimal.valueOf(5.0)
+internal object RatingUtils {
+    val MIN_RATING: BigDecimal = BigDecimal.valueOf(1.0)
+    val MAX_RATING: BigDecimal = BigDecimal.valueOf(5.0)
 
     fun BigDecimal.validate(): BigDecimal = this
         .requireRange(MIN_RATING, MAX_RATING) {

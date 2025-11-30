@@ -31,9 +31,9 @@ value class Isbn(private val value: String) : Model<String> {
     override fun toString(): String = formattedValue
 }
 
-private object IsbnUtils {
-    private const val MIN_LENGTH = 13
-    private const val MAX_LENGTH = 25
+internal object IsbnUtils {
+    const val MIN_LENGTH = 13
+    const val MAX_LENGTH = 25
     private val isbnRegex = Regex(
         """
            ^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}${'$'}|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}${'$'})97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]${'$'}

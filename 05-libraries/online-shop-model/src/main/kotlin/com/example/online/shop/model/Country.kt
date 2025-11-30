@@ -29,9 +29,9 @@ value class Country(private val value: String) : Model<String> {
     override fun toString(): String = formattedValue
 }
 
-private object CountryUtils {
-    private const val MIN_LENGTH = 1
-    private const val MAX_LENGTH = 100
+internal object CountryUtils {
+    const val MIN_LENGTH = 1
+    const val MAX_LENGTH = 100
 
     fun String.validate(): String = this
         .requireNotBlank {

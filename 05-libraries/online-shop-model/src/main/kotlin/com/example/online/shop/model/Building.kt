@@ -29,9 +29,9 @@ value class Building(private val value: String) : Model<String> {
     override fun toString(): String = formattedValue
 }
 
-private object BuildingUtils {
-    private const val MIN_LENGTH = 1
-    private const val MAX_LENGTH = 10
+internal object BuildingUtils {
+    const val MIN_LENGTH = 1
+    const val MAX_LENGTH = 10
 
     fun String.validate(): String = this
         .requireNotBlank {

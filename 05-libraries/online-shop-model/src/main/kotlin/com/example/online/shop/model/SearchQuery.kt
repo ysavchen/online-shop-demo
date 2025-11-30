@@ -28,9 +28,9 @@ value class SearchQuery(private val value: String) : Model<String> {
     override fun toString(): String = formattedValue
 }
 
-private object SearchQueryUtils {
-    private const val MIN_LENGTH = 0
-    private const val MAX_LENGTH = 300
+internal object SearchQueryUtils {
+    const val MIN_LENGTH = 0
+    const val MAX_LENGTH = 300
 
     fun String.validate(): String = this
         .requireRange(MIN_LENGTH, MAX_LENGTH) {

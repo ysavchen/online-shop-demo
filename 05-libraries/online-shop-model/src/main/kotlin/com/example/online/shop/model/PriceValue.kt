@@ -30,9 +30,9 @@ value class PriceValue(private val value: BigDecimal) : Model<BigDecimal> {
     override fun toString(): String = formattedValue.toString()
 }
 
-private object PriceValueUtils {
-    private val MIN_PRICE_VALUE = BigDecimal.valueOf(0.0)
-    private val MAX_PRICE_VALUE = BigDecimal.valueOf(9999999.99)
+internal object PriceValueUtils {
+    val MIN_PRICE_VALUE: BigDecimal = BigDecimal.valueOf(0.0)
+    val MAX_PRICE_VALUE: BigDecimal = BigDecimal.valueOf(9999999.99)
 
     fun BigDecimal.validate(): BigDecimal = this
         .requireRange(MIN_PRICE_VALUE, MAX_PRICE_VALUE) {

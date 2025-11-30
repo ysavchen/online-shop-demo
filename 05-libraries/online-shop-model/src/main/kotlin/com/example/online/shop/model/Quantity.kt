@@ -32,9 +32,9 @@ value class Quantity(private val value: Int) : Model<Int>, Comparable<Quantity> 
     override fun toString(): String = formattedValue.toString()
 }
 
-private object QuantityUtils {
-    private const val MIN_QUANTITY = 0
-    private const val MAX_QUANTITY = Int.MAX_VALUE
+internal object QuantityUtils {
+    const val MIN_QUANTITY = 0
+    const val MAX_QUANTITY = Int.MAX_VALUE
 
     fun Int.validate(): Int = this
         .requireRange(MIN_QUANTITY, MAX_QUANTITY) {

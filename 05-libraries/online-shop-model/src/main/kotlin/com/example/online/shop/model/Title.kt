@@ -29,9 +29,9 @@ value class Title(private val value: String) : Model<String> {
     override fun toString(): String = formattedValue
 }
 
-private object TitleUtils {
-    private const val MIN_LENGTH = 1
-    private const val MAX_LENGTH = 150
+internal object TitleUtils {
+    const val MIN_LENGTH = 1
+    const val MAX_LENGTH = 150
 
     fun String.validate(): String = this
         .requireNotBlank {
