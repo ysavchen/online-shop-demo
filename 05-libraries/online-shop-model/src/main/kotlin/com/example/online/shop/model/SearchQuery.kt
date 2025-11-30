@@ -29,12 +29,12 @@ value class SearchQuery(private val value: String) : Model<String> {
 }
 
 internal object SearchQueryUtils {
-    const val MIN_LENGTH = 0
-    const val MAX_LENGTH = 300
+    const val MIN_SEARCH_QUERY_LENGTH = 0
+    const val MAX_SEARCH_QUERY_LENGTH = 300
 
     fun String.validate(): String = this
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid searchQuery: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_SEARCH_QUERY_LENGTH, MAX_SEARCH_QUERY_LENGTH) {
+            throw ModelValidationException("Invalid searchQuery: $this; Length is $length, but must be within $MIN_SEARCH_QUERY_LENGTH and $MAX_SEARCH_QUERY_LENGTH")
         }
         .sanitize()
 

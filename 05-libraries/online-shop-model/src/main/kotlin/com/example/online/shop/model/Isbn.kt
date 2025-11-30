@@ -32,8 +32,8 @@ value class Isbn(private val value: String) : Model<String> {
 }
 
 internal object IsbnUtils {
-    const val MIN_LENGTH = 13
-    const val MAX_LENGTH = 25
+    const val MIN_ISBN_LENGTH = 13
+    const val MAX_ISBN_LENGTH = 25
     private val isbnRegex = Regex(
         """
            ^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}${'$'}|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}${'$'})97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]${'$'}
@@ -41,8 +41,8 @@ internal object IsbnUtils {
     )
 
     fun String.validate(): String = this
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid ISBN: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_ISBN_LENGTH, MAX_ISBN_LENGTH) {
+            throw ModelValidationException("Invalid ISBN: $this; Length is $length, but must be within $MIN_ISBN_LENGTH and $MAX_ISBN_LENGTH")
         }
         .requireFormat(isbnRegex) {
             throw ModelValidationException("Invalid ISBN: $this; Format must correspond to ISBN-13")

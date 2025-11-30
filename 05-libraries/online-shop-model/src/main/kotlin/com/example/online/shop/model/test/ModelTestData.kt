@@ -15,6 +15,12 @@ import com.example.online.shop.model.PriceValueUtils.MAX_PRICE_VALUE
 import com.example.online.shop.model.PriceValueUtils.MIN_PRICE_VALUE
 import com.example.online.shop.model.QuantityUtils.MAX_QUANTITY
 import com.example.online.shop.model.QuantityUtils.MIN_QUANTITY
+import com.example.online.shop.model.RatingUtils.MAX_RATING
+import com.example.online.shop.model.RatingUtils.MIN_RATING
+import com.example.online.shop.model.ReviewTextUtils.MAX_REVIEW_TEXT_LENGTH
+import com.example.online.shop.model.ReviewTextUtils.MIN_REVIEW_TEXT_LENGTH
+import com.example.online.shop.model.SearchQueryUtils.MAX_SEARCH_QUERY_LENGTH
+import com.example.online.shop.model.SearchQueryUtils.MIN_SEARCH_QUERY_LENGTH
 import org.apache.commons.lang3.RandomStringUtils
 import java.math.BigDecimal
 import kotlin.random.Random
@@ -28,9 +34,9 @@ object ModelTestData {
     private val randomDescriptionLength = (MIN_DESCRIPTION_LENGTH..MAX_DESCRIPTION_LENGTH).random()
     private val randomPriceValue = Random.nextDouble(MIN_PRICE_VALUE.toDouble(), MAX_PRICE_VALUE.toDouble()).toBigDecimal()
     private val randomQuantity = Random.nextInt(MIN_QUANTITY, MAX_QUANTITY)
-    private val ratingRange = RatingUtils.MIN_RATING..RatingUtils.MAX_RATING
-    private val reviewTextRange = ReviewTextUtils.MIN_LENGTH..ReviewTextUtils.MAX_LENGTH
-    private val searchQueryRange = SearchQueryUtils.MIN_LENGTH..SearchQueryUtils.MAX_LENGTH
+    private val ratingRange = MIN_RATING..MAX_RATING
+    private val reviewTextRange = MIN_REVIEW_TEXT_LENGTH..MAX_REVIEW_TEXT_LENGTH
+    private val searchQueryRange = MIN_SEARCH_QUERY_LENGTH..MAX_SEARCH_QUERY_LENGTH
     private val streetRange = StreetUtils.MIN_LENGTH..StreetUtils.MAX_LENGTH
     private val titleRange = TitleUtils.MIN_LENGTH..TitleUtils.MAX_LENGTH
 

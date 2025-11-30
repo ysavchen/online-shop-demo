@@ -30,15 +30,15 @@ value class ReviewText(private val value: String) : Model<String> {
 }
 
 internal object ReviewTextUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 5000
+    const val MIN_REVIEW_TEXT_LENGTH = 1
+    const val MAX_REVIEW_TEXT_LENGTH = 5000
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid reviewText: $this; ReviewText is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid reviewText: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_REVIEW_TEXT_LENGTH, MAX_REVIEW_TEXT_LENGTH) {
+            throw ModelValidationException("Invalid reviewText: $this; Length is $length, but must be within $MIN_REVIEW_TEXT_LENGTH and $MAX_REVIEW_TEXT_LENGTH")
         }
         .sanitize()
 
