@@ -30,15 +30,15 @@ value class Title(private val value: String) : Model<String> {
 }
 
 internal object TitleUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 150
+    const val MIN_TITLE_LENGTH = 1
+    const val MAX_TITLE_LENGTH = 150
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid title: $this; Title is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid title: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH) {
+            throw ModelValidationException("Invalid title: $this; Length is $length, but must be within $MIN_TITLE_LENGTH and $MAX_TITLE_LENGTH")
         }
         .sanitize()
 

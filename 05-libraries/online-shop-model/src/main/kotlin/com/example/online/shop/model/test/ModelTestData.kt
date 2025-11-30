@@ -21,6 +21,10 @@ import com.example.online.shop.model.ReviewTextUtils.MAX_REVIEW_TEXT_LENGTH
 import com.example.online.shop.model.ReviewTextUtils.MIN_REVIEW_TEXT_LENGTH
 import com.example.online.shop.model.SearchQueryUtils.MAX_SEARCH_QUERY_LENGTH
 import com.example.online.shop.model.SearchQueryUtils.MIN_SEARCH_QUERY_LENGTH
+import com.example.online.shop.model.StreetUtils.MAX_STREET_LENGTH
+import com.example.online.shop.model.StreetUtils.MIN_STREET_LENGTH
+import com.example.online.shop.model.TitleUtils.MAX_TITLE_LENGTH
+import com.example.online.shop.model.TitleUtils.MIN_TITLE_LENGTH
 import org.apache.commons.lang3.RandomStringUtils
 import java.math.BigDecimal
 import kotlin.random.Random
@@ -37,8 +41,8 @@ object ModelTestData {
     private val ratingRange = MIN_RATING..MAX_RATING
     private val reviewTextRange = MIN_REVIEW_TEXT_LENGTH..MAX_REVIEW_TEXT_LENGTH
     private val searchQueryRange = MIN_SEARCH_QUERY_LENGTH..MAX_SEARCH_QUERY_LENGTH
-    private val streetRange = StreetUtils.MIN_LENGTH..StreetUtils.MAX_LENGTH
-    private val titleRange = TitleUtils.MIN_LENGTH..TitleUtils.MAX_LENGTH
+    private val streetRange = MIN_STREET_LENGTH..MAX_STREET_LENGTH
+    private val titleRange = MIN_TITLE_LENGTH..MAX_TITLE_LENGTH
 
     private val randomString = RandomStringUtils.insecure()
 

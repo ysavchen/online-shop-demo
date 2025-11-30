@@ -1,9 +1,7 @@
 package com.example.online.shop.model
 
 import com.example.online.shop.model.CountryUtils.MAX_COUNTRY_LENGTH
-import com.example.online.shop.model.CountryUtils.MAX_LENGTH
 import com.example.online.shop.model.CountryUtils.MIN_COUNTRY_LENGTH
-import com.example.online.shop.model.CountryUtils.MIN_LENGTH
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test

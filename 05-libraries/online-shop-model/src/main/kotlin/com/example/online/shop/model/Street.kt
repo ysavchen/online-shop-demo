@@ -30,15 +30,15 @@ value class Street(private val value: String) : Model<String> {
 }
 
 internal object StreetUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 150
+    const val MIN_STREET_LENGTH = 1
+    const val MAX_STREET_LENGTH = 150
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid street: $this; Street is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid street: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_STREET_LENGTH, MAX_STREET_LENGTH) {
+            throw ModelValidationException("Invalid street: $this; Length is $length, but must be within $MIN_STREET_LENGTH and $MAX_STREET_LENGTH")
         }
         .sanitize()
 
