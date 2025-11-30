@@ -1,7 +1,7 @@
 package com.example.online.shop.model
 
-import com.example.online.shop.model.AuthorUtils.MAX_LENGTH
-import com.example.online.shop.model.AuthorUtils.MIN_LENGTH
+import com.example.online.shop.model.AuthorUtils.MAX_AUTHOR_LENGTH
+import com.example.online.shop.model.AuthorUtils.MIN_AUTHOR_LENGTH
 import com.example.online.shop.model.validation.ModelValidationException
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
@@ -14,17 +14,17 @@ class AuthorTests {
 
     @Test
     fun `valid author`() {
-        val authorRange = MIN_LENGTH..MAX_LENGTH
-        val minAuthor = randomString.nextAlphabetic(MIN_LENGTH)
+        val authorRange = MIN_AUTHOR_LENGTH..MAX_AUTHOR_LENGTH
+        val minAuthor = randomString.nextAlphabetic(MIN_AUTHOR_LENGTH)
         val randomAuthor = randomString.nextAlphabetic(authorRange.random())
-        val maxAuthor = randomString.nextAlphabetic(MAX_LENGTH)
+        val maxAuthor = randomString.nextAlphabetic(MAX_AUTHOR_LENGTH)
 
         listOf(minAuthor, randomAuthor, maxAuthor).forEach { Author.valueOf(it) }
     }
 
     @Test
     fun `invalid author length`() {
-        val author = randomString.nextAlphabetic(MAX_LENGTH + 1)
+        val author = randomString.nextAlphabetic(MAX_AUTHOR_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Author.valueOf(author) }
         assertContains(exception.message!!, "invalid author", true)
     }

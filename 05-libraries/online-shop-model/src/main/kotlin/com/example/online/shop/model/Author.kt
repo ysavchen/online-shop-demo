@@ -30,15 +30,15 @@ value class Author(private val value: String) : Model<String> {
 }
 
 internal object AuthorUtils {
-    const val MIN_LENGTH = 1
-    const val MAX_LENGTH = 70
+    const val MIN_AUTHOR_LENGTH = 1
+    const val MAX_AUTHOR_LENGTH = 70
 
     fun String.validate(): String = this
         .requireNotBlank {
             throw ModelValidationException("Invalid author: $this; Author is blank")
         }
-        .requireRange(MIN_LENGTH, MAX_LENGTH) {
-            throw ModelValidationException("Invalid author: $this; Length is $length, but must be within $MIN_LENGTH and $MAX_LENGTH")
+        .requireRange(MIN_AUTHOR_LENGTH, MAX_AUTHOR_LENGTH) {
+            throw ModelValidationException("Invalid author: $this; Length is $length, but must be within $MIN_AUTHOR_LENGTH and $MAX_AUTHOR_LENGTH")
         }
         .sanitize()
 
