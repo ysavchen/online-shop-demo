@@ -39,20 +39,24 @@ object ModelTestData {
     private val randomPriceValue = Random.nextDouble(MIN_PRICE_VALUE.toDouble(), MAX_PRICE_VALUE.toDouble()).toBigDecimal()
     private val randomQuantity = Random.nextInt(MIN_QUANTITY, MAX_QUANTITY)
     private val randomRating = Random.nextDouble(MIN_RATING.toDouble(), MAX_RATING.toDouble()).toBigDecimal()
-    private val reviewTextRange = MIN_REVIEW_TEXT_LENGTH..MAX_REVIEW_TEXT_LENGTH
-    private val searchQueryRange = MIN_SEARCH_QUERY_LENGTH..MAX_SEARCH_QUERY_LENGTH
-    private val streetRange = MIN_STREET_LENGTH..MAX_STREET_LENGTH
-    private val titleRange = MIN_TITLE_LENGTH..MAX_TITLE_LENGTH
+    private val randomReviewTextLength = (MIN_REVIEW_TEXT_LENGTH..MAX_REVIEW_TEXT_LENGTH).random()
+    private val randomSearchQueryLength = (MIN_SEARCH_QUERY_LENGTH..MAX_SEARCH_QUERY_LENGTH).random()
+    private val randomStreetLength = (MIN_STREET_LENGTH..MAX_STREET_LENGTH).random()
+    private val randomTitleLength = (MIN_TITLE_LENGTH..MAX_TITLE_LENGTH).random()
 
     private val randomString = RandomStringUtils.insecure()
 
     fun author(length: Int = randomAuthorLength): Author = Author(randomString.nextAlphabetic(length))
-    fun building(length: Int = randomBuildingLength): Building = Building(randomString.nextAlphabetic(length))
+    fun building(length: Int = randomBuildingLength): Building = Building(randomString.nextAlphanumeric(length))
     fun city(length: Int = randomCityLength): City = City(randomString.nextAlphabetic(length))
     fun country(length: Int = randomCountryLength): Country = Country(randomString.nextAlphabetic(length))
-    fun description(length: Int = randomDescriptionLength): Description = Description(randomString.nextAlphabetic(length))
-    fun priceValue(value: BigDecimal = randomPriceValue) = PriceValue(value)
-    fun quantity(value: Int = randomQuantity) = Quantity(value)
-    fun rating(value: BigDecimal = randomRating) = Rating(value)
+    fun description(length: Int = randomDescriptionLength): Description = Description(randomString.nextAlphanumeric(length))
+    fun priceValue(value: BigDecimal = randomPriceValue): PriceValue = PriceValue(value)
+    fun quantity(value: Int = randomQuantity): Quantity = Quantity(value)
+    fun rating(value: BigDecimal = randomRating): Rating = Rating(value)
+    fun reviewText(length: Int = randomReviewTextLength): ReviewText = ReviewText(randomString.nextAlphabetic(length))
+    fun searchQuery(length: Int = randomSearchQueryLength): SearchQuery = SearchQuery(randomString.nextAlphabetic(length))
+    fun street(length: Int = randomStreetLength): Street = Street(randomString.nextAlphanumeric(length))
+    fun title(length: Int = randomTitleLength): Title = Title(randomString.nextAlphabetic(length))
 
 }

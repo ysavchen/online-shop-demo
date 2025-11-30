@@ -16,15 +16,15 @@ class DescriptionTests {
     fun `valid description`() {
         val descriptionRange = MIN_DESCRIPTION_LENGTH..MAX_DESCRIPTION_LENGTH
         val minDescription = randomString.nextAlphanumeric(MIN_DESCRIPTION_LENGTH)
-        val randomDescription = randomString.nextAlphabetic(descriptionRange.random())
-        val maxDescription = randomString.nextAlphabetic(MAX_DESCRIPTION_LENGTH)
+        val randomDescription = randomString.nextAlphanumeric(descriptionRange.random())
+        val maxDescription = randomString.nextAlphanumeric(MAX_DESCRIPTION_LENGTH)
 
         listOf(minDescription, randomDescription, maxDescription).forEach { Description.valueOf(it) }
     }
 
     @Test
     fun `invalid description length`() {
-        val description = randomString.nextAlphabetic(MAX_DESCRIPTION_LENGTH + 1)
+        val description = randomString.nextAlphanumeric(MAX_DESCRIPTION_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Description.valueOf(description) }
         assertContains(exception.message!!, "invalid description", true)
     }

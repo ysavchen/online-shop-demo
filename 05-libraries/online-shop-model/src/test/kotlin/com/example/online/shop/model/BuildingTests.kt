@@ -15,16 +15,16 @@ class BuildingTests {
     @Test
     fun `valid building`() {
         val buildingRange = MIN_BUILDING_LENGTH..MAX_BUILDING_LENGTH
-        val minBuilding = randomString.nextAlphabetic(MIN_BUILDING_LENGTH)
-        val randomBuilding = randomString.nextAlphabetic(buildingRange.random())
-        val maxBuilding = randomString.nextAlphabetic(MAX_BUILDING_LENGTH)
+        val minBuilding = randomString.nextAlphanumeric(MIN_BUILDING_LENGTH)
+        val randomBuilding = randomString.nextAlphanumeric(buildingRange.random())
+        val maxBuilding = randomString.nextAlphanumeric(MAX_BUILDING_LENGTH)
 
         listOf(minBuilding, randomBuilding, maxBuilding).forEach { Building.valueOf(it) }
     }
 
     @Test
     fun `invalid building length`() {
-        val building = randomString.nextAlphabetic(MAX_BUILDING_LENGTH + 1)
+        val building = randomString.nextAlphanumeric(MAX_BUILDING_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Building.valueOf(building) }
         assertContains(exception.message!!, "invalid building", true)
     }

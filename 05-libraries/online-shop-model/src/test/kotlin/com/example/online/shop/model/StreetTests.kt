@@ -15,16 +15,16 @@ class StreetTests {
     @Test
     fun `valid street`() {
         val streetRange = MIN_STREET_LENGTH..MAX_STREET_LENGTH
-        val minStreet = randomString.nextAlphabetic(MIN_STREET_LENGTH)
-        val randomStreet = randomString.nextAlphabetic(streetRange.random())
-        val maxStreet = randomString.nextAlphabetic(MAX_STREET_LENGTH)
+        val minStreet = randomString.nextAlphanumeric(MIN_STREET_LENGTH)
+        val randomStreet = randomString.nextAlphanumeric(streetRange.random())
+        val maxStreet = randomString.nextAlphanumeric(MAX_STREET_LENGTH)
 
         listOf(minStreet, randomStreet, maxStreet).forEach { Street.valueOf(it) }
     }
 
     @Test
     fun `invalid street length`() {
-        val street = randomString.nextAlphabetic(MAX_STREET_LENGTH + 1)
+        val street = randomString.nextAlphanumeric(MAX_STREET_LENGTH + 1)
         val exception = assertThrows<ModelValidationException> { Street.valueOf(street) }
         assertContains(exception.message!!, "invalid street", true)
     }
