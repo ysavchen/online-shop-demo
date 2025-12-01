@@ -26,7 +26,7 @@ object BookMapper {
     internal fun CreateBookRequest.toEntity() = BookEntity(
         isbn = isbn,
         title = title,
-        authors = authors.map { it.formattedValue }.toTypedArray(),
+        authors = authors.map { it.value }.toTypedArray(),
         description = description,
         genre = genre.toEntity(),
         releaseDate = releaseDate,
@@ -66,6 +66,6 @@ object BookMapper {
             throw IllegalStateException("Price is inconsistent: value=$value, currency=$currency")
         else Price(value = PriceValue(value!!), currency = currency?.toModel()!!)
 
-    internal fun Price.toEntity() = PriceEntity(value = value.formattedValue, currency = currency.toEntity())
+    internal fun Price.toEntity() = PriceEntity(value = value.value, currency = currency.toEntity())
 
 }

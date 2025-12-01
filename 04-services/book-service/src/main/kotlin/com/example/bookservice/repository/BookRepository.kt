@@ -27,10 +27,10 @@ interface BookRepository : JpaRepository<BookEntity, UUID>, JpaSpecificationExec
     companion object {
 
         fun searchSpec(request: BookSearchRequest?): Specification<BookEntity> =
-            titleLikeIgnoreCase(request?.query?.formattedValue)
+            titleLikeIgnoreCase(request?.query?.value)
                 .and(genreEqualIgnoreCase(request?.genre))
-                .and(minPriceGreaterThanOrEqualTo(request?.minPrice?.formattedValue))
-                .and(maxPriceLessThanOrEqualTo(request?.maxPrice?.formattedValue))
+                .and(minPriceGreaterThanOrEqualTo(request?.minPrice?.value))
+                .and(maxPriceLessThanOrEqualTo(request?.maxPrice?.value))
 
         private fun titleLikeIgnoreCase(title: String?): Specification<BookEntity> =
             Specification { root, _, cb ->

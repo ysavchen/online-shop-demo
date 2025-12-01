@@ -43,12 +43,12 @@ object BookTestData {
     ) = BookEntity(
         isbn = isbn,
         title = title(),
-        authors = arrayOf(author().formattedValue),
+        authors = arrayOf(author().value),
         description = description(),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
         quantity = quantity(),
-        price = PriceEntity(priceValue().formattedValue, nextValue<CurrencyEntity>())
+        price = PriceEntity(priceValue().value, nextValue<CurrencyEntity>())
     )
 }
 
@@ -82,9 +82,9 @@ object OrderTestData {
         userId = UUID.randomUUID(),
         status = status,
         items = orderItems,
-        totalQuantity = Quantity(orderItems.sumOf { it.quantity.formattedValue }),
+        totalQuantity = Quantity(orderItems.sumOf { it.quantity.value }),
         totalPrice = TotalPrice(
-            value = PriceValue(orderItems.sumOf { it.price.value.formattedValue }),
+            value = PriceValue(orderItems.sumOf { it.price.value.value }),
             currency = nextValue<KafkaCurrency>()
         ),
         createdAt = OffsetDateTime.now(),
