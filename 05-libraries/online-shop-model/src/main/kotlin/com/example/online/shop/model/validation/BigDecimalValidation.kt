@@ -7,7 +7,7 @@ internal fun BigDecimal.requireRange(
     max: BigDecimal,
     exception: () -> ModelValidationException
 ): BigDecimal {
-    if (this < min || this > max) {
+    if (this !in min..max) {
         throw exception()
     }
     return this

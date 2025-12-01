@@ -13,7 +13,7 @@ internal fun String.requireNotBlank(exception: () -> ModelValidationException): 
 }
 
 internal fun String.requireRange(min: Int, max: Int, exception: () -> ModelValidationException): String {
-    if (length in min..max) {
+    if (length !in min..max) {
         throw exception()
     }
     return this
