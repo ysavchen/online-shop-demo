@@ -13,7 +13,6 @@ import com.example.online.shop.model.test.ModelTestData.rating
 import com.example.online.shop.model.test.ModelTestData.reviewText
 import com.example.online.shop.model.test.ModelTestData.title
 import com.example.orderservice.domain.kafka.client.model.*
-import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -24,50 +23,50 @@ object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
         isbn = Isbn("9781525826689"),
-        title = title(15),
-        authors = listOf(author(10)),
-        description = description(25),
+        title = title(),
+        authors = listOf(author()),
+        description = description(),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
-        quantity = quantity(3),
-        price = Price(priceValue(BigDecimal.valueOf(250)), nextValue<RestCurrency>())
+        quantity = quantity(),
+        price = Price(priceValue(), nextValue<RestCurrency>())
     )
 
     fun updateBookRequest() = UpdateBookRequest(
         releaseDate = randomLocalDate(),
-        quantity = quantity(3),
-        price = Price(priceValue(BigDecimal.valueOf(250)), nextValue<RestCurrency>())
+        quantity = quantity(),
+        price = Price(priceValue(), nextValue<RestCurrency>())
     )
 
     fun bookEntity(
         isbn: Isbn = Isbn("9781525826689")
     ) = BookEntity(
         isbn = isbn,
-        title = title(15),
-        authors = arrayOf(author(10).value),
-        description = description(25),
+        title = title(),
+        authors = arrayOf(author().value),
+        description = description(),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
-        quantity = quantity(3),
-        price = PriceEntity(priceValue(BigDecimal.valueOf(250)).value, nextValue<CurrencyEntity>())
+        quantity = quantity(),
+        price = PriceEntity(priceValue().value, nextValue<CurrencyEntity>())
     )
 }
 
 object ReviewTestData {
 
     fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
-        title = title(15),
-        reviewText = reviewText(25),
-        author = author(10),
-        rating = rating(BigDecimal.valueOf(5)),
+        title = title(),
+        reviewText = reviewText(),
+        author = author(),
+        rating = rating(),
         bookId = bookId
     )
 
     fun reviewEntity(bookFk: UUID) = ReviewEntity(
-        title = title(15),
-        reviewText = reviewText(25),
-        author = author(10),
-        rating = rating(BigDecimal.valueOf(5)),
+        title = title(),
+        reviewText = reviewText(),
+        author = author(),
+        rating = rating(),
         bookFk = bookFk
     )
 }
@@ -97,7 +96,7 @@ object OrderTestData {
     ) = OrderItem(
         id = book.id,
         category = ItemCategory.BOOKS,
-        quantity = quantity(3),
+        quantity = quantity(),
         price = ItemPrice(
             value = book.price!!.value,
             currency = ItemCurrency.RUB
