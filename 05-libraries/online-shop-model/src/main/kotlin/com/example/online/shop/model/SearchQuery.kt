@@ -9,23 +9,23 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
-value class SearchQuery(private val value: String) : Model<String> {
+value class SearchQuery(private val rawValue: String) : Model<String> {
 
     init {
-        value.validate()
+        rawValue.validate()
     }
 
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: String): SearchQuery = SearchQuery(value.validate().formatValue())
+        fun valueOf(rawValue: String): SearchQuery = SearchQuery(rawValue.validate().formatValue())
     }
 
     @get:JsonValue
-    override val formattedValue: String
-        get() = value.formatValue()
+    override val value: String
+        get() = rawValue.formatValue()
 
-    override fun toString(): String = formattedValue
+    override fun toString(): String = value
 }
 
 internal object SearchQueryUtils {

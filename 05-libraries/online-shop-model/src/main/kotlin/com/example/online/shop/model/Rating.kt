@@ -11,23 +11,23 @@ import java.math.MathContext
 import java.math.RoundingMode
 
 @JvmInline
-value class Rating(private val value: BigDecimal) : Model<BigDecimal> {
+value class Rating(private val rawValue: BigDecimal) : Model<BigDecimal> {
 
     init {
-        value.validate()
+        rawValue.validate()
     }
 
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: BigDecimal): Rating = Rating(value.validate().formatValue())
+        fun valueOf(rawValue: BigDecimal): Rating = Rating(rawValue.validate().formatValue())
     }
 
     @get:JsonValue
-    override val formattedValue: BigDecimal
-        get() = value.formatValue()
+    override val value: BigDecimal
+        get() = rawValue.formatValue()
 
-    override fun toString(): String = formattedValue.toString()
+    override fun toString(): String = value.toString()
 }
 
 internal object RatingUtils {

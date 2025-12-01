@@ -9,26 +9,26 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
-value class Isbn(private val value: String) : Model<String> {
+value class Isbn(private val rawValue: String) : Model<String> {
 
     init {
-        value.validate()
+        rawValue.validate()
     }
 
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: String): Isbn = Isbn(value.validate().formatValue())
+        fun valueOf(rawValue: String): Isbn = Isbn(rawValue.validate().formatValue())
     }
 
     /**
      * 978-1-42051-505-3
      */
     @get:JsonValue
-    override val formattedValue: String
-        get() = value.formatValue()
+    override val value: String
+        get() = rawValue.formatValue()
 
-    override fun toString(): String = formattedValue
+    override fun toString(): String = value
 }
 
 internal object IsbnUtils {

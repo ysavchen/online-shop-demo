@@ -4,5 +4,8 @@ import java.io.Serializable
 
 interface Model<T> : Serializable {
 
-    val formattedValue: T
+    /**
+     * Formatted value from a domain primitive
+     */
+    val value: T
 }

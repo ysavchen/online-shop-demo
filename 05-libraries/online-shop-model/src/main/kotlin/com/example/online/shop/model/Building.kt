@@ -10,23 +10,23 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 
 @JvmInline
-value class Building(private val value: String) : Model<String> {
+value class Building(private val rawValue: String) : Model<String> {
 
     init {
-        value.validate()
+        rawValue.validate()
     }
 
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(value: String): Building = Building(value.validate().formatValue())
+        fun valueOf(rawValue: String): Building = Building(rawValue.validate().formatValue())
     }
 
     @get:JsonValue
-    override val formattedValue: String
-        get() = value.formatValue()
+    override val value: String
+        get() = rawValue.formatValue()
 
-    override fun toString(): String = formattedValue
+    override fun toString(): String = value
 }
 
 internal object BuildingUtils {
