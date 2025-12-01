@@ -173,12 +173,12 @@ class OrderControllerTests(
             .hasFieldOrPropertyWithValue("userId", request.userId)
             .hasFieldOrPropertyWithValue("status", Status.CREATED)
             .hasFieldOrPropertyWithValue("items", request.items)
-            .hasFieldOrPropertyWithValue("totalQuantity", request.items.sumOf { it.quantity.formattedValue })
+            .hasFieldOrPropertyWithValue("totalQuantity", request.items.sumOf { it.quantity.value })
             .extracting(
-                { it.totalPrice.value.formattedValue },
+                { it.totalPrice.value.value },
                 { it.totalPrice.currency.name }
             ).containsExactly(
-                request.items.sumOf { it.price.value.formattedValue },
+                request.items.sumOf { it.price.value.value },
                 request.items.first().price.currency.name
             )
 

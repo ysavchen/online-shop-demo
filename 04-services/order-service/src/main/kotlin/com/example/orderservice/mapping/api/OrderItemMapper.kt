@@ -23,7 +23,7 @@ object OrderItemMapper {
         orderItemId = OrderItemId(id),
         category = category.toEntity(),
         price = ItemPriceEntity(
-            value = price.value.formattedValue,
+            value = price.value.value,
             currency = price.currency.toEntity()
         ),
         quantity = quantity

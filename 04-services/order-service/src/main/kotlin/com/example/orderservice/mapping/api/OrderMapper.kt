@@ -51,7 +51,7 @@ object OrderMapper {
         val orderEntity = OrderEntity(
             userId = userId,
             status = StatusEntity.CREATED,
-            totalQuantity = Quantity(itemEntities.sumOf { it.quantity.formattedValue }),
+            totalQuantity = Quantity(itemEntities.sumOf { it.quantity.value }),
             totalPrice = TotalPriceEntity(
                 value = itemEntities.sumOf { it.price.value },
                 currency = currencyEntity(itemEntities)

@@ -35,7 +35,7 @@ object OrderTestData {
     ) = OrderEntity(
         userId = UUID.randomUUID(),
         status = status,
-        totalQuantity = Quantity(orderItemEntities.sumOf { it.quantity.formattedValue }),
+        totalQuantity = Quantity(orderItemEntities.sumOf { it.quantity.value }),
         totalPrice = TotalPriceEntity(
             value = orderItemEntities.sumOf { it.price.value },
             currency = nextValue<CurrencyEntity>()
