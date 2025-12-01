@@ -1,7 +1,5 @@
 package com.example.bookservice.test
 
-import java.math.BigDecimal
-import java.math.MathContext
 import java.time.LocalDate
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.random.Random
@@ -22,9 +20,3 @@ fun randomLocalDate(): LocalDate {
         ThreadLocalRandom.current().nextInt(-hundredYears, hundredYears).toLong()
     )
 }
-
-fun randomPrice(): BigDecimal =
-    BigDecimal(Random.nextDouble(from = 100.00, until = 999.99)).round(MathContext(5))
-
-fun randomRating(): BigDecimal =
-    BigDecimal(Random.nextDouble(from = 1.0, until = 5.0)).round(MathContext(2))
