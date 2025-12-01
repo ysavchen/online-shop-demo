@@ -33,6 +33,6 @@ class MetricService(private val meterRegistry: MeterRegistry) {
     }
 
     fun orderPriceSummary(totalPrice: TotalPrice) {
-        orderPriceSummary.record(totalPrice.value.formattedValue.toDouble())
+        orderPriceSummary.record(totalPrice.value.value.toDouble())
     }
 }
