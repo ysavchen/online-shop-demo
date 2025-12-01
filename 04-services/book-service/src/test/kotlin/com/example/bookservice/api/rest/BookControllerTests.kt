@@ -284,7 +284,7 @@ class BookControllerTests(
             .hasFieldOrPropertyWithValue("genre", request.genre)
             .hasFieldOrPropertyWithValue("releaseDate", request.releaseDate)
             .hasFieldOrPropertyWithValue("quantity", request.quantity.value)
-            .hasFieldOrPropertyWithValue("price", request.price)
+            .hasFieldOrPropertyWithValue("price", request.price?.value)
     }
 
     @Test
