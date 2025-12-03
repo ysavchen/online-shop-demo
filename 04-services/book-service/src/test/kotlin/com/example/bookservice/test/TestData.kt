@@ -4,29 +4,31 @@ import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.repository.entity.*
 import com.example.online.shop.model.*
 import com.example.orderservice.domain.kafka.client.model.*
-import org.apache.commons.lang3.RandomStringUtils.*
+import org.apache.commons.lang3.RandomStringUtils
 import java.time.OffsetDateTime
 import java.util.*
 
 typealias RestCurrency = com.example.bookservice.api.rest.model.Currency
 typealias KafkaCurrency = com.example.orderservice.domain.kafka.client.model.Currency
 
+private val randomString = RandomStringUtils.insecure()
+
 object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
         isbn = Isbn("9781525826689"),
-        title = Title(randomAlphabetic(15)),
-        authors = listOf(Author(randomAlphabetic(10))),
-        description = Description(randomAlphanumeric(25)),
+        title = Title(randomString.nextAlphabetic(15)),
+        authors = listOf(Author(randomString.nextAlphabetic(10))),
+        description = Description(randomString.nextAlphanumeric(25)),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
-        quantity = Quantity(randomNumeric(3).toInt()),
+        quantity = Quantity(randomString.nextNumeric(3).toInt()),
         price = Price(PriceValue(randomPrice()), nextValue<RestCurrency>())
     )
 
     fun updateBookRequest() = UpdateBookRequest(
         releaseDate = randomLocalDate(),
-        quantity = Quantity(randomNumeric(3).toInt()),
+        quantity = Quantity(randomString.nextNumeric(3).toInt()),
         price = Price(PriceValue(randomPrice()), nextValue<RestCurrency>())
     )
 
@@ -34,12 +36,12 @@ object BookTestData {
         isbn: Isbn = Isbn("9781525826689")
     ) = BookEntity(
         isbn = isbn,
-        title = Title(randomAlphabetic(15)),
-        authors = arrayOf(randomAlphabetic(10)),
-        description = Description(randomAlphanumeric(25)),
+        title = Title(randomString.nextAlphabetic(15)),
+        authors = arrayOf(randomString.nextAlphabetic(10)),
+        description = Description(randomString.nextAlphanumeric(25)),
         genre = nextValue<GenreEntity>(),
         releaseDate = randomLocalDate(),
-        quantity = Quantity(randomNumeric(3).toInt()),
+        quantity = Quantity(randomString.nextNumeric(3).toInt()),
         price = PriceEntity(randomPrice(), nextValue<CurrencyEntity>())
     )
 }
@@ -47,17 +49,17 @@ object BookTestData {
 object ReviewTestData {
 
     fun createReviewRequest(bookId: UUID) = CreateReviewRequest(
-        title = Title(randomAlphabetic(15)),
-        reviewText = ReviewText(randomAlphabetic(25)),
-        author = Author(randomAlphabetic(10)),
+        title = Title(randomString.nextAlphabetic(15)),
+        reviewText = ReviewText(randomString.nextAlphabetic(25)),
+        author = Author(randomString.nextAlphabetic(10)),
         rating = Rating(randomRating()),
         bookId = bookId
     )
 
     fun reviewEntity(bookFk: UUID) = ReviewEntity(
-        title = Title(randomAlphabetic(15)),
-        reviewText = ReviewText(randomAlphabetic(25)),
-        author = Author(randomAlphabetic(10)),
+        title = Title(randomString.nextAlphabetic(15)),
+        reviewText = ReviewText(randomString.nextAlphabetic(25)),
+        author = Author(randomString.nextAlphabetic(10)),
         rating = Rating(randomRating()),
         bookFk = bookFk
     )
@@ -88,7 +90,7 @@ object OrderTestData {
     ) = OrderItem(
         id = book.id,
         category = ItemCategory.BOOKS,
-        quantity = Quantity(randomNumeric(1).toInt()),
+        quantity = Quantity(randomString.nextNumeric(1).toInt()),
         price = ItemPrice(
             value = book.price!!.value,
             currency = ItemCurrency.RUB

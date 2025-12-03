@@ -8,18 +8,20 @@ import com.example.online.shop.model.*
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
 import com.example.orderservice.test.DeliveryTestData.deliveryRequest
-import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
+import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
 import java.util.*
+
+private val randomString = RandomStringUtils.insecure()
 
 object BookTestData {
 
     fun book() = Book(
         id = UUID.randomUUID(),
         isbn = Isbn.valueOf("9781525826689"),
-        title = Title.valueOf(randomAlphabetic(15)),
-        authors = listOf(Author(randomAlphabetic(10))),
+        title = Title.valueOf(randomString.nextAlphabetic(15)),
+        authors = listOf(Author(randomString.nextAlphabetic(10))),
         genre = nextValue<Genre>(),
         releaseDate = randomLocalDate(),
         quantity = Quantity(randomNumeric(3).toInt()),
@@ -101,9 +103,9 @@ object DeliveryTestData {
     )
 
     fun deliveryAddress() = DeliveryAddress(
-        country = Country(randomAlphabetic(15)),
-        city = City(randomAlphabetic(15)),
-        street = Street(randomAlphabetic(15)),
-        building = Building(randomNumeric(3))
+        country = Country(randomString.nextAlphabetic(15)),
+        city = City(randomString.nextAlphabetic(15)),
+        street = Street(randomString.nextAlphabetic(15)),
+        building = Building(randomString.nextNumeric(3))
     )
 }
