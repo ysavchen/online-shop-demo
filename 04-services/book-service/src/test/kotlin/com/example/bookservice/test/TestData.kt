@@ -16,7 +16,7 @@ private val randomString = RandomStringUtils.insecure()
 object BookTestData {
 
     fun createBookRequest() = CreateBookRequest(
-        isbn = Isbn("9781525826689"),
+        isbn = Isbn("978-1-52582-668-9"),
         title = Title(randomString.nextAlphabetic(15)),
         authors = listOf(Author(randomString.nextAlphabetic(10))),
         description = Description(randomString.nextAlphanumeric(25)),
@@ -33,7 +33,7 @@ object BookTestData {
     )
 
     fun bookEntity(
-        isbn: Isbn = Isbn("9781525826689")
+        isbn: Isbn = Isbn("978-1-52582-668-9")
     ) = BookEntity(
         isbn = isbn,
         title = Title(randomString.nextAlphabetic(15)),
