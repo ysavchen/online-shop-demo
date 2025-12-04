@@ -19,7 +19,7 @@ value class Author(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): Author = Author(rawValue.validate().formatValue())
+        fun valueOf(rawValue: String): Author = Author(rawValue)
     }
 
     @get:JsonValue
