@@ -19,7 +19,7 @@ value class ReviewText(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): ReviewText = ReviewText(rawValue)
+        fun valueOf(rawValue: String): ReviewText = ReviewText(rawValue.validate().formatValue())
     }
 
     @get:JsonValue

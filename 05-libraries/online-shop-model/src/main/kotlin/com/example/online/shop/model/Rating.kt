@@ -20,7 +20,7 @@ value class Rating(private val rawValue: BigDecimal) : Model<BigDecimal> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: BigDecimal): Rating = Rating(rawValue)
+        fun valueOf(rawValue: BigDecimal): Rating = Rating(rawValue.validate().formatValue())
     }
 
     @get:JsonValue

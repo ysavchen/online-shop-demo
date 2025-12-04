@@ -18,7 +18,7 @@ value class Isbn(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): Isbn = Isbn(rawValue)
+        fun valueOf(rawValue: String): Isbn = Isbn(rawValue.validate().formatValue())
     }
 
     /**

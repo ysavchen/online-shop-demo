@@ -19,7 +19,7 @@ value class Title(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): Title = Title(rawValue)
+        fun valueOf(rawValue: String): Title = Title(rawValue.validate().formatValue())
     }
 
     @get:JsonValue

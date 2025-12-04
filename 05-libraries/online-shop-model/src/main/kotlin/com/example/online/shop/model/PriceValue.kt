@@ -20,7 +20,7 @@ value class PriceValue(private val rawValue: BigDecimal) : Model<BigDecimal> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: BigDecimal): PriceValue = PriceValue(rawValue)
+        fun valueOf(rawValue: BigDecimal): PriceValue = PriceValue(rawValue.validate().formatValue())
     }
 
     @get:JsonValue

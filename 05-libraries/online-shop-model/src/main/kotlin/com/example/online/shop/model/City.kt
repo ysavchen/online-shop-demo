@@ -19,7 +19,7 @@ value class City(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): City = City(rawValue)
+        fun valueOf(rawValue: String): City = City(rawValue.validate().formatValue())
     }
 
     @get:JsonValue

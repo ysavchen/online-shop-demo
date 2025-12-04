@@ -19,7 +19,7 @@ value class Building(private val rawValue: String) : Model<String> {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun valueOf(rawValue: String): Building = Building(rawValue)
+        fun valueOf(rawValue: String): Building = Building(rawValue.validate().formatValue())
     }
 
     @get:JsonValue
