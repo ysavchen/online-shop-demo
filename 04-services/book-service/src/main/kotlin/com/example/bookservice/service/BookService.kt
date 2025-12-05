@@ -132,7 +132,7 @@ class BookService(
 private object RequestValidation {
     private const val MAX_FILTER_SIZE = 100
 
-    fun BooksFilterRequest.validate(): BooksFilterRequest {
+    fun BookFilterRequest.validate(): BookFilterRequest {
         val filterSize = this.bookIds.size
         if (filterSize > MAX_FILTER_SIZE)
             throw RequestValidationException("Book filter size is $filterSize, but max allowed size is $MAX_FILTER_SIZE")
