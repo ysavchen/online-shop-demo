@@ -11,7 +11,7 @@ data class BookSearchRequest(
     val maxPrice: PriceValue?
 )
 
-data class BooksFilterRequest(
+data class BookFilterRequest(
     val bookIds: List<UUID>
 )
 

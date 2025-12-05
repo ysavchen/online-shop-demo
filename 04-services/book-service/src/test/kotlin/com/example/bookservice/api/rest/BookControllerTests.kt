@@ -152,7 +152,7 @@ class BookControllerTests(
     fun `filter books by ids`() {
         val bookOne = bookRepository.save(bookEntity(isbn = Isbn.valueOf("9781783758746"))).toModel()
         val bookTwo = bookRepository.save(bookEntity(isbn = Isbn.valueOf("9780733641541"))).toModel()
-        val request = BooksFilterRequest(listOf(bookOne.id, bookTwo.id))
+        val request = BookFilterRequest(listOf(bookOne.id, bookTwo.id))
 
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
@@ -172,7 +172,7 @@ class BookControllerTests(
     fun `filter books by existing and non-existing ids`() {
         val book = bookRepository.save(bookEntity()).toModel()
         val nonExistingId = UUID.randomUUID()
-        val request = BooksFilterRequest(listOf(book.id, nonExistingId))
+        val request = BookFilterRequest(listOf(book.id, nonExistingId))
 
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
@@ -190,7 +190,7 @@ class BookControllerTests(
     @Test
     fun `filter books by non-existing ids`() {
         val nonExistingId = UUID.randomUUID()
-        val request = BooksFilterRequest(listOf(nonExistingId))
+        val request = BookFilterRequest(listOf(nonExistingId))
 
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
@@ -209,7 +209,7 @@ class BookControllerTests(
         val idList = mutableListOf<UUID>().apply {
             repeat(101) { add(UUID.randomUUID()) }
         }
-        val request = BooksFilterRequest(idList)
+        val request = BookFilterRequest(idList)
 
         mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON

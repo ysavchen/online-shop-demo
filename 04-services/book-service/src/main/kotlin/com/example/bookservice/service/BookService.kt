@@ -45,7 +45,7 @@ class BookService(
         bookRepository.findAll(searchSpec(request), bookRequestParams.toPageable()).toPagedModel()
 
     @Transactional(readOnly = true)
-    fun getBooksByIds(request: BooksFilterRequest): List<Book> =
+    fun getBooksByIds(request: BookFilterRequest): List<Book> =
         bookRepository.findAllById(request.validate().bookIds).map { it.toModel() }
 
     @Transactional(readOnly = true)

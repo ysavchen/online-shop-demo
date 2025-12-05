@@ -22,7 +22,7 @@ class BookController(private val bookService: BookService) {
 
     @Operation(summary = "Filter books by ids")
     @PostMapping("/books/filter", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun booksByIds(@RequestBody request: BooksFilterRequest): List<Book> =
+    fun booksByIds(@RequestBody request: BookFilterRequest): List<Book> =
         bookService.getBooksByIds(request)
 
     @Operation(summary = "Get book by id")
