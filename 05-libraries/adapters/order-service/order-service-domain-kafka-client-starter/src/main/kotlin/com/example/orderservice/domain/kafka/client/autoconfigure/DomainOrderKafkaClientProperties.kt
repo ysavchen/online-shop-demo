@@ -33,7 +33,7 @@ data class KafkaConnectionProperties(
     /**
      * bootstrap-servers: http://localhost:9092
      */
-    val bootstrapServers: Set<String>,
+    val bootstrapServers: Set<String>
 )
 
 data class KafkaProducerProperties(
