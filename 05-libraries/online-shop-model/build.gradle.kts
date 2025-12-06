@@ -1,13 +1,13 @@
 plugins {
     `maven-publish`
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "1.9.25"
+    kotlin("jvm") version "2.2.21"
 }
 
 group = "com.example"
 version = "1.0.0"
 
-val springBootVersion by extra("3.4.6")
+val springBootVersion by extra("4.0.0")
 
 java {
     toolchain {
@@ -22,7 +22,7 @@ repositories {
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.apache.commons:commons-lang3")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20240325.1")
 }
@@ -35,7 +35,7 @@ dependencyManagement {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }
 }
 
