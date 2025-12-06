@@ -37,6 +37,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.13.2")
+
+    // Reliability
     implementation("org.springframework.retry:spring-retry:2.0.12")
 
     // Test

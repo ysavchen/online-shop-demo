@@ -2,7 +2,6 @@ package com.example.orderservice.repository
 
 import com.example.orderservice.api.rest.model.OrderSearchRequest
 import com.example.orderservice.repository.entity.OrderEntity
-import com.example.orderservice.repository.entity.OrderEntity_
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
@@ -16,7 +15,7 @@ interface OrderRepository : JpaRepository<OrderEntity, UUID>, JpaSpecificationEx
 
         private fun userIdEqual(userId: UUID): Specification<OrderEntity> =
             Specification { root, _, cb ->
-                cb.equal(root.get(OrderEntity_.userId).`as`(UUID::class.java), userId)
+                cb.equal(root.get<UUID>(OrderEntity::userId.name), userId)
             }
     }
 }
