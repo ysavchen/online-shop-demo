@@ -1,13 +1,12 @@
 plugins {
     `maven-publish`
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "1.9.25"
-    kotlin("kapt") version "1.9.25"
+    kotlin("jvm") version "2.2.21"
 }
 
-val springBootVersion by extra("3.4.6")
+val springBootVersion by extra("4.0.0")
 val modelVersion by extra("1.0.0")
-val springCloudVersion by extra("2024.0.1")
+val springCloudVersion by extra("2025.1.0")
 
 allprojects {
     group = "com.example"
@@ -30,7 +29,7 @@ allprojects {
 
     kotlin {
         compilerOptions {
-            freeCompilerArgs.addAll("-Xjsr305=strict")
+            freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
         }
     }
 }
@@ -62,12 +61,11 @@ configure(clientSubprojects) {
 configure(clientSubprojects) {
     apply {
         plugin("org.gradle.maven-publish")
-        plugin("org.jetbrains.kotlin.kapt")
     }
 
     dependencies {
-        kapt("org.springframework.boot:spring-boot-configuration-processor")
-        kapt("org.springframework.boot:spring-boot-autoconfigure-processor")
+        implementation("org.springframework.boot:spring-boot-configuration-processor")
+        implementation("org.springframework.boot:spring-boot-autoconfigure-processor")
     }
 
     publishing {

@@ -14,8 +14,8 @@ import org.apache.kafka.common.serialization.UUIDSerializer
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -99,7 +99,7 @@ class RequestDeliveryKafkaProducerConfiguration(private val properties: RequestD
     ): ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage> =
         ReplyingKafkaTemplate(requestDeliveryKafkaProducerFactory, replyDeliveryKafkaListenerContainer)
             .apply {
-                defaultTopic = properties.kafka.replying.producer.request.topic
+                setDefaultTopic(properties.kafka.replying.producer.request.topic)
                 setDefaultReplyTimeout(properties.kafka.replying.producer.reply.timeout)
                 setBinaryCorrelation(false)
                 setObservationEnabled(true)

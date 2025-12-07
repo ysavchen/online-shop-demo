@@ -16,8 +16,8 @@ import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -68,7 +68,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: ReplyDel
     ): MessageListenerContainer {
         val topics = properties.kafka.replying.consumer.request.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
-            messageListener = consumer
+            setMessageListener(consumer)
             isObservationEnabled = true
         }
 
@@ -102,7 +102,7 @@ class ReplyDeliveryKafkaProducerConfiguration(private val properties: ReplyDeliv
     @ConditionalOnMissingBean(name = ["replyDeliveryKafkaTemplate"])
     fun replyDeliveryKafkaTemplate(replyDeliveryKafkaProducerFactory: ProducerFactory<UUID, ReplyDeliveryMessage>) =
         KafkaTemplate(replyDeliveryKafkaProducerFactory).apply {
-            defaultTopic = properties.kafka.replying.consumer.reply.topic
+            setDefaultTopic(properties.kafka.replying.consumer.reply.topic)
             setObservationEnabled(true)
         }
 

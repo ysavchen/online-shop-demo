@@ -8,9 +8,9 @@ project("delivery-service-model") {
 project("delivery-service-request-kafka-client-starter") {
     dependencies {
         api(project(":delivery-service:delivery-service-model"))
-        api("org.springframework.kafka:spring-kafka")
-        api("org.springframework.kafka:spring-kafka-test")
         api("org.springframework.boot:spring-boot-starter")
+        api("org.springframework.boot:spring-boot-starter-kafka")
+        testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
@@ -18,9 +18,9 @@ project("delivery-service-request-kafka-client-starter") {
 project("delivery-service-reply-kafka-client-starter") {
     dependencies {
         api(project(":delivery-service:delivery-service-model"))
-        api("org.springframework.kafka:spring-kafka")
-        api("org.springframework.kafka:spring-kafka-test")
         api("org.springframework.boot:spring-boot-starter")
+        api("org.springframework.boot:spring-boot-starter-kafka")
+        testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }

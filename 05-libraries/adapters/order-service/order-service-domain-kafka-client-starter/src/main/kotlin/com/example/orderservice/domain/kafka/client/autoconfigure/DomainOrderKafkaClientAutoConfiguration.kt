@@ -15,8 +15,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -59,7 +59,7 @@ class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderK
     @ConditionalOnMissingBean(name = ["domainOrderKafkaTemplate"])
     fun domainOrderKafkaTemplate(domainOrderKafkaProducerFactory: ProducerFactory<UUID, DomainEvent>) =
         KafkaTemplate(domainOrderKafkaProducerFactory).apply {
-            defaultTopic = properties.kafka.domain.producer!!.topic
+            setDefaultTopic(properties.kafka.domain.producer!!.topic)
             setObservationEnabled(true)
         }
 
@@ -99,7 +99,7 @@ class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderK
     ): MessageListenerContainer {
         val topics = properties.kafka.domain.consumer!!.topics.toTypedArray()
         val containerProperties = ContainerProperties(*topics).apply {
-            messageListener = consumer
+            setMessageListener(consumer)
             isObservationEnabled = true
         }
 
