@@ -10,7 +10,7 @@ project("delivery-service-request-kafka-client-starter") {
         api(project(":delivery-service:delivery-service-model"))
         api("org.springframework.boot:spring-boot-starter")
         api("org.springframework.boot:spring-boot-starter-kafka")
-        testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
+        api("org.springframework.boot:spring-boot-starter-kafka-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
@@ -20,7 +20,7 @@ project("delivery-service-reply-kafka-client-starter") {
         api(project(":delivery-service:delivery-service-model"))
         api("org.springframework.boot:spring-boot-starter")
         api("org.springframework.boot:spring-boot-starter-kafka")
-        testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
+        api("org.springframework.boot:spring-boot-starter-kafka-test")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
