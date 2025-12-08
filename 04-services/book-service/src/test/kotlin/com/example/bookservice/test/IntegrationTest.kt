@@ -19,7 +19,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
-import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 import java.util.*
 
 @Target(AnnotationTarget.CLASS)
