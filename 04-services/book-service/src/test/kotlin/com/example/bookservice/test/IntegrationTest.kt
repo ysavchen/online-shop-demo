@@ -53,7 +53,9 @@ class TestKafkaConfiguration(private val properties: DomainOrderKafkaClientPrope
         val producerFactory = DefaultKafkaProducerFactory<UUID, DomainEvent>(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JacksonJsonSerializer(jacksonTypeRef<DomainEvent>(), jsonMapper),
+            JacksonJsonSerializer(jacksonTypeRef<DomainEvent>(), jsonMapper).apply {
+                isAddTypeInfo = false
+            },
             true
         )
         return KafkaTemplate(producerFactory)
