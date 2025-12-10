@@ -1,5 +1,6 @@
 package com.example.bookservice.test
 
+import tools.jackson.core.type.TypeReference
 import java.math.BigDecimal
 import java.math.MathContext
 import java.time.LocalDate
@@ -15,6 +16,9 @@ inline fun <reified T : Enum<T>> nextValue(predicate: (T) -> Boolean = { true })
         values[Random.nextInt(0, values.size - 1)]
     }
 }
+
+inline fun <reified T> jacksonTypeRef(): TypeReference<T> = object : TypeReference<T>() {}
+
 
 fun randomLocalDate(): LocalDate {
     val hundredYears = 100 * 365

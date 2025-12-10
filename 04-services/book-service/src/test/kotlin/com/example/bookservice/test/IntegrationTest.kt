@@ -18,9 +18,7 @@ import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
 import org.testcontainers.postgresql.PostgreSQLContainer
-import tools.jackson.databind.JavaType
 import tools.jackson.databind.json.JsonMapper
-import tools.jackson.databind.type.TypeFactory
 import java.util.*
 
 @Target(AnnotationTarget.CLASS)
@@ -49,15 +47,13 @@ class IntegrationTestConfiguration {
 @TestConfiguration
 class TestKafkaConfiguration(private val properties: DomainOrderKafkaClientProperties) {
 
-    val domainEventType: JavaType = TypeFactory.createDefaultInstance().constructType(DomainEvent::class.java)
-
     @Bean
     fun testKafkaTemplate(jsonMapper: JsonMapper): KafkaTemplate<UUID, DomainEvent> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         val producerFactory = DefaultKafkaProducerFactory<UUID, DomainEvent>(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JacksonJsonSerializer(domainEventType, jsonMapper),
+            JacksonJsonSerializer(jacksonTypeRef<DomainEvent>(), jsonMapper),
             true
         )
         return KafkaTemplate(producerFactory)
