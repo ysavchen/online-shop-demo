@@ -2,8 +2,6 @@ package com.example.bookservice.test
 
 import com.example.orderservice.domain.kafka.client.autoconfigure.DomainOrderKafkaClientProperties
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.UUIDSerializer
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,11 +13,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
 import org.testcontainers.postgresql.PostgreSQLContainer
+import tools.jackson.databind.JavaType
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.type.TypeFactory
 import java.util.*
 
 @Target(AnnotationTarget.CLASS)
@@ -48,15 +49,15 @@ class IntegrationTestConfiguration {
 @TestConfiguration
 class TestKafkaConfiguration(private val properties: DomainOrderKafkaClientProperties) {
 
+    val domainEventType: JavaType = TypeFactory.createDefaultInstance().constructType(DomainEvent::class.java)
+
     @Bean
-    fun testKafkaTemplate(objectMapper: ObjectMapper): KafkaTemplate<UUID, DomainEvent> {
+    fun testKafkaTemplate(jsonMapper: JsonMapper): KafkaTemplate<UUID, DomainEvent> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
-        val producerFactory = DefaultKafkaProducerFactory(
+        val producerFactory = DefaultKafkaProducerFactory<UUID, DomainEvent>(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper).apply {
-                isAddTypeInfo = false
-            },
+            JacksonJsonSerializer(domainEventType, jsonMapper),
             true
         )
         return KafkaTemplate(producerFactory)
