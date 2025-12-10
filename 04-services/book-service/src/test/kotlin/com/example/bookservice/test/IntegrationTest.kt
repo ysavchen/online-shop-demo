@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
 import org.testcontainers.postgresql.PostgreSQLContainer
 import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonTypeRef
 import java.util.*
 
 @Target(AnnotationTarget.CLASS)
