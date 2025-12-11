@@ -3,8 +3,6 @@ package com.example.deliveryservice.test
 import com.example.deliveryservice.kafka.client.model.ReplyDeliveryMessage
 import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import com.example.deliveryservice.reply.kafka.client.autoconfigure.ReplyDeliveryKafkaClientProperties
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.OffsetResetStrategy
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -23,12 +21,14 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.aot.DisabledInAotMode
 import org.testcontainers.postgresql.PostgreSQLContainer
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonTypeRef
 import java.util.*
 
 @Target(AnnotationTarget.CLASS)
@@ -60,7 +60,7 @@ class IntegrationTestConfiguration {
 class TestKafkaConfiguration(private val properties: ReplyDeliveryKafkaClientProperties) {
 
     @Bean
-    fun testConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, ReplyDeliveryMessage> =
+    fun testConsumerFactory(jsonMapper: JsonMapper): ConsumerFactory<UUID, ReplyDeliveryMessage> =
         DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
@@ -71,7 +71,7 @@ class TestKafkaConfiguration(private val properties: ReplyDeliveryKafkaClientPro
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
-                JsonDeserializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper, false)
+                JacksonJsonDeserializer(jacksonTypeRef<ReplyDeliveryMessage>(), jsonMapper, false)
             ).apply { isForKey = false }
         )
 
@@ -85,12 +85,12 @@ class TestKafkaConfiguration(private val properties: ReplyDeliveryKafkaClientPro
     }
 
     @Bean
-    fun testProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, RequestDeliveryMessage> {
+    fun testProducerFactory(jsonMapper: JsonMapper): ProducerFactory<UUID, RequestDeliveryMessage> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<RequestDeliveryMessage>(), objectMapper).apply {
+            JacksonJsonSerializer(jacksonTypeRef<RequestDeliveryMessage>(), jsonMapper).apply {
                 isAddTypeInfo = false
             },
             true
