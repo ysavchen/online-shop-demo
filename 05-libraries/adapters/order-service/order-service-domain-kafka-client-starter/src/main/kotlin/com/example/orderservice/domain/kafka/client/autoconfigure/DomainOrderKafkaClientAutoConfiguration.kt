@@ -3,8 +3,6 @@ package com.example.orderservice.domain.kafka.client.autoconfigure
 import com.example.orderservice.domain.kafka.client.DomainOrderKafkaConsumer
 import com.example.orderservice.domain.kafka.client.DomainOrderKafkaProducerImpl
 import com.example.orderservice.domain.kafka.client.model.DomainEvent
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.OffsetResetStrategy
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -26,8 +24,10 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.listener.MessageListenerContainer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonTypeRef
 import java.util.*
 
 @AutoConfiguration(before = [KafkaAutoConfiguration::class])
@@ -43,12 +43,12 @@ class DomainOrderKafkaClientAutoConfiguration
 class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["domainOrderKafkaProducerFactory"])
-    fun domainOrderKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, DomainEvent> {
+    fun domainOrderKafkaProducerFactory(jsonMapper: JsonMapper): ProducerFactory<UUID, DomainEvent> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<DomainEvent>(), objectMapper).apply {
+            JacksonJsonSerializer(jacksonTypeRef<DomainEvent>(), jsonMapper).apply {
                 isAddTypeInfo = false
             },
             true
@@ -77,7 +77,7 @@ class DomainOrderKafkaProducerConfiguration(private val properties: DomainOrderK
 class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["domainOrderKafkaConsumerFactory"])
-    fun domainOrderKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, DomainEvent> =
+    fun domainOrderKafkaConsumerFactory(jsonMapper: JsonMapper): ConsumerFactory<UUID, DomainEvent> =
         DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
@@ -87,7 +87,7 @@ class DomainOrderKafkaConsumerConfiguration(private val properties: DomainOrderK
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
-                JsonDeserializer(jacksonTypeRef<DomainEvent>(), objectMapper, false)
+                JacksonJsonDeserializer(jacksonTypeRef<DomainEvent>(), jsonMapper, false)
             ).apply { isForKey = false }
         )
 

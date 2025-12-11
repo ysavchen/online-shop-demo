@@ -5,8 +5,6 @@ import com.example.deliveryservice.kafka.client.model.RequestDeliveryMessage
 import com.example.deliveryservice.reply.kafka.client.ReplyingDeliveryKafkaConsumer
 import com.example.deliveryservice.reply.kafka.client.internal.ReplyDeliveryKafkaProducer
 import com.example.deliveryservice.reply.kafka.client.internal.RequestDeliveryKafkaConsumer
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.OffsetResetStrategy
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -27,8 +25,10 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer
 import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.listener.MessageListenerContainer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonTypeRef
 import java.util.*
 
 @AutoConfiguration(before = [KafkaAutoConfiguration::class])
@@ -45,7 +45,7 @@ class ReplyDeliveryKafkaClientAutoConfiguration
 class RequestDeliveryKafkaConsumerConfiguration(private val properties: ReplyDeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["requestDeliveryKafkaConsumerFactory"])
-    fun requestDeliveryKafkaConsumerFactory(objectMapper: ObjectMapper): ConsumerFactory<UUID, RequestDeliveryMessage> {
+    fun requestDeliveryKafkaConsumerFactory(jsonMapper: JsonMapper): ConsumerFactory<UUID, RequestDeliveryMessage> {
         return DefaultKafkaConsumerFactory(
             mapOf(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.kafka.connection.bootstrapServers.toList(),
@@ -55,7 +55,7 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: ReplyDel
             ),
             ErrorHandlingDeserializer(UUIDDeserializer()).apply { isForKey = true },
             ErrorHandlingDeserializer(
-                JsonDeserializer(jacksonTypeRef<RequestDeliveryMessage>(), objectMapper, false)
+                JacksonJsonDeserializer(jacksonTypeRef<RequestDeliveryMessage>(), jsonMapper, false)
             ).apply { isForKey = false }
         )
     }
@@ -86,12 +86,12 @@ class RequestDeliveryKafkaConsumerConfiguration(private val properties: ReplyDel
 class ReplyDeliveryKafkaProducerConfiguration(private val properties: ReplyDeliveryKafkaClientProperties) {
     @Bean
     @ConditionalOnMissingBean(name = ["replyDeliveryKafkaProducerFactory"])
-    fun replyDeliveryKafkaProducerFactory(objectMapper: ObjectMapper): ProducerFactory<UUID, ReplyDeliveryMessage> {
+    fun replyDeliveryKafkaProducerFactory(jsonMapper: JsonMapper): ProducerFactory<UUID, ReplyDeliveryMessage> {
         val bootstrapServers = properties.kafka.connection.bootstrapServers.toList()
         return DefaultKafkaProducerFactory(
             mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers),
             UUIDSerializer(),
-            JsonSerializer(jacksonTypeRef<ReplyDeliveryMessage>(), objectMapper).apply {
+            JacksonJsonSerializer(jacksonTypeRef<ReplyDeliveryMessage>(), jsonMapper).apply {
                 isAddTypeInfo = false
             },
             true
