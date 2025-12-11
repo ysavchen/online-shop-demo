@@ -1,7 +1,7 @@
 project("delivery-service-model") {
     dependencies {
         api("org.jetbrains.kotlin:kotlin-reflect")
-        api("com.fasterxml.jackson.module:jackson-module-kotlin")
+        api("tools.jackson.module:jackson-module-kotlin")
     }
 }
 

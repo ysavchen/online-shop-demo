@@ -1,7 +1,7 @@
 project("order-service-domain-kafka-client-starter") {
     dependencies {
         api("org.jetbrains.kotlin:kotlin-reflect")
-        api("com.fasterxml.jackson.module:jackson-module-kotlin")
+        api("tools.jackson.module:jackson-module-kotlin")
         api("org.springframework.boot:spring-boot-starter")
         api("org.springframework.boot:spring-boot-starter-kafka")
         api("org.springframework.boot:spring-boot-starter-kafka-test")
