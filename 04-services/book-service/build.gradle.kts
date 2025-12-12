@@ -1,9 +1,7 @@
 plugins {
-    java  //fix for plugin org.hibernate.orm
     id("org.springframework.boot") version "4.0.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.11.3" apply false
-    id("org.hibernate.orm") version "7.1.8.Final"
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.jpa") version "2.2.21"
     kotlin("plugin.spring") version "2.2.21"
@@ -31,6 +29,7 @@ dependencies {
     // Web
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("tools.jackson.module:jackson-module-kotlin")
+    implementation("tools.jackson.datatype:jackson-datatype-jsr310:3.0.0-rc2")
 
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -73,12 +72,6 @@ dependencies {
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
-    }
-}
-
-hibernate {
-    enhancement {
-        enableAssociationManagement = true
     }
 }
 

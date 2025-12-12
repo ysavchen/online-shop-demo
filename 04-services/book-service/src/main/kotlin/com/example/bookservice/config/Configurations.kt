@@ -1,22 +1,18 @@
 package com.example.bookservice.config
 
-import com.fasterxml.jackson.annotation.JsonFormat.Shape
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.MapperFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.databind.util.StdDateFormat.DATE_FORMAT_STR_ISO8601
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.ImportRuntimeHints
+import tools.jackson.core.StreamWriteFeature
+import tools.jackson.databind.DeserializationFeature
+import tools.jackson.databind.MapperFeature
+import tools.jackson.databind.cfg.DateTimeFeature
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.util.StdDateFormat.DATE_FORMAT_STR_ISO8601
+import tools.jackson.datatype.jsr310.JavaTimeModule
+import tools.jackson.module.kotlin.KotlinModule
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Configuration
@@ -36,31 +32,19 @@ class ApplicationConfiguration {
 @Configuration(proxyBeanMethods = false)
 class JsonConfiguration {
 
-    private val offsetDateTimeSerializer = OffsetDateTimeSerializer(
-        OffsetDateTimeSerializer.INSTANCE,
-        false,
-        DateTimeFormatter.ofPattern(DATE_FORMAT_STR_ISO8601),
-        Shape.STRING
-    )
-
     @Bean
-    fun objectMapper(): ObjectMapper = JsonMapper.builder()
-        .addModules(
-            KotlinModule.Builder().build(),
-            JavaTimeModule().addSerializer(offsetDateTimeSerializer)
-        )
+    fun jsonMapper(): JsonMapper = JsonMapper.builder()
+        .addModules(KotlinModule.Builder().build(), JavaTimeModule())
         .defaultTimeZone(TimeZone.getDefault())
         .defaultDateFormat(SimpleDateFormat(DATE_FORMAT_STR_ISO8601))
-        .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
+        .enable(StreamWriteFeature.WRITE_BIGDECIMAL_AS_PLAIN)
         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
         .disable(
-            SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
-            SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS
+            DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS,
+            DateTimeFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS,
+            DateTimeFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS,
+            DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE
         )
-        .disable(
-            DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-            DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS,
-            DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE
-        )
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .build()
 }
