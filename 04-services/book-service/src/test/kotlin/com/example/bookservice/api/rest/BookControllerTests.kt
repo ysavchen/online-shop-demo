@@ -12,7 +12,6 @@ import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.nextValue
 import com.example.online.shop.model.Isbn
 import com.example.online.shop.model.SearchQuery
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
@@ -25,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @Disabled
@@ -33,7 +33,7 @@ class BookControllerTests(
     @Autowired val mockMvc: MockMvc,
     @Autowired val bookRepository: BookRepository,
     @Autowired val reviewRepository: ReviewRepository,
-    @Autowired val objectMapper: ObjectMapper
+    @Autowired val jsonMapper: JsonMapper
 ) {
 
     @BeforeEach
@@ -55,13 +55,13 @@ class BookControllerTests(
         val result = mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedBook = objectMapper.writeValueAsString(book)
+        val expectedBook = jsonMapper.writeValueAsString(book)
         assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
@@ -78,13 +78,13 @@ class BookControllerTests(
         val result = mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedBook = objectMapper.writeValueAsString(book)
+        val expectedBook = jsonMapper.writeValueAsString(book)
         assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
@@ -100,7 +100,7 @@ class BookControllerTests(
         mockMvc.post("/api/v1/books/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -121,7 +121,7 @@ class BookControllerTests(
         mockMvc.post("/api/v1/books/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -142,7 +142,7 @@ class BookControllerTests(
         mockMvc.post("/api/v1/books/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -159,14 +159,14 @@ class BookControllerTests(
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val bookOneJson = objectMapper.writeValueAsString(bookOne)
-        val bookTwoJson = objectMapper.writeValueAsString(bookTwo)
+        val bookOneJson = jsonMapper.writeValueAsString(bookOne)
+        val bookTwoJson = jsonMapper.writeValueAsString(bookTwo)
         assertThat(result.response.contentAsString).contains(bookOneJson, bookTwoJson)
     }
 
@@ -179,13 +179,13 @@ class BookControllerTests(
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val bookJson = objectMapper.writeValueAsString(book)
+        val bookJson = jsonMapper.writeValueAsString(book)
         assertThat(result.response.contentAsString).contains(bookJson)
     }
 
@@ -197,7 +197,7 @@ class BookControllerTests(
         val result = mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -216,7 +216,7 @@ class BookControllerTests(
         mockMvc.post("/api/v1/books/filter") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -235,7 +235,7 @@ class BookControllerTests(
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedBook = objectMapper.writeValueAsString(book)
+        val expectedBook = jsonMapper.writeValueAsString(book)
         assertThat(result.response.contentAsString).contains(expectedBook)
     }
 
@@ -272,13 +272,13 @@ class BookControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val createdBook = objectMapper.readValue(result.response.contentAsString, Book::class.java)
+        val createdBook = jsonMapper.readValue(result.response.contentAsString, Book::class.java)
         assertThat(createdBook)
             .hasFieldOrProperty("id")
             .hasFieldOrPropertyWithValue("title", request.title.value)
@@ -298,7 +298,7 @@ class BookControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -308,7 +308,7 @@ class BookControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isConflict() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -324,7 +324,7 @@ class BookControllerTests(
         mockMvc.patch("/api/v1/books/${book.id}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
