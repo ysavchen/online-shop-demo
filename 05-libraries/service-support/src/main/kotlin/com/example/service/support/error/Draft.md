@@ -1,27 +1,10 @@
 ### library
-Errors.kt
-```kotlin
-data class ErrorResponse(
-    val errorId: UUID = UUID.randomUUID(),
-    val timestamp: OffsetDateTime = OffsetDateTime.now(),
-    val path: String,
-    val code: String,
-    val message: String
-)
 
-enum class ErrorCode {
-    RESOURCE_NOT_FOUND,
-    REQUEST_VALIDATION_ERROR,
-    REQUEST_ALREADY_PROCESSED,
-    DOWNSTREAM_SERVICE_UNAVAILABLE_ERROR,
-    INTERNAL_SERVER_ERROR
-}
-```
 Exceptions.kt
 ```kotlin
 open class ServiceException(
     message: String,
-    val errorCode: String,
+    val errorCode: ErrorCode,
     val httpStatusCode: HttpStatusCode
 ) : RuntimeException(message)
 
