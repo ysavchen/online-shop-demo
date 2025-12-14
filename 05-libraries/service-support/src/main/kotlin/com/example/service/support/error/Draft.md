@@ -35,7 +35,7 @@ class InvalidOrderStatusUpdate(orderId: UUID, currentStatus: Status, newStatus: 
         HttpStatus.FORBIDDEN
     )
     
-enum class ErrorCode {
+enum class ServiceErrorCode : ErrorCode {
     INVALID_ORDER_STATUS_UPDATE
 }
 ```
