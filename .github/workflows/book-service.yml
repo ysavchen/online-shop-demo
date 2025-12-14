@@ -30,6 +30,9 @@ jobs:
       - name: Build online-shop-model
         run: ./gradlew publishToMavenLocal -p ./05-libraries/online-shop-model
 
+      - name: Build service-support
+        run: ./gradlew publishToMavenLocal -p ./05-libraries/service-support
+
       - name: Build adapters
         run: ./gradlew publishToMavenLocal -p ./05-libraries/adapters
 
