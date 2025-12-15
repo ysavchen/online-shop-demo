@@ -14,7 +14,6 @@ import com.example.orderservice.test.IntegrationTest
 import com.example.orderservice.test.OrderTestData.createOrderRequest
 import com.example.orderservice.test.OrderTestData.orderEntity
 import com.example.orderservice.test.OrderTestData.orderItem
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
@@ -31,13 +30,14 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @Disabled
 @IntegrationTest
 class OrderControllerTests(
     @Autowired val mockMvc: MockMvc,
-    @Autowired val objectMapper: ObjectMapper,
+    @Autowired val jsonMapper: JsonMapper,
     @Autowired val orderRepository: OrderRepository
 ) {
 
@@ -63,13 +63,13 @@ class OrderControllerTests(
         val result = mockMvc.post("/api/v1/orders/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedOrder = objectMapper.writeValueAsString(order)
+        val expectedOrder = jsonMapper.writeValueAsString(order)
         assertThat(result.response.contentAsString).contains(expectedOrder)
     }
 
@@ -80,7 +80,7 @@ class OrderControllerTests(
         mockMvc.post("/api/v1/orders/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -96,7 +96,7 @@ class OrderControllerTests(
         mockMvc.post("/api/v1/orders/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -112,7 +112,7 @@ class OrderControllerTests(
         mockMvc.post("/api/v1/orders/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -131,7 +131,7 @@ class OrderControllerTests(
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedOrder = objectMapper.writeValueAsString(order)
+        val expectedOrder = jsonMapper.writeValueAsString(order)
         assertThat(result.response.contentAsString).contains(expectedOrder)
     }
 
@@ -161,13 +161,13 @@ class OrderControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val createdOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        val createdOrder = jsonMapper.readValue(result.response.contentAsString, Order::class.java)
         assertThat(createdOrder)
             .hasFieldOrProperty("id")
             .hasFieldOrProperty("createdAt")
@@ -199,7 +199,7 @@ class OrderControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -222,7 +222,7 @@ class OrderControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -232,7 +232,7 @@ class OrderControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isConflict() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -251,13 +251,13 @@ class OrderControllerTests(
         val result = mockMvc.patch("/api/v1/orders/${order.id}/status") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val updatedOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        val updatedOrder = jsonMapper.readValue(result.response.contentAsString, Order::class.java)
         assertThat(updatedOrder)
             .hasFieldOrPropertyWithValue("id", order.id)
             .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
@@ -273,13 +273,13 @@ class OrderControllerTests(
         val result = mockMvc.patch("/api/v1/orders/${order.id}/status") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val updatedOrder = objectMapper.readValue(result.response.contentAsString, Order::class.java)
+        val updatedOrder = jsonMapper.readValue(result.response.contentAsString, Order::class.java)
         assertThat(updatedOrder)
             .hasFieldOrPropertyWithValue("id", order.id)
             .hasFieldOrPropertyWithValue("status", Status.IN_PROGRESS)
@@ -295,7 +295,7 @@ class OrderControllerTests(
         mockMvc.patch("/api/v1/orders/${order.id}/status") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isForbidden() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -310,7 +310,7 @@ class OrderControllerTests(
         mockMvc.patch("/api/v1/orders/${UUID.randomUUID()}/status") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isNotFound() }
             content { contentType(MediaType.APPLICATION_JSON) }
