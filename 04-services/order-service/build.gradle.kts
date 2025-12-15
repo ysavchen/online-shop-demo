@@ -1,5 +1,4 @@
 plugins {
-    java  //fix for plugin org.hibernate.orm
     id("org.springframework.boot") version "4.0.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.11.3" apply false
@@ -66,10 +65,9 @@ dependencies {
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
-    // Model
+    // Libraries
     implementation("com.example:online-shop-model:1.0.0")
-
-    // Integration
+    implementation("com.example:service-support:1.0.0")
     implementation("com.example:book-service-rest-client-starter:1.0.0")
     implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
     implementation("com.example:delivery-service-request-kafka-client-starter:1.0.0")
