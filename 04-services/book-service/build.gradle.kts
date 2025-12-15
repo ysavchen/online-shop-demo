@@ -62,10 +62,9 @@ dependencies {
     // Dependency is needed for latency visualization
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 
-    // Model
+    // Libraries
     implementation("com.example:online-shop-model:1.0.0")
-
-    // Integration
+    implementation("com.example:service-support:1.0.0")
     implementation("com.example:order-service-domain-kafka-client-starter:1.0.0")
 }
 
