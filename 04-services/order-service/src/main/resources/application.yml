@@ -33,7 +33,6 @@ server:
   shutdown: graceful
 
 application:
-  timezone: Europe/Moscow
   features:
     book-validation:
       enabled: true
