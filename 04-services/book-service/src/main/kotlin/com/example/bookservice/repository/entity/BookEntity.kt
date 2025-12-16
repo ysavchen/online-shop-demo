@@ -4,11 +4,11 @@ import com.example.online.shop.model.Description
 import com.example.online.shop.model.Isbn
 import com.example.online.shop.model.Quantity
 import com.example.online.shop.model.Title
-import io.hypersistence.utils.hibernate.type.array.StringArrayType
 import jakarta.persistence.*
+import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.annotations.NaturalId
-import org.hibernate.annotations.Type
 import org.hibernate.annotations.UuidGenerator
+import org.hibernate.type.SqlTypes
 import java.time.LocalDate
 import java.util.*
 
@@ -28,7 +28,7 @@ data class BookEntity(
     @Column(name = "title", nullable = false)
     val title: Title,
 
-    @Type(StringArrayType::class)
+    @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "authors", columnDefinition = "text[]", nullable = false)
     val authors: Array<String>,
 
