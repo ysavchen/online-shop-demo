@@ -1,6 +1,5 @@
 package com.example.deliveryservice.config
 
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import liquibase.database.LiquibaseTableNamesFactory
 import liquibase.parser.SqlParserFactory
 import liquibase.report.ShowSummaryGeneratorFactory
@@ -24,12 +23,6 @@ class AppRuntimeHints : RuntimeHintsRegistrar {
                 type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
             }
             .registerType(SqlParserFactory::class.java) { type ->
-                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
-            }
-            .registerType(JsonBinaryType::class.java) { type ->
-                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
-            }
-            .registerType(Array<UUID>::class.java) { type ->
                 type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
             }
     }

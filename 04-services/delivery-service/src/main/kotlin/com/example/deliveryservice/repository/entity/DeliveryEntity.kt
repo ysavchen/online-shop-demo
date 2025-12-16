@@ -1,9 +1,9 @@
 package com.example.deliveryservice.repository.entity
 
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.annotations.UuidGenerator
+import org.hibernate.type.SqlTypes
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.*
@@ -24,7 +24,7 @@ data class DeliveryEntity(
     @Column(name = "date", nullable = false)
     val date: LocalDate,
 
-    @Type(JsonBinaryType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "address", columnDefinition = "jsonb", nullable = false)
     val address: AddressEntity,
 
