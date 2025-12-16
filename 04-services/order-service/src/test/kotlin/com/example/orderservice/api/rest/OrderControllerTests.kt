@@ -17,7 +17,6 @@ import com.example.orderservice.test.OrderTestData.orderItem
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
@@ -33,7 +32,6 @@ import org.springframework.test.web.servlet.post
 import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
-@Disabled
 @IntegrationTest
 class OrderControllerTests(
     @Autowired val mockMvc: MockMvc,

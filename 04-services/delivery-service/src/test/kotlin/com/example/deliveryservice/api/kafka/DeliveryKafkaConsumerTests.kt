@@ -10,14 +10,12 @@ import com.example.deliveryservice.test.IntegrationTest
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import java.util.*
 import kotlin.test.assertEquals
 
-@Disabled
 @IntegrationTest
 class DeliveryKafkaConsumerTests(
     @Autowired val properties: ReplyDeliveryKafkaClientProperties,

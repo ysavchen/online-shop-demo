@@ -12,7 +12,6 @@ import com.example.orderservice.domain.kafka.client.model.OrderCreatedEvent
 import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
 import com.example.orderservice.domain.kafka.client.model.Status
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -20,7 +19,6 @@ import org.springframework.kafka.core.KafkaTemplate
 import java.util.*
 import kotlin.test.assertEquals
 
-@Disabled
 @IntegrationTest
 class OrderKafkaConsumerTests(
     @Autowired val bookRepository: BookRepository,
