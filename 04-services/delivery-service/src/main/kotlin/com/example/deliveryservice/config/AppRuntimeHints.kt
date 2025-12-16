@@ -25,5 +25,8 @@ class AppRuntimeHints : RuntimeHintsRegistrar {
             .registerType(SqlParserFactory::class.java) { type ->
                 type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
             }
+            .registerType(Array<UUID>::class.java) { type ->
+                type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE)
+            }
     }
 }
