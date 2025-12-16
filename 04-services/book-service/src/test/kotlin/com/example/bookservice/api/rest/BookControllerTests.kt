@@ -9,9 +9,9 @@ import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.BookTestData.createBookRequest
 import com.example.bookservice.test.BookTestData.updateBookRequest
 import com.example.bookservice.test.IntegrationTest
-import com.example.bookservice.test.nextValue
 import com.example.online.shop.model.Isbn
 import com.example.online.shop.model.SearchQuery
+import com.example.service.support.test.nextValue
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
