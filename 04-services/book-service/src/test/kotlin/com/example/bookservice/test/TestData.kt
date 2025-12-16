@@ -4,6 +4,10 @@ import com.example.bookservice.api.rest.model.*
 import com.example.bookservice.repository.entity.*
 import com.example.online.shop.model.*
 import com.example.orderservice.domain.kafka.client.model.*
+import com.example.service.support.test.nextValue
+import com.example.service.support.test.randomLocalDate
+import com.example.service.support.test.randomPrice
+import com.example.service.support.test.randomRating
 import org.apache.commons.lang3.RandomStringUtils
 import java.time.OffsetDateTime
 import java.util.*

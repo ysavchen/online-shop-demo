@@ -1,5 +1,9 @@
 package com.example.service.support.test
 
+import java.math.BigDecimal
+import java.math.MathContext
+import java.time.LocalDate
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.random.Random
 
 inline fun <reified T : Enum<T>> nextValue(predicate: (T) -> Boolean = { true }): T {
@@ -11,3 +15,16 @@ inline fun <reified T : Enum<T>> nextValue(predicate: (T) -> Boolean = { true })
         values[Random.nextInt(0, values.size - 1)]
     }
 }
+
+fun randomLocalDate(): LocalDate {
+    val hundredYears = 100 * 365
+    return LocalDate.ofEpochDay(
+        ThreadLocalRandom.current().nextInt(-hundredYears, hundredYears).toLong()
+    )
+}
+
+fun randomPrice(): BigDecimal =
+    BigDecimal(Random.nextDouble(from = 100.00, until = 999.99)).round(MathContext(5))
+
+fun randomRating(): BigDecimal =
+    BigDecimal(Random.nextDouble(from = 1.0, until = 5.0)).round(MathContext(2))

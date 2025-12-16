@@ -8,6 +8,9 @@ import com.example.online.shop.model.*
 import com.example.orderservice.api.rest.model.*
 import com.example.orderservice.repository.entity.*
 import com.example.orderservice.test.DeliveryTestData.deliveryRequest
+import com.example.service.support.test.nextValue
+import com.example.service.support.test.randomLocalDate
+import com.example.service.support.test.randomPrice
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import java.time.OffsetDateTime
