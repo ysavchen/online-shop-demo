@@ -28,8 +28,6 @@ dependencies {
 
     // Web
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("tools.jackson.module:jackson-module-kotlin")
-    implementation("tools.jackson.datatype:jackson-datatype-jsr310:3.0.0-rc2")
 
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

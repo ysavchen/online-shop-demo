@@ -29,8 +29,6 @@ dependencies {
 
     // Web
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("tools.jackson.module:jackson-module-kotlin")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.1")
 
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
