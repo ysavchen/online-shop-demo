@@ -22,7 +22,6 @@ repositories {
 dependencies {
     api("org.springframework.boot:spring-boot-starter")
     api("tools.jackson.module:jackson-module-kotlin")
-    api("tools.jackson.datatype:jackson-datatype-jsr310:3.0.0-rc2")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-autoconfigure-processor")
     testImplementation(kotlin("test-junit5"))
