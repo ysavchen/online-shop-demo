@@ -12,7 +12,6 @@ import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.ReviewTestData.createReviewRequest
 import com.example.bookservice.test.ReviewTestData.reviewEntity
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
@@ -22,6 +21,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @IntegrationTest
@@ -29,7 +29,7 @@ class ReviewControllerTests(
     @Autowired val mockMvc: MockMvc,
     @Autowired val bookRepository: BookRepository,
     @Autowired val reviewRepository: ReviewRepository,
-    @Autowired val objectMapper: ObjectMapper
+    @Autowired val jsonMapper: JsonMapper
 ) {
 
     @BeforeEach
@@ -47,13 +47,13 @@ class ReviewControllerTests(
         val result = mockMvc.post("/api/v1/reviews/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedReview = objectMapper.writeValueAsString(review)
+        val expectedReview = jsonMapper.writeValueAsString(review)
         assertThat(result.response.contentAsString).contains(expectedReview)
     }
 
@@ -64,7 +64,7 @@ class ReviewControllerTests(
         mockMvc.post("/api/v1/reviews/search?page=0") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -81,7 +81,7 @@ class ReviewControllerTests(
         mockMvc.post("/api/v1/reviews/search?page=0&sort_by=invalidSortBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -98,7 +98,7 @@ class ReviewControllerTests(
         mockMvc.post("/api/v1/reviews/search?page=0&order_by=invalidOrderBy") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -118,7 +118,7 @@ class ReviewControllerTests(
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
-        val expectedReview = objectMapper.writeValueAsString(review)
+        val expectedReview = jsonMapper.writeValueAsString(review)
         assertThat(result.response.contentAsString).contains(expectedReview)
     }
 
@@ -143,14 +143,14 @@ class ReviewControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
         }.andReturn()
 
 
-        val createdReview = objectMapper.readValue(result.response.contentAsString, Review::class.java)
+        val createdReview = jsonMapper.readValue(result.response.contentAsString, Review::class.java)
         assertThat(createdReview)
             .hasFieldOrProperty("id")
             .hasFieldOrPropertyWithValue("title", request.title?.value)
@@ -170,7 +170,7 @@ class ReviewControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
@@ -180,7 +180,7 @@ class ReviewControllerTests(
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             header(IDEMPOTENCY_KEY, idempotencyKey)
-            content = objectMapper.writeValueAsString(request)
+            content = jsonMapper.writeValueAsString(request)
         }.andExpect {
             status { isConflict() }
             content { contentType(MediaType.APPLICATION_JSON) }
