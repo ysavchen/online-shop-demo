@@ -8,3 +8,12 @@ spring:
       ddl-auto: create-drop
   liquibase:
     change-log: classpath:liquibase/master.yaml
+
+management:
+  endpoint:
+    health:
+      group:
+        readiness:
+          include:
+            - readinessState
+            - db
