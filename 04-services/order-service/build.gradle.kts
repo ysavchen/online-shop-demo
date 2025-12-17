@@ -33,7 +33,7 @@ dependencies {
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-liquibase")
 
     // Redis
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -45,6 +45,7 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
     testImplementation("org.testcontainers:testcontainers-postgresql")
     testImplementation("com.redis:testcontainers-redis:2.2.4")

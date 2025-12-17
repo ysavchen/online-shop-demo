@@ -32,7 +32,7 @@ dependencies {
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-liquibase")
 
     // Reliability
     implementation("org.springframework.retry:spring-retry:2.0.12")
@@ -40,6 +40,7 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
     testImplementation("org.testcontainers:testcontainers-postgresql")

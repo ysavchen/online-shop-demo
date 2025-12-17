@@ -4,8 +4,6 @@ spring:
     org: online-shop-demo
   jpa:
     open-in-view: false
-    hibernate:
-      ddl-auto: create-drop
   liquibase:
     change-log: classpath:liquibase/master.yaml
 

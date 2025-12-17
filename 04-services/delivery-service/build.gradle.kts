@@ -33,11 +33,12 @@ dependencies {
     // Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-liquibase")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
     testImplementation("org.testcontainers:testcontainers-postgresql")
