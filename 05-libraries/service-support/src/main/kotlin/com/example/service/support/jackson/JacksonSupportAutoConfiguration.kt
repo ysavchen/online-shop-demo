@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Primary
 import tools.jackson.core.StreamWriteFeature
 import tools.jackson.databind.DeserializationFeature
 import tools.jackson.databind.MapperFeature
-import tools.jackson.databind.SerializationFeature
 import tools.jackson.databind.cfg.DateTimeFeature
 import tools.jackson.databind.cfg.EnumFeature
 import tools.jackson.databind.json.JsonMapper
@@ -30,7 +29,6 @@ class JacksonSupportAutoConfiguration {
         .defaultDateFormat(StdDateFormat())
         .enable(StreamWriteFeature.WRITE_BIGDECIMAL_AS_PLAIN)
         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-        .enable(SerializationFeature.INDENT_OUTPUT)
         .enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
         .disable(
             DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS,
