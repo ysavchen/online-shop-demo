@@ -81,12 +81,6 @@ kotlin {
     }
 }
 
-hibernate {
-    enhancement {
-        enableAssociationManagement = true
-    }
-}
-
 allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
