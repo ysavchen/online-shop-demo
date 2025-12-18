@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
     api("org.springframework.boot:spring-boot-starter")
+    api("org.springframework.boot:spring-boot-starter-jackson")
     api("tools.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-autoconfigure-processor")

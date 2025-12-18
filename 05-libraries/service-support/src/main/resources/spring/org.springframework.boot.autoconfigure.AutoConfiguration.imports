@@ -1,0 +1,2 @@
+com.example.service.support.jackson.JacksonSupportAutoConfiguration
+com.example.service.support.time.TimeZoneAutoConfiguration
