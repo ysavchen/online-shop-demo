@@ -12,6 +12,7 @@ docker-compose --project-directory ./02-infra up -d
 2. Build libraries
 ```bash
 ./gradlew publishToMavenLocal -p ./05-libraries/online-shop-model
+./gradlew publishToMavenLocal -p ./05-libraries/service-support
 ./gradlew publishToMavenLocal -p ./05-libraries/adapters
 ```
 3. Run services
