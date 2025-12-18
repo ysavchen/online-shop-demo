@@ -68,7 +68,6 @@ management:
         readiness:
           include:
             - readinessState
-            - redis
             - db
   endpoints:
     web.exposure.include: health,metrics,prometheus
