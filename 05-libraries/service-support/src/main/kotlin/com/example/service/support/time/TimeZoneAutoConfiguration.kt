@@ -8,7 +8,7 @@ import java.util.*
 
 @AutoConfiguration
 @EnableConfigurationProperties(TimeZoneProperties::class)
-@ConditionalOnProperty(prefix = propertiesPrefix, name = ["timezone"], matchIfMissing = true)
+@ConditionalOnProperty(prefix = propertiesPrefix, name = ["timezone"])
 class TimeZoneAutoConfiguration(private val properties: TimeZoneProperties) {
 
     @PostConstruct
