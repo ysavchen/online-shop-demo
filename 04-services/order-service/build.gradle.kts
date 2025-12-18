@@ -1,17 +1,17 @@
 plugins {
-    id("org.springframework.boot") version "4.0.0"
+    id("org.springframework.boot") version "4.0.1"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.11.3" apply false
     id("org.hibernate.orm") version "7.1.8.Final"
-    kotlin("jvm") version "2.3.0"
-    kotlin("plugin.jpa") version "2.3.0"
-    kotlin("plugin.spring") version "2.3.0"
+    kotlin("jvm") version "2.2.21"
+    kotlin("plugin.jpa") version "2.2.21"
+    kotlin("plugin.spring") version "2.2.21"
 }
 
 group = "com.example"
 version = "1.0.0"
 
-val javaVersion = 25
+val javaVersion = 21
 val dockerHubRepository = "ysavchen"
 
 java {

@@ -8,13 +8,14 @@ plugins {
 group = "com.example"
 version = "1.0.0"
 
+val javaVersion = 21
 val dockerHubRepository = "ysavchen"
 val springCloudVersion by extra("2024.0.1")
 val lokiLogbackAppender by extra("2.0.0")
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 }
 

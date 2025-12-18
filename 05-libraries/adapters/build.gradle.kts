@@ -1,11 +1,11 @@
 plugins {
     `maven-publish`
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.2.21"
 }
 
-val javaVersion = 25
-val springBootVersion by extra("4.0.0")
+val javaVersion = 21
+val springBootVersion by extra("4.0.1")
 val modelVersion by extra("1.0.0")
 val springCloudVersion by extra("2025.1.0")
 
