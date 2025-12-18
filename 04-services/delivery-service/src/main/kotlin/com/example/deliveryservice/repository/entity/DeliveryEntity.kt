@@ -24,6 +24,7 @@ data class DeliveryEntity(
     @Column(name = "date", nullable = false)
     val date: LocalDate,
 
+    @Embedded
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "address", columnDefinition = "jsonb", nullable = false)
     val address: AddressEntity,
