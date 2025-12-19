@@ -20,6 +20,10 @@ repositories {
     mavenCentral()
 }
 
+// Использовать service-support как единую зависимость для подключения всех необходимых библиотек к сервису.
+// Сделать сборки book-service-support, order-service-support, etc. с разными зависимостями по адаптерам.
+// api("online-shop-model")
+// api("error-support")
 dependencies {
     api("org.springframework.boot:spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-jackson")
