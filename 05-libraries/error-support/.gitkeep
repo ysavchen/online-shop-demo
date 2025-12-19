@@ -1,0 +1,3 @@
+- собрать все error codes и exceptions со всех сервисов
+- сделать автоконфигурацию ControllerAdvice
+- в принципе в online-shop-model тоже доменные примитивы со всех сервисов
