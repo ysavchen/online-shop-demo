@@ -11,7 +11,6 @@ import com.example.bookservice.test.BookTestData.updateBookRequest
 import com.example.bookservice.test.IntegrationTest
 import com.example.online.shop.model.Isbn
 import com.example.online.shop.model.SearchQuery
-import com.example.service.support.error.CommonErrorCode
 import com.example.service.support.test.nextValue
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
@@ -124,7 +123,7 @@ class BookControllerTests(
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -145,7 +144,7 @@ class BookControllerTests(
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -219,7 +218,7 @@ class BookControllerTests(
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -245,7 +244,7 @@ class BookControllerTests(
         }.andExpect {
             status { isNotFound() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.RESOURCE_NOT_FOUND.name)) }
+            content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
         }
     }
 
@@ -311,7 +310,7 @@ class BookControllerTests(
         }.andExpect {
             status { isConflict() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
+            content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
     }
 
