@@ -1,4 +1,4 @@
-package com.example.service.support.time
+package com.example.service.support.time.autoconfigure
 
 import jakarta.annotation.PostConstruct
 import org.springframework.boot.autoconfigure.AutoConfiguration

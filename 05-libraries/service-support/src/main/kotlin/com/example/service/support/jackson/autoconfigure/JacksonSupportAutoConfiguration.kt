@@ -1,4 +1,4 @@
-package com.example.service.support.jackson
+package com.example.service.support.jackson.autoconfigure
 
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -14,7 +14,7 @@ import tools.jackson.databind.cfg.EnumFeature
 import tools.jackson.databind.json.JsonMapper
 import tools.jackson.databind.util.StdDateFormat
 import tools.jackson.module.kotlin.KotlinModule
-import java.util.*
+import java.util.TimeZone
 
 @AutoConfiguration(before = [JacksonAutoConfiguration::class])
 @ConditionalOnClass(JsonMapper::class)
