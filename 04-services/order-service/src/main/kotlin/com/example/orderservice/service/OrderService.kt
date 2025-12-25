@@ -94,7 +94,7 @@ class OrderService(
             val delivery = deliveryClientService.createDelivery(order.id, request.delivery)
             requestRepository.save(ProcessedRequestEntity(idempotencyKey, order.id, ORDER))
             order.copy(embedded = Embedded(delivery))
-        }!!.also { order ->
+        }.also { order ->
             metricService.countOrders(order.status)
             metricService.lastOrderTime(order.createdAt)
             metricService.orderPriceSummary(order.totalPrice)
