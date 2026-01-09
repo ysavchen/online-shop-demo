@@ -65,7 +65,7 @@ class OrderService(
 
         val order = readTransactionTemplate.execute {
             orderRepository.findByIdOrNull(orderId)?.toModel() ?: throw OrderNotFoundException(orderId)
-        }!!.let { order ->
+        }.let { order ->
             if (embed.contains(EmbedParam.DELIVERY)) {
                 val delivery = deliveryClientService.getDeliveryByOrderId(order.id)
                 order.copy(embedded = Embedded(delivery))
