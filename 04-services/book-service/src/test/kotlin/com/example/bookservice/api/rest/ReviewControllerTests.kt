@@ -1,5 +1,6 @@
 package com.example.bookservice.api.rest
 
+import com.example.bookservice.api.rest.model.ErrorCode
 import com.example.bookservice.api.rest.model.IDEMPOTENCY_KEY
 import com.example.bookservice.api.rest.model.Review
 import com.example.bookservice.api.rest.model.ReviewSearchRequest
@@ -11,7 +12,6 @@ import com.example.bookservice.test.BookTestData.bookEntity
 import com.example.bookservice.test.IntegrationTest
 import com.example.bookservice.test.ReviewTestData.createReviewRequest
 import com.example.bookservice.test.ReviewTestData.reviewEntity
-import com.example.service.support.error.CommonErrorCode
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
@@ -85,7 +85,7 @@ class ReviewControllerTests(
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -102,7 +102,7 @@ class ReviewControllerTests(
         }.andExpect {
             status { isBadRequest() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_VALIDATION_ERROR.name)) }
+            content { string(containsString(ErrorCode.REQUEST_VALIDATION_ERROR.name)) }
         }
     }
 
@@ -129,7 +129,7 @@ class ReviewControllerTests(
         }.andExpect {
             status { isNotFound() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.RESOURCE_NOT_FOUND.name)) }
+            content { string(containsString(ErrorCode.RESOURCE_NOT_FOUND.name)) }
         }
     }
 
@@ -184,7 +184,7 @@ class ReviewControllerTests(
         }.andExpect {
             status { isConflict() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { string(containsString(CommonErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
+            content { string(containsString(ErrorCode.REQUEST_ALREADY_PROCESSED.name)) }
         }
     }
 }
