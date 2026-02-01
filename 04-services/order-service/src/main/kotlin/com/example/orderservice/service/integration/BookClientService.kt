@@ -18,7 +18,7 @@ class BookClientService(
         if (!appProperties.features.bookValidation.enabled) {
             return
         }
-        // todo: сделать без блокировки
+
         runBlocking {
             items.forEach { item ->
                 launch {
