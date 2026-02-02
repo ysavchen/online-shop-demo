@@ -15,21 +15,19 @@ class BookClientService(
     private val appProperties: ApplicationProperties
 ) {
 
-    fun validateBooks(items: Collection<OrderItem>) {
+    fun validateBooks(items: Collection<OrderItem>) = runBlocking {
         if (!appProperties.features.bookValidation.enabled) {
-            return
+            return@runBlocking
         }
 
-        runBlocking {
-            items.forEach { item ->
-                launch(Dispatchers.IO) {
-                    val book = restClient.getBookById(item.id)
-                    if (item.quantity > book.quantity) {
-                        throw OrderItemValidationException("Insufficient quantity of books (bookId=${item.id}): ordered=${item.quantity}, available in store=${book.quantity}")
-                    }
-                    if (item.price.value != book.price?.value) {
-                        throw OrderItemValidationException("Inconsistent book price (bookId=${item.id}): in order=${item.price.value}, in store=${book.price?.value}")
-                    }
+        items.forEach { item ->
+            launch(Dispatchers.IO) {
+                val book = restClient.getBookById(item.id)
+                if (item.quantity > book.quantity) {
+                    throw OrderItemValidationException("Insufficient quantity of books (bookId=${item.id}): ordered=${item.quantity}, available in store=${book.quantity}")
+                }
+                if (item.price.value != book.price?.value) {
+                    throw OrderItemValidationException("Inconsistent book price (bookId=${item.id}): in order=${item.price.value}, in store=${book.price?.value}")
                 }
             }
         }
