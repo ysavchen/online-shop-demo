@@ -10,10 +10,10 @@ import java.util.*
 @Component
 class DeliveryKafkaConsumer(private val deliveryService: DeliveryService) : ReplyingDeliveryKafkaConsumer {
 
-    override fun onMessage(message: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
-        when (val request = message.value()) {
+    override fun onMessage(data: ConsumerRecord<UUID, RequestDeliveryMessage>): ReplyDeliveryMessage =
+        when (val request = data.value()) {
             is GetDeliveryByIdRequest -> deliveryService.getDeliveryById(request.data.deliveryId)
             is GetDeliveryByOrderIdRequest -> deliveryService.getDeliveryByOrderId(request.data.orderId)
-            is CreateDeliveryRequest -> deliveryService.createDelivery(message.key(), request)
+            is CreateDeliveryRequest -> deliveryService.createDelivery(data.key(), request)
         }
 }
