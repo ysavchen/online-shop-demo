@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.time.OffsetDateTime
 import java.util.*
+import com.example.bookservice.api.rest.ExceptionHandler as RestExceptionHandler
 
 @RestControllerAdvice
-class ControllerAdvice {
+class ExceptionHandler {
 
     companion object {
-        private val logger = KotlinLogging.logger(ControllerAdvice::class.java.name)
+        private val logger = KotlinLogging.logger(RestExceptionHandler::class.java.name)
     }
 
     @ExceptionHandler
