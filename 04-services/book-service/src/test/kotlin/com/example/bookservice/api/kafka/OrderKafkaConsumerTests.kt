@@ -13,6 +13,7 @@ import com.example.orderservice.domain.kafka.client.model.OrderUpdatedEvent
 import com.example.orderservice.domain.kafka.client.model.Status
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.kafka.core.KafkaTemplate
 import java.util.*
@@ -20,10 +21,10 @@ import kotlin.test.assertEquals
 
 @IntegrationTest
 class OrderKafkaConsumerTests(
-    val bookRepository: BookRepository,
-    val reviewRepository: ReviewRepository,
-    val testKafkaTemplate: KafkaTemplate<UUID, DomainEvent>,
-    val properties: DomainOrderKafkaClientProperties
+    @Autowired val bookRepository: BookRepository,
+    @Autowired val reviewRepository: ReviewRepository,
+    @Autowired val testKafkaTemplate: KafkaTemplate<UUID, DomainEvent>,
+    @Autowired val properties: DomainOrderKafkaClientProperties
 ) {
 
     val topic: String = properties.kafka.domain.consumer!!.topics.first()

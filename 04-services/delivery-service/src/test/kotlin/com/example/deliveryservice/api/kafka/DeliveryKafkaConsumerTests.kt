@@ -11,15 +11,16 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate
 import java.util.*
 import kotlin.test.assertEquals
 
 @IntegrationTest
 class DeliveryKafkaConsumerTests(
-    val properties: ReplyDeliveryKafkaClientProperties,
-    val deliveryRepository: DeliveryRepository,
-    val testKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
+    @Autowired val properties: ReplyDeliveryKafkaClientProperties,
+    @Autowired val deliveryRepository: DeliveryRepository,
+    @Autowired val testKafkaTemplate: ReplyingKafkaTemplate<UUID, RequestDeliveryMessage, ReplyDeliveryMessage>
 ) {
 
     val requestTopic: String = properties.kafka.replying.consumer.request.topics.first()

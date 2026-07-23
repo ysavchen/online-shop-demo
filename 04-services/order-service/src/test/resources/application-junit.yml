@@ -6,10 +6,6 @@ spring:
     open-in-view: false
   liquibase:
     change-log: classpath:liquibase/master.yaml
-  test:
-    constructor:
-      autowire:
-        mode: all
 
 management:
   endpoint:

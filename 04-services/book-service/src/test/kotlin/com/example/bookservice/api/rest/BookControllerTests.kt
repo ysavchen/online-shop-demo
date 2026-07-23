@@ -16,6 +16,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.core.StringContains.containsString
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -27,10 +28,10 @@ import java.util.*
 
 @IntegrationTest
 class BookControllerTests(
-    val mockMvc: MockMvc,
-    val bookRepository: BookRepository,
-    val reviewRepository: ReviewRepository,
-    val jsonMapper: JsonMapper
+    @Autowired val mockMvc: MockMvc,
+    @Autowired val bookRepository: BookRepository,
+    @Autowired val reviewRepository: ReviewRepository,
+    @Autowired val jsonMapper: JsonMapper
 ) {
 
     @BeforeEach

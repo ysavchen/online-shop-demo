@@ -22,6 +22,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.wheneverBlocking
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -33,9 +34,9 @@ import java.util.*
 
 @IntegrationTest
 class OrderControllerTests(
-    val mockMvc: MockMvc,
-    val jsonMapper: JsonMapper,
-    val orderRepository: OrderRepository
+    @Autowired val mockMvc: MockMvc,
+    @Autowired val jsonMapper: JsonMapper,
+    @Autowired val orderRepository: OrderRepository
 ) {
 
     @MockitoBean
